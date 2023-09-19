@@ -5,13 +5,13 @@ import { Header } from "@/components/Layout/Header";
 import { Footer } from "@/components/Layout/Footer";
 
 type Props = {
-  children: React.ReactNode;
-  className: string;
+  children?: React.ReactNode;
+  className?: string;
 };
 
-export const RootLayout = ({ children, className }: Props) => {
+export const Layout = ({ children, className }: Props) => {
   return (
-    <div className={className}>
+    <div className={`layout`}>
       <Header />
       <main>{children}</main>
       <Footer />

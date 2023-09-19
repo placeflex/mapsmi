@@ -1,16 +1,19 @@
 import type { AppProps } from "next/app";
 import type { Metadata } from "next";
 
-import "@/styles/styles.css";
+import "@/styles/globals.scss";
 
-import { Montserrat } from "next/font/google";
+import { Montserrat, Dancing_Script, Raleway } from "next/font/google";
 
-// components
-import { RootLayout } from "@/components/Layout/";
-
-const montserratFont = Montserrat({
+const raleway = Raleway({
   subsets: ["latin"],
-  variable: "--font-montserrat",
+  variable: "--font-raleway",
+  weight: ["300", "400", "600", "800"],
+});
+
+const dancing = Dancing_Script({
+  subsets: ["latin"],
+  variable: "--font-dancing",
 });
 
 export const metadata: Metadata = {
@@ -20,10 +23,8 @@ export const metadata: Metadata = {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <RootLayout className={`${montserratFont.variable} font-sans`}>
-        <Component {...pageProps} />
-      </RootLayout>
-    </>
+    <div className={`root ${dancing.variable} ${raleway.variable} font-sans`}>
+      <Component {...pageProps} />
+    </div>
   );
 }

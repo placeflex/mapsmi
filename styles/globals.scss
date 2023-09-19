@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+html {
+  font-size: 16px;
+  min-height: 100%;
+
+  @media screen and (min-width: 2400px) {
+    font-size: 24px;
+  }
+}
+
+/* #__next,
+.root,
+.layout {
+    min-height: 100%;
+} */
+
+.mapboxgl-control-container {
+  display: none;
+}
+
+/* .artwork path {
+    fill: red;
+} */

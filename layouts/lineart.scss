@@ -1,0 +1,74 @@
+.artwork {
+  height: 100%;
+
+  .border,
+  .artworkFigure {
+    height: 100%;
+    width: 100%;
+
+    svg {
+      height: 100%;
+    }
+  }
+}
+
+.artwork {
+  .artworkFigure {
+    background: var(--bg-color);
+  }
+
+  &.minimalist {
+    .border {
+      border: 50em solid #fff;
+    }
+
+    .artwork-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .artworkFigure {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 50%;
+      flex-grow: 1;
+      padding: 40em;
+
+      path {
+        fill: var(--illustration-color);
+      }
+    }
+
+    .labels {
+      background: #fff;
+      padding-top: 50em;
+      text-align: center;
+
+      h1.headline {
+        font-size: 20em;
+        font-weight: bold;
+        color: #000;
+      }
+
+      span.divider {
+        font-size: 14em;
+        margin: 0.2em 0;
+        display: inline-block;
+        padding-top: 0.4em;
+        border-top: 1px solid var(--text-color);
+        color: #000;
+      }
+
+      h2.tagline {
+        font-size: 14em;
+        color: #000;
+      }
+
+      h3.subline {
+        font-size: 14em;
+        color: #000;
+      }
+    }
+  }
+}
