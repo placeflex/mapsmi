@@ -1,0 +1,10 @@
+.banner {
+  height: calc(100vh - 270px);
+  min-height: 606px;
+  margin: 0 auto;
+
+  img {
+    object-fit: cover;
+    object-position: center;
+  }
+}
