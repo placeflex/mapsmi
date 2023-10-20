@@ -1,0 +1,22 @@
+.map-wrapper {
+  height: 70%;
+  width: 100%;
+  pointer-events: none !important;
+
+  #map {
+    width: 100%;
+    height: 100% !important;
+    pointer-events: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none !important;
+    }
+  }
+}
