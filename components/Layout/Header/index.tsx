@@ -1,5 +1,4 @@
 import { useState, Fragment } from "react";
-
 import Link from "next/link";
 import { Popover, Transition } from "@headlessui/react";
 
@@ -43,7 +42,7 @@ export const Header: React.FC = () => {
   return (
     <header className="flex px-5 py-4 bg-cream relative">
       <nav className="flex-1 flex items-center gap-x-5">
-        <div className="flex lg:hidden">
+        <div className="hidden lg:flex">
           <button
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -52,7 +51,7 @@ export const Header: React.FC = () => {
             <span className="sr-only">Open main menu</span>
           </button>
         </div>
-        <Popover.Group className="hidden lg:flex">
+        <Popover.Group className="flex lg:hidden">
           <Popover>
             <Popover.Button className="flex text-sm text-white">
               Products

@@ -1,27 +1,47 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 body,
 html {
-  font-size: 16px;
+  font-size: 18px;
   min-height: 100%;
+  font-family: var(--font-main);
 
   @media screen and (min-width: 2400px) {
-    font-size: 24px;
+    font-size: 28px;
   }
 }
 
-/* #__next,
-.root,
-.layout {
-    min-height: 100%;
-} */
+:root {
+  --text: #14191f;
+  --wine: #995955;
+  --bg: #fff;
+  --black: #14191f;
+  --darkGrey: #454545;
+  --silver: #e5e5e5;
+  --blueGrey: #7b92a3;
+  --error: #f8382a;
+  --white: #fff;
+  --cream: #bd998d;
+  --light: #f8f5f2;
+  --secondaryBg: #f9fafb;
+  --font-main: var(--font-main);
+  --font-dancing: var(--font-dancing);
+}
+
+body {
+  overflow-x: hidden;
+}
 
 .mapboxgl-control-container {
   display: none;
 }
 
-/* .artwork path {
-    fill: red;
-} */
+.ant-input:focus,
+.ant-picker:hover,
+.ant-picker-focused,
+.ant-input:hover {
+  border-color: var(--wine) !important;
+  box-shadow: none !important;
+}
+
+.ReactModal__Overlay {
+  background-color: var(--wine) !important;
+}

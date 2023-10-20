@@ -69,290 +69,290 @@ import Svg68 from "@/public/icons/linearts/SVG-68.svg";
 import Svg69 from "@/public/icons/linearts/SVG-69.svg";
 import Svg70 from "@/public/icons/linearts/SVG-70.svg";
 
-interface SvgItem {
+export interface IconInterface {
   id: number;
   icon: JSX.Element;
 }
 
-export const svgList: SvgItem[] = [
+export const svgList: IconInterface[] = [
   {
     icon: <Svg1 />,
-    id: 1,
+    id: 0,
   },
   {
     icon: <Svg2 />,
-    id: 2,
+    id: 1,
   },
   {
     icon: <Svg3 />,
-    id: 3,
+    id: 2,
   },
   {
     icon: <Svg4 />,
-    id: 4,
+    id: 3,
   },
   {
     icon: <Svg5 />,
-    id: 5,
+    id: 4,
   },
   {
     icon: <Svg6 />,
-    id: 6,
+    id: 5,
   },
   {
-    id: 7,
+    id: 6,
     icon: <Svg7 />,
   },
   {
-    id: 8,
+    id: 7,
     icon: <Svg8 />,
   },
   {
-    id: 9,
+    id: 8,
     icon: <Svg9 />,
   },
   {
-    id: 10,
+    id: 9,
     icon: <Svg10 />,
   },
   {
-    id: 11,
+    id: 10,
     icon: <Svg11 />,
   },
   {
-    id: 12,
+    id: 11,
     icon: <Svg12 />,
   },
   {
-    id: 13,
+    id: 12,
     icon: <Svg13 />,
   },
   {
-    id: 14,
+    id: 13,
     icon: <Svg14 />,
   },
   {
-    id: 15,
+    id: 14,
     icon: <Svg15 />,
   },
   {
-    id: 16,
+    id: 15,
     icon: <Svg16 />,
   },
   {
-    id: 17,
+    id: 16,
     icon: <Svg17 />,
   },
   {
-    id: 18,
+    id: 17,
     icon: <Svg18 />,
   },
   {
-    id: 19,
+    id: 18,
     icon: <Svg19 />,
   },
   {
-    id: 20,
+    id: 19,
     icon: <Svg20 />,
   },
   {
-    id: 21,
+    id: 20,
     icon: <Svg21 />,
   },
   {
-    id: 22,
+    id: 21,
     icon: <Svg22 />,
   },
   {
-    id: 23,
+    id: 22,
     icon: <Svg23 />,
   },
   {
-    id: 24,
+    id: 23,
     icon: <Svg24 />,
   },
   {
-    id: 25,
+    id: 24,
     icon: <Svg25 />,
   },
   {
-    id: 26,
+    id: 25,
     icon: <Svg26 />,
   },
   {
-    id: 27,
+    id: 26,
     icon: <Svg27 />,
   },
   {
-    id: 28,
+    id: 27,
     icon: <Svg28 />,
   },
   {
-    id: 29,
+    id: 28,
     icon: <Svg29 />,
   },
   {
-    id: 30,
+    id: 29,
     icon: <Svg30 />,
   },
   {
-    id: 31,
+    id: 30,
     icon: <Svg31 />,
   },
   {
-    id: 32,
+    id: 31,
     icon: <Svg32 />,
   },
   {
-    id: 33,
+    id: 32,
     icon: <Svg33 />,
   },
   {
-    id: 34,
+    id: 33,
     icon: <Svg34 />,
   },
   {
-    id: 35,
+    id: 34,
     icon: <Svg35 />,
   },
   {
-    id: 36,
+    id: 35,
     icon: <Svg36 />,
   },
   {
-    id: 37,
+    id: 36,
     icon: <Svg37 />,
   },
   {
-    id: 38,
+    id: 37,
     icon: <Svg38 />,
   },
   {
-    id: 39,
+    id: 38,
     icon: <Svg39 />,
   },
   {
-    id: 40,
+    id: 39,
     icon: <Svg40 />,
   },
   {
-    id: 41,
+    id: 40,
     icon: <Svg41 />,
   },
   {
-    id: 42,
+    id: 41,
     icon: <Svg42 />,
   },
   {
-    id: 43,
+    id: 42,
     icon: <Svg43 />,
   },
   {
-    id: 44,
+    id: 43,
     icon: <Svg44 />,
   },
   {
-    id: 45,
+    id: 44,
     icon: <Svg45 />,
   },
   {
-    id: 46,
+    id: 45,
     icon: <Svg46 />,
   },
   {
-    id: 47,
+    id: 46,
     icon: <Svg47 />,
   },
   {
-    id: 48,
+    id: 47,
     icon: <Svg48 />,
   },
   {
-    id: 49,
+    id: 48,
     icon: <Svg49 />,
   },
   {
-    id: 50,
+    id: 49,
     icon: <Svg50 />,
   },
   {
-    id: 51,
+    id: 50,
     icon: <Svg51 />,
   },
   {
-    id: 52,
+    id: 51,
     icon: <Svg52 />,
   },
   {
-    id: 53,
+    id: 52,
     icon: <Svg53 />,
   },
   {
-    id: 54,
+    id: 53,
     icon: <Svg54 />,
   },
   {
-    id: 55,
+    id: 54,
     icon: <Svg55 />,
   },
   {
-    id: 56,
+    id: 55,
     icon: <Svg56 />,
   },
   {
-    id: 57,
+    id: 56,
     icon: <Svg57 />,
   },
   {
-    id: 58,
+    id: 57,
     icon: <Svg58 />,
   },
   {
-    id: 59,
+    id: 58,
     icon: <Svg59 />,
   },
   {
-    id: 60,
+    id: 59,
     icon: <Svg60 />,
   },
   {
-    id: 61,
+    id: 60,
     icon: <Svg61 />,
   },
   {
-    id: 62,
+    id: 61,
     icon: <Svg62 />,
   },
   {
-    id: 63,
+    id: 62,
     icon: <Svg63 />,
   },
   {
-    id: 64,
+    id: 63,
     icon: <Svg64 />,
   },
   {
-    id: 65,
+    id: 64,
     icon: <Svg65 />,
   },
   {
-    id: 66,
+    id: 65,
     icon: <Svg66 />,
   },
   {
-    id: 67,
+    id: 66,
     icon: <Svg67 />,
   },
   {
-    id: 68,
+    id: 67,
     icon: <Svg68 />,
   },
   {
-    id: 69,
+    id: 68,
     icon: <Svg69 />,
   },
   {
-    id: 70,
+    id: 69,
     icon: <Svg70 />,
   },
 ];

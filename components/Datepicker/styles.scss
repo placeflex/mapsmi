@@ -1,0 +1,75 @@
+.datepicker-input {
+  * {
+    font-size: inherit !important;
+  }
+}
+
+.datepicker-dropdown {
+  font-size: 0.7rem !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  background: var(--bg) !important;
+
+  * {
+    background: inherit !important;
+    color: inherit !important;
+    font-family: inherit !important;
+  }
+
+  .ant-btn {
+    background: var(--cream) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    border: 0 !important  ;
+
+    span {
+      text-transform: capitalize !important;
+    }
+
+    &:hover {
+      background: var(--cream) !important;
+    }
+  }
+
+  .ant-picker-decade-btn {
+    &:hover {
+      color: var(--cream) !important;
+    }
+  }
+
+  .ant-picker-now-btn {
+    color: var(--cream) !important;
+  }
+
+  .ant-picker-cell-selected {
+    .ant-picker-cell-inner {
+      background: var(--cream) !important;
+      color: var(--white) !important;
+    }
+  }
+  .ant-picker-cell-today {
+    .ant-picker-cell-inner::before {
+      border-color: var(--cream) !important;
+    }
+  }
+  .ant-picker-time-panel-cell-selected {
+    .ant-picker-time-panel-cell-inner {
+      background: var(--cream) !important;
+      color: #fff !important;
+      padding: 0 !important;
+      text-align: center !important;
+    }
+  }
+  .ant-picker-time-panel-cell {
+    .ant-picker-time-panel-cell-inner {
+      padding: 0 !important;
+      text-align: center !important;
+    }
+  }
+  .ant-picker-cell {
+    .ant-picker-cell-inner {
+      padding: 0 !important;
+      text-align: center !important;
+    }
+  }
+}
