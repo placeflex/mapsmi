@@ -14,11 +14,12 @@ declare global {
 }
 
 export const SkyMap = () => {
+  const [cls, setCls] = useState();
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
   const posterDate = useTypedSelector(({ layout }) => layout.layout?.date);
-  const posterLocation = useTypedSelector(
+  const currentPosterLocation = useTypedSelector(
     ({ layout }) => layout.layout?.currentLocation
   );
 
@@ -127,12 +128,13 @@ export const SkyMap = () => {
   };
 
   const handleChangeLocation = () => {
-    if (posterLocation?.center) {
-      const center = posterLocation?.center;
+    if (currentPosterLocation) {
+      const center = currentPosterLocation?.center;
+
       const longitude = center[0];
       const latitude = center[1];
 
-      window.Celestial.location([latitude, longitude]);
+      window.Celestial?.location([latitude, longitude]);
     }
   };
 
@@ -140,22 +142,25 @@ export const SkyMap = () => {
     import("d3-celestial").then(celestial => {
       if (typeof window !== "undefined") {
         const Celestial = celestial.Celestial();
-        window.Celestial = Celestial;
         Celestial?.display(config);
-        if (posterLocation?.center) {
-          const center = posterLocation?.center;
-          const longitude = center[0];
-          const latitude = center[1];
-          Celestial.location([latitude, longitude]);
-        }
-        Celestial?.date(new Date(posterDate));
+        window.Celestial = Celestial;
+        setCls(Celestial);
       }
     });
+
     return () => {
       window.Celestial?.display({});
       window.Celestial = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (cls) {
+      window.Celestial?.date(new Date(posterDate));
+      handleChangeLocation();
+      window.Celestial?.rotate();
+    }
+  }, [cls]);
 
   useEffect(() => {
     if (window.Celestial) {
@@ -164,18 +169,18 @@ export const SkyMap = () => {
   }, [posterStyles]);
 
   useEffect(() => {
-    if (window.Celestial) {
+    if (posterDate) {
       window.Celestial?.date(new Date(posterDate));
       window.Celestial?.rotate();
     }
   }, [posterDate]);
 
   useEffect(() => {
-    if (window.Celestial && posterLocation) {
+    if (currentPosterLocation) {
       handleChangeLocation();
       window.Celestial?.rotate();
     }
-  }, [posterLocation]);
+  }, [currentPosterLocation]);
 
   return (
     <div className="map-wrapper">

@@ -60,6 +60,7 @@ export default function Editor() {
       })
     );
   };
+
   const handleArtworkColor = (id: number) => {
     const layoutColors = paletteArtwork.find(icon => icon.id === id);
 
@@ -70,7 +71,7 @@ export default function Editor() {
       })
     );
   };
-  const handleartworkTheme = (id: number | undefined) => {
+  const handleArtworkTheme = (id: number | undefined) => {
     const theme = themes.find(style => style.id === id);
 
     dispatch(
@@ -84,20 +85,12 @@ export default function Editor() {
     const size = sizes.find(style => style.id === id);
     dispatch(handleChangeAttributes({ attr: "size", value: size }));
   };
+
   const handleSelectOrientations = (id: number) => {
     const orientation = orientations.find(style => style.id === id);
     dispatch(
       handleChangeAttributes({ attr: "orientation", value: orientation })
     );
-  };
-  const handleChangeLabel = ({
-    label,
-    value,
-  }: {
-    label: string;
-    value: string;
-  }) => {
-    dispatch(handleChangeLables({ label, value }));
   };
 
   const router = useRouter();
@@ -179,24 +172,25 @@ export default function Editor() {
       <LineArtPanelContent
         handleSelectFigure={handleSelectFigure}
         handleArtworkColor={handleArtworkColor}
-        handleartworkTheme={handleartworkTheme}
+        handleArtworkTheme={handleArtworkTheme}
         handleSelectSize={handleSelectSize}
         handleSelectOrientations={handleSelectOrientations}
-        handleChangeLabel={handleChangeLabel}
       />
     ),
     1: (
       <SkyMapPanelContent
         handleArtworkColor={handleArtworkColor}
-        handleChangeLabel={handleChangeLabel}
+        handleArtworkTheme={handleArtworkTheme}
+        handleSelectSize={handleSelectSize}
+        handleSelectOrientations={handleSelectOrientations}
       />
     ),
     2: (
       <MapPanelContent
         handleArtworkColor={handleArtworkColor}
-        handleChangeLabel={handleChangeLabel}
         handleSelectSize={handleSelectSize}
         handleSelectOrientations={handleSelectOrientations}
+        handleArtworkTheme={handleArtworkTheme}
       />
     ),
   };
@@ -205,7 +199,7 @@ export default function Editor() {
     <>
       <PageLayout>
         <div className="flex">
-          <div className="layout-settings min-w-[400px] max-w-[400px] w-full bg-light p-3 overflow-y-auto editor-panel">
+          <div className="layout-settings min-w-[400px] max-w-[400px] w-full bg-secondaryBg p-3 overflow-y-auto editor-panel">
             {productId == Number(product_id) && panelUI[Number(productId)]}
           </div>
           <LayoutPreviewWrapper>

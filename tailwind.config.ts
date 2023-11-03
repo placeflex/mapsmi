@@ -16,10 +16,12 @@ const config: Config = {
         padding: "1rem",
       },
       colors: {
+        second: "#000",
+        primary: "#000",
         text: "#14191F",
         wine: "#995955",
         bg: "#FFFFFF",
-        black: "#14191F",
+        black: "#111",
         darkGrey: "#454545",
         silver: "#e5e5e5",
         blueGrey: "#7b92a3",
