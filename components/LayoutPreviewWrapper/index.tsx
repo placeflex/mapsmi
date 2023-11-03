@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
 // stores
 import { useTypedSelector } from "@/redux/store";
@@ -10,7 +11,7 @@ interface PropsScale {
   width?: number;
   height?: number;
   scale?: number;
-  isRendered?: boolean;
+  isRender?: boolean;
 }
 interface LayoutPreviewWrapperProps {
   children?: React.ReactNode;
@@ -24,6 +25,7 @@ const initArtworkStyles = {
   width: 900,
   height: 400,
   scale: 1,
+  isRender: false,
 };
 
 const handleGetPosterGap = (sizeId: number) => {
@@ -49,6 +51,9 @@ export const LayoutPreviewWrapper = ({
     ({ layout }) => layout.layout?.selectedAttributes?.orientation?.id
   );
 
+  const router = useRouter();
+  const { product_id } = router.query;
+
   const [artworkStyles, setArtworkStyles] =
     useState<PropsScale>(initArtworkStyles);
 
@@ -70,6 +75,7 @@ export const LayoutPreviewWrapper = ({
         setArtworkStyles(prev => ({
           ...prev,
           scale,
+          isRender: true,
         }));
 
         // if (posterSizeId === 0) {
@@ -92,64 +98,77 @@ export const LayoutPreviewWrapper = ({
       let gap = handleGetPosterGap(Number(posterSizeId));
 
       if (posterOrientationId === 0) {
-        let height = 2000 - gap;
-        let width = height / 1.44;
+        if (Number(product_id) == 2) {
+          let height = 2000 - gap;
+          let width = height / 1.44;
 
-        setArtworkStyles({
-          width,
-          height,
-        });
+          setArtworkStyles(prev => ({
+            ...prev,
+            width,
+            height,
+          }));
 
-        // switch (posterSizeId) {
-        //   case 0:
-        //     setArtworkStyles({
-        //       width: 354.4,
-        //       height: 472.5,
-        //     });
-        //     break;
-        //   case 1:
-        //     setArtworkStyles({
-        //       width: 590.6,
-        //       height: 826.8,
-        //     });
-        //     break;
-        //   default:
-        //     setArtworkStyles({
-        //       width: 826.8,
-        //       height: 1181.2,
-        //     });
-        //     break;
-        // }
-      } else {
-        // let width = refLayoutWrapper.current.offsetWidth - gap;
-        // let height = width / 1.44;
-
-        // let width = (refLayoutWrapper.current.clientWidth - gap) * 4;
-        // let height = width / 1.44;
-
-        // setArtworkStyles({
-        //   width: width,
-        //   height: height,
-        // });
+          return;
+        }
 
         switch (posterSizeId) {
           case 0:
-            setArtworkStyles({
-              width: 472.5,
-              height: 354.4,
-            });
+            setArtworkStyles(prev => ({
+              ...prev,
+              width: 354.4,
+              height: 472.5,
+            }));
             break;
           case 1:
-            setArtworkStyles({
-              width: 826.8,
-              height: 590.6,
-            });
+            setArtworkStyles(prev => ({
+              ...prev,
+              width: 590.6,
+              height: 826.8,
+            }));
             break;
           default:
-            setArtworkStyles({
+            setArtworkStyles(prev => ({
+              ...prev,
+              width: 826.8,
+              height: 1181.2,
+            }));
+            break;
+        }
+      } else {
+        if (Number(product_id) == 2) {
+          let width = 2000 - gap;
+          let height = width / 1.44;
+
+          setArtworkStyles(prev => ({
+            ...prev,
+            width,
+            height,
+          }));
+
+          return;
+        }
+
+        switch (posterSizeId) {
+          case 0:
+            setArtworkStyles(prev => ({
+              ...prev,
+              width: 472.5,
+              height: 354.4,
+            }));
+            break;
+          case 1:
+            setArtworkStyles(prev => ({
+              ...prev,
+              width: 826.8,
+              height: 590.6,
+            }));
+            break;
+          default:
+            setArtworkStyles(prev => ({
+              ...prev,
               width: 1181.2,
               height: 826.8,
-            });
+            }));
             break;
         }
       }
@@ -207,7 +226,7 @@ export const LayoutPreviewWrapper = ({
         }}
         ref={refArtworkWrapper}
       >
-        {children}
+        {artworkStyles.isRender == true && children}
       </div>
     </div>
   );

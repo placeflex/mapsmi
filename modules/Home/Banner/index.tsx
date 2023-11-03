@@ -19,7 +19,13 @@ export const Banner = () => {
 
   return (
     <Container className="pt-5">
-      <div
+      <Button
+        onClick={() => dispatch(haandleShowProductModal())}
+        classNames="mt-5 flex"
+      >
+        Design your own
+      </Button>
+      {/* <div
         className={`grid grid-rows-2 grid-cols-12 gap-5  lg:gap-0  ${styles.banner}`}
       >
         <div className="relative row-span-2 col-span-6 lg:col-span-12 lg:row-span-3">
@@ -88,7 +94,7 @@ export const Banner = () => {
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </Container>
   );
 };

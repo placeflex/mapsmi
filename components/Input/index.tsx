@@ -18,7 +18,7 @@ export const Input = ({
   return (
     <>
       {label && (
-        <label htmlFor={label} className="block text-xs text-sm mb-2">
+        <label htmlFor={label} className="block text-xs mb-2">
           {label}
         </label>
       )}

@@ -56,3 +56,26 @@ export const artworkTheme: ArtworkStyleInterface[] = [
     applyName: "quoteSharp",
   },
 ];
+
+export const artworkMapTheme: ArtworkStyleInterface[] = [
+  {
+    id: 0,
+    name: "Minimal",
+    applyName: "minimal",
+  },
+  {
+    id: 1,
+    name: "Bold",
+    applyName: "bold",
+  },
+  {
+    id: 2,
+    name: "Script",
+    applyName: "script",
+  },
+  {
+    id: 3,
+    name: "Brush",
+    applyName: "brush",
+  },
+];

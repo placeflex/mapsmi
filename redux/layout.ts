@@ -110,6 +110,18 @@ const layout = createSlice({
 
       storagePoster(state.layout, state.layout.productId);
     },
+
+    handleResetLabels(state) {
+      state.layout = {
+        ...state.layout,
+        poster: {
+          ...state.layout.poster,
+          labels: {},
+        },
+      };
+
+      storagePoster(state.layout, state.layout.productId);
+    },
   },
 });
 
@@ -122,6 +134,7 @@ export const {
   setDate,
   setLocations,
   setCurrentLocation,
+  handleResetLabels,
 } = layout.actions;
 
 export default layout.reducer;

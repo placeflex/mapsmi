@@ -36,10 +36,6 @@
   &.poster-70x100 {
     font-size: 1.2em !important;
   }
-
-  // &.map {
-  //   font-size: calc(1 * 4 * 1px) !important;
-  // }
 }
 
 .artwork {
@@ -71,7 +67,6 @@
 
   .labels {
     text-align: center;
-    // position: absolute;
     bottom: 0;
     width: 100%;
     left: 0;
@@ -79,10 +74,9 @@
     padding: 0 40em 40em 40em;
 
     h1.headline {
-      font-size: 34em;
+      font-size: 35em;
       font-weight: 400;
       color: var(--text-color);
-      padding-bottom: 0.25em;
       line-height: 1;
       overflow-wrap: anywhere;
     }
@@ -91,7 +85,6 @@
       font-size: 15em;
       display: inline-block;
       color: var(--text-color);
-      padding-bottom: 0.3em;
       line-height: 1;
       overflow-wrap: anywhere;
     }
@@ -106,7 +99,6 @@
     h3.subline {
       font-size: 15em;
       color: var(--text-color);
-      padding-bottom: 0.3em;
       line-height: 1;
       overflow-wrap: anywhere;
     }
@@ -170,7 +162,7 @@
     .labels {
       position: static;
       background: #fff;
-      padding: 30em 0 10em 0;
+      padding: 20em 0 0 0;
 
       h1.headline {
         color: #000;
@@ -200,13 +192,13 @@
     }
 
     .border {
-      border: 50em solid #fff;
+      border: 30em solid #fff;
     }
 
     .labels {
       position: static;
       background: #fff;
-      padding: 50em 0 0 0;
+      padding: 30em 0 0 0;
 
       h1.headline {
         font-size: 20em;
@@ -251,22 +243,18 @@
 
       h1.headline {
         font-size: 45em;
-        padding: 0 0 0.15em;
       }
 
       span {
         font-size: 25em;
-        padding: 0 0 0.15em;
       }
 
       h2.tagline {
         font-size: 25em;
-        padding: 0 0 0.15em;
       }
 
       h3.subline {
         font-size: 25em;
-        padding: 0 0 0.15em;
       }
     }
   }
@@ -284,21 +272,40 @@
   }
 
   &.skymap {
-    background: var(--bg-color);
+    // background: var(--bg-color);
 
-    .artworkFigure {
-      background: transparent;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-    }
+    // .artworkFigure {
+    //   background: transparent;
+    //   align-items: center;
+    //   justify-content: center;
+    //   padding: 0;
+    // }
 
     .labels {
       position: static;
+      transform: translate(0);
     }
   }
 
   &.map {
+    font-size: 2.5px !important;
+
+    h1 {
+      font-size: 25em !important;
+    }
+
+    span {
+      font-size: 10em !important;
+    }
+
+    h2.tagline {
+      font-size: 10em !important;
+    }
+
+    h2.tagline {
+      font-size: 10em !important;
+    }
+
     .artworkFigure {
       background: transparent;
       align-items: center;
@@ -308,12 +315,13 @@
 
     .border {
       background: transparent !important;
+      border-width: 0;
     }
 
     .labels {
       position: absolute;
       z-index: 1;
-      padding: 40em;
+      padding: 15em 10em;
       width: calc(100% + 2px);
       bottom: -1px;
       left: -1px;
@@ -322,6 +330,11 @@
         rgba(255, 255, 255, 0.85) 45.51%,
         rgba(255, 255, 255, 0.97) 100%
       );
+
+      *:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
     }
   }
 }

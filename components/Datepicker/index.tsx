@@ -24,7 +24,7 @@ export const DatePickerComponent = forwardRef<DatePickerInterface, any>(
     return (
       <>
         {label && (
-          <label htmlFor={label} className="block text-xs text-sm mb-2">
+          <label htmlFor={label} className="block text-xs mb-2">
             {label}
           </label>
         )}

@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
 import Link from "next/link";
-import { Popover, Transition } from "@headlessui/react";
+// import { Popover, Transition } from "@headlessui/react";
 
 // components
 
@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="flex px-5 py-4 bg-cream relative">
+    <header className="flex px-5 py-4 bg-black relative">
       <nav className="flex-1 flex items-center gap-x-5">
         <div className="hidden lg:flex">
           <button
@@ -51,7 +51,7 @@ export const Header: React.FC = () => {
             <span className="sr-only">Open main menu</span>
           </button>
         </div>
-        <Popover.Group className="flex lg:hidden">
+        {/* <Popover.Group className="flex lg:hidden">
           <Popover>
             <Popover.Button className="flex text-sm text-white">
               Products
@@ -85,7 +85,7 @@ export const Header: React.FC = () => {
               </Popover.Panel>
             </Transition>
           </Popover>
-        </Popover.Group>
+        </Popover.Group> */}
 
         <Link
           href="#"
