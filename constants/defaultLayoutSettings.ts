@@ -3,6 +3,7 @@ import { paletteArtwork } from "@/modules/LineartSettings/colorsList";
 import { artworkTheme } from "@/modules/LineartSettings/artworkStylesList";
 import { sizes, orientations } from "@/layouts/LayoutAttributes";
 import dayjs from "dayjs";
+import { v4 as uuidv4 } from "uuid";
 
 export const defaultLineArtSettings = {
   poster: {
@@ -26,4 +27,6 @@ export const defaultLineArtSettings = {
   date: dayjs(new Date()).format("YYYY-MM-DD HH:mm"),
   locations: [],
   currentLocation: {},
+  uuid: uuidv4(),
+  editingProfileProject: false,
 };

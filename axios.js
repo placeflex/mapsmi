@@ -7,7 +7,13 @@ export const api = axios.create({
 
 // Интерсептор для установки заголовка авторизации (если требуется)
 api.interceptors.request.use(config => {
-  // Здесь можно добавить заголовки, токены авторизации и др.
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+  if (token && token.length) {
+    config.headers.Authorization = token;
+  }
+
   return config;
 });
 

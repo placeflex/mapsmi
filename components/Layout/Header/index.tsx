@@ -7,6 +7,12 @@ import Link from "next/link";
 // icons
 import { Logo } from "@/components/Logo";
 import Basket from "@/public/icons/basket.svg";
+import Login from "@/public/icons/login.svg";
+
+// stores
+import { handleShowLoginModal } from "@/redux/modals";
+import { useDispatch } from "react-redux";
+import { useTypedSelector } from "@/redux/store";
 
 const products = [
   {
@@ -38,6 +44,10 @@ const products = [
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const isUserLogged = useTypedSelector(({ user }) => user.loggedIn);
+
+  const dispatch = useDispatch();
 
   return (
     <header className="flex px-5 py-4 bg-black relative">
@@ -106,9 +116,29 @@ export const Header: React.FC = () => {
         textColor="text-white"
         fill="#fff"
       />
-      <button type="button" className="flex items-center justify-end flex-1">
-        <Basket width={25} fill="#fff" />
-      </button>
+
+      <div className="flex flex-1 justify-end">
+        {isUserLogged ? (
+          <Link href="/profile" type="button" className="flex  mr-2">
+            <button type="button" className="flex items-center text-white">
+              <Login width={22} stroke="#fff" />
+            </button>
+          </Link>
+        ) : (
+          <button
+            type="button"
+            className="flex items-center text-white mr-2"
+            onClick={() => dispatch(handleShowLoginModal())}
+          >
+            <Login width={22} stroke="#fff" />
+          </button>
+        )}
+
+        <button type="button" className="flex items-center justify-end ">
+          <Basket width={25} fill="#fff" />
+        </button>
+      </div>
+
       {/* <Dialog
         as="div"
         className="lg:hidden"

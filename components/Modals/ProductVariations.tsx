@@ -26,7 +26,7 @@ export const ProductVariations = () => {
 
   return (
     <ModalContent isModalOpen={productModal} bgClose>
-      <div className="flex justify-center bg-bg py-10 px-8 gap-4 overflow-x-auto scroll-snap-x  md:hide-scrollbar md:mask-right lg:mask-none hide-scrollbar rounded-md">
+      <div className="flex bg-bg py-10 px-8 gap-4 overflow-x-auto scroll-snap-x  md:hide-scrollbar md:mask-right lg:mask-none hide-scrollbar rounded-md">
         <div className="flex flex-col items-center">
           <div className="relative w-[280px] h-[300px] block">
             <Image
@@ -37,7 +37,11 @@ export const ProductVariations = () => {
           </div>
           <h3 className="font-second mt-5">LINEART</h3>
 
-          <Button classNames="mt-5 flex" onClick={() => handleGoToEditor(0)}>
+          <Button
+            type="button"
+            classNames="mt-5 flex"
+            onClick={() => handleGoToEditor(0)}
+          >
             Design your own
           </Button>
         </div>
@@ -51,7 +55,11 @@ export const ProductVariations = () => {
           </div>
           <h3 className="font-second mt-5">SKYMAP</h3>
 
-          <Button classNames="mt-5 flex" onClick={() => handleGoToEditor(1)}>
+          <Button
+            type="button"
+            classNames="mt-5 flex"
+            onClick={() => handleGoToEditor(1)}
+          >
             Design your own
           </Button>
         </div>
@@ -65,7 +73,11 @@ export const ProductVariations = () => {
           </div>
           <h3 className="font-second mt-5">LINEART</h3>
 
-          <Button classNames="mt-5 flex" onClick={() => handleGoToEditor(2)}>
+          <Button
+            type="button"
+            classNames="mt-5 flex"
+            onClick={() => handleGoToEditor(2)}
+          >
             Design your own
           </Button>
         </div>

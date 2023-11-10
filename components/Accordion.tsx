@@ -19,16 +19,14 @@ export const Accordion: React.FC<AccordionProps> = ({ items }) => {
   return (
     <>
       {items.map((item, index) => (
-        <div key={index} className="border-b last:border-b-0">
+        <div key={index}>
           <button
-            className="w-full text-left text-xs rounded-sm p-4  bg-bg"
+            className="w-full text-left text-xs rounded-lg p-4 bg-bg"
             onClick={() => toggleItem(index)}
           >
             {item.title}
           </button>
-          {activeItem === index && (
-            <div className="p-4 bg-secondaryBg">{item.content}</div>
-          )}
+          {activeItem === index && <div className="p-4">{item.content}</div>}
         </div>
       ))}
     </>

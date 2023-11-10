@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-// helpers
-import { storagePoster } from "@/helpers/storageData";
-
-import { defaultLineArtSettings } from "@/constants/defaultLayoutSettings";
+// types
 import { LayoutSettings } from "@/types/layoutTypes";
 
-import { productsStorage } from "@/helpers/storageData";
+// helpers and constants
+import { storagePoster } from "@/helpers/storageData";
+import { productsVariations } from "@/constants/constants";
+import { defaultLineArtSettings } from "@/constants/defaultLayoutSettings";
 
 const initialState: { layout: LayoutSettings } = {
   layout: defaultLineArtSettings,
@@ -15,12 +15,23 @@ const layout = createSlice({
   name: "layout",
   initialState,
   reducers: {
+    initFromProfile(state, action) {
+      state.layout = {
+        ...action.payload,
+        editingProfileProject: true,
+      };
+
+      storagePoster({
+        profileStore: true,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
     initLayout(state, action) {
       if (action.payload) {
-        const product = productsStorage[Number(action.payload)];
+        const product = productsVariations[Number(action.payload)];
         const getPoster = localStorage.getItem(product);
-
-        console.log("action.payload", action.payload);
 
         if (getPoster) {
           const poster = JSON.parse(getPoster);
@@ -33,7 +44,11 @@ const layout = createSlice({
             ...defaultLineArtSettings,
             productId: Number(action.payload),
           };
-          storagePoster(state.layout, state.layout.productId);
+
+          storagePoster({
+            layout: state.layout,
+            productId: state.layout.productId,
+          });
         }
       }
     },
@@ -48,7 +63,11 @@ const layout = createSlice({
         locations: action.payload,
       };
 
-      storagePoster(state.layout, state.layout.productId);
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
     },
 
     setCurrentLocation(state, action) {
@@ -57,7 +76,11 @@ const layout = createSlice({
         currentLocation: action.payload,
       };
 
-      storagePoster(state.layout, state.layout.productId);
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
     },
 
     setDate(state, action) {
@@ -66,7 +89,11 @@ const layout = createSlice({
         date: action.payload,
       };
 
-      storagePoster(state.layout, state.layout.productId);
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
     },
 
     handleChangeStyles(state, action) {
@@ -81,7 +108,11 @@ const layout = createSlice({
         },
       };
 
-      storagePoster(state.layout, state.layout.productId);
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
     },
 
     handleChangeAttributes(state, action) {
@@ -93,7 +124,11 @@ const layout = createSlice({
         },
       };
 
-      storagePoster(state.layout, state.layout.productId);
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
     },
 
     handleChangeLables(state, action) {
@@ -108,7 +143,11 @@ const layout = createSlice({
         },
       };
 
-      storagePoster(state.layout, state.layout.productId);
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
     },
 
     handleResetLabels(state) {
@@ -120,7 +159,11 @@ const layout = createSlice({
         },
       };
 
-      storagePoster(state.layout, state.layout.productId);
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
     },
   },
 });
@@ -135,6 +178,7 @@ export const {
   setLocations,
   setCurrentLocation,
   handleResetLabels,
+  initFromProfile,
 } = layout.actions;
 
 export default layout.reducer;

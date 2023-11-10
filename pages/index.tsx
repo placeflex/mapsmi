@@ -1,20 +1,30 @@
 import { useEffect } from "react";
 
+import { useRouter } from "next/router";
+
 // components
 import { Layout } from "@/components/Layout/";
 import { Banner } from "@/modules/Home/Banner";
 import { OurPosters } from "@/modules/Home/OurPosters";
 
+// apis
 import { api } from "@/axios";
 
-// modals
-
 export default function Home() {
+  const router = useRouter();
+
   useEffect(() => {
-    const response = api.get("/locations").then(res => {
-      console.log("response", res);
-    });
-  }, []);
+    if (router.query.confirmToken) {
+      api
+        .get(`/register?confirmToken=${router.query.confirmToken}`)
+        .then(res => {
+          router.push("/");
+        })
+        .catch(err => {
+          console.log(`confirmToken ${err}`);
+        });
+    }
+  }, [router.query]);
 
   return (
     <Layout>

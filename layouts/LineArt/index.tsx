@@ -26,8 +26,11 @@ export const LineArt = ({
   let withoutText =
     !texts?.heading && !texts?.subline && !texts?.divider && !texts?.tagline;
   return (
-    <div className={`artwork relative ${className} ${theme}`} style={styles}>
-      <div className="border h-full artwork-wrapper relative">
+    <div
+      className={`artwork relative flex ${className} ${theme}`}
+      style={styles}
+    >
+      <div className="border artwork-wrapper relative">
         <div className={`artworkFigure ${withoutText ? "h-full" : ""}`}>
           {figure}
         </div>
