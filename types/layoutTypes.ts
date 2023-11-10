@@ -34,4 +34,5 @@ export interface LayoutSettings {
   date: string;
   locations?: Object;
   currentLocation?: Object;
+  editingProfileProject?: boolean;
 }

@@ -128,7 +128,7 @@ export const SkyMap = () => {
   };
 
   const handleChangeLocation = () => {
-    if (currentPosterLocation) {
+    if (currentPosterLocation.center) {
       const center = currentPosterLocation?.center;
 
       const longitude = center[0];

@@ -7,6 +7,7 @@ import { Layout as PageLayout } from "@/components/Layout";
 import { LayoutPreviewWrapper } from "@/components/LayoutPreviewWrapper";
 import { LineArtPanelContent } from "@/modules/LineartSettings/LineArtPanelsContent";
 import { MapPanelContent } from "@/modules/LineartSettings/MapPanelContent";
+import { Button } from "@/components/Button";
 
 // layout ui
 import { LineArt } from "@/layouts/LineArt";
@@ -27,8 +28,10 @@ import {
   initLayout,
   handleChangeStyles,
   handleChangeAttributes,
-  handleChangeLables,
+  initFromProfile,
 } from "@/redux/layout";
+
+import { handleSaveProjectInAccount } from "@/redux/user";
 
 // styles
 import "@/modules/LineartSettings/editor.scss";
@@ -36,18 +39,28 @@ import classNames from "classnames";
 import { SkyMapPanelContent } from "@/modules/LineartSettings/SkyMapPanelContent";
 
 export default function Editor() {
-  const posterStyles = useTypedSelector(
-    ({ layout }) => layout?.layout.poster?.styles
-  );
+  const router = useRouter();
+  const { product_id, id } = router.query;
 
-  const posterAttributes = useTypedSelector(
-    ({ layout }) => layout?.layout.selectedAttributes
-  );
-  const posterLabels = useTypedSelector(
-    ({ layout }) => layout?.layout.poster?.labels
-  );
+  const user = useTypedSelector(({ user }) => user.user);
+  const layout = useTypedSelector(({ layout }) => layout?.layout);
 
-  const productId = useTypedSelector(({ layout }) => layout?.layout.productId);
+  // const posterStyles = useTypedSelector(
+  //   ({ layout }) => layout?.layout.poster?.styles
+  // );
+
+  // const posterAttributes = useTypedSelector(
+  //   ({ layout }) => layout?.layout.selectedAttributes
+  // );
+  // const posterLabels = useTypedSelector(
+  //   ({ layout }) => layout?.layout.poster?.labels
+  // );
+
+  // const editingProfileProject = useTypedSelector(
+  //   ({ layout }) => layout?.layout.editingProfileProject
+  // );
+
+  // const productId = useTypedSelector(({ layout }) => layout?.layout.productId);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -93,75 +106,90 @@ export default function Editor() {
     );
   };
 
-  const router = useRouter();
-  const { product_id } = router.query;
+  const handleUPDATEACCOUNT = () => {
+    try {
+      if (id) {
+        dispatch(handleSaveProjectInAccount({ id: product_id, update: true }));
+      } else {
+        dispatch(handleSaveProjectInAccount({ id: product_id, update: false }));
+      }
+    } catch {
+      console.log("SOMETHING WRONG");
+    }
+  };
 
   useEffect(() => {
-    if (product_id) {
+    if (id) {
+      const project = user?.projects?.find(project => project.uuid == id);
+      dispatch(initFromProfile(project));
+    } else {
       dispatch(initLayout(product_id));
     }
   }, [product_id]);
 
   const styles = {
-    "--text-color": paletteArtwork[Number(posterStyles?.palette)]?.textColor,
-    "--bg-color": paletteArtwork[Number(posterStyles?.palette)]?.bg,
+    "--text-color":
+      paletteArtwork[Number(layout.poster?.styles?.palette)]?.textColor,
+    "--bg-color": paletteArtwork[Number(layout.poster?.styles?.palette)]?.bg,
     "--illustration-color":
-      paletteArtwork[Number(posterStyles?.palette)]?.illustrationColor,
+      paletteArtwork[Number(layout.poster?.styles?.palette)]?.illustrationColor,
   };
 
   const editorUI = {
     0: (
       <LineArt
-        theme={themes[Number(posterStyles?.theme)]?.applyName}
-        figure={svgList[Number(posterStyles?.artwork)].icon}
+        theme={themes[Number(layout.poster?.styles?.theme)]?.applyName}
+        figure={svgList[Number(layout.poster?.styles?.artwork)].icon}
         styles={styles}
         texts={{
-          heading: posterLabels?.heading,
-          subline: posterLabels?.subline,
-          tagline: posterLabels?.tagline,
-          divider: posterLabels?.divider,
+          heading: layout.poster?.labels?.heading,
+          subline: layout.poster?.labels?.subline,
+          tagline: layout.poster?.labels?.tagline,
+          divider: layout.poster?.labels?.divider,
         }}
         className={classNames({
-          [`lineart poster-${posterAttributes?.size?.name.replaceAll(
+          [`lineart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
             "cm",
             ""
-          )}`]: posterAttributes?.size?.name,
+          )}`]: layout?.selectedAttributes?.size?.name,
         })}
       />
     ),
     1: (
       <LineArt
-        theme={themes[Number(posterStyles?.theme)]?.applyName}
+        theme={themes[Number(layout.poster?.styles?.theme)]?.applyName}
         figure={<SkyMap />}
         styles={styles}
         texts={{
-          heading: posterLabels?.heading,
-          subline: posterLabels?.subline,
-          tagline: posterLabels?.tagline,
-          divider: posterLabels?.divider,
+          heading: layout.poster?.labels?.heading,
+          subline: layout.poster?.labels?.subline,
+          tagline: layout.poster?.labels?.tagline,
+          divider: layout.poster?.labels?.divider,
         }}
         className={classNames({
-          [`skymap poster-${posterAttributes?.size?.name.replaceAll(
+          [`skymap poster-${layout?.selectedAttributes?.size?.name.replaceAll(
             "cm",
             ""
-          )}`]: posterAttributes?.size?.name,
+          )}`]: layout?.selectedAttributes?.size?.name,
         })}
       />
     ),
     2: (
       <LineArt
-        theme={themes[Number(posterStyles?.theme)]?.applyName}
+        theme={themes[Number(layout.poster?.styles?.theme)]?.applyName}
         figure={<MapContainer />}
         styles={styles}
         texts={{
-          heading: posterLabels?.heading,
-          subline: posterLabels?.subline,
-          tagline: posterLabels?.tagline,
-          divider: posterLabels?.divider,
+          heading: layout.poster?.labels?.heading,
+          subline: layout.poster?.labels?.subline,
+          tagline: layout.poster?.labels?.tagline,
+          divider: layout.poster?.labels?.divider,
         }}
         className={classNames({
-          [`map poster-${posterAttributes?.size?.name.replaceAll("cm", "")}`]:
-            posterAttributes?.size?.name,
+          [`map poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+            "cm",
+            ""
+          )}`]: layout?.selectedAttributes?.size?.name,
         })}
       />
     ),
@@ -199,11 +227,31 @@ export default function Editor() {
     <>
       <PageLayout>
         <div className="flex">
-          <div className="layout-settings min-w-[400px] max-w-[400px] w-full bg-secondaryBg p-3 overflow-y-auto editor-panel">
-            {productId == Number(product_id) && panelUI[Number(productId)]}
+          <div className="min-w-[400px] max-w-[400px] w-full bg-light p-3 overflow-y-auto editor-panel flex flex-col">
+            {layout.productId == Number(product_id) &&
+              panelUI[Number(layout.productId)]}
+
+            {layout.editingProfileProject ? (
+              <Button
+                classNames="w-full"
+                type="button"
+                onClick={handleUPDATEACCOUNT}
+              >
+                Update
+              </Button>
+            ) : (
+              <Button
+                classNames="w-full mt-auto"
+                type="button"
+                onClick={handleUPDATEACCOUNT}
+              >
+                Add To Collection
+              </Button>
+            )}
           </div>
           <LayoutPreviewWrapper>
-            {productId == Number(product_id) && editorUI[Number(productId)]}
+            {layout.productId == Number(product_id) &&
+              editorUI[Number(layout.productId)]}
           </LayoutPreviewWrapper>
         </div>
       </PageLayout>

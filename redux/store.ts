@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { useSelector, useDispatch, TypedUseSelectorHook } from "react-redux";
+import { useSelector, TypedUseSelectorHook } from "react-redux";
 
 import layout from "./layout";
 import modals from "./modals";
+import user from "./user";
 
 const store = configureStore({
   reducer: {
     layout,
+    user,
     modals,
   },
 });

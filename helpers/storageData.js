@@ -1,26 +1,22 @@
-export const productsStorage = {
-  0: "lineart-storage",
-  1: "skymap-storage",
-  2: "map-storage",
-};
+import { productsVariations } from "@/constants/constants";
 
-export const storagePoster = (data, productId) => {
-  const product = productsStorage[productId];
-  
+export const storagePoster = ({ profileStore = false, layout, productId }) => {
+  const product = profileStore
+    ? productsVariations[3]
+    : productsVariations[productId];
+
   if (localStorage.getItem(product)) {
     const getPoster = JSON.parse(localStorage.getItem(product));
 
-    const val = JSON.stringify({
+    const poster = JSON.stringify({
       ...getPoster,
-      ...data,
+      ...layout,
     });
 
-    localStorage.setItem(product, val);
-
-    return;
+    return localStorage.setItem(product, poster);
   }
 
-  const posterData = JSON.stringify(data);
+  const posterData = JSON.stringify(layout);
 
   localStorage.setItem(product, posterData);
 };
@@ -29,4 +25,12 @@ export const getStoragePoster = () => {
   const storage = JSON.parse(localStorage.getItem("lineart-storage"));
 
   return storage;
+};
+
+export const setToken = jwtToken => {
+  localStorage.setItem("token", jwtToken);
+};
+
+export const deleteToken = () => {
+  localStorage.removeItem("token");
 };

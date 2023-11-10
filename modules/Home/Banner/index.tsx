@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 // styles
@@ -10,22 +10,15 @@ import { Button } from "@/components/Button";
 
 // stores
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
 
-import { haandleShowProductModal } from "@/redux/modals";
+import { handleShowProductModal } from "@/redux/modals";
 
 export const Banner = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
 
   return (
     <Container className="pt-5">
-      <Button
-        onClick={() => dispatch(haandleShowProductModal())}
-        classNames="mt-5 flex"
-      >
-        Design your own
-      </Button>
-      {/* <div
+      <div
         className={`grid grid-rows-2 grid-cols-12 gap-5  lg:gap-0  ${styles.banner}`}
       >
         <div className="relative row-span-2 col-span-6 lg:col-span-12 lg:row-span-3">
@@ -87,14 +80,15 @@ export const Banner = () => {
             </p>
 
             <Button
-              onClick={() => dispatch(haandleShowProductModal())}
+              onClick={() => dispatch(handleShowProductModal())}
               classNames="mt-5 flex"
+              type="button"
             >
               Design your own
             </Button>
           </div>
         </div>
-      </div> */}
+      </div>
     </Container>
   );
 };

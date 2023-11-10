@@ -4,15 +4,18 @@ export const main_font = Sofia_Sans({
   subsets: ["latin"],
   variable: "--font-main",
   weight: ["300", "400", "600", "800"],
+  display: "swap",
 });
 
 export const dancing = Dancing_Script({
   subsets: ["latin"],
   variable: "--font-dancing",
+  display: "swap",
 });
 
 export const alexbrush = Alex_Brush({
   subsets: ["latin"],
   variable: "--font-brush",
   weight: ["400"],
+  display: "swap",
 });

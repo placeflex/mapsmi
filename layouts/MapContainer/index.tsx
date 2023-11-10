@@ -18,11 +18,14 @@ export const MapContainer = () => {
     ({ layout }) => layout?.layout.selectedAttributes
   );
   const currentPosterLocation = useTypedSelector(
-    ({ layout }) => layout.layout?.currentLocation
+    ({ layout }) => layout.layout.currentLocation
   );
 
   const initBounds = () => {
-    if (mapRef.current && JSON.stringify(currentPosterLocation.data) !== "{}") {
+    if (
+      mapRef.current &&
+      JSON.stringify(currentPosterLocation?.data) !== "{}"
+    ) {
       mapRef.current.resize();
 
       if (currentPosterLocation.bbox && currentPosterLocation.bbox.length) {
@@ -33,13 +36,15 @@ export const MapContainer = () => {
             currentPosterLocation.bbox[2],
             currentPosterLocation.bbox[3],
           ],
-          { padding: 40 }
+          { padding: 40, animate: false }
         );
-      } else {
-        mapRef.current.flyTo({
-          center: currentPosterLocation.center,
-        });
       }
+      // else {
+      //   mapRef.current.jumpTo({
+      //     center: currentPosterLocation.center,
+      //     animated,
+      //   });
+      // }
     }
   };
 

@@ -1,3 +1,6 @@
+import { Fragment, useRef, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+
 import classNames from "classnames";
 
 // stores
@@ -22,23 +25,42 @@ export const ModalContent = ({
   const dispatch: AppDispatch = useDispatch();
 
   return (
-    isModalOpen && (
-      <>
-        <div
-          className="absolute w-full h-full top-0 left-0 z-[998] bg-black/[0.9]"
-          onClick={() => {
-            bgClose && dispatch(handleCloseModals());
-          }}
-        ></div>
-        <div
-          className={classNames(
-            "absolute left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] w-4/5 bg-transparent z-[999]",
-            className
+    <Transition show={isModalOpen}>
+      <div className="fixed inset-0 z-[100] w-screen overflow-y-auto">
+        <div className="flex min-h-full items-center justify-center p-4">
+          {bgClose && (
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div
+                className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                onClick={() => {
+                  dispatch(handleCloseModals());
+                }}
+              />
+            </Transition.Child>
           )}
-        >
-          {children}
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 translate-y-4"
+            enterTo="opacity-100 translate-y-0"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0 "
+          >
+            <div className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all">
+              {children}
+            </div>
+          </Transition.Child>
         </div>
-      </>
-    )
+      </div>
+    </Transition>
   );
 };
