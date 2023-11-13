@@ -5,7 +5,7 @@ import { LocationAccrodion, TextsAccordion, SizeAccordion } from "./settings";
 
 import { Accordion } from "@/components/Accordion";
 
-import { artworkMapTheme as themes } from "@/modules/LineartSettings/artworkStylesList";
+import { artworkMapTheme as themes } from "@/layouts/LayoutSettings/artworkStylesList";
 
 // stores
 import { useTypedSelector } from "@/redux/store";
@@ -56,10 +56,8 @@ export const MapPanelContent = ({
                     return (
                       <button
                         key={id}
-                        className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-4 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
-                          id === Number(posterStyles?.theme)
-                            ? "border-black"
-                            : ""
+                        className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-4 py-2 rounded-md w-[calc(33%-2)] hover:bg-bg hover:text-white shadow-sm border-1 grow ${
+                          id === Number(posterStyles?.theme) ? "border-bg" : ""
                         }`}
                         onClick={() => handleArtworkTheme(id)}
                       >

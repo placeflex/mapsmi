@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { paletteArtwork } from "@/modules/LineartSettings/colorsList";
+import { paletteArtwork } from "@/layouts/LayoutSettings/colorsList";
 
 // stores
 import { useTypedSelector } from "@/redux/store";
@@ -14,20 +14,19 @@ declare global {
 }
 
 export const SkyMap = () => {
-  const [cls, setCls] = useState();
+  const [cls, setCls] = useState<any>();
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
   const posterDate = useTypedSelector(({ layout }) => layout.layout?.date);
-  const currentPosterLocation = useTypedSelector(
+  const currentPosterLocation: any = useTypedSelector(
     ({ layout }) => layout.layout?.currentLocation
   );
 
-  // const [LAT, LON] = [36.525321, -121.815916];
   const FONT = "var(--font-main)";
 
   const styles = {
-    second: paletteArtwork[Number(posterStyles?.palette)]?.textColor,
+    stroke: paletteArtwork[Number(posterStyles?.palette)]?.textColor,
     bg: paletteArtwork[Number(posterStyles?.palette)]?.bg,
     ilstr: paletteArtwork[Number(posterStyles?.palette)]?.illustrationColor,
   };
@@ -47,7 +46,7 @@ export const SkyMap = () => {
     height: 600,
     background: {
       fill: styles.ilstr,
-      stroke: styles.second,
+      stroke: styles.stroke,
       opacity: 1,
       width: 0,
     },
@@ -127,60 +126,45 @@ export const SkyMap = () => {
     },
   };
 
-  const handleChangeLocation = () => {
-    if (currentPosterLocation.center) {
-      const center = currentPosterLocation?.center;
-
-      const longitude = center[0];
-      const latitude = center[1];
-
-      window.Celestial?.location([latitude, longitude]);
-    }
-  };
-
   useEffect(() => {
     import("d3-celestial").then(celestial => {
-      if (typeof window !== "undefined") {
-        const Celestial = celestial.Celestial();
-        Celestial?.display(config);
-        window.Celestial = Celestial;
-        setCls(Celestial);
-      }
+      const Celestial = celestial.Celestial();
+      Celestial?.display(config);
+      setCls(Celestial);
     });
-
-    return () => {
-      window.Celestial?.display({});
-      window.Celestial = null;
-    };
   }, []);
 
   useEffect(() => {
     if (cls) {
-      window.Celestial?.date(new Date(posterDate));
-      handleChangeLocation();
-      window.Celestial?.rotate();
+      cls.skyview({
+        location: [
+          currentPosterLocation?.center[1],
+          currentPosterLocation?.center[0],
+        ],
+        date: new Date(posterDate),
+      });
+      cls.rotate();
     }
   }, [cls]);
 
   useEffect(() => {
-    if (window.Celestial) {
-      window.Celestial?.display(config);
+    if (cls) {
+      cls?.apply(config);
     }
-  }, [posterStyles]);
+  }, [posterStyles, config]);
 
   useEffect(() => {
-    if (posterDate) {
-      window.Celestial?.date(new Date(posterDate));
-      window.Celestial?.rotate();
+    if (cls) {
+      cls.skyview({
+        location: [
+          currentPosterLocation?.center[1],
+          currentPosterLocation?.center[0],
+        ],
+        date: new Date(posterDate),
+      });
+      cls.rotate();
     }
-  }, [posterDate]);
-
-  useEffect(() => {
-    if (currentPosterLocation) {
-      handleChangeLocation();
-      window.Celestial?.rotate();
-    }
-  }, [currentPosterLocation]);
+  }, [currentPosterLocation, posterDate]);
 
   return (
     <div className="map-wrapper">

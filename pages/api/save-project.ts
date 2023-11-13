@@ -20,18 +20,18 @@ export default async function handler(
     const token = req.headers.authorization;
     const decoded = verifyToken(String(token));
 
-    if (decoded) {
+    if (decoded && typeof decoded === "object") {
       User.findOne({ email: decoded.email })
         .then(async user => {
           if (user) {
             if (update) {
               const projects = user.projects;
               const findProject = projects.find(
-                project => project.uuid == prjectData.uuid
+                (project: { uuid: string }) => project.uuid == prjectData.uuid
               );
 
               const indexToUpdate = projects.findIndex(
-                project => project.uuid == findProject.uuid
+                (project: { uuid: string }) => project.uuid == findProject.uuid
               );
               projects[indexToUpdate] = prjectData;
               await user.save();

@@ -19,8 +19,8 @@ export default async function handler(
     const decoded = verifyToken(String(token));
 
     try {
-      if (decoded) {
-        User.findOne({ email: decoded.email })
+      if (decoded && typeof decoded === "object") {
+        User.findOne({ email: decoded?.email })
           .then(async user => {
             return res.status(200).json({
               email: user.email,

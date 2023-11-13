@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
 
@@ -60,7 +61,7 @@ export const Login = () => {
 
   return (
     <ModalContent isModalOpen={isOpen} bgClose>
-      <div className="bg-bg py-5 px-5">
+      <div className="py-5 px-5">
         <h3 className="mb-5 text-center font-bold text-2xl">Login</h3>
         <div className="rounded-md sm:w-[320px] w-[500px]">
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
@@ -97,13 +98,17 @@ export const Login = () => {
             </Form>
           </Formik>
 
-          <span
-            onClick={() => {
-              dispatch(handleCloseModals());
-              dispatch(handleShowRegisterModal());
-            }}
-          >
-            Register
+          <span className="text-xs text-right block mt-4">
+            Don't have an account?{" "}
+            <span
+              className="text-button underline cursor-pointer hover:no-underline"
+              onClick={() => {
+                dispatch(handleCloseModals());
+                dispatch(handleShowRegisterModal());
+              }}
+            >
+              Register
+            </span>
           </span>
         </div>
       </div>

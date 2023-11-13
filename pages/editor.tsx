@@ -1,48 +1,52 @@
-import Head from "next/head";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+
+import classNames from "classnames";
 
 // components
 import { Layout as PageLayout } from "@/components/Layout";
 import { LayoutPreviewWrapper } from "@/components/LayoutPreviewWrapper";
-import { LineArtPanelContent } from "@/modules/LineartSettings/LineArtPanelsContent";
-import { MapPanelContent } from "@/modules/LineartSettings/MapPanelContent";
 import { Button } from "@/components/Button";
 
 // layout ui
-import { LineArt } from "@/layouts/LineArt";
+import { LayoutContent } from "@/layouts/LayoutContent";
 import { SkyMap } from "@/layouts/SkyMap";
-import { MapContainer } from "@/layouts/MapContainer";
+import { MapContainer } from "@/layouts/Map";
 
 // lineart settings ( panel )
-import { svgList } from "@/modules/LineartSettings/iconsList";
-import { paletteArtwork } from "@/modules/LineartSettings/colorsList";
-import { artworkTheme as themes } from "@/modules/LineartSettings/artworkStylesList";
+import { svgList } from "@/layouts/LayoutSettings/iconsList";
+import { paletteArtwork } from "@/layouts/LayoutSettings/colorsList";
+import { artworkTheme as themes } from "@/layouts/LayoutSettings/artworkStylesList";
 import { sizes, orientations } from "@/layouts/LayoutAttributes";
+
+// panels
+import { SkyMapPanelContent } from "@/modules/LayoutPanels/SkyMapPanelContent";
+import { LineArtPanelContent } from "@/modules/LayoutPanels/LineArtPanelContent";
+import { MapPanelContent } from "@/modules/LayoutPanels/MapPanelContent";
 
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
-
 import {
   initLayout,
   handleChangeStyles,
   handleChangeAttributes,
   initFromProfile,
 } from "@/redux/layout";
-
 import { handleSaveProjectInAccount } from "@/redux/user";
 
+// types
+import { UserFieldsProps } from "@/redux/user";
+
 // styles
-import "@/modules/LineartSettings/editor.scss";
-import classNames from "classnames";
-import { SkyMapPanelContent } from "@/modules/LineartSettings/SkyMapPanelContent";
+import "@/modules/LayoutPanels/editor.scss";
 
 export default function Editor() {
   const router = useRouter();
   const { product_id, id } = router.query;
 
-  const user = useTypedSelector(({ user }) => user.user);
+  const user: UserFieldsProps = useTypedSelector(({ user }) => user.user);
+  const isUserLogged = useTypedSelector(({ user }) => user.loggedIn);
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
   // const posterStyles = useTypedSelector(
@@ -125,7 +129,7 @@ export default function Editor() {
     } else {
       dispatch(initLayout(product_id));
     }
-  }, [product_id]);
+  }, [product_id, user.projects]);
 
   const styles = {
     "--text-color":
@@ -137,9 +141,9 @@ export default function Editor() {
 
   const editorUI = {
     0: (
-      <LineArt
+      <LayoutContent
         theme={themes[Number(layout.poster?.styles?.theme)]?.applyName}
-        figure={svgList[Number(layout.poster?.styles?.artwork)].icon}
+        figure={svgList[Number(layout.poster?.styles?.artwork)]?.icon}
         styles={styles}
         texts={{
           heading: layout.poster?.labels?.heading,
@@ -156,7 +160,7 @@ export default function Editor() {
       />
     ),
     1: (
-      <LineArt
+      <LayoutContent
         theme={themes[Number(layout.poster?.styles?.theme)]?.applyName}
         figure={<SkyMap />}
         styles={styles}
@@ -175,7 +179,7 @@ export default function Editor() {
       />
     ),
     2: (
-      <LineArt
+      <LayoutContent
         theme={themes[Number(layout.poster?.styles?.theme)]?.applyName}
         figure={<MapContainer />}
         styles={styles}
@@ -227,11 +231,10 @@ export default function Editor() {
     <>
       <PageLayout>
         <div className="flex">
-          <div className="min-w-[400px] max-w-[400px] w-full bg-light p-3 overflow-y-auto editor-panel flex flex-col">
+          <div className="min-w-[400px] max-w-[400px] w-full bg-white p-3 overflow-y-auto editor-panel flex flex-col">
             {layout.productId == Number(product_id) &&
-              panelUI[Number(layout.productId)]}
-
-            {layout.editingProfileProject ? (
+              panelUI[layout.productId as keyof typeof panelUI]}
+            {layout.editingProfileProject && (
               <Button
                 classNames="w-full"
                 type="button"
@@ -239,7 +242,8 @@ export default function Editor() {
               >
                 Update
               </Button>
-            ) : (
+            )}
+            {isUserLogged && (
               <Button
                 classNames="w-full mt-auto"
                 type="button"
@@ -248,10 +252,14 @@ export default function Editor() {
                 Add To Collection
               </Button>
             )}
+
+            <Button classNames="w-full mt-auto" type="button">
+              Add To Cart
+            </Button>
           </div>
           <LayoutPreviewWrapper>
             {layout.productId == Number(product_id) &&
-              editorUI[Number(layout.productId)]}
+              editorUI[layout.productId as keyof typeof panelUI]}
           </LayoutPreviewWrapper>
         </div>
       </PageLayout>

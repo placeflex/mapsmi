@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { Input } from "@/components/Input";
 // lineart settings ( panel )
-import { svgList } from "@/modules/LineartSettings/iconsList";
-import { paletteArtwork } from "@/modules/LineartSettings/colorsList";
-import { artworkTheme as themes } from "@/modules/LineartSettings/artworkStylesList";
+import { svgList } from "@/layouts/LayoutSettings/iconsList";
+import { paletteArtwork } from "@/layouts/LayoutSettings/colorsList";
+import { artworkTheme as themes } from "@/layouts/LayoutSettings/artworkStylesList";
 
 import dayjs from "dayjs";
 
@@ -63,7 +63,7 @@ export const ColorsAccordion = ({ handleChange }: any) => {
   );
 
   return (
-    <div className="icons h-[300px] overflow-y-auto grid grid-cols-4 gap-2 ">
+    <div className="icons h-[300px] overflow-y-auto grid grid-cols-4 gap-2 pr-4">
       {paletteArtwork.map(({ icon, bg, id }): React.ReactNode => {
         return (
           <div
@@ -121,7 +121,7 @@ export const TextsAccordion = () => {
     ({ layout }) => layout.layout?.poster?.labels
   );
 
-  const handleChange = ({ label, value }) => {
+  const handleChange = ({ label, value }: { label: string; value: string }) => {
     dispatch(
       handleChangeLables({
         label: label,
@@ -211,7 +211,7 @@ export const SizeAccordion = ({
           {sizes.map(({ id, name }): React.ReactNode => {
             return (
               <button
-                className={`border bg-bg text-xs cursor-pointer flex items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1  ${
+                className={`border text-xs cursor-pointer flex items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1  ${
                   Number(posterAttributes?.size?.id) == id ? "border-black" : ""
                 }`}
                 key={id}
@@ -229,7 +229,7 @@ export const SizeAccordion = ({
           {orientations.map(({ id, name }): React.ReactNode => {
             return (
               <button
-                className={`border bg-bg text-xs cursor-pointer flex items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1 ${
+                className={`border text-xs cursor-pointer flex items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1 ${
                   id === Number(posterAttributes?.orientation?.id)
                     ? "border-black"
                     : ""
@@ -257,17 +257,17 @@ export const LocationAccrodion = () => {
     ({ layout }) => layout.layout.locations
   );
 
-  const currentPosterLocation = useTypedSelector(
+  const currentPosterLocation: any = useTypedSelector(
     ({ layout }) => layout.layout?.currentLocation
   );
 
   const fetchLocation = async () => {
     try {
-      const response = await api.post("/locations", {
+      const response: [] = await api.post("/locations", {
         locationName: location,
       });
 
-      const modifyLocations = response.map(opt => {
+      const modifyLocations = response.map((opt: { place_name: string }) => {
         return {
           value: opt.place_name,
           label: opt.place_name,
@@ -281,7 +281,7 @@ export const LocationAccrodion = () => {
     }
   };
 
-  const handleUpdateLabels = name => {
+  const handleUpdateLabels = (name: string) => {
     dispatch(handleResetLabels());
 
     const spltName = name.split(",");
@@ -348,7 +348,7 @@ export const LocationAccrodion = () => {
     }
   };
 
-  const handleInputChange = locationName => {
+  const handleInputChange = (locationName: any) => {
     setLocation(locationName);
 
     if (locationName) {
@@ -358,7 +358,7 @@ export const LocationAccrodion = () => {
     }
   };
 
-  const handleSelectLocation = (location, opt) => {
+  const handleSelectLocation = (location: any, opt: any) => {
     dispatch(
       setCurrentLocation({
         ...opt,
@@ -366,8 +366,6 @@ export const LocationAccrodion = () => {
         data: opt.locationData,
       })
     );
-
-    console.log("opt.value", opt.value);
 
     handleUpdateLabels(opt.value);
   };
@@ -386,14 +384,6 @@ export const LocationAccrodion = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("currentPosterLocation", currentPosterLocation);
-
-  //   if (currentPosterLocation?.value) {
-  //     handleUpdateLabels(currentPosterLocation.value);
-  //   }
-  // }, [currentPosterLocation]);
-
   return (
     <>
       <h2 className="text-2xl font-bold mb-2">Location</h2>
@@ -410,6 +400,7 @@ export const LocationAccrodion = () => {
           onSelect={handleSelectLocation}
           value={currentPosterLocation}
           label="SEARCH FOR A PLACE"
+          key={currentPosterLocation?.value}
         />
       </div>
 

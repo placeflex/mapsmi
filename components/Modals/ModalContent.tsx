@@ -39,7 +39,7 @@ export const ModalContent = ({
               leaveTo="opacity-0"
             >
               <div
-                className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                className="fixed left-0 top-0 bottom-0 right-0 bg-black bg-opacity-75 transition-opacity w-full h-full"
                 onClick={() => {
                   dispatch(handleCloseModals());
                 }}
@@ -55,7 +55,7 @@ export const ModalContent = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0 "
           >
-            <div className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all">
+            <div className="relative bg-bg  transform overflow-hidden rounded-lg text-left shadow-xl transition-all">
               {children}
             </div>
           </Transition.Child>

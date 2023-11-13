@@ -3,6 +3,7 @@ html {
   font-size: 18px;
   min-height: 100%;
   font-family: var(--font-main);
+  background: var(--bg);
 
   @media screen and (min-width: 2400px) {
     font-size: 28px;
@@ -10,9 +11,10 @@ html {
 }
 
 :root {
-  --text: #14191f;
+  --primary: #f0122d;
+  --text: #111;
   --wine: #995955;
-  --bg: #fff;
+  --bg: #EAEDF2;
   --black: #14191f;
   --darkGrey: #454545;
   --silver: #e5e5e5;
@@ -22,6 +24,12 @@ html {
   --cream: #bd998d;
   --light: #f8f5f2;
   --secondaryBg: #f9fafb;
+  --hover: linear-gradient(
+    171deg,
+    rgba(240, 18, 45, 1) 0%,
+    rgba(240, 78, 45, 0.4598433123249299) 50%,
+    rgba(240, 107, 45, 1) 100%
+  );
   --font-main: var(--font-main);
   --font-dancing: var(--font-dancing);
 }
@@ -44,4 +52,10 @@ body {
 
 .ReactModal__Overlay {
   background-color: var(--wine) !important;
+}
+
+.datepicker-input {
+  * {
+    font-size: inherit !important;
+  }
 }

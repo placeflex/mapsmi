@@ -1,8 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-
-// styles
-import styles from "./Banner.module.scss";
 
 // components
 import { Container } from "@/components/Container";
@@ -10,15 +7,35 @@ import { Button } from "@/components/Button";
 
 // stores
 import { useDispatch } from "react-redux";
-
 import { handleShowProductModal } from "@/redux/modals";
+
+// styles
+import styles from "./Banner.module.scss";
 
 export const Banner = () => {
   const dispatch = useDispatch();
 
   return (
     <Container className="pt-5">
-      <div
+      <div className="container">
+        <div
+          className={`flex items-center justify-center flex-col text-center ${styles.banner}`}
+        >
+          <h1 className="font-sans text-6xl capitalize">
+            A New Way to <em className="font-bold ">Remember</em> <br />
+            Your <em className="font-bold ">Favorite</em> Moments
+          </h1>
+
+          <Button
+            onClick={() => dispatch(handleShowProductModal())}
+            classNames="mt-8 flex"
+            type="button"
+          >
+            Design your own
+          </Button>
+        </div>
+      </div>
+      {/* <div
         className={`grid grid-rows-2 grid-cols-12 gap-5  lg:gap-0  ${styles.banner}`}
       >
         <div className="relative row-span-2 col-span-6 lg:col-span-12 lg:row-span-3">
@@ -73,7 +90,7 @@ export const Banner = () => {
               Custom posters for
               <br /> meaningful moments
             </h1>
-            <p className="text-xl font-second font-normal lg:text-lg">
+            <p className="text-xl font-sans font-normal lg:text-lg">
               Make your home more you with unique prints and products that truly
               express who you are. Great art tells a story, and we`re sure that
               you have some amazing stories to share with the world.
@@ -88,7 +105,7 @@ export const Banner = () => {
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </Container>
   );
 };

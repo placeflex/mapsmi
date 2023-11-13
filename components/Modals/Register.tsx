@@ -11,11 +11,13 @@ import { Input } from "@/components/Input";
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "@/redux/store";
+import { handleShowLoginModal, handleCloseModals } from "@/redux/modals";
 
 // apis
 import { api } from "@/axios";
 
 export const Register = () => {
+  const dispatch = useDispatch();
   const isOpen = useTypedSelector(({ modals }) => modals.registerModal);
 
   const initialValues = {
@@ -64,7 +66,7 @@ export const Register = () => {
 
   return (
     <ModalContent isModalOpen={isOpen} bgClose>
-      <div className="bg-bg py-5 px-5">
+      <div className="py-5 px-5">
         <h3 className="mb-5 text-center font-bold text-2xl">Register</h3>
         <div className="rounded-md sm:w-[320px] w-[500px]">
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
@@ -133,6 +135,19 @@ export const Register = () => {
               </Button>
             </Form>
           </Formik>
+
+          <span className="text-xs text-right block mt-4">
+            Already have an account?{" "}
+            <span
+              className="text-button underline cursor-pointer hover:no-underline"
+              onClick={() => {
+                dispatch(handleCloseModals());
+                dispatch(handleShowLoginModal());
+              }}
+            >
+              Sign In
+            </span>
+          </span>
         </div>
       </div>
     </ModalContent>

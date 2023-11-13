@@ -1,19 +1,18 @@
-.datepicker-input {
-  * {
-    font-size: inherit !important;
-  }
-}
-
 .datepicker-dropdown {
   font-size: 0.7rem !important;
   color: inherit !important;
   font-family: inherit !important;
-  background: var(--bg) !important;
+  background: var(--white) !important;
+  border-radius: 8px !important;
 
   * {
     background: inherit !important;
     color: inherit !important;
     font-family: inherit !important;
+  }
+
+  .ant-picker-panel-container {
+    background: transparent !important;
   }
 
   .ant-btn {

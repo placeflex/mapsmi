@@ -20,7 +20,7 @@ const UserProfile = () => {
   const router = useRouter();
 
   const dispatch = useDispatch();
-  const user = useTypedSelector(({ user }) => user);
+  const user = useTypedSelector(({ user }) => user.user);
 
   const handleLogoutUser = () => {
     dispatch(handleLogout());
@@ -55,14 +55,14 @@ const UserProfile = () => {
         <Container>
           <div>
             <h1>USER PROFILE</h1>
-            <h1>EMAIL: {user.user.email}</h1>
-            <h2>NAME: {user.user.name}</h2>
+            <h1>EMAIL: {user.email}</h1>
+            <h2>NAME: {user.name}</h2>
 
             <div>
               <h3>PROJECTS</h3>
 
               <div className="flex bg-wine w-1/5">
-                {user?.user?.projects?.map((project, index) => {
+                {user?.projects?.map((project, index) => {
                   return (
                     <div
                       key={index}

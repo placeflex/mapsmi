@@ -19,8 +19,6 @@ export interface ColorInterface {
   bg: string;
 }
 
-export const colorsList = [{}];
-
 export const paletteArtwork: ColorInterface[] = [
   {
     icon: <Svg1 />,
