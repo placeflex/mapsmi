@@ -50,9 +50,10 @@ export const LayoutPreviewWrapper = ({
   const posterOrientationId = useTypedSelector(
     ({ layout }) => layout.layout?.selectedAttributes?.orientation?.id
   );
+  const layout = useTypedSelector(({ layout }) => layout.layout);
 
-  const router = useRouter();
-  const { product_id } = router.query;
+  // const router = useRouter();
+  // const { product_id } = router.query;
 
   const [artworkStyles, setArtworkStyles] =
     useState<PropsScale>(initArtworkStyles);
@@ -70,13 +71,24 @@ export const LayoutPreviewWrapper = ({
         const scaleHeight = parentHeight / childHeight;
         const scale = Math.min(scaleWidth, scaleHeight);
 
-        // for test
+        setArtworkStyles(prev => {
+          return {
+            ...prev,
+            scale,
+            isRender: true,
+          };
+        });
 
-        setArtworkStyles(prev => ({
-          ...prev,
-          scale,
-          isRender: true,
-        }));
+        // if (
+        //   typeof window !== "undefined" &&
+        //   layout.productId === 2 &&
+        //   window.CustomMap &&
+        //   window.CustomMap.resize &&
+        //   artworkStyles.isRender
+        // ) {
+        //   window.CustomMap?.resize();
+        //   console.log("window.CustomMap", window.CustomMap);
+        // }
 
         // if (posterSizeId === 0) {
         //   setArtworkStyles(prev => ({
@@ -98,7 +110,7 @@ export const LayoutPreviewWrapper = ({
       let gap = handleGetPosterGap(Number(posterSizeId));
 
       if (posterOrientationId === 0) {
-        if (Number(product_id) == 2) {
+        if (Number(layout.productId) == 2) {
           let height = 2000 - gap;
           let width = height / 1.44;
 
@@ -135,7 +147,7 @@ export const LayoutPreviewWrapper = ({
             break;
         }
       } else {
-        if (Number(product_id) == 2) {
+        if (Number(layout.productId) == 2) {
           let width = 2000 - gap;
           let height = width / 1.44;
 
@@ -175,29 +187,6 @@ export const LayoutPreviewWrapper = ({
     }
   };
 
-  // const initSize = () => {
-  //   const width = refLayoutWrapper.current?.clientWidth;
-  //   const height = refLayoutWrapper.current?.clientHeight;
-
-  //   if (posterOrientationId === 0) {
-  //     const availableIndent = Number(height) / 1.2;
-
-  //     setArtworkStyles(prev => ({
-  //       ...prev,
-  //       width: availableIndent / 1.4,
-  //       height: availableIndent,
-  //     }));
-  //   } else {
-  //     const availableIndent = Number(width) / 1.2;
-
-  //     setArtworkStyles(prev => ({
-  //       ...prev,
-  //       width: availableIndent,
-  //       height: availableIndent / 1.4,
-  //     }));
-  //   }
-  // };
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       handleResize();
@@ -213,7 +202,25 @@ export const LayoutPreviewWrapper = ({
     artworkStyles.height,
     posterSizeId,
     posterOrientationId,
+    layout.productId,
   ]);
+
+  // useEffect(() => {
+  //   console.log("artworkStyles", artworkStyles);
+
+  //   if (
+  //     typeof window !== "undefined" &&
+  //     layout.productId === 2 &&
+  //     window.CustomMap &&
+  //     window.CustomMap.resize &&
+  //     artworkStyles.isRender &&
+  //     refArtworkWrapper.current &&
+  //     refLayoutWrapper.current
+  //   ) {
+
+  //     // window?.CustomMap?.resize();
+  //   }
+  // }, [posterOrientationId,posterSizeId]);
 
   return (
     <div className={`poster ${styles.posterWrapper}`} ref={refLayoutWrapper}>
@@ -226,7 +233,13 @@ export const LayoutPreviewWrapper = ({
         }}
         ref={refArtworkWrapper}
       >
-        {artworkStyles.isRender == true && children}
+        {artworkStyles.isRender && layout.productId == 2 ? (
+          <div className="w-full h-full" key={JSON.stringify(artworkStyles)}>
+            {children}
+          </div>
+        ) : (
+          children
+        )}
       </div>
     </div>
   );

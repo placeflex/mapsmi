@@ -78,9 +78,10 @@ export default async function handler(
 
   if (req.method === "GET") {
     const token = req.query.confirmToken;
-    const decoded = verifyToken(token);
 
-    if (decoded) {
+    const decoded = verifyToken(String(token));
+
+    if (decoded && typeof decoded === "object") {
       const user = await User.findOne({ email: decoded.email });
       if (user) {
         user.confirmedEmail = true;

@@ -165,6 +165,22 @@ const layout = createSlice({
         productId: state.layout.productId,
       });
     },
+
+    handleSaveCustomCoordinatesForMap(state, action) {
+      state.layout = {
+        ...state.layout,
+        currentLocation: {
+          ...state.layout.currentLocation,
+          customCoordinates: action.payload,
+        },
+      };
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
   },
 });
 
@@ -179,6 +195,7 @@ export const {
   setCurrentLocation,
   handleResetLabels,
   initFromProfile,
+  handleSaveCustomCoordinatesForMap,
 } = layout.actions;
 
 export default layout.reducer;

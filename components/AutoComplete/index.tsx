@@ -1,12 +1,6 @@
 import { AutoComplete as AntdAutoComplete } from "antd";
 import classNames from "classnames";
 
-interface Option {
-  value: string;
-  label: string;
-  locationData: any;
-}
-
 interface AutoCompleteProps {
   label?: string;
   className?: string;

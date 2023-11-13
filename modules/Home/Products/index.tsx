@@ -3,17 +3,14 @@ import { useRouter } from "next/router";
 
 // components
 import { Button } from "@/components/Button";
-import { ModalContent } from "./ModalContent";
 
 // stores
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { useTypedSelector } from "@/redux/store";
 import { handleCloseModals } from "@/redux/modals";
 
-export const ProductVariations = () => {
+export const Products = () => {
   const dispatch: AppDispatch = useDispatch();
-  const productModal = useTypedSelector(({ modals }) => modals.productModal);
   const router = useRouter();
 
   const handleGoToEditor = (id: number) => {
@@ -24,15 +21,17 @@ export const ProductVariations = () => {
     dispatch(handleCloseModals());
   };
 
-  return (
-    <ModalContent isModalOpen={productModal} bgClose>
-      <div className="flex py-10 px-8 gap-4 overflow-x-auto scroll-snap-x  md:hide-scrollbar md:mask-right lg:mask-none hide-scrollbar rounded-md">
-        <div className="flex flex-col items-center">
-          <div className="relative w-[280px] h-[300px] block">
+  const products = [
+    {
+      product: (
+        <div className="flex flex-col items-center w-[33.33%]">
+          <div className="relative w-full h-[300px] block">
             <Image
               src="https:www.mapiful.com/content/uploads/2023/05/streetmap.webp"
               alt="banner"
               fill
+              objectFit="cover"
+              objectPosition="center"
             />
           </div>
           <h3 className="font-black mt-5">LINEART</h3>
@@ -45,12 +44,18 @@ export const ProductVariations = () => {
             Design your own
           </Button>
         </div>
-        <div className="flex flex-col items-center">
-          <div className="relative w-[280px] h-[300px] block">
+      ),
+    },
+    {
+      product: (
+        <div className="flex flex-col items-center w-[33.33%]">
+          <div className="relative w-full h-[300px] block">
             <Image
               src="https:www.mapiful.com/content/uploads/2023/05/streetmap.webp"
               alt="banner"
               fill
+              objectFit="cover"
+              objectPosition="center"
             />
           </div>
           <h3 className="font-black mt-5">SKYMAP</h3>
@@ -63,12 +68,18 @@ export const ProductVariations = () => {
             Design your own
           </Button>
         </div>
-        <div className="flex flex-col items-center">
-          <div className="relative w-[280px] h-[300px] block">
+      ),
+    },
+    {
+      product: (
+        <div className="flex flex-col items-center w-[33.33%]">
+          <div className="relative w-full h-[300px] block">
             <Image
               src="https:www.mapiful.com/content/uploads/2023/05/streetmap.webp"
               alt="banner"
               fill
+              objectFit="cover"
+              objectPosition="center"
             />
           </div>
           <h3 className="font-black mt-5">LINEART</h3>
@@ -81,7 +92,15 @@ export const ProductVariations = () => {
             Design your own
           </Button>
         </div>
-      </div>
-    </ModalContent>
+      ),
+    },
+  ];
+
+  return (
+    <div className="flex py-10 px-8 gap-4 mx-auto justify-center">
+      {products.map(({ product }) => {
+        return product;
+      })}
+    </div>
   );
 };

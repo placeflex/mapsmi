@@ -1,6 +1,11 @@
-import { Alex_Brush, Dancing_Script, Sofia_Sans } from "next/font/google";
+import {
+  Alex_Brush,
+  Dancing_Script,
+  Sofia_Sans,
+  Montserrat,
+} from "next/font/google";
 
-export const main_font = Sofia_Sans({
+export const main_font = Montserrat({
   subsets: ["latin"],
   variable: "--font-main",
   weight: ["300", "400", "600", "800"],

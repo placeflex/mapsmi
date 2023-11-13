@@ -9,28 +9,33 @@ import { productsVariations } from "@/constants/constants";
 // apis
 import { api } from "@/axios";
 
-interface UserFieldsProps {
+export interface UserFieldsProps {
   email: string;
   token: string;
   name: string;
+  projects: Project[];
 }
 
-interface UserStateProps {
+export interface Project {
+  date: string;
+  productId: string | number;
+  uuid: string;
+}
+export interface UserStateProps {
   user: UserFieldsProps;
   loggedIn: boolean;
-  projects: [];
 }
 
 const initialUserFields = {
   email: "",
   token: "",
   name: "",
+  projects: [],
 };
 
 const initialState: UserStateProps = {
   user: initialUserFields,
   loggedIn: false,
-  projects: [],
 };
 
 const user = createSlice({
@@ -57,20 +62,22 @@ const user = createSlice({
         ? localStorage.getItem(productsVariations[3])
         : localStorage.getItem(productsVariations[action.payload.id]);
 
-      try {
-        api
-          .post("/save-project", {
-            prjectData: JSON.parse(project),
-            update: action.payload.update,
-          })
-          .then(data => {
-            console.log(data);
-          })
-          .catch(({ response }) => {
-            console.log("SAVE PROJECT", response.data);
-          });
-      } catch (error) {
-        console.log(error);
+      if (project) {
+        try {
+          api
+            .post("/save-project", {
+              prjectData: JSON.parse(project),
+              update: action.payload.update,
+            })
+            .then(data => {
+              console.log(data);
+            })
+            .catch(({ response }) => {
+              console.log("SAVE PROJECT", response.data);
+            });
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
   },

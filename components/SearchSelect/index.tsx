@@ -11,21 +11,7 @@ interface SearchSelectProps {
   placeholder?: string;
 }
 
-// const onChange = (value: string) => {
-//   console.log(`selected ${value}`);
-// };
-
-// const onSearch = (value: string) => {
-//   console.log("search:", value);
-// };
-
-import "./styles.scss";
-
-const options = [
-  { value: "apple", label: "Apple" },
-  { value: "banana", label: "Banana" },
-  { value: "cherry", label: "Cherry" },
-];
+import "./SearchSelect.module.scss";
 
 export const SearchSelect = ({
   label = "",
@@ -37,7 +23,7 @@ export const SearchSelect = ({
   return (
     <>
       {label && (
-        <label htmlFor={label} className="block text-xs text-sm mb-2">
+        <label htmlFor={label} className="block text-xs mb-2">
           {label}
         </label>
       )}

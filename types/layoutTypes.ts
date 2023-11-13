@@ -1,4 +1,5 @@
-import { ArtworkStyleInterface } from "@/modules/LineartSettings/artworkStylesList";
+import { ArtworkStyleInterface } from "@/layouts/LayoutSettings/artworkStylesList";
+
 import {
   SizeInterface,
   OrientationsInterface,
@@ -33,6 +34,6 @@ export interface LayoutSettings {
   selectedAttributes?: SelectedAttributes;
   date: string;
   locations?: Object;
-  currentLocation?: Object;
+  currentLocation?: {};
   editingProfileProject?: boolean;
 }

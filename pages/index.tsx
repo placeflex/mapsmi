@@ -4,7 +4,10 @@ import { useRouter } from "next/router";
 
 // components
 import { Layout } from "@/components/Layout/";
+
+// modules
 import { Banner } from "@/modules/Home/Banner";
+import { Products } from "@/modules/Home/Products";
 import { OurPosters } from "@/modules/Home/OurPosters";
 
 // apis
@@ -29,6 +32,7 @@ export default function Home() {
   return (
     <Layout>
       <Banner />
+      {/* <Products /> */}
       {/* <OurPosters /> */}
     </Layout>
   );

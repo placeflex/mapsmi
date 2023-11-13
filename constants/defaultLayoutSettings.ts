@@ -1,9 +1,11 @@
-import { svgList } from "@/modules/LineartSettings/iconsList";
-import { paletteArtwork } from "@/modules/LineartSettings/colorsList";
-import { artworkTheme } from "@/modules/LineartSettings/artworkStylesList";
-import { sizes, orientations } from "@/layouts/LayoutAttributes";
 import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
+
+// dependencies
+import { svgList } from "@/layouts/LayoutSettings/iconsList";
+import { paletteArtwork } from "@/layouts/LayoutSettings/colorsList";
+import { artworkTheme } from "@/layouts/LayoutSettings/artworkStylesList";
+import { sizes, orientations } from "@/layouts/LayoutAttributes";
 
 export const defaultLineArtSettings = {
   poster: {

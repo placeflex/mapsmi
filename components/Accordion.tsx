@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+// icons
+import Arrow from "@/public/icons/arrow.svg";
+
 interface AccordionItem {
   title: string;
   content: React.ReactNode;
@@ -21,12 +24,17 @@ export const Accordion: React.FC<AccordionProps> = ({ items }) => {
       {items.map((item, index) => (
         <div key={index}>
           <button
-            className="w-full text-left text-xs rounded-lg p-4 bg-bg"
+            className="flex items-center justify-between w-full text-left text-xs p-2 text-black"
             onClick={() => toggleItem(index)}
           >
             {item.title}
+
+            <Arrow
+              width={15}
+              className={`${activeItem === index && "rotate-180"} transition`}
+            />
           </button>
-          {activeItem === index && <div className="p-4">{item.content}</div>}
+          {activeItem === index && <div className="py-4 px-2">{item.content}</div>}
         </div>
       ))}
     </>

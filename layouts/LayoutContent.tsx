@@ -14,9 +14,9 @@ interface LineArtProps {
 }
 
 // styles
-import "./lineart.scss";
+import "./globalLayoutStyles.scss";
 
-export const LineArt = ({
+export const LayoutContent = ({
   className = "",
   theme = "minimalist",
   figure,

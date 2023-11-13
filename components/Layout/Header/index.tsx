@@ -50,7 +50,7 @@ export const Header: React.FC = () => {
   const dispatch = useDispatch();
 
   return (
-    <header className="flex px-5 py-4 bg-black relative">
+    <header className="flex px-5 py-4 relative bg-secondaryBg">
       <nav className="flex-1 flex items-center gap-x-5">
         <div className="hidden lg:flex">
           <button
@@ -121,7 +121,7 @@ export const Header: React.FC = () => {
         {isUserLogged ? (
           <Link href="/profile" type="button" className="flex  mr-2">
             <button type="button" className="flex items-center text-white">
-              <Login width={22} stroke="#fff" />
+              <Login width={22} stroke="#fff" fill="transparent" />
             </button>
           </Link>
         ) : (
@@ -130,7 +130,7 @@ export const Header: React.FC = () => {
             className="flex items-center text-white mr-2"
             onClick={() => dispatch(handleShowLoginModal())}
           >
-            <Login width={22} stroke="#fff" />
+            <Login width={22} stroke="#fff" fill="transparent" />
           </button>
         )}
 

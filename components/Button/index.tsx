@@ -8,6 +8,8 @@ interface Props {
   type: "button" | "reset" | "submit";
 }
 
+// import styles from "./Button.module.scss";
+
 export const Button = ({
   href,
   children,
@@ -16,7 +18,7 @@ export const Button = ({
   type = "button",
   ...props
 }: Props) => {
-  let classes = `inline-block py-3 px-8 text-xs text-white bg-black hover:bg-gray-700 rounded-sm font-normal ${classNames}`;
+  let classes = `inline-block py-3 px-8 text-xs text-white bg-button rounded-sm font-normal ${classNames}`;
 
   return href ? (
     <Link href={href} className={classes} {...props}>
