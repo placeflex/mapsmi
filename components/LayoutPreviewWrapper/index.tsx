@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useTypedSelector } from "@/redux/store";
 
 // styles
-import styles from "./LayoutPreviewWrapper.module.scss";
+import styles from "./layoutPreviewWrapper.module.scss";
 
 interface PropsScale {
   width?: number;
