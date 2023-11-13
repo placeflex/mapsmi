@@ -18,6 +18,8 @@ export default async function handler(
     await connectDB();
     const { email, name, surname, password, confirmPassword, ...rest } =
       req.body;
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:3000";
 
     User.findOne({ email })
       .then(async user => {
@@ -43,7 +45,7 @@ export default async function handler(
             from: "adelente1@gmail.com",
             to: email,
             subject: "Подтверждение регистрации",
-            text: `Для подтверждения регистрации перейдите по ссылке: https://localhost:3000?confirmToken=${token}`,
+            text: `Для подтверждения регистрации перейдите по ссылке: ${baseUrl}?confirmToken=${token}`,
           };
 
           transporter.sendMail(mailOptions, (error, info) => {
