@@ -135,7 +135,7 @@ export const SkyMap = () => {
   }, []);
 
   useEffect(() => {
-    if (cls) {
+    if (cls && JSON.stringify(currentPosterLocation) !== "{}") {
       cls.skyview({
         location: [
           currentPosterLocation?.center[1],
