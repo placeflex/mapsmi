@@ -3,8 +3,15 @@ import React, { useEffect, useState } from "react";
 import { Input } from "@/components/Input";
 // lineart settings ( panel )
 import { svgList } from "@/layouts/LayoutSettings/iconsList";
-import { paletteArtwork } from "@/layouts/LayoutSettings/colorsList";
-import { artworkTheme as themes } from "@/layouts/LayoutSettings/artworkStylesList";
+import { basicColors } from "@/layouts/LayoutSettings/colorsList";
+import { mapColors } from "@/layouts/LayoutSettings/mapColors";
+import {
+  basicLayoutStyles,
+  mapLayoutStyles,
+  skyMapLayoutStyles,
+} from "@/layouts/LayoutSettings/artworkStylesList";
+
+import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
 
 import dayjs from "dayjs";
 
@@ -64,12 +71,12 @@ export const ColorsAccordion = ({ handleChange }: any) => {
 
   return (
     <div className="icons h-[300px] overflow-y-auto grid grid-cols-4 gap-2 pr-4">
-      {paletteArtwork.map(({ icon, bg, id }): React.ReactNode => {
+      {basicColors.map(({ icon, bg, id }): React.ReactNode => {
         return (
           <div
             key={id}
             className={`border flex items-center justify-center h-[50px] bg-white cursor-pointer border-1 ${
-              id === Number(posterStyles?.palette) ? "border-black" : ""
+              id === Number(posterStyles?.color) ? "border-black" : ""
             }`}
             onClick={() => handleChange(id)}
             style={{ background: bg }}
@@ -82,26 +89,26 @@ export const ColorsAccordion = ({ handleChange }: any) => {
   );
 };
 
-export const StylesAccordion = ({ handleChange }: any) => {
+export const LayoutsAccordion = ({ handleChange }: any) => {
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-2">Style</h2>
+      <h2 className="text-2xl font-bold mb-2">Layouts</h2>
       <p className="mb-4 text-xs opacity-[0.4]">
         We are all for freedom of choice, if you want to try different
         combinations than our favorites - go ahead and click customize and roll
         your own.
       </p>
       <div className="icons overflow-y-auto flex flex-wrap gap-1">
-        {themes.map(({ name, id }) => {
+        {basicLayoutStyles.map(({ name, id }) => {
           return (
             <button
               key={id}
               className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
-                id === Number(posterStyles?.theme) ? "border-black" : ""
+                id === Number(posterStyles?.layoutStyle) ? "border-black" : ""
               }`}
               onClick={() => handleChange(id)}
             >
@@ -414,6 +421,122 @@ export const LocationAccrodion = () => {
           />
         </div>
       )}
+    </>
+  );
+};
+
+export const ColorsForMapAccordion = ({ handleChange }: any) => {
+  const posterStyles = useTypedSelector(
+    ({ layout }) => layout.layout?.poster?.styles
+  );
+
+  return (
+    <div className="icons overflow-y-auto grid grid-cols-4 gap-2 pr-4">
+      {mapColors.map(({ icon, id }): React.ReactNode => {
+        return (
+          <div
+            key={id}
+            className={`border h-[100px] flex flex-col cursor-pointer border-1 ${
+              id === Number(posterStyles?.color) ? "border-black" : ""
+            }`}
+            onClick={() => handleChange(id)}
+          >
+            {icon}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
+  const posterStyles = useTypedSelector(
+    ({ layout }) => layout.layout?.poster?.styles
+  );
+
+  return (
+    <>
+      <h2 className="text-2xl font-bold mb-2">Layouts</h2>
+      <p className="mb-4 text-xs opacity-[0.4]">
+        We are all for freedom of choice, if you want to try different
+        combinations than our favorites - go ahead and click customize and roll
+        your own.
+      </p>
+      <div className="icons overflow-y-auto flex flex-wrap gap-1">
+        {skyMapLayoutStyles.map(({ name, id }) => {
+          return (
+            <button
+              key={id}
+              className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
+                id === Number(posterStyles?.layoutStyle) ? "border-black" : ""
+              }`}
+              onClick={() => handleChange(id)}
+            >
+              {name}
+            </button>
+          );
+        })}
+      </div>
+    </>
+  );
+};
+
+export const LayoutsMapAccordion = ({ handleChange }: any) => {
+  const posterStyles = useTypedSelector(
+    ({ layout }) => layout.layout?.poster?.styles
+  );
+
+  return (
+    <>
+      <h2 className="text-2xl font-bold mb-2">Layouts</h2>
+      <p className="mb-4 text-xs opacity-[0.4]">
+        We are all for freedom of choice, if you want to try different
+        combinations than our favorites - go ahead and click customize and roll
+        your own.
+      </p>
+      <div className="icons overflow-y-auto flex flex-wrap gap-1">
+        {mapLayoutStyles.map(({ name, id }) => {
+          return (
+            <button
+              key={id}
+              className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
+                id === Number(posterStyles?.layoutStyle) ? "border-black" : ""
+              }`}
+              onClick={() => handleChange(id)}
+            >
+              {name}
+            </button>
+          );
+        })}
+      </div>
+    </>
+  );
+};
+
+export const FontsAccordion = ({ handleChange }: any) => {
+  const currentFontId = useTypedSelector(
+    ({ layout }) => layout.layout?.poster?.styles?.font
+  );
+
+  return (
+    <>
+      <h2 className="text-2xl font-bold mb-2">Fonts</h2>
+      <p className="mb-4 text-xs opacity-[0.4]">You can change fonts.</p>
+      <div className="icons overflow-y-auto flex flex-wrap gap-1">
+        {fontsList.map(({ name, id }) => {
+          return (
+            <button
+              key={id}
+              className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
+                id === Number(currentFontId) ? "border-black" : ""
+              }`}
+              onClick={() => handleChange(id)}
+            >
+              {name.charAt(0).toUpperCase() + name.slice(1)}
+            </button>
+          );
+        })}
+      </div>
     </>
   );
 };

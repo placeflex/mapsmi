@@ -19,7 +19,7 @@ export interface ColorInterface {
   bg: string;
 }
 
-export const paletteArtwork: ColorInterface[] = [
+export const basicColors: ColorInterface[] = [
   {
     icon: <Svg1 />,
     id: 0,

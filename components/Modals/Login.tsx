@@ -16,6 +16,7 @@ import { handleShowRegisterModal, handleCloseModals } from "@/redux/modals";
 import { handleSaveUser } from "@/redux/user";
 
 // helpers
+import { toast } from "react-toastify";
 
 // apis
 import { api } from "@/axios";
@@ -44,13 +45,16 @@ export const Login = () => {
       setFormErrors(initialValues);
       await validationSchema.validate(values, { abortEarly: false });
 
-      await api.post("/login", values).then(data => {
-        dispatch(handleSaveUser(data));
-        dispatch(handleCloseModals());
-      });
-      // Если валидация прошла успешно, данные можно отправить
+      await api
+        .post("/login", values)
+        .then(data => {
+          dispatch(handleSaveUser(data));
+          dispatch(handleCloseModals());
+        })
+        .catch(({ response }) => {
+          toast.error(response.data.error);
+        });
     } catch (errors: any) {
-      // Если есть ошибки валидации, обновите состояния ошибок
       const errorMessages: any = {};
       errors.inner.forEach((error: any) => {
         errorMessages[error.path] = error.message;

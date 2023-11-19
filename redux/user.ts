@@ -9,6 +9,9 @@ import { productsVariations } from "@/constants/constants";
 // apis
 import { api } from "@/axios";
 
+// helpers
+import { toast } from "react-toastify";
+
 export interface UserFieldsProps {
   email: string;
   token: string;
@@ -17,6 +20,8 @@ export interface UserFieldsProps {
 }
 
 export interface Project {
+  path: string;
+  selectedAttributes: any;
   date: string;
   productId: string | number;
   uuid: string;
@@ -43,6 +48,8 @@ const user = createSlice({
   initialState,
   reducers: {
     handleSaveUser(state, action) {
+      console.log("HANDLESAVE");
+
       state.user = action.payload;
       state.loggedIn = true;
 
@@ -57,27 +64,45 @@ const user = createSlice({
       deleteToken();
     },
 
+    // handleGetMe(state, action) {
+    //   api
+    //     .get("/me")
+    //     .then((user: any) => {
+    //       state.user = user;
+    //       state.loggedIn = true;
+    //       if (action.payload.token) {
+    //         setToken(action.payload.token);
+    //       }
+    //     })
+    //     .catch(({ response }) => {
+    //       state.user = initialUserFields;
+    //       state.loggedIn = false;
+    //       deleteToken();
+    //       toast.error(response?.data?.error);
+    //     });
+    // },
+
     handleSaveProjectInAccount(state, action) {
       const project = action.payload.update
         ? localStorage.getItem(productsVariations[3])
         : localStorage.getItem(productsVariations[action.payload.id]);
 
       if (project) {
-        try {
-          api
-            .post("/save-project", {
-              prjectData: JSON.parse(project),
-              update: action.payload.update,
-            })
-            .then(data => {
-              console.log(data);
-            })
-            .catch(({ response }) => {
-              console.log("SAVE PROJECT", response.data);
-            });
-        } catch (error) {
-          console.log(error);
-        }
+        const request = api
+          .post("/save-project", {
+            prjectData: JSON.parse(project),
+            update: action.payload.update,
+          })
+          .then((data: any) => {
+            toast.success(data.message);
+          })
+          .catch(({ response }) => {
+            toast.error(response.data.error);
+          });
+
+        toast.promise(request, {
+          pending: "Processing !",
+        });
       }
     },
   },
@@ -85,5 +110,7 @@ const user = createSlice({
 
 export const { handleSaveUser, handleLogout, handleSaveProjectInAccount } =
   user.actions;
+
+const extra = handleSaveUser;
 
 export default user.reducer;

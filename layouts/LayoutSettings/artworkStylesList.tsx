@@ -4,7 +4,7 @@ export interface ArtworkStyleInterface {
   applyName: string;
 }
 
-export const artworkTheme: ArtworkStyleInterface[] = [
+export const basicLayoutStyles: ArtworkStyleInterface[] = [
   {
     id: 0,
     name: "Minimal",
@@ -45,19 +45,42 @@ export const artworkTheme: ArtworkStyleInterface[] = [
     name: "Quote (Script)",
     applyName: "quoteScript",
   },
+];
+
+export const skyMapLayoutStyles: ArtworkStyleInterface[] = [
   {
-    id: 8,
-    name: "Quote (Brush)",
-    applyName: "quoteBrush",
+    id: 0,
+    name: "Minimal",
+    applyName: "minimal",
   },
   {
-    id: 9,
-    name: "Quote (Sharp)",
-    applyName: "quoteSharp",
+    id: 1,
+    name: "Bold",
+    applyName: "bold",
+  },
+  {
+    id: 2,
+    name: "Devided",
+    applyName: "devided",
+  },
+  {
+    id: 3,
+    name: "Boxed",
+    applyName: "boxed",
+  },
+  {
+    id: 4,
+    name: "Passpartou",
+    applyName: "passpartou",
+  },
+  {
+    id: 5,
+    name: "Quote (Script)",
+    applyName: "quoteScript",
   },
 ];
 
-export const artworkMapTheme: ArtworkStyleInterface[] = [
+export const mapLayoutStyles: ArtworkStyleInterface[] = [
   {
     id: 0,
     name: "Minimal",

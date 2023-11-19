@@ -7,22 +7,25 @@ import {
   LocationAccrodion,
   ColorsAccordion,
   TextsAccordion,
-  StylesAccordion,
   SizeAccordion,
+  FontsAccordion,
+  LayoutsSkyMapAccordion,
 } from "./settings";
 
 interface SkyMapPanelContentInterface {
-  handleArtworkColor: (id: number) => void;
-  handleArtworkTheme: (id: number) => void;
+  handleChangeLayoutColor: (id: number) => void;
+  handleChangeLayoutStyle: (id: number) => void;
   handleSelectOrientations: (id: number) => void;
   handleSelectSize: (id: number) => void;
+  handleChangeFont: (id: number) => void;
 }
 
 export const SkyMapPanelContent = ({
-  handleArtworkColor,
-  handleArtworkTheme,
+  handleChangeLayoutColor,
+  handleChangeLayoutStyle,
   handleSelectSize,
   handleSelectOrientations,
+  handleChangeFont,
 }: SkyMapPanelContentInterface) => {
   return (
     <>
@@ -34,15 +37,21 @@ export const SkyMapPanelContent = ({
           },
           {
             title: "Customize the colors",
-            content: <ColorsAccordion handleChange={handleArtworkColor} />,
+            content: <ColorsAccordion handleChange={handleChangeLayoutColor} />,
           },
           {
             title: "Customize the text",
             content: <TextsAccordion />,
           },
           {
+            title: "Customize the font",
+            content: <FontsAccordion handleChange={handleChangeFont} />,
+          },
+          {
             title: "Customize the style",
-            content: <StylesAccordion handleChange={handleArtworkTheme} />,
+            content: (
+              <LayoutsSkyMapAccordion handleChange={handleChangeLayoutStyle} />
+            ),
           },
           {
             title: "Change the size",

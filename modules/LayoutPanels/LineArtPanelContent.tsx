@@ -4,25 +4,28 @@ import { Accordion } from "@/components/Accordion";
 import {
   IllustrationAccordion,
   ColorsAccordion,
-  StylesAccordion,
+  LayoutsAccordion,
   TextsAccordion,
   SizeAccordion,
+  FontsAccordion,
 } from "./settings";
 
 interface LineArtPanelContentInterface {
   handleSelectFigure: (id: number) => void;
-  handleArtworkColor: (id: number) => void;
-  handleArtworkTheme: (id: number) => void;
+  handleChangeLayoutColor: (id: number) => void;
+  handleChangeLayoutStyle: (id: number) => void;
   handleSelectSize: (id: number) => void;
   handleSelectOrientations: (id: number) => void;
+  handleChangeFont: (id: number) => void;
 }
 
 export const LineArtPanelContent = ({
   handleSelectFigure,
-  handleArtworkColor,
-  handleArtworkTheme,
+  handleChangeLayoutColor,
+  handleChangeLayoutStyle,
   handleSelectSize,
   handleSelectOrientations,
+  handleChangeFont,
 }: LineArtPanelContentInterface) => {
   return (
     <Accordion
@@ -33,11 +36,15 @@ export const LineArtPanelContent = ({
         },
         {
           title: "Customize the colors",
-          content: <ColorsAccordion handleChange={handleArtworkColor} />,
+          content: <ColorsAccordion handleChange={handleChangeLayoutColor} />,
         },
         {
           title: "Customize the style",
-          content: <StylesAccordion handleChange={handleArtworkTheme} />,
+          content: <LayoutsAccordion handleChange={handleChangeLayoutStyle} />,
+        },
+        {
+          title: "Customize the font",
+          content: <FontsAccordion handleChange={handleChangeFont} />,
         },
         {
           title: "Customize the text",

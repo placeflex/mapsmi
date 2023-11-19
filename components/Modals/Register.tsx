@@ -16,6 +16,9 @@ import { handleShowLoginModal, handleCloseModals } from "@/redux/modals";
 // apis
 import { api } from "@/axios";
 
+// helpers
+import { toast } from "react-toastify";
+
 export const Register = () => {
   const dispatch = useDispatch();
   const isOpen = useTypedSelector(({ modals }) => modals.registerModal);
@@ -49,9 +52,16 @@ export const Register = () => {
       setFormErrors(initialValues);
       await validationSchema.validate(values, { abortEarly: false });
 
-      await api.post("/register", values).then(data => {
-        console.log("DATA", data);
-      });
+      await api
+        .post("/register", values)
+        .then(data => {
+          toast.success(
+            "We have sent you a message to your new email address, please go to confirm."
+          );
+        })
+        .catch(({ response }) => {
+          toast.error(response.data.error);
+        });
 
       // Если валидация прошла успешно, данные можно отправить
     } catch (errors: any) {

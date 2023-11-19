@@ -68,11 +68,11 @@ export default async function handler(
             timestamp: new Date().toISOString(),
           };
 
-          res.status(200).json(response);
+          return res.status(200).json(response);
         }
       })
       .catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
           error: `An error occurred while searching for user:  ${err}`,
         });
       });
@@ -88,12 +88,14 @@ export default async function handler(
       if (user) {
         user.confirmedEmail = true;
         await user.save();
-        res.json({ message: `Email confirmation successful ${decoded}` });
+        return res.json({ message: `Email confirmation successful` });
       } else {
-        res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ error: "User not found" });
       }
     } else {
-      res.status(401).json({ error: "Invalid or expired confirmation token" });
+      return res
+        .status(401)
+        .json({ error: "Invalid or expired confirmation token" });
     }
   }
 }

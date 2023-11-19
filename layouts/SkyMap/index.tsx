@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { paletteArtwork } from "@/layouts/LayoutSettings/colorsList";
+import { basicColors } from "@/layouts/LayoutSettings/colorsList";
 
 // stores
 import { useTypedSelector } from "@/redux/store";
@@ -26,9 +26,9 @@ export const SkyMap = () => {
   const FONT = "var(--font-main)";
 
   const styles = {
-    stroke: paletteArtwork[Number(posterStyles?.palette)]?.textColor,
-    bg: paletteArtwork[Number(posterStyles?.palette)]?.bg,
-    ilstr: paletteArtwork[Number(posterStyles?.palette)]?.illustrationColor,
+    stroke: basicColors[Number(posterStyles?.color)]?.textColor,
+    bg: basicColors[Number(posterStyles?.color)]?.bg,
+    ilstr: basicColors[Number(posterStyles?.color)]?.illustrationColor,
   };
 
   const config = {
@@ -154,7 +154,7 @@ export const SkyMap = () => {
   }, [posterStyles, config]);
 
   useEffect(() => {
-    if (cls) {
+    if (cls && JSON.stringify(currentPosterLocation) !== "{}") {
       cls.skyview({
         location: [
           currentPosterLocation?.center[1],

@@ -8,3 +8,9 @@ export const productsVariations: productsVariationsInterface = {
   2: "map-storage",
   3: "profile-storage",
 };
+
+export const productNames: productsVariationsInterface = {
+  0: "LineArt",
+  1: "Skymap",
+  2: "Custom Map",
+};

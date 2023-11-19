@@ -13,7 +13,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     await connectDB();
-    const { email, password, username, name } = req.body;
+    const { email, password, name } = req.body;
 
     User.findOne({ email })
       .then(async user => {
@@ -41,7 +41,7 @@ export default async function handler(
         }
       })
       .catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
           error: `An error occurred while searching for user:  ${err}`,
         });
       });
