@@ -41,7 +41,7 @@ export default async function handler(
             if (update) {
               const projects = user.projects;
 
-              const params = {
+              const params: any = {
                 Bucket: "splashplaces",
                 Key: prjectData.uuid,
                 Body: picturePath,
@@ -77,14 +77,14 @@ export default async function handler(
               //   (project: { uuid: string }) => project.uuid == prjectData.uuid
               // );
             } else {
-              const params = {
+              const params: any = {
                 Bucket: "splashplaces",
                 Key: `${id}`,
                 Body: picturePath,
                 ContentType: "image/png",
               };
 
-              s3.upload(params, async (err, data) => {
+              s3.upload(params, async (err: any, data: { Location: any }) => {
                 if (err) {
                   return res
                     .status(200)
