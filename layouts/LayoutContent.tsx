@@ -1,3 +1,4 @@
+// import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
 interface Texts {
   heading?: string;
   subline?: string;
@@ -7,18 +8,22 @@ interface Texts {
 
 interface LineArtProps {
   className?: string;
-  theme: string;
+  layoutStyle: string;
   figure: React.ReactNode | string;
   styles?: Object;
   texts?: Texts;
+  font?: any;
 }
 
 // styles
 import "./globalLayoutStyles.scss";
 
+// import { useTypedSelector } from "@/redux/store";
+
 export const LayoutContent = ({
   className = "",
-  theme = "minimalist",
+  layoutStyle = "minimalist",
+  font,
   figure,
   styles,
   texts,
@@ -27,7 +32,7 @@ export const LayoutContent = ({
     !texts?.heading && !texts?.subline && !texts?.divider && !texts?.tagline;
   return (
     <div
-      className={`artwork relative flex ${className} ${theme}`}
+      className={`artwork relative flex ${className} ${layoutStyle}`}
       style={styles}
     >
       <div className="border artwork-wrapper relative">

@@ -11,7 +11,11 @@ const nextConfig = {
   },
 
   images: {
-    domains: ["www.mapiful.com"],
+    domains: [
+      "www.mapiful.com",
+      "splashplaces.s3.us-west-2.amazonaws.com",
+      "splashplaces.s3.amazonaws.com",
+    ],
   },
 };
 

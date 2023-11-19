@@ -13,6 +13,9 @@ import { OurPosters } from "@/modules/Home/OurPosters";
 // apis
 import { api } from "@/axios";
 
+// helpers
+import { toast } from "react-toastify";
+
 export default function Home() {
   const router = useRouter();
 
@@ -20,11 +23,12 @@ export default function Home() {
     if (router.query.confirmToken) {
       api
         .get(`/register?confirmToken=${router.query.confirmToken}`)
-        .then(res => {
+        .then(({ data }) => {
           router.push("/");
+          toast.success(data.message);
         })
-        .catch(err => {
-          console.log(`confirmToken ${err}`);
+        .catch(({ response }) => {
+          toast.error(response.data.error);
         });
     }
   }, [router.query]);

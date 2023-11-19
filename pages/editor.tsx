@@ -15,9 +15,15 @@ import { MapContainer } from "@/layouts/Map";
 
 // lineart settings ( panel )
 import { svgList } from "@/layouts/LayoutSettings/iconsList";
-import { paletteArtwork } from "@/layouts/LayoutSettings/colorsList";
-import { artworkTheme as themes } from "@/layouts/LayoutSettings/artworkStylesList";
+import { basicColors } from "@/layouts/LayoutSettings/colorsList";
+import {
+  basicLayoutStyles,
+  mapLayoutStyles,
+  skyMapLayoutStyles,
+} from "@/layouts/LayoutSettings/artworkStylesList";
 import { sizes, orientations } from "@/layouts/LayoutAttributes";
+import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
+import { mapColors } from "@/layouts/LayoutSettings/mapColors";
 
 // panels
 import { SkyMapPanelContent } from "@/modules/LayoutPanels/SkyMapPanelContent";
@@ -49,23 +55,6 @@ export default function Editor() {
   const isUserLogged = useTypedSelector(({ user }) => user.loggedIn);
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
-  // const posterStyles = useTypedSelector(
-  //   ({ layout }) => layout?.layout.poster?.styles
-  // );
-
-  // const posterAttributes = useTypedSelector(
-  //   ({ layout }) => layout?.layout.selectedAttributes
-  // );
-  // const posterLabels = useTypedSelector(
-  //   ({ layout }) => layout?.layout.poster?.labels
-  // );
-
-  // const editingProfileProject = useTypedSelector(
-  //   ({ layout }) => layout?.layout.editingProfileProject
-  // );
-
-  // const productId = useTypedSelector(({ layout }) => layout?.layout.productId);
-
   const dispatch: AppDispatch = useDispatch();
 
   const handleSelectFigure = async (id: number) => {
@@ -78,26 +67,63 @@ export default function Editor() {
     );
   };
 
-  const handleArtworkColor = (id: number) => {
-    const layoutColors = paletteArtwork.find(icon => icon.id === id);
+  const handleChangeLayoutColor = (id: number) => {
+    const layoutColors = basicColors.find(icon => icon.id === id);
 
     dispatch(
       handleChangeStyles({
-        style: "palette",
+        style: "color",
         id: layoutColors?.id,
       })
     );
   };
-  const handleArtworkTheme = (id: number | undefined) => {
-    const theme = themes.find(style => style.id === id);
+
+  const handleChangeLayoutStyle = (id: number) => {
+    const layoutStyle = basicLayoutStyles.find(style => style.id === id);
 
     dispatch(
       handleChangeStyles({
-        style: "theme",
-        id: theme?.id,
+        style: "layoutStyle",
+        id: layoutStyle?.id,
       })
     );
   };
+
+  const handleChangeLayoutMapStyle = (id: number) => {
+    const layoutStyle = mapLayoutStyles.find(style => style.id === id);
+
+    dispatch(
+      handleChangeStyles({
+        style: "layoutStyle",
+        id: layoutStyle?.id,
+      })
+    );
+  };
+
+  const handleChangeLayoutSkyMapStyle = (id: number) => {
+    const layoutStyle = skyMapLayoutStyles.find(style => style.id === id);
+
+    console.log("layoutStyle", layoutStyle);
+
+    dispatch(
+      handleChangeStyles({
+        style: "layoutStyle",
+        id: layoutStyle?.id,
+      })
+    );
+  };
+
+  const handleChangeFont = (id: number) => {
+    const layoutFont = fontsList.find(font => font.id === id);
+
+    dispatch(
+      handleChangeStyles({
+        style: "font",
+        id: layoutFont?.id,
+      })
+    );
+  };
+
   const handleSelectSize = (id: number) => {
     const size = sizes.find(style => style.id === id);
     dispatch(handleChangeAttributes({ attr: "size", value: size }));
@@ -133,16 +159,27 @@ export default function Editor() {
 
   const styles = {
     "--text-color":
-      paletteArtwork[Number(layout.poster?.styles?.palette)]?.textColor,
-    "--bg-color": paletteArtwork[Number(layout.poster?.styles?.palette)]?.bg,
+      basicColors[Number(layout.poster?.styles?.color)]?.textColor,
+    "--bg-color": basicColors[Number(layout.poster?.styles?.color)]?.bg,
     "--illustration-color":
-      paletteArtwork[Number(layout.poster?.styles?.palette)]?.illustrationColor,
+      basicColors[Number(layout.poster?.styles?.color)]?.illustrationColor,
+    "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
+  };
+
+  const mapStyles = {
+    "--text-color": mapColors[Number(layout.poster?.styles?.color)]?.textColor,
+    "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
+    "--gradientColor":
+      mapColors[Number(layout.poster?.styles?.color)]?.gradientColor,
   };
 
   const editorUI = {
     0: (
       <LayoutContent
-        theme={themes[Number(layout.poster?.styles?.theme)]?.applyName}
+        layoutStyle={
+          basicLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
+            ?.applyName
+        }
         figure={svgList[Number(layout.poster?.styles?.artwork)]?.icon}
         styles={styles}
         texts={{
@@ -161,7 +198,10 @@ export default function Editor() {
     ),
     1: (
       <LayoutContent
-        theme={themes[Number(layout.poster?.styles?.theme)]?.applyName}
+        layoutStyle={
+          skyMapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
+            ?.applyName
+        }
         figure={<SkyMap />}
         styles={styles}
         texts={{
@@ -180,9 +220,11 @@ export default function Editor() {
     ),
     2: (
       <LayoutContent
-        theme={themes[Number(layout.poster?.styles?.theme)]?.applyName}
+        layoutStyle={
+          mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+        }
         figure={<MapContainer />}
-        styles={styles}
+        styles={mapStyles}
         texts={{
           heading: layout.poster?.labels?.heading,
           subline: layout.poster?.labels?.subline,
@@ -203,26 +245,29 @@ export default function Editor() {
     0: (
       <LineArtPanelContent
         handleSelectFigure={handleSelectFigure}
-        handleArtworkColor={handleArtworkColor}
-        handleArtworkTheme={handleArtworkTheme}
+        handleChangeLayoutColor={handleChangeLayoutColor}
+        handleChangeLayoutStyle={handleChangeLayoutStyle}
         handleSelectSize={handleSelectSize}
         handleSelectOrientations={handleSelectOrientations}
+        handleChangeFont={handleChangeFont}
       />
     ),
     1: (
       <SkyMapPanelContent
-        handleArtworkColor={handleArtworkColor}
-        handleArtworkTheme={handleArtworkTheme}
+        handleChangeLayoutColor={handleChangeLayoutColor}
+        handleChangeLayoutStyle={handleChangeLayoutSkyMapStyle}
         handleSelectSize={handleSelectSize}
         handleSelectOrientations={handleSelectOrientations}
+        handleChangeFont={handleChangeFont}
       />
     ),
     2: (
       <MapPanelContent
-        handleArtworkColor={handleArtworkColor}
+        handleChangeLayoutColor={handleChangeLayoutColor}
+        handleChangeLayoutStyle={handleChangeLayoutMapStyle}
         handleSelectSize={handleSelectSize}
         handleSelectOrientations={handleSelectOrientations}
-        handleArtworkTheme={handleArtworkTheme}
+        handleChangeFont={handleChangeFont}
       />
     ),
   };
@@ -257,9 +302,13 @@ export default function Editor() {
               Add To Cart
             </Button>
           </div>
-          <LayoutPreviewWrapper>
+          <LayoutPreviewWrapper
+            className={`${
+              fontsList[Number(layout.poster?.styles?.font)]?.font.variable
+            }`}
+          >
             {layout.productId == Number(product_id) &&
-              editorUI[layout.productId as keyof typeof panelUI]}
+              editorUI[layout.productId as keyof typeof editorUI]}
           </LayoutPreviewWrapper>
         </div>
       </PageLayout>

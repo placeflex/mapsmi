@@ -15,7 +15,11 @@ import { handleSaveUser, handleLogout } from "@/redux/user";
 // fonts
 import { main_font, dancing, alexbrush } from "@/constants/fonts";
 
+// helpers
+import { ToastContainer, toast } from "react-toastify";
+
 // styles
+import "react-toastify/dist/ReactToastify.css";
 import "@/styles/tailwind.css";
 import "@/styles/globals.scss";
 
@@ -45,10 +49,10 @@ function CustomApp({ Component, pageProps }: AppProps) {
           })
           .catch(({ response }) => {
             dispatch(handleLogout());
-            console.log("GET ME ERROR:", response.data.error);
+            toast.error(response?.data?.error);
           });
       } catch (error) {
-        console.log("GET ME ERROR:", error);
+        throw new Error(`GET ME ERROR: ${error}`);
       }
     }
   }, []);
@@ -63,12 +67,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <div
         className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans`}
       >
-        <Provider store={store}>
-          <Component {...pageProps} />
-          <ProductVariations />
-          <Register />
-          <Login />
-        </Provider>
+        <Component {...pageProps} />
+        <ProductVariations />
+        <Register />
+        <Login />
+        <ToastContainer />
       </div>
     </>
   );

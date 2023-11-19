@@ -15,6 +15,8 @@ interface PropsScale {
 }
 interface LayoutPreviewWrapperProps {
   children?: React.ReactNode;
+  className?: string;
+  render?: boolean;
 }
 
 const GAP_FOR_SMALL_POSTER = 180;
@@ -41,6 +43,8 @@ const handleGetPosterGap = (sizeId: number) => {
 
 export const LayoutPreviewWrapper = ({
   children,
+  className = "",
+  render,
 }: LayoutPreviewWrapperProps) => {
   const refLayoutWrapper = useRef<HTMLDivElement>(null);
   const refArtworkWrapper = useRef<HTMLDivElement>(null);
@@ -223,13 +227,20 @@ export const LayoutPreviewWrapper = ({
   // }, [posterOrientationId,posterSizeId]);
 
   return (
-    <div className={`poster ${styles.posterWrapper}`} ref={refLayoutWrapper}>
+    <div
+      className={`poster ${styles.posterWrapper} ${
+        render ? styles.render : ""
+      } ${className}`}
+      ref={refLayoutWrapper}
+    >
       <div
-        className={`${styles.artwork}`}
+        className={`${styles.artwork} art`}
         style={{
           width: `${artworkStyles?.width}px`,
           height: `${artworkStyles?.height}px`,
-          transform: `translate(-50%, -50%) scale(${artworkStyles?.scale})`,
+          transform: render
+            ? `scale(${artworkStyles?.scale})`
+            : `translate(-50%, -50%) scale(${artworkStyles?.scale})`,
         }}
         ref={refArtworkWrapper}
       >

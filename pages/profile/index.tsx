@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 // components
 import PrivateRoute from "@/components/PrivateRoute";
+import { ProfileLayout } from "@/modules/Profile/ProfileLayout";
 import { Layout as PageLayout } from "@/components/Layout";
 import { Container } from "@/components/Container";
 
@@ -27,65 +28,23 @@ const UserProfile = () => {
     router.push("/");
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      try {
-        api
-          .get("/me")
-          .then(user => {
-            dispatch(handleSaveUser(user));
-          })
-          .catch(({ response }) => {
-            handleLogoutUser();
-            console.log("GET ME ERROR:", response.data.error);
-          });
-      } catch (error) {
-        console.log("GET ME ERROR:", error);
-      }
-    } else {
-      handleLogoutUser();
-    }
-  }, []);
-
   return (
     <PrivateRoute>
       <PageLayout>
         <Container>
-          <div>
-            <h1>USER PROFILE</h1>
-            <h1>EMAIL: {user.email}</h1>
-            <h2>NAME: {user.name}</h2>
-
+          <ProfileLayout>
             <div>
-              <h3>PROJECTS</h3>
+              <h1>USER PROFILE</h1>
+              <h1>EMAIL: {user.email}</h1>
+              <h2>NAME: {user.name}</h2>
 
-              <div className="flex bg-wine w-1/5">
-                {user?.projects?.map((project, index) => {
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        router.push({
-                          pathname: "/editor",
-                          query: {
-                            product_id: project.productId,
-                            id: project.uuid,
-                          },
-                        });
-                      }}
-                    >
-                      <h5>date: {project.date}</h5>
-                      <b>id: {project.uuid}</b>
-                    </div>
-                  );
-                })}
+              <div>
+                <h3>PROJECTS</h3>
               </div>
-            </div>
 
-            <button onClick={handleLogoutUser}>LOGOUT</button>
-          </div>
+              <button onClick={handleLogoutUser}>LOGOUT</button>
+            </div>
+          </ProfileLayout>
         </Container>
       </PageLayout>
     </PrivateRoute>

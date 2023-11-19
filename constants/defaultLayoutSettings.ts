@@ -3,9 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 
 // dependencies
 import { svgList } from "@/layouts/LayoutSettings/iconsList";
-import { paletteArtwork } from "@/layouts/LayoutSettings/colorsList";
-import { artworkTheme } from "@/layouts/LayoutSettings/artworkStylesList";
+import { basicColors } from "@/layouts/LayoutSettings/colorsList";
+import { basicLayoutStyles } from "@/layouts/LayoutSettings/artworkStylesList";
 import { sizes, orientations } from "@/layouts/LayoutAttributes";
+import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
 
 export const defaultLineArtSettings = {
   poster: {
@@ -17,8 +18,9 @@ export const defaultLineArtSettings = {
     },
     styles: {
       artwork: svgList[0].id,
-      palette: paletteArtwork[0].id,
-      theme: artworkTheme[0],
+      color: basicColors[0].id,
+      layoutStyle: basicLayoutStyles[0],
+      font: fontsList[0].id,
     },
   },
   selectedAttributes: {

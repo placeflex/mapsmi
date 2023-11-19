@@ -7,8 +7,9 @@ import {
 
 export interface PosterStyles {
   artwork?: number;
-  palette?: number;
-  theme?: ArtworkStyleInterface;
+  color?: number;
+  layoutStyle?: ArtworkStyleInterface;
+  font?: any;
 }
 
 export interface PosterLables {

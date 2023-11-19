@@ -16,8 +16,18 @@
     left: 50%;
     overflow: hidden;
   }
+}
 
-  // h1 {
-  //   font-size: 20em;
+.render {
+  height: 100vh !important;
+
+  .artwork {
+    top: 0 !important;
+    left: 0 !important;
+    transform-origin: 0 0 !important;
+  }
+  // & > div {
+  //   transform: translate(0) !important;
+  //   position: static !important;
   // }
 }

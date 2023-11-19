@@ -1,5 +1,6 @@
 .artwork {
   height: 100%;
+  font-family: var(--font-poster);
 
   .border,
   .artworkFigure {
@@ -41,7 +42,7 @@
 
 .artwork {
   .border {
-    border: 20em solid #fff;
+    border: 15em solid var(--white);
   }
 
   .artwork-wrapper {
@@ -68,11 +69,13 @@
 
   .labels {
     text-align: center;
-    bottom: 0;
     width: 100%;
-    left: 0;
-    right: 0;
     padding: 0 40em 40em 40em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 
     h1.headline {
       font-size: 35em;
@@ -83,7 +86,7 @@
     }
 
     span {
-      font-size: 15em;
+      font-size: 20em;
       display: inline-block;
       color: var(--text-color);
       line-height: 1;
@@ -91,14 +94,14 @@
     }
 
     h2.tagline {
-      font-size: 15em;
+      font-size: 20em;
       color: var(--text-color);
       line-height: 1;
       overflow-wrap: anywhere;
     }
 
     h3.subline {
-      font-size: 15em;
+      font-size: 20em;
       color: var(--text-color);
       line-height: 1;
       overflow-wrap: anywhere;
@@ -112,43 +115,39 @@
   }
 
   &.script {
-    font-family: var(--font-dancing);
+    // h1.headline {
+    //   font-size: 55em;
+    // }
+    // span {
+    //   font-size: 20em;
+    // }
 
-    h1.headline {
-      font-size: 55em;
-    }
-    span {
-      font-size: 20em;
-    }
+    // h2.tagline {
+    //   font-size: 20em;
+    // }
 
-    h2.tagline {
-      font-size: 20em;
-    }
-
-    h3.subline {
-      font-size: 20em;
-    }
+    // h3.subline {
+    //   font-size: 20em;
+    // }
   }
 
   &.brush {
-    font-family: var(--font-brush);
+    // h1.headline {
+    //   font-size: 55em;
+    //   padding-bottom: 0;
+    // }
 
-    h1.headline {
-      font-size: 55em;
-      padding-bottom: 0;
-    }
+    // span {
+    //   font-size: 25em;
+    // }
 
-    span {
-      font-size: 25em;
-    }
+    // h2.tagline {
+    //   font-size: 25em;
+    // }
 
-    h2.tagline {
-      font-size: 25em;
-    }
-
-    h3.subline {
-      font-size: 25em;
-    }
+    // h3.subline {
+    //   font-size: 25em;
+    // }
   }
 
   &.boxed {
@@ -202,7 +201,6 @@
       padding: 30em 0 0 0;
 
       h1.headline {
-        font-size: 20em;
         color: #000;
       }
 
@@ -223,8 +221,6 @@
   &.quoteSharp,
   &.quoteBrush,
   &.quoteScript {
-    font-family: var(--font-dancing);
-
     .artworkFigure {
       align-items: center;
 
@@ -261,15 +257,12 @@
   }
 
   &.quoteBrush {
-    font-family: var(--font-brush);
   }
 
   &.quoteSharp {
-    font-family: var(--font-main);
-
-    * {
-      font-weight: 600 !important;
-    }
+    // * {
+    //   font-weight: 600 !important;
+    // }
   }
 
   &.skymap {
@@ -282,9 +275,18 @@
     //   padding: 0;
     // }
 
-    .labels {
-      position: static;
-      transform: translate(0);
+    // .labels {
+    //   position: static;
+    //   transform: translate(0);
+    // }
+
+    &.quoteScript {
+      .labels {
+        position: static;
+        align-items: flex-end;
+        transform: translate(0);
+        padding-bottom: 40em;
+      }
     }
   }
 
@@ -317,6 +319,7 @@
     .border {
       background: transparent !important;
       border-width: 0;
+      // border: 15em solid var(--white);
     }
 
     .labels {
@@ -326,11 +329,12 @@
       width: calc(100% + 2px);
       bottom: -1px;
       left: -1px;
-      background: linear-gradient(
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.85) 45.51%,
-        rgba(255, 255, 255, 0.97) 100%
-      );
+      background: var(--gradientColor);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
 
       *:last-child {
         margin-bottom: 0;
