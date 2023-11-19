@@ -141,7 +141,7 @@ export default function Editor() {
         <LayoutPreviewWrapper
           className={`${
             fontsList[Number(layout.poster?.styles?.font)]?.font.variable
-          }`}
+          } render`}
           render
         >
           {layout.productId == Number(product_id) &&

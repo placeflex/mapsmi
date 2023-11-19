@@ -4,7 +4,7 @@ export const handleScreen = async (project: any) => {
   console.log("SCREEN START", 1);
 
   const browser = await puppeteer.launch({
-    headless: "new",
+    headless: true,
     args: [
       "--use-angle=gl-egl",
       "--no-sandbox",
@@ -16,6 +16,7 @@ export const handleScreen = async (project: any) => {
       "--enable-features=VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization",
       "--run-all-compositor-stages-before-draw",
       "--disable-setuid-sandbox",
+      "--enable-webgl",
     ],
   });
 
@@ -27,7 +28,8 @@ export const handleScreen = async (project: any) => {
   console.log("SCREEN START", 3);
 
   await page.goto(
-    `${process.env.NEXT_PUBLIC_BASE_URL_FRONTED}/render?product_id=${project.productId}`
+    `${process.env.NEXT_PUBLIC_BASE_URL_FRONTED}/render?product_id=${project.productId}`,
+    { waitUntil: "networkidle0" }
   );
 
   console.log("SCREEN START", 4);
@@ -40,8 +42,8 @@ export const handleScreen = async (project: any) => {
 
   const viewportDimensions = await page.evaluate(() => {
     return {
-      width: 2240,
-      height: 1660,
+      width: 2000,
+      height: 2000,
     };
   });
 
@@ -71,27 +73,22 @@ export const handleScreen = async (project: any) => {
   console.log("SCREEN START", 11);
 
   // Получаем обработчик элемента
-  const elementHandle = await page.$(".art");
+  const elementHandle: any = await page.$(".art");
 
   console.log("SCREEN START", 12);
 
   if (elementHandle) {
-    // const screenshotPath = "./screenshot.png";
-    // await elementHandle.screenshot({ path: "screenshot.png" });
-
     console.log("SCREEN START", 13);
 
-    // const box = await elementHandle.boundingBox();
+    const box = await elementHandle.boundingBox();
 
     // await page.pdf({
     //   width: box.width,
     //   height: box.height,
-    //   scale: 1,
-    //   preferCSSPageSize: false,
+    //   preferCSSPageSize: true,
     //   printBackground: true,
-    //   margin: { top: 0, right: 0, bottom: 0, left: 0 },
-    //   pageRanges: "1",
-    //   path: "output.pdf", // Путь к файлу PDF
+    //   timeout: 1000,
+    //   path: "output.pdf",
     // });
 
     return new Promise((res, rej) => {
