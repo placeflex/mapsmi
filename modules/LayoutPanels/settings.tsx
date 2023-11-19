@@ -398,7 +398,7 @@ export const LocationAccrodion = () => {
         You can search, drag/drop and zoom on the map to get the exact position
         you want on your poster.
       </p>
-      <div className="mb-4">
+      <div>
         <AutoComplete
           options={locations}
           placeholder="Search for a location, street or landmark"
@@ -412,7 +412,7 @@ export const LocationAccrodion = () => {
       </div>
 
       {productId == 1 && (
-        <div>
+        <div className="mt-4">
           <DatePickerComponent
             label="PICK YOUR SPECIAL MOMENT"
             onChange={onChangeDatePicker}
