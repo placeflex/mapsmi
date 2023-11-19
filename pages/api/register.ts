@@ -19,7 +19,7 @@ export default async function handler(
     const { email, name, surname, password, confirmPassword, ...rest } =
       req.body;
     const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:3000";
+      process.env.NEXT_PUBLIC_BASE_URL_API || "https://localhost:3000";
 
     User.findOne({ email })
       .then(async user => {

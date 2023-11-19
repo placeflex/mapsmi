@@ -27,7 +27,7 @@ export const handleScreen = async (project: any) => {
   console.log("SCREEN START", 3);
 
   await page.goto(
-    `http://localhost:3000/render?product_id=${project.productId}`
+    `${process.env.NEXT_PUBLIC_BASE_URL_FRONTED}/render?product_id=${project.productId}`
   );
 
   console.log("SCREEN START", 4);
