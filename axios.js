@@ -21,8 +21,12 @@ api.interceptors.response.use(
   response => {
     return response.data;
   },
-  ({ response }) => {
-    toast.error(response.data.error);
-    return Promise.reject(error);
+  error => {
+    // if (response == "TOKEN EXPIRED") {
+    //   toast.error(response.data.error);
+    //   return Promise.reject(error);
+    // }
+
+    return Promise.reject(error.response.data);
   }
 );

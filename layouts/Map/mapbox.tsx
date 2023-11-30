@@ -1,4 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import mapboxgl from "mapbox-gl";
+
+import React, { useState } from "react";
+import Map, { Source, Layer } from "react-map-gl";
 
 // settings
 import { mapColors } from "@/layouts/LayoutSettings/mapColors";
@@ -111,7 +115,7 @@ export const MapContainer = () => {
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      {/* <Map
+      <Map
         {...viewport}
         mapboxAccessToken="pk.eyJ1IjoicGxhY2VmbGV4IiwiYSI6ImNsbnltZDZrbjBzMnIyanFrOXpqbmR4Y20ifQ.rIHgECYOkgtU3yugLFHcLQ"
         onMove={evt => setViewport(evt.viewState)}
@@ -132,7 +136,7 @@ export const MapContainer = () => {
             source="raster-tiles-source"
           />
         </Source>
-      </Map> */}
+      </Map>
     </div>
   );
 };

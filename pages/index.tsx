@@ -10,6 +10,10 @@ import { Banner } from "@/modules/Home/Banner";
 import { Products } from "@/modules/Home/Products";
 import { OurPosters } from "@/modules/Home/OurPosters";
 
+// stores
+import { useDispatch } from "react-redux";
+import { handleShowResetPasswordModal } from "@/redux/modals";
+
 // apis
 import { api } from "@/axios";
 
@@ -18,18 +22,23 @@ import { toast } from "react-toastify";
 
 export default function Home() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (router.query.confirmToken) {
       api
-        .get(`/register?confirmToken=${router.query.confirmToken}`)
-        .then(({ data }) => {
+        .get(`auth/register?confirmToken=${router.query.confirmToken}`)
+        .then(({ message }: any) => {
           router.push("/");
-          toast.success(data.message);
+          toast.success(message);
         })
-        .catch(({ response }) => {
-          toast.error(response.data.error);
+        .catch(({ error }) => {
+          toast.error(error);
         });
+    }
+
+    if (router.query.resetPasswordToken) {
+      dispatch(handleShowResetPasswordModal());
     }
   }, [router.query]);
 

@@ -4,6 +4,8 @@ const initialState = {
   productModal: false,
   registerModal: false,
   loginModal: false,
+  forgotPassword: false,
+  resetPassword: false,
 };
 
 const modals = createSlice({
@@ -19,11 +21,19 @@ const modals = createSlice({
     handleShowLoginModal(state) {
       state.loginModal = true;
     },
+    handleShowForgorPasswordModal(state) {
+      state.forgotPassword = true;
+    },
+    handleShowResetPasswordModal(state) {
+      state.resetPassword = true;
+    },
 
     handleCloseModals(state) {
       state.productModal = false;
       state.registerModal = false;
       state.loginModal = false;
+      state.forgotPassword = false;
+      state.resetPassword = false;
     },
   },
 });
@@ -33,6 +43,8 @@ export const {
   handleShowRegisterModal,
   handleShowLoginModal,
   handleCloseModals,
+  handleShowForgorPasswordModal,
+  handleShowResetPasswordModal,
 } = modals.actions;
 
 export default modals.reducer;

@@ -8,8 +8,10 @@ import { profileRoutes as routes } from "@/constants/routers";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector, AppDispatch } from "@/redux/store";
 import { handleLogout, handleSaveUser } from "@/redux/user";
+
+// components
+import { SearchSelect } from "@/components/SearchSelect";
 
 // apis
 import { api } from "@/axios";
@@ -41,10 +43,9 @@ export const ProfileLayout = ({ children }: any) => {
           .then(user => {
             dispatch(handleSaveUser(user));
           })
-          .catch(({ response }) => {
+          .catch(({ error }) => {
             handleLogoutUser();
-            toast.error(response?.data?.error);
-            // console.log("GET ME ERROR:", response.data.error);
+            toast.error(error);
           });
       } catch (error) {
         console.log("GET ME ERROR:", error);
@@ -54,18 +55,70 @@ export const ProfileLayout = ({ children }: any) => {
     }
   }, []);
 
+  const items = [
+    ...profileRoutes.map(({ route, title }, index) => {
+      return {
+        key: index,
+        label: (
+          <Link href={route} key={index} legacyBehavior>
+            <a
+              className={`${
+                router.pathname === route ? "selected" : ""
+              } w-full flex items-center py-2 `}
+            >
+              {title}
+            </a>
+          </Link>
+        ),
+      };
+    }),
+    {
+      key: "logout",
+      label: (
+        <button
+          onClick={handleLogoutUser}
+          className="text-error py-2 w-full text-left"
+          type="button"
+        >
+          Sign Out
+        </button>
+      ),
+    },
+  ];
+
+  const currentRoute = profileRoutes.find(
+    route => route.route === router.pathname
+  );
+
   return (
-    <div className="flex px-4 py-10 max-w-7xl mx-auto">
-      <div className="flex flex-col min-w-[250px]">
+    <div className="flex-col py-4 max-w-7xl mx-auto md:flex md:flex-row md:py-10">
+      <SearchSelect
+        options={items}
+        className="w-full mb-5 md:hidden"
+        value={currentRoute?.title}
+      />
+      <div className="hidden flex-col justify-start min-w-[80px] items-start mr-10 md:flex">
         {profileRoutes.map(({ route, title }, index) => {
           return (
             <Link href={route} key={index} legacyBehavior>
-              <a className={router.pathname === route ? "font-bold" : ""}>
+              <a
+                className={`${
+                  router.pathname === route ? "text-wine" : ""
+                } mb-2 text-xs`}
+              >
                 {title}
               </a>
             </Link>
           );
         })}
+
+        <button
+          onClick={handleLogoutUser}
+          className="mt-8 text-error text-xs"
+          type="button"
+        >
+          Sign Out
+        </button>
       </div>
       <div className="flex-grow">{children}</div>
     </div>

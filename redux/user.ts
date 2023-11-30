@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 
 export interface UserFieldsProps {
   email: string;
-  token: string;
   name: string;
   projects: Project[];
 }
@@ -33,7 +32,6 @@ export interface UserStateProps {
 
 const initialUserFields = {
   email: "",
-  token: "",
   name: "",
   projects: [],
 };
@@ -48,13 +46,14 @@ const user = createSlice({
   initialState,
   reducers: {
     handleSaveUser(state, action) {
-      console.log("HANDLESAVE");
-
-      state.user = action.payload;
+      const { token, ...userPayload } = action.payload;
+      state.user = {
+        ...state.user,
+        ...userPayload,
+      };
       state.loggedIn = true;
-
-      if (action.payload.token) {
-        setToken(action.payload.token);
+      if (token) {
+        setToken(token);
       }
     },
 
@@ -64,35 +63,14 @@ const user = createSlice({
       deleteToken();
     },
 
-    // handleGetMe(state, action) {
-    //   api
-    //     .get("/me")
-    //     .then((user: any) => {
-    //       state.user = user;
-    //       state.loggedIn = true;
-    //       if (action.payload.token) {
-    //         setToken(action.payload.token);
-    //       }
-    //     })
-    //     .catch(({ response }) => {
-    //       state.user = initialUserFields;
-    //       state.loggedIn = false;
-    //       deleteToken();
-    //       toast.error(response?.data?.error);
-    //     });
-    // },
-
-    handleSaveProjectInAccount(state, action) {
-      const project = action.payload.update
-        ? localStorage.getItem(productsVariations[3])
-        : localStorage.getItem(productsVariations[action.payload.id]);
+    handleSaveProject(state, action) {
+      const project = localStorage.getItem(
+        productsVariations[action.payload.id]
+      );
 
       if (project) {
         const request = api
-          .post("/save-project", {
-            prjectData: JSON.parse(project),
-            update: action.payload.update,
-          })
+          .post("/project", JSON.parse(project))
           .then((data: any) => {
             toast.success(data.message);
           })
@@ -101,16 +79,54 @@ const user = createSlice({
           });
 
         toast.promise(request, {
-          pending: "Processing !",
+          pending: "Projects is saving in account. Please wait few seconds.",
         });
       }
+    },
+
+    handleUpdateProject(state, action) {
+      const project = localStorage.getItem(productsVariations[3]);
+
+      if (project) {
+        const request = api
+          .patch("/project", JSON.parse(project))
+          .then((data: any) => {
+            toast.success(data.message);
+          })
+          .catch(({ response }) => {
+            toast.error(response.data.error);
+          });
+
+        toast.promise(request, {
+          pending: "Project is updating! Please wait few seconds.",
+        });
+      }
+    },
+
+    handleDeleteProject(state, action) {
+      const request = api
+        .delete(`/project?id=${action.payload.id}`)
+        .then((data: any) => {
+          toast.success(data.message);
+          action.payload.callback && action.payload.callback();
+        })
+        .catch(({ response }) => {
+          toast.error(response.data.error);
+        });
+
+      toast.promise(request, {
+        pending: "Project is deleting! Please wait few seconds.",
+      });
     },
   },
 });
 
-export const { handleSaveUser, handleLogout, handleSaveProjectInAccount } =
-  user.actions;
-
-const extra = handleSaveUser;
+export const {
+  handleSaveUser,
+  handleLogout,
+  handleSaveProject,
+  handleUpdateProject,
+  handleDeleteProject,
+} = user.actions;
 
 export default user.reducer;

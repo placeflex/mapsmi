@@ -3,12 +3,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import bcrypt from "bcryptjs";
 
-import { generateToken } from "./helpers/tokens";
-import { verifyToken } from "./helpers/tokens";
-import { transporter } from "./helpers/mailer";
+import { generateToken } from "../helpers/tokens";
+import { verifyToken } from "../helpers/tokens";
+import { transporter } from "../helpers/mailer";
 
 // schemes
-import User from "./models/user";
+import User from "../models/user";
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,8 +18,9 @@ export default async function handler(
     await connectDB();
     const { email, name, surname, password, confirmPassword, ...rest } =
       req.body;
+
     const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL_API || "https://localhost:3000";
+      process.env.NEXT_PUBLIC_BASE_URL_FRONTEND || "https://localhost:3000";
 
     User.findOne({ email })
       .then(async user => {
@@ -28,17 +29,16 @@ export default async function handler(
         } else {
           const hashPassword = await bcrypt.hash(password, 10);
 
-          await User.create({
+          const u = await User.create({
             name,
             email,
+            surname,
             password: hashPassword,
             confirmedEmail: false,
           });
 
           const token = await generateToken({
-            name,
             email,
-            password,
           });
 
           const mailOptions = {
@@ -54,16 +54,12 @@ export default async function handler(
                 .status(500)
                 .json({ error: "Email confirmation failed" });
             }
-
-            res.json({
-              message:
-                "Registration successful. Please check your email for confirmation.",
-            });
           });
 
           const response = {
             status: "success",
-            message: "User Created. Thanks.",
+            message:
+              "Registration successful. Please check your email for confirmation.",
             data: { email, name, surname, token },
             timestamp: new Date().toISOString(),
           };
@@ -84,12 +80,19 @@ export default async function handler(
     const decoded = verifyToken(String(token));
 
     if (decoded && typeof decoded === "object") {
-      const user = await User.findOne({ email: decoded.email });
-      if (user) {
-        user.confirmedEmail = true;
-        await user.save();
-        return res.json({ message: `Email confirmation successful` });
-      } else {
+      try {
+        await User.findOne({ email: decoded.email }).then(async user => {
+          if (user) {
+            user.confirmedEmail = true;
+            await user.save();
+            return res
+              .status(200)
+              .json({ message: `Email confirmation successful` });
+          } else {
+            return res.status(404).json({ error: "User not found" });
+          }
+        });
+      } catch {
         return res.status(404).json({ error: "User not found" });
       }
     } else {

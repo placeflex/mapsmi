@@ -6,18 +6,27 @@ const userScheme = new Schema(
     email: {
       type: String,
       required: true,
+      default: "",
     },
     name: {
       type: String,
       required: true,
+      default: "",
+    },
+    surname: {
+      type: String,
+      required: true,
+      default: "",
     },
     password: {
       type: String,
       required: true,
+      default: "",
     },
     confirmedEmail: {
       type: Boolean,
       required: false,
+      default: false,
     },
     projects: {
       type: Array,

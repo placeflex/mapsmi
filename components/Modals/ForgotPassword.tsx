@@ -2,7 +2,7 @@
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // components
 import { Button } from "@/components/Button";
@@ -12,12 +12,7 @@ import { Input } from "@/components/Input";
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "@/redux/store";
-import {
-  handleShowRegisterModal,
-  handleCloseModals,
-  handleShowForgorPasswordModal,
-} from "@/redux/modals";
-import { handleSaveUser } from "@/redux/user";
+import { handleCloseModals } from "@/redux/modals";
 
 // helpers
 import { toast } from "react-toastify";
@@ -25,13 +20,12 @@ import { toast } from "react-toastify";
 // apis
 import { api } from "@/axios";
 
-export const Login = () => {
+export const ForgotPassword = () => {
   const dispatch = useDispatch();
-  const isOpen = useTypedSelector(({ modals }) => modals.loginModal);
+  const isOpen = useTypedSelector(({ modals }) => modals.forgotPassword);
 
   const initialValues = {
     email: "",
-    password: "",
   };
 
   const [formErrors, setFormErrors] = useState(initialValues);
@@ -41,7 +35,6 @@ export const Login = () => {
       .string()
       .email("Введите правильный адрес электронной почты")
       .required("Email обязателен"),
-    password: yup.string().required("Пароль обязателен"),
   });
 
   const handleSubmit = async (values: typeof initialValues) => {
@@ -50,10 +43,10 @@ export const Login = () => {
       await validationSchema.validate(values, { abortEarly: false });
 
       await api
-        .post("auth/login", values)
-        .then(({ data }) => {
-          dispatch(handleSaveUser(data));
+        .post("auth/send-reset-password-email", values)
+        .then(({ message }: any) => {
           dispatch(handleCloseModals());
+          toast.success(message);
         })
         .catch(({ error }) => {
           toast.error(error);
@@ -67,10 +60,20 @@ export const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (!isOpen) {
+      setFormErrors(initialValues);
+    }
+  }, [isOpen]);
+
   return (
     <ModalContent isModalOpen={isOpen} bgClose>
       <div className="py-5 px-5">
-        <h3 className="mb-5 text-center font-bold text-2xl">Login</h3>
+        <h3 className="mb-2 text-center font-bold text-2xl">Forgot Password</h3>
+        <p className="text-xs text-center mb-5">
+          Password reset instructions will be sent to <br /> your registered
+          email address.
+        </p>
         <div className="rounded-md sm:w-[520px] ">
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             <Form className="w-full flex flex-wrap gap-[10px]">
@@ -86,50 +89,11 @@ export const Login = () => {
                 )}
               </div>
 
-              <div className="w-full">
-                <Field
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  as={Input}
-                />
-                {formErrors.password && (
-                  <div className="text-error text-xs">
-                    {formErrors.password}
-                  </div>
-                )}
-              </div>
-
               <Button classNames="mt-2 flex mx-auto" type="submit">
-                Login
+                Next
               </Button>
             </Form>
           </Formik>
-
-          <div className="flex items-center justify-between mt-4">
-            <span
-              className="text-xs text-button underline cursor-pointer hover:no-underline"
-              onClick={() => {
-                dispatch(handleCloseModals());
-                dispatch(handleShowForgorPasswordModal());
-              }}
-            >
-              Forgot Password?
-            </span>
-
-            <span className="text-xs">
-              Don't have an account?{" "}
-              <span
-                className="text-button underline cursor-pointer hover:no-underline"
-                onClick={() => {
-                  dispatch(handleCloseModals());
-                  dispatch(handleShowRegisterModal());
-                }}
-              >
-                Register
-              </span>
-            </span>
-          </div>
         </div>
       </div>
     </ModalContent>

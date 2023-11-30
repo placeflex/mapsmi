@@ -1,8 +1,8 @@
-.ant-select {
+.autocomplete {
   font-size: 0.7rem !important;
   color: inherit !important;
   box-shadow: none !important;
-  background: var(--bg) !important;
+  background: var(--light) !important;
 
   * {
     // background: inherit !important;
@@ -20,10 +20,10 @@
   }
 }
 
-.ant-select-dropdown {
+.autocomplete-popup {
   .ant-select-item-option-active {
     background: var(--cream) !important;
-    color: #fff !important;
+    color: var(--white) !important;
   }
   .ant-select-item-option-selected {
     background-color: transparent !important;
