@@ -66,4 +66,11 @@ export const mapColors = [
     textColor: VINTAGE_COLOR,
     gradientColor: VINTAGE_GRADIENT,
   },
+  {
+    icon: <img src={Old.src} alt="alt" className="block w-full h-full" />,
+    id: 6,
+    url: "https://api.mapbox.com/styles/v1/placeflex/clpibh68900m201pah5jw9thk",
+    textColor: VINTAGE_COLOR,
+    gradientColor: VINTAGE_GRADIENT,
+  },
 ];

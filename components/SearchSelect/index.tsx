@@ -11,7 +11,7 @@ interface SearchSelectProps {
   placeholder?: string;
 }
 
-import "./SearchSelect.module.scss";
+import "./styles.scss";
 
 export const SearchSelect = ({
   label = "",
@@ -19,6 +19,7 @@ export const SearchSelect = ({
   options = [],
   onChange,
   placeholder,
+  ...props
 }: SearchSelectProps) => {
   return (
     <>
@@ -29,11 +30,16 @@ export const SearchSelect = ({
       )}
 
       <Select
-        showSearch
-        className={classNames(className, "font-sans", "h-[40px] text-xs")}
+        // showSearch
+        className={classNames(
+          "search-select font-sans h-[40px] text-xs",
+          className
+        )}
+        popupClassName="search-select-popup"
         options={options}
         onSearch={onChange}
         placeholder={placeholder}
+        {...props}
       />
     </>
   );

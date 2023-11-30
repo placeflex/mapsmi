@@ -33,7 +33,8 @@ export const AutoComplete = ({
 
       <AntdAutoComplete
         options={options}
-        className={classNames(className, "h-[40px]")}
+        className={classNames("autocomplete h-[40px]", className)}
+        popupClassName="autocomplete-popup"
         onSelect={onSelect}
         onSearch={onChange}
         placeholder={placeholder}

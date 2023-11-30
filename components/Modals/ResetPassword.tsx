@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
+import { useRouter } from "next/router";
+
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
 
@@ -12,12 +14,7 @@ import { Input } from "@/components/Input";
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "@/redux/store";
-import {
-  handleShowRegisterModal,
-  handleCloseModals,
-  handleShowForgorPasswordModal,
-} from "@/redux/modals";
-import { handleSaveUser } from "@/redux/user";
+import { handleCloseModals } from "@/redux/modals";
 
 // helpers
 import { toast } from "react-toastify";
@@ -25,23 +22,24 @@ import { toast } from "react-toastify";
 // apis
 import { api } from "@/axios";
 
-export const Login = () => {
+export const ResetPassword = () => {
   const dispatch = useDispatch();
-  const isOpen = useTypedSelector(({ modals }) => modals.loginModal);
+  const router = useRouter();
+  const isOpen = useTypedSelector(({ modals }) => modals.resetPassword);
 
   const initialValues = {
-    email: "",
     password: "",
+    confirmPassword: "",
   };
 
   const [formErrors, setFormErrors] = useState(initialValues);
 
   const validationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email("Введите правильный адрес электронной почты")
-      .required("Email обязателен"),
     password: yup.string().required("Пароль обязателен"),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password")], "Пароли не совпадают")
+      .required("Пароли не совпадают"),
   });
 
   const handleSubmit = async (values: typeof initialValues) => {
@@ -50,13 +48,17 @@ export const Login = () => {
       await validationSchema.validate(values, { abortEarly: false });
 
       await api
-        .post("auth/login", values)
-        .then(({ data }) => {
-          dispatch(handleSaveUser(data));
-          dispatch(handleCloseModals());
+        .post(`auth/reset-password`, {
+          ...values,
+          resetPasswordToken: router.query.resetPasswordToken,
         })
-        .catch(({ error }) => {
-          toast.error(error);
+        .then(({ message }: any) => {
+          router.push("/");
+          dispatch(handleCloseModals());
+          toast.success(message);
+        })
+        .catch(({ response }) => {
+          toast.error(response.data.error);
         });
     } catch (errors: any) {
       const errorMessages: any = {};
@@ -70,22 +72,10 @@ export const Login = () => {
   return (
     <ModalContent isModalOpen={isOpen} bgClose>
       <div className="py-5 px-5">
-        <h3 className="mb-5 text-center font-bold text-2xl">Login</h3>
+        <h3 className="mb-2 text-center font-bold text-2xl">New Password</h3>
         <div className="rounded-md sm:w-[520px] ">
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             <Form className="w-full flex flex-wrap gap-[10px]">
-              <div className="w-full">
-                <Field
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  as={Input}
-                />
-                {formErrors.email && (
-                  <div className="text-error  text-xs">{formErrors.email}</div>
-                )}
-              </div>
-
               <div className="w-full">
                 <Field
                   type="password"
@@ -100,36 +90,25 @@ export const Login = () => {
                 )}
               </div>
 
+              <div className="w-full">
+                <Field
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  as={Input}
+                />
+                {formErrors.confirmPassword && (
+                  <div className="text-error text-xs">
+                    {formErrors.confirmPassword}
+                  </div>
+                )}
+              </div>
+
               <Button classNames="mt-2 flex mx-auto" type="submit">
-                Login
+                Update
               </Button>
             </Form>
           </Formik>
-
-          <div className="flex items-center justify-between mt-4">
-            <span
-              className="text-xs text-button underline cursor-pointer hover:no-underline"
-              onClick={() => {
-                dispatch(handleCloseModals());
-                dispatch(handleShowForgorPasswordModal());
-              }}
-            >
-              Forgot Password?
-            </span>
-
-            <span className="text-xs">
-              Don't have an account?{" "}
-              <span
-                className="text-button underline cursor-pointer hover:no-underline"
-                onClick={() => {
-                  dispatch(handleCloseModals());
-                  dispatch(handleShowRegisterModal());
-                }}
-              >
-                Register
-              </span>
-            </span>
-          </div>
         </div>
       </div>
     </ModalContent>

@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 
 import { handleCloseModals } from "@/redux/modals";
-
 interface ModalProps {
   isModalOpen: boolean;
   bgClose: boolean;
@@ -56,6 +55,16 @@ export const ModalContent = ({
             leaveTo="opacity-0 "
           >
             <div className="relative bg-bg  transform overflow-hidden rounded-lg text-left shadow-xl transition-all">
+              <button
+                type="button"
+                className="absolute right-2 top-2 leading-none"
+                onClick={() => {
+                  dispatch(handleCloseModals());
+                }}
+              >
+                X
+              </button>
+
               {children}
             </div>
           </Transition.Child>

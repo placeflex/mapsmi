@@ -3,19 +3,16 @@ import jwt from "jsonwebtoken";
 const secretKey = "your-secret-key";
 
 interface PropUser {
-  name: string;
-  email: string;
-  password: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  surname?: string;
 }
 
 export const generateToken = (user: PropUser) => {
-  return jwt.sign(
-    { username: user.name, email: user.email, password: user.password },
-    secretKey,
-    {
-      expiresIn: "8h",
-    }
-  );
+  return jwt.sign(user, secretKey, {
+    expiresIn: "8h",
+  });
 };
 
 export function verifyToken(token: string) {

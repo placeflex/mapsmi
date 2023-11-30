@@ -3,9 +3,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import bcrypt from "bcryptjs";
 
-import { generateToken } from "./helpers/tokens";
+import { generateToken } from "../helpers/tokens";
 // schemes
-import User from "./models/user";
+import User from "../models/user";
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,12 +18,11 @@ export default async function handler(
     User.findOne({ email })
       .then(async user => {
         if (user) {
+          const { name, surname, email, projects, ...userFields } = user;
           const isPasswordValid = await bcrypt.compare(password, user.password);
 
           const token = await generateToken({
-            name,
             email,
-            password,
           });
 
           if (!isPasswordValid) {
@@ -31,13 +30,16 @@ export default async function handler(
           }
 
           return res.status(200).json({
-            email: user.email,
-            name: user.name,
-            projects: user.projects,
-            token,
+            data: {
+              name,
+              email,
+              surname,
+              projects,
+              token,
+            },
           });
         } else {
-          return res.status(409).json({ error: "User is not found" });
+          return res.status(404).json({ error: "User is not found" });
         }
       })
       .catch(err => {

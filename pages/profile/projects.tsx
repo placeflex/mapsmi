@@ -7,66 +7,136 @@ import { Layout as PageLayout } from "@/components/Layout";
 import { Container } from "@/components/Container";
 
 // helpers
+import { toast } from "react-toastify";
+
+// constants
 import { productNames } from "@/constants/constants";
+
+// apis
+import { api } from "@/axios";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector, AppDispatch } from "@/redux/store";
-import { handleLogout, handleSaveUser } from "@/redux/user";
+import { useTypedSelector } from "@/redux/store";
+import {
+  handleDeleteProject,
+  handleLogout,
+  handleSaveUser,
+} from "@/redux/user";
+
+// icons
+import Empty from "@/public/icons/empty.svg";
+import Delete from "@/public/icons/delete.svg";
 
 const UserProjects = () => {
   const dispatch = useDispatch();
   const user = useTypedSelector(({ user }) => user.user);
   const router = useRouter();
 
+  const handleLogoutUser = () => {
+    dispatch(handleLogout());
+    router.push("/");
+  };
+
+  const handleDeleteMyProject = (id: string) => {
+    const callback = () => {
+      api
+        .get("/me")
+        .then(user => {
+          dispatch(handleSaveUser(user));
+        })
+        .catch(({ error }) => {
+          handleLogoutUser();
+          toast.error(error);
+        });
+    };
+
+    dispatch(handleDeleteProject({ id, callback }));
+  };
+
   return (
     <PrivateRoute>
       <PageLayout>
         <Container>
           <ProfileLayout>
-            <div className="grid  xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-              {user?.projects?.map((project, index) => {
-                const size = project.selectedAttributes.size.name;
+            {user?.projects.length === 0 ? (
+              <div className="flex flex-col items-center text-center">
+                <Empty width={100} height={100} className="opacity-30" />
+              </div>
+            ) : (
+              <>
+                <h1 className="mb-5 font-bold text-2xl leading-none">
+                  Projects
+                </h1>
+                <div className="flex flex-wrap -ml-2 -mr-2">
+                  {user?.projects?.map((project, index) => {
+                    const size = project.selectedAttributes.size.name;
 
-                return (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      router.push({
-                        pathname: "/editor",
-                        query: {
-                          product_id: project.productId,
-                          id: project.uuid,
-                        },
-                      });
-                    }}
-                    className="flex p-2 bg-white"
-                  >
-                    <div className="min-w-[180px] h-[180px] flex items-center justify-center bg-light">
-                      <img
-                        src={project.path}
-                        alt="preview"
-                        className="w-[140px]  h-[140px] object-contain"
-                      />
-                    </div>
+                    console.log("project", project);
 
-                    <div className="flex flex-col px-3">
-                      <div className="grow">
-                        <h3 className="text-[0.6rem] mb-1">
-                          Product: {productNames[Number(project.productId)]}
-                        </h3>
-                        <h3 className="text-[0.6rem] mb-1">Material: -</h3>
-                        <h3 className="text-[0.6rem] mb-1">Size: {size}</h3>
+                    return (
+                      <div
+                        key={index}
+                        className="w-full p-2 rounded sm:w-1/2 xl:w-1/3"
+                      >
+                        <div className="flex bg-white">
+                          <div
+                            className="min-w-[180px] h-[180px] flex items-center justify-center bg-light"
+                            onClick={() => {
+                              router.push({
+                                pathname: "/editor",
+                                query: {
+                                  product_id: project.productId,
+                                  id: project.uuid,
+                                },
+                              });
+                            }}
+                          >
+                            <img
+                              src={project.path}
+                              alt="preview"
+                              className="w-[140px]  h-[140px] object-contain"
+                            />
+                          </div>
+
+                          <div className="p-3 flex flex-col w-full">
+                            <div className="grow">
+                              <h3 className="text-[0.6rem] mb-1">
+                                Product:{" "}
+                                {productNames[Number(project.productId)]}
+                              </h3>
+                              <h3 className="text-[0.6rem] mb-1">
+                                Material: -
+                              </h3>
+                              <h3 className="text-[0.6rem] mb-1">
+                                Size: {size}
+                              </h3>
+                            </div>
+
+                            <div className="flex gap-2">
+                              <button
+                                className="flex flex-col items-center justify-center text-extraSmall text-error"
+                                onClick={() =>
+                                  handleDeleteMyProject(project.uuid)
+                                }
+                              >
+                                <Delete
+                                  width={20}
+                                  stroke="#ff0000"
+                                  fill="#ff0000"
+                                />
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-
-                      <div>
-                        <button>DELETE</button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                    );
+                  })}
+                  {/* </div> */}
+                </div>
+              </>
+            )}
           </ProfileLayout>
         </Container>
       </PageLayout>

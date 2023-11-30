@@ -28,7 +28,7 @@ export const handleScreen = async (project: any) => {
   console.log("SCREEN START", 3);
 
   await page.goto(
-    `${process.env.NEXT_PUBLIC_BASE_URL_FRONTED}/render?product_id=${project.productId}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL_FRONTEND}/render?product_id=${project.productId}`,
     { waitUntil: "networkidle0" }
   );
 
@@ -64,7 +64,9 @@ export const handleScreen = async (project: any) => {
 
   console.log("SCREEN START", 9);
 
-  await page.waitForTimeout(7000);
+  if (project.productId == 2) {
+    await page.waitForTimeout(7000);
+  }
 
   console.log("SCREEN START", 10);
   // Ждем, пока элемент появится на странице

@@ -20,7 +20,6 @@ import { ToastContainer, toast } from "react-toastify";
 
 // styles
 import "react-toastify/dist/ReactToastify.css";
-import "@/styles/tailwind.css";
 import "@/styles/globals.scss";
 
 export const metadata: Metadata = {
@@ -32,6 +31,8 @@ export const metadata: Metadata = {
 import { ProductVariations } from "@/components/Modals/ProductVariations";
 import { Register } from "@/components/Modals/Register";
 import { Login } from "@/components/Modals/Login";
+import { ForgotPassword } from "@/components/Modals/ForgotPassword";
+import { ResetPassword } from "@/components/Modals/ResetPassword";
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -39,6 +40,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const resetPasswordToken = localStorage.getItem("token");
 
     if (token && !router.pathname.includes("/profile")) {
       try {
@@ -71,7 +73,16 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <ProductVariations />
         <Register />
         <Login />
-        <ToastContainer />
+        <ForgotPassword />
+        <ResetPassword />
+        <ToastContainer
+          position="bottom-right"
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnFocusLoss={false}
+          pauseOnHover={false}
+          theme="dark"
+        />
       </div>
     </>
   );

@@ -39,7 +39,7 @@ import {
   handleChangeAttributes,
   initFromProfile,
 } from "@/redux/layout";
-import { handleSaveProjectInAccount } from "@/redux/user";
+import { handleSaveProject, handleUpdateProject } from "@/redux/user";
 
 // types
 import { UserFieldsProps } from "@/redux/user";
@@ -103,8 +103,6 @@ export default function Editor() {
   const handleChangeLayoutSkyMapStyle = (id: number) => {
     const layoutStyle = skyMapLayoutStyles.find(style => style.id === id);
 
-    console.log("layoutStyle", layoutStyle);
-
     dispatch(
       handleChangeStyles({
         style: "layoutStyle",
@@ -139,9 +137,9 @@ export default function Editor() {
   const handleUPDATEACCOUNT = () => {
     try {
       if (id) {
-        dispatch(handleSaveProjectInAccount({ id: product_id, update: true }));
+        dispatch(handleUpdateProject({ id: product_id }));
       } else {
-        dispatch(handleSaveProjectInAccount({ id: product_id, update: false }));
+        dispatch(handleSaveProject({ id: product_id }));
       }
     } catch {
       console.log("SOMETHING WRONG");
@@ -279,16 +277,15 @@ export default function Editor() {
           <div className="min-w-[400px] max-w-[400px] w-full bg-white p-3 overflow-y-auto editor-panel flex flex-col">
             {layout.productId == Number(product_id) &&
               panelUI[layout.productId as keyof typeof panelUI]}
-            {layout.editingProfileProject && (
+            {layout.editingProfileProject ? (
               <Button
-                classNames="w-full"
+                classNames="w-full mt-auto"
                 type="button"
                 onClick={handleUPDATEACCOUNT}
               >
                 Update
               </Button>
-            )}
-            {isUserLogged && (
+            ) : (
               <Button
                 classNames="w-full mt-auto"
                 type="button"
@@ -298,7 +295,7 @@ export default function Editor() {
               </Button>
             )}
 
-            <Button classNames="w-full mt-auto" type="button">
+            <Button classNames="w-full mt-2" type="button">
               Add To Cart
             </Button>
           </div>

@@ -53,7 +53,7 @@ export const Register = () => {
       await validationSchema.validate(values, { abortEarly: false });
 
       await api
-        .post("/register", values)
+        .post("auth/register", { ...values })
         .then(data => {
           toast.success(
             "We have sent you a message to your new email address, please go to confirm."
@@ -78,7 +78,7 @@ export const Register = () => {
     <ModalContent isModalOpen={isOpen} bgClose>
       <div className="py-5 px-5">
         <h3 className="mb-5 text-center font-bold text-2xl">Register</h3>
-        <div className="rounded-md sm:w-[320px] w-[500px]">
+        <div className="rounded-md sm:w-[520px]">
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             <Form className="w-full flex flex-wrap gap-[10px]">
               <div className="w-[calc(50%-5px)]">
