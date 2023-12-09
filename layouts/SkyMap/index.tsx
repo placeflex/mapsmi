@@ -69,7 +69,7 @@ export const SkyMap = () => {
       galactic: { show: false },
       supergalactic: { show: false },
     },
-    datapath: datapath,
+    datapath: "",
     planets: {
       which: [
         "sol",
