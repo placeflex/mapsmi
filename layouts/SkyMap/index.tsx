@@ -7,6 +7,11 @@ import { useTypedSelector } from "@/redux/store";
 // styles
 import "./skymap.scss";
 
+// masks
+import { maskOverlays } from "@/layouts/LayoutSettings/skyMapMasks";
+
+// import starts from "@/public/data";
+
 declare global {
   interface Window {
     Celestial: any;
@@ -35,15 +40,17 @@ export const SkyMap = () => {
     container: "map",
     form: false,
     advanced: false,
+    controls: false,
+    lang: "",
     interactive: false,
     disableAnimations: false,
     zoomlevel: null,
     zoomextend: 1,
     projection: "orthographic",
-    transform: "horizontal",
+    transform: "equatorial",
     follow: "zenith",
     width: 800,
-    height: 600,
+    height: 800,
     background: {
       fill: styles.ilstr,
       stroke: styles.stroke,
@@ -52,61 +59,67 @@ export const SkyMap = () => {
     },
     lines: {
       graticule: {
-        show: true,
+        show: posterStyles?.grid,
         stroke: styles.bg,
         strokeWidth: 0.1,
         opacity: 0.3,
       },
-      equatorial: { show: true },
+      equatorial: { show: false },
       ecliptic: { show: false },
       galactic: { show: false },
       supergalactic: { show: false },
     },
-    datapath: "https://ofrohn.github.io/data/",
+    datapath: "",
     planets: {
-      show: false,
-      which: ["mer", "ven", "ter", "lun", "mar", "jup", "sat"],
+      which: [
+        "sol",
+        "mer",
+        "ven",
+        "ter",
+        "lun",
+        "mar",
+        "jup",
+        "sat",
+        "ura",
+        "nep",
+      ],
       symbolType: "disk",
-      names: false,
-      nameStyle: {
-        fill: "#00ccff",
-        font: `14px ${FONT}`,
-        align: "center",
-        baseline: "top",
-      },
-      namesType: "en",
+      show: false,
     },
     dsos: {
       show: false,
       names: false,
     },
     constellations: {
-      names: false,
+      names: true,
       namesType: "iau",
       nameStyle: {
-        fill: "#000",
+        fill: `${styles.bg}`,
         align: "center",
         baseline: "middle",
         font: [`14px ${FONT}`, `8px ${FONT}`, `0px ${FONT}`],
       },
-      lines: true,
+      lines: posterStyles?.lines,
       lineStyle: { stroke: styles.bg, width: 0.5, opacity: 0.5 },
+      bounds: false,
+      boundStyle: { stroke: "#cccc00", width: 0.5, opacity: 0.8, dash: [2, 4] },
     },
     mw: {
-      show: true,
-      style: { fill: styles.bg, opacity: 0.2 },
+      show: posterStyles?.milkyway,
+      style: { fill: styles.bg, opacity: 0.15 },
     },
     daylight: {
       //Show day sky as a gradient, if location is set and map projection is hemispheric
       show: false,
     },
     stars: {
-      show: true, // Отображение звезд
+      show: posterStyles?.stars, // Отображение звезд
+      designationType: "desig", // Which kind of name is displayed as designation (fieldname in starnames.json)
       // Отображение звезд ярче этой звездной величины
       colors: false, // Отображение звезд в цвете (или только белые)
 
-      size: 5,
-      limit: 500,
+      size: 6,
+      limit: 7,
       exponent: -0.28,
       designation: false,
       style: {
@@ -122,7 +135,7 @@ export const SkyMap = () => {
         align: "right",
         baseline: "center",
       },
-      propernameLimit: 0,
+      data: "stars.6.json",
     },
   };
 
@@ -135,14 +148,20 @@ export const SkyMap = () => {
   }, []);
 
   useEffect(() => {
-    if (cls && JSON.stringify(currentPosterLocation) !== "{}") {
+    if (cls) {
+      if (JSON.stringify(currentPosterLocation) !== "{}") {
+        cls.skyview({
+          location: [
+            currentPosterLocation?.center[1],
+            currentPosterLocation?.center[0],
+          ],
+        });
+      }
+
       cls.skyview({
-        location: [
-          currentPosterLocation?.center[1],
-          currentPosterLocation?.center[0],
-        ],
         date: new Date(posterDate),
       });
+
       cls.rotate();
     }
   }, [cls]);
@@ -154,21 +173,33 @@ export const SkyMap = () => {
   }, [posterStyles, config]);
 
   useEffect(() => {
-    if (cls && JSON.stringify(currentPosterLocation) !== "{}") {
+    if (cls) {
+      if (JSON.stringify(currentPosterLocation) !== "{}") {
+        cls.skyview({
+          location: [
+            currentPosterLocation?.center[1],
+            currentPosterLocation?.center[0],
+          ],
+        });
+      }
+
       cls.skyview({
-        location: [
-          currentPosterLocation?.center[1],
-          currentPosterLocation?.center[0],
-        ],
         date: new Date(posterDate),
       });
+
       cls.rotate();
     }
   }, [currentPosterLocation, posterDate]);
 
   return (
-    <div className="map-wrapper">
-      <div id="map"></div>
-    </div>
+    <>
+      <div className="map-wrapper" id="map">
+        {posterStyles.isOverlay && (
+          <div className="mask">
+            {maskOverlays[posterStyles.overlayId].figure}
+          </div>
+        )}
+      </div>
+    </>
   );
 };

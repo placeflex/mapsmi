@@ -1,8 +1,8 @@
 .search-select {
   font-size: 0.7rem;
   color: inherit;
-  box-shadow: none;
-  background: var(--light) !important;
+  // background: var(--light) !important;
+  // border: none !important;
 
   * {
     // background: inherit ;
@@ -15,6 +15,7 @@
   &:hover,
   &.ant-select-focused {
     .ant-select-selector {
+      box-shadow: none !important;
       border-color: var(--cream) !important;
     }
   }
@@ -22,15 +23,15 @@
 
 .search-select-popup {
   .ant-select-item-option-active {
-    background: var(--cream) !important;
-    color: #fff !important;
+    background: var(--light) !important;
+    // color: #fff !important;
   }
   .ant-select-item-option-selected {
     background-color: transparent !important;
   }
 
   .ant-select-item-option-active.ant-select-item-option-selected {
-    background: var(--cream) !important;
+    background: var(--light) !important;
     // color: #fff !important;
   }
 
@@ -41,9 +42,9 @@
     height: 2.4rem !important;
 
     a {
-      &:hover {
-        color: var(--white) !important;
-      }
+      // &:hover {
+      //   // color: var(--white) !important;
+      // }
 
       &.selected {
         text-decoration: underline;

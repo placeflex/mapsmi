@@ -21,6 +21,12 @@ const config: Config = {
           ...basicFontSettings,
         },
       ],
+      small: [
+        "0.55rem",
+        {
+          ...basicFontSettings,
+        },
+      ],
       xs: [
         "0.75rem",
         {

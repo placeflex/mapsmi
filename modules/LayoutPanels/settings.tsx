@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 
+import classNames from "classnames";
+
+// components
 import { Input } from "@/components/Input";
+import { Switcher } from "@/components/Switcher";
+import { SearchSelect } from "@/components/SearchSelect";
+
 // lineart settings ( panel )
-import { svgList } from "@/layouts/LayoutSettings/iconsList";
+import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
+import { zodiacIconsList } from "@/layouts/LayoutSettings/zodiacIconsList";
 import { basicColors } from "@/layouts/LayoutSettings/colorsList";
 import { mapColors } from "@/layouts/LayoutSettings/mapColors";
+import { maskOverlays, masks } from "@/layouts/LayoutSettings/skyMapMasks";
 import {
   basicLayoutStyles,
   mapLayoutStyles,
@@ -36,6 +44,7 @@ import {
   setCurrentLocation,
   handleResetLabels,
   handleChangeLables,
+  handleStylesController,
 } from "@/redux/layout";
 
 const debouncedSearch = debounce(callback => callback(), 1000);
@@ -47,7 +56,7 @@ export const IllustrationAccordion = ({ handleChange }: any) => {
 
   return (
     <div className="icons h-[300px] overflow-y-auto grid pr-4 grid-cols-3 gap-2 w-full">
-      {svgList.map(({ icon, id }): React.ReactNode => {
+      {lineArtIconsList.map(({ icon, id }): React.ReactNode => {
         return (
           <div
             key={id}
@@ -450,6 +459,18 @@ export const ColorsForMapAccordion = ({ handleChange }: any) => {
 };
 
 export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
+  const dispatch: AppDispatch = useDispatch();
+
+  const isMask = useTypedSelector(
+    ({ layout }) => layout.layout?.poster?.styles?.isMask
+  );
+
+  const productId = useTypedSelector(({ layout }) => layout.layout?.productId);
+
+  const isOverlay = useTypedSelector(
+    ({ layout }) => layout.layout?.poster?.styles?.isOverlay
+  );
+
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
@@ -476,6 +497,150 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
             </button>
           );
         })}
+      </div>
+
+      <div className="mt-5 w-full">
+        <div className="flex justify-between">
+          <h5 className="text-xs font-bold">Overlay</h5>
+          <Switcher
+            checked={isOverlay}
+            onChange={() => {
+              dispatch(
+                handleStylesController({
+                  field: "isOverlay",
+                  value: !isOverlay,
+                })
+              );
+              dispatch(
+                handleStylesController({ field: "isMask", value: false })
+              );
+            }}
+          />
+        </div>
+
+        {isOverlay && (
+          <div className="icons max-h-[300px] overflow-y-auto grid grid-cols-4 gap-2 pr-4 mt-2">
+            {maskOverlays.map(({ id, figure }) => {
+              return (
+                <div
+                  key={id}
+                  className={classNames(
+                    "h-[80px] border border-1 p-4 cursor-pointer",
+                    id === Number(posterStyles?.overlayId) ? "border-black" : ""
+                  )}
+                  onClick={() =>
+                    dispatch(
+                      handleStylesController({ field: "overlayId", value: id })
+                    )
+                  }
+                >
+                  {figure}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {productId == 1 && (
+          <>
+            <div className="flex justify-between mt-4">
+              <h5 className="text-xs font-bold">Mask</h5>
+              <Switcher
+                checked={isMask}
+                onChange={() => {
+                  dispatch(
+                    handleStylesController({ field: "isOverlay", value: false })
+                  );
+                  dispatch(
+                    handleStylesController({ field: "isMask", value: !isMask })
+                  );
+                }}
+              />
+            </div>
+
+            {isMask && (
+              <div className="icons max-h-[300px] overflow-y-auto grid grid-cols-4 gap-2 pr-4 mt-2">
+                {masks.map(({ id, src }) => {
+                  return (
+                    <div
+                      key={id}
+                      className={classNames(
+                        "h-[80px] border border-1 p-4 cursor-pointer flex justify-center items-center",
+                        id === Number(posterStyles?.maskId)
+                          ? "border-black"
+                          : ""
+                      )}
+                      onClick={() =>
+                        dispatch(
+                          handleStylesController({ field: "maskId", value: id })
+                        )
+                      }
+                    >
+                      <img src={src} alt="mask" />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            <div className="flex justify-between mt-4">
+              <h5 className="text-xs font-bold">Stars</h5>
+              <Switcher
+                checked={posterStyles?.stars}
+                onChange={() => {
+                  dispatch(
+                    handleStylesController({
+                      field: "stars",
+                      value: !posterStyles?.stars,
+                    })
+                  );
+                }}
+              />
+            </div>
+            <div className="flex justify-between mt-4">
+              <h5 className="text-xs font-bold">Grid</h5>
+              <Switcher
+                checked={posterStyles?.grid}
+                onChange={() => {
+                  dispatch(
+                    handleStylesController({
+                      field: "grid",
+                      value: !posterStyles?.grid,
+                    })
+                  );
+                }}
+              />
+            </div>
+            <div className="flex justify-between mt-4">
+              <h5 className="text-xs font-bold">Lines</h5>
+              <Switcher
+                checked={posterStyles?.lines}
+                onChange={() => {
+                  dispatch(
+                    handleStylesController({
+                      field: "lines",
+                      value: !posterStyles?.lines,
+                    })
+                  );
+                }}
+              />
+            </div>
+            <div className="flex justify-between mt-4">
+              <h5 className="text-xs font-bold">Milky Way</h5>
+              <Switcher
+                checked={posterStyles?.milkyway}
+                onChange={() => {
+                  dispatch(
+                    handleStylesController({
+                      field: "milkyway",
+                      value: !posterStyles?.milkyway,
+                    })
+                  );
+                }}
+              />
+            </div>
+          </>
+        )}
       </div>
     </>
   );
@@ -538,5 +703,45 @@ export const FontsAccordion = ({ handleChange }: any) => {
         })}
       </div>
     </>
+  );
+};
+
+export const ZodiacSelect = ({ handleChange }: any) => {
+  const posterStyles = useTypedSelector(
+    ({ layout }) => layout.layout?.poster?.styles
+  );
+
+  const options = zodiacIconsList.map(zodiac => ({
+    label: zodiac.name,
+    value: zodiac.id,
+    date: zodiac.date,
+    figure: zodiac.figure,
+  }));
+
+  return (
+    <SearchSelect
+      placeholder="Select an option"
+      options={options}
+      onChange={handleChange}
+      className="w-full"
+      value={posterStyles.artwork}
+      optionRender={({ data }: any) => {
+        return (
+          <div key={data.label} className="flex items-center">
+            <div className="flex items-end">
+              <h5 className="font-bold text-small">{data.label}</h5>
+              <h6 className="text-extraSmall ml-1">{data.date}</h6>
+            </div>
+            <span
+              role="img"
+              aria-label={data.label}
+              className="w-[28px] ml-auto"
+            >
+              {data.figure}
+            </span>
+          </div>
+        );
+      }}
+    />
   );
 };

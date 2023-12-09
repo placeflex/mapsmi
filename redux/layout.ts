@@ -5,10 +5,14 @@ import { LayoutSettings } from "@/types/layoutTypes";
 // helpers and constants
 import { storagePoster } from "@/helpers/storageData";
 import { productsVariations } from "@/constants/constants";
-import { defaultLineArtSettings } from "@/constants/defaultLayoutSettings";
+import {
+  defaultLayoutSettings,
+  defaultZodiacArtSettings,
+  defaultSkyMapLayoutSettings,
+} from "@/constants/defaultLayoutSettings";
 
-const initialState: { layout: LayoutSettings } = {
-  layout: defaultLineArtSettings,
+const initialState: { layout: any } = {
+  layout: {},
 };
 
 const layout = createSlice({
@@ -40,8 +44,16 @@ const layout = createSlice({
             productId: Number(action.payload),
           };
         } else {
+          const defaultSettings =
+            action.payload == 1
+              ? defaultSkyMapLayoutSettings
+              : action.payload == 3
+              ? defaultZodiacArtSettings
+              : defaultLayoutSettings;
+          defaultLayoutSettings;
+
           state.layout = {
-            ...defaultLineArtSettings,
+            ...defaultSettings,
             productId: Number(action.payload),
           };
 
@@ -166,6 +178,25 @@ const layout = createSlice({
       });
     },
 
+    handleStylesController(state, action) {
+      state.layout = {
+        ...state.layout,
+        poster: {
+          ...state.layout.poster,
+          styles: {
+            ...state.layout.poster.styles,
+            [action.payload.field]: action.payload.value,
+          },
+        },
+      };
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
     handleSaveCustomCoordinatesForMap(state, action) {
       state.layout = {
         ...state.layout,
@@ -196,6 +227,7 @@ export const {
   handleResetLabels,
   initFromProfile,
   handleSaveCustomCoordinatesForMap,
+  handleStylesController,
 } = layout.actions;
 
 export default layout.reducer;

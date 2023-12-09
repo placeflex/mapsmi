@@ -30,12 +30,13 @@ export const LayoutContent = ({
 }: LineArtProps) => {
   let withoutText =
     !texts?.heading && !texts?.subline && !texts?.divider && !texts?.tagline;
+
   return (
     <div
       className={`artwork relative flex ${className} ${layoutStyle}`}
       style={styles}
     >
-      <div className="border artwork-wrapper relative">
+      <div className="border-holder artwork-wrapper relative">
         <div className={`artworkFigure ${withoutText ? "h-full" : ""}`}>
           {figure}
         </div>

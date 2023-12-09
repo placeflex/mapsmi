@@ -78,7 +78,7 @@ export const LayoutPreviewWrapper = ({
         setArtworkStyles(prev => {
           return {
             ...prev,
-            scale,
+            scale: scale,
             isRender: true,
           };
         });
@@ -115,7 +115,7 @@ export const LayoutPreviewWrapper = ({
 
       if (posterOrientationId === 0) {
         if (Number(layout.productId) == 2) {
-          let height = 2000 - gap;
+          let height = 3000 - gap;
           let width = height / 1.44;
 
           setArtworkStyles(prev => ({
@@ -152,7 +152,7 @@ export const LayoutPreviewWrapper = ({
         }
       } else {
         if (Number(layout.productId) == 2) {
-          let width = 2000 - gap;
+          let width = 3000 - gap;
           let height = width / 1.44;
 
           setArtworkStyles(prev => ({

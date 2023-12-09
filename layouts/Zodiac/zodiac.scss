@@ -1,0 +1,20 @@
+.zodiac {
+  &.portrait {
+    .zodiac-bg {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .zodiac-icon {
+    width: 5%;
+    height: 5%;
+  }
+
+  .mask {
+    position: absolute;
+    width: 113%;
+    height: 113%;
+    z-index: 1;
+  }
+}

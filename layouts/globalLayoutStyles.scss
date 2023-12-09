@@ -1,8 +1,32 @@
+// margin ( paddings )
+$marginXs: 10em;
+$marginSmall: 20em;
+$marginLarge: 40em;
+$marginXLarge: 60em;
+$marginXXLarge: 80em;
+
+// text sizes
+$textLarge: 35em;
+$textMedium: 25em;
+$textSmall: 18em;
+
+// border size
+$borderLine: 2em;
+$borderXs: 15em;
+$borderSmall: 20em;
+$borderMedium: 30em;
+
+// poster settings
+$illustrationColor: var(--illustration-color);
+$font: var(--font-poster);
+$bg: var(--bg-color);
+$textColor: var(--text-color);
+
 .artwork {
   height: 100%;
-  font-family: var(--font-poster);
+  font-family: $font;
 
-  .border,
+  .border-holder,
   .artworkFigure {
     width: 100%;
 
@@ -22,13 +46,13 @@
     }
   }
 
-  .border {
+  .border-holder {
     display: flex;
     flex-direction: column;
   }
 
   &.poster-30x40 {
-    font-size: 0.6em !important;
+    font-size: 0.8em !important;
   }
   &.poster-50x70 {
     font-size: 1em !important;
@@ -36,19 +60,19 @@
   &.poster-70x100 {
     font-size: 1.2em !important;
   }
-
   // font-size: calc(1 * 4 * 1px);
 }
 
 .artwork {
-  .border {
-    border: 15em solid var(--white);
+  .border-holder {
+    margin: $borderSmall;
+    outline: $borderLine solid $illustrationColor;
   }
 
   .artwork-wrapper {
     display: flex;
     flex-direction: column;
-    background: var(--bg-color);
+    background: $bg;
   }
 
   .artworkFigure {
@@ -59,7 +83,7 @@
     padding: 40em;
 
     path {
-      fill: var(--illustration-color);
+      fill: $illustrationColor;
     }
 
     svg {
@@ -78,31 +102,31 @@
     gap: 10px;
 
     h1.headline {
-      font-size: 35em;
+      font-size: $textLarge;
       font-weight: 400;
-      color: var(--text-color);
+      color: $textColor;
       line-height: 1;
       overflow-wrap: anywhere;
     }
 
     span {
-      font-size: 20em;
+      font-size: $textSmall;
       display: inline-block;
-      color: var(--text-color);
+      color: $textColor;
       line-height: 1;
       overflow-wrap: anywhere;
     }
 
     h2.tagline {
-      font-size: 20em;
-      color: var(--text-color);
+      font-size: $textSmall;
+      color: $textColor;
       line-height: 1;
       overflow-wrap: anywhere;
     }
 
     h3.subline {
-      font-size: 20em;
-      color: var(--text-color);
+      font-size: $textSmall;
+      color: $textColor;
       line-height: 1;
       overflow-wrap: anywhere;
     }
@@ -156,28 +180,19 @@
     }
 
     .artworkFigure {
-      background: var(--bg-color);
+      background: $bg;
     }
 
     .labels {
       position: static;
-      background: #fff;
-      padding: 20em 0 0 0;
+      background: var(--white);
+      padding: $borderXs 0 0 0;
 
+      h3.subline,
+      h2.tagline,
+      span,
       h1.headline {
-        color: #000;
-      }
-
-      span {
-        color: #000;
-      }
-
-      h2.tagline {
-        color: #000;
-      }
-
-      h3.subline {
-        color: #000;
+        color: var(--black);
       }
     }
   }
@@ -188,17 +203,16 @@
     }
 
     .artworkFigure {
-      background: var(--bg-color);
+      background: $bg;
     }
 
-    .border {
-      border: 30em solid #fff;
+    .border-holder {
+      border: $borderMedium solid var(--white);
     }
 
     .labels {
       position: static;
-      background: #fff;
-      padding: 30em 0 0 0;
+      padding: $borderMedium 0 0 0;
 
       h1.headline {
         color: #000;
@@ -266,19 +280,15 @@
   }
 
   &.skymap {
-    // background: var(--bg-color);
+    .artworkFigure {
+      padding: $marginSmall;
+    }
 
-    // .artworkFigure {
-    //   background: transparent;
-    //   align-items: center;
-    //   justify-content: center;
-    //   padding: 0;
-    // }
-
-    // .labels {
-    //   position: static;
-    //   transform: translate(0);
-    // }
+    &.overlayApply {
+      .artworkFigure {
+        padding: $marginXLarge;
+      }
+    }
 
     &.quoteScript {
       .labels {
@@ -291,7 +301,7 @@
   }
 
   &.map {
-    font-size: 2.5px !important;
+    font-size: 3.2px !important;
 
     // h1 {
     //   font-size: 25em !important;
@@ -309,6 +319,10 @@
     //   font-size: 10em !important;
     // }
 
+    .border-holder {
+      margin: $marginXs;
+    }
+
     .artworkFigure {
       background: transparent;
       align-items: center;
@@ -316,7 +330,7 @@
       padding: 0;
     }
 
-    .border {
+    .border-holder {
       background: transparent !important;
       border-width: 0;
       // border: 15em solid var(--white);
@@ -339,6 +353,68 @@
       *:last-child {
         margin-bottom: 0;
         padding-bottom: 0;
+      }
+    }
+  }
+
+  &.zodiac {
+    .artworkFigure {
+      padding: $marginXLarge;
+    }
+
+    .zodiac-bg {
+      height: 100%;
+      width: auto;
+      padding: 10px;
+      border-radius: 9999px;
+      background: $illustrationColor;
+      margin-bottom: 20em;
+
+      & > svg {
+        opacity: 0.4;
+        fill: $bg;
+        z-index: 3;
+      }
+    }
+
+    &.overlayApply {
+      .zodiac-bg {
+        margin-bottom: 40em;
+      }
+    }
+
+    .zodiac-figure {
+      position: absolute;
+      width: 65%;
+      height: 65%;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      circle,
+      path {
+        fill: $bg;
+      }
+    }
+
+    .sky-bg {
+      padding: 10px;
+
+      svg {
+        width: inherit;
+        height: inherit;
+      }
+    }
+
+    &.quoteScript {
+      svg {
+        opacity: 1;
+      }
+      .labels {
+        position: static;
+        align-items: flex-end;
+        transform: translate(0);
+        padding-bottom: 40em;
       }
     }
   }
