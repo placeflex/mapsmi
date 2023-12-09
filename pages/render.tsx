@@ -10,10 +10,11 @@ import { LayoutPreviewWrapper } from "@/components/LayoutPreviewWrapper";
 import { LayoutContent } from "@/layouts/LayoutContent";
 import { SkyMap } from "@/layouts/SkyMap";
 import { MapContainer } from "@/layouts/Map";
-
+import { Zodiac } from "@/layouts/Zodiac";
 // lineart settings ( panel )
-import { svgList } from "@/layouts/LayoutSettings/iconsList";
+import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
 import { basicColors } from "@/layouts/LayoutSettings/colorsList";
+import { masks } from "@/layouts/LayoutSettings/skyMapMasks";
 import {
   basicLayoutStyles,
   mapLayoutStyles,
@@ -25,7 +26,7 @@ import { mapColors } from "@/layouts/LayoutSettings/mapColors";
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
-import { initLayout, initFromProfile } from "@/redux/layout";
+import { initFromProfile } from "@/redux/layout";
 
 // types
 import { UserFieldsProps } from "@/redux/user";
@@ -35,9 +36,8 @@ import "@/modules/LayoutPanels/editor.scss";
 
 export default function Editor() {
   const router = useRouter();
-  const { product_id, id } = router.query;
+  const { product_id } = router.query;
 
-  const user: UserFieldsProps = useTypedSelector(({ user }) => user.user);
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
   const dispatch: AppDispatch = useDispatch();
@@ -48,7 +48,6 @@ export default function Editor() {
     if (project) {
       dispatch(initFromProfile(JSON.parse(project)));
     }
-    // dispatch(initLayout(product_id));
   }, [product_id]);
 
   const styles = {
@@ -58,6 +57,7 @@ export default function Editor() {
     "--illustration-color":
       basicColors[Number(layout.poster?.styles?.color)]?.illustrationColor,
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
+    "--mask": `url(${masks[Number(layout.poster?.styles?.maskId)]?.src})`,
   };
 
   const mapStyles = {
@@ -74,7 +74,7 @@ export default function Editor() {
           basicLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
             ?.applyName
         }
-        figure={svgList[Number(layout.poster?.styles?.artwork)]?.icon}
+        figure={lineArtIconsList[Number(layout.poster?.styles?.artwork)]?.icon}
         styles={styles}
         texts={{
           heading: layout.poster?.labels?.heading,
@@ -82,12 +82,15 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames({
-          [`lineart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
-            "cm",
-            ""
-          )}`]: layout?.selectedAttributes?.size?.name,
-        })}
+        className={classNames(
+          {
+            [`lineart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+              "cm",
+              ""
+            )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+        )}
       />
     ),
     1: (
@@ -104,12 +107,19 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames({
-          [`skymap poster-${layout?.selectedAttributes?.size?.name.replaceAll(
-            "cm",
-            ""
-          )}`]: layout?.selectedAttributes?.size?.name,
-        })}
+        className={classNames(
+          {
+            [`skymap poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+              "cm",
+              ""
+            )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          {
+            ["maskApply"]: layout.poster?.styles?.isMask,
+            ["overlayApply"]: layout.poster?.styles?.isOverlay,
+          },
+          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+        )}
       />
     ),
     2: (
@@ -125,12 +135,43 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames({
-          [`map poster-${layout?.selectedAttributes?.size?.name.replaceAll(
-            "cm",
-            ""
-          )}`]: layout?.selectedAttributes?.size?.name,
-        })}
+        className={classNames(
+          {
+            [`map poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+              "cm",
+              ""
+            )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+        )}
+      />
+    ),
+    3: (
+      <LayoutContent
+        layoutStyle={
+          skyMapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
+            ?.applyName
+        }
+        figure={<Zodiac />}
+        styles={styles}
+        texts={{
+          heading: layout.poster?.labels?.heading,
+          subline: layout.poster?.labels?.subline,
+          tagline: layout.poster?.labels?.tagline,
+          divider: layout.poster?.labels?.divider,
+        }}
+        className={classNames(
+          {
+            [`zodiac poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+              "cm",
+              ""
+            )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          {
+            ["overlayApply"]: layout.poster?.styles?.isOverlay,
+          },
+          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+        )}
       />
     ),
   };

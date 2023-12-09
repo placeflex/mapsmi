@@ -15,13 +15,28 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const { locationName } = req.body;
-    const response = await axios.get(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-        locationName
-      )}.json?access_token=${process.env.MAPBOX_TOKEN}&autocomplete=true`
-    );
 
-    res.status(200).json(response.data.features);
+    console.log("locationName", locationName);
+
+    console.log("process.env.MAPBOX_TOKEN", process.env.MAPBOX_TOKEN);
+
+    const response = await axios
+      .get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+          locationName
+        )}.json?access_token=${process.env.MAPBOX_GEO_TOKEN}&autocomplete=true`
+      )
+      .then(({ data }) => {
+        // console.log("data", data);
+
+        res.status(200).json(data.features);
+      })
+      .catch(err => {
+        console.log("err", err);
+        res.status(404).json("Not found.");
+      });
+
+    // console.log("response", response);
   }
 
   if (req.method === "GET") {

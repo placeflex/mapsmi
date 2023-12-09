@@ -9,6 +9,7 @@ interface SearchSelectProps {
   value?: string;
   options?: any;
   placeholder?: string;
+  optionRender?: any;
 }
 
 import "./styles.scss";
@@ -37,7 +38,7 @@ export const SearchSelect = ({
         )}
         popupClassName="search-select-popup"
         options={options}
-        onSearch={onChange}
+        onChange={onChange}
         placeholder={placeholder}
         {...props}
       />

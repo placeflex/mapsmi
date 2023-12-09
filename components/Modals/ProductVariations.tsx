@@ -111,6 +111,30 @@ export const ProductVariations = () => {
             Design your own
           </Button>
         </div>
+
+        <div className="flex flex-col items-center">
+          <div className="relative h-[300px] block">
+            {/* <Image
+              src="https:www.mapiful.com/content/uploads/2023/05/streetmap.webp"
+              alt="banner"
+              fill
+            /> */}
+            <img
+              src={SkyMap.src}
+              alt="Sky Map"
+              className="block w-full h-full object-contain"
+            />
+          </div>
+          <h3 className="mt-5 font-bold text-sm">Sky Map</h3>
+          <p className="w-[200px] text-center text-[0.6em] mb-2 mt-2">ZODIAC</p>
+          <Button
+            type="button"
+            classNames="mt-auto flex"
+            onClick={() => handleGoToEditor(3)}
+          >
+            Design your own
+          </Button>
+        </div>
       </div>
     </ModalContent>
   );

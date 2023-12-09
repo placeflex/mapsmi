@@ -2,7 +2,7 @@ import { productsVariations } from "@/constants/constants";
 
 export const storagePoster = ({ profileStore = false, layout, productId }) => {
   const product = profileStore
-    ? productsVariations[3]
+    ? productsVariations[4]
     : productsVariations[productId];
 
   if (localStorage.getItem(product)) {

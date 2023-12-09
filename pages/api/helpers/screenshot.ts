@@ -15,8 +15,6 @@ export const handleScreen = async (project: any) => {
       "--enable-unsafe-webgpu",
       "--enable-features=VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization",
       "--run-all-compositor-stages-before-draw",
-      "--disable-setuid-sandbox",
-      "--enable-webgl",
     ],
   });
 
@@ -42,8 +40,8 @@ export const handleScreen = async (project: any) => {
 
   const viewportDimensions = await page.evaluate(() => {
     return {
-      width: 2000,
-      height: 2000,
+      width: 3000,
+      height: 3000,
     };
   });
 
@@ -64,10 +62,6 @@ export const handleScreen = async (project: any) => {
 
   console.log("SCREEN START", 9);
 
-  if (project.productId == 2) {
-    await page.waitForTimeout(7000);
-  }
-
   console.log("SCREEN START", 10);
   // Ждем, пока элемент появится на странице
   await page.waitForSelector(".art");
@@ -82,7 +76,7 @@ export const handleScreen = async (project: any) => {
   if (elementHandle) {
     console.log("SCREEN START", 13);
 
-    const box = await elementHandle.boundingBox();
+    // const box = await elementHandle.boundingBox();
 
     // await page.pdf({
     //   width: box.width,
@@ -106,6 +100,8 @@ export const handleScreen = async (project: any) => {
       }
     })
       .then(screen => {
+        console.log("screen", screen);
+
         return screen;
       })
       .finally(() => {

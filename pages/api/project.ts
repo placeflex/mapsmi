@@ -33,7 +33,11 @@ export default async function handler(
 
     const picturePath = await handleScreen(projectPayload);
 
-    if (decoded && typeof decoded === "object") {
+    console.log("token", token);
+
+    console.log("decoded", decoded);
+
+    if (token && decoded && typeof decoded === "object") {
       const params: any = {
         Bucket: "splashplaces",
         Key: `${id}`,
@@ -49,6 +53,8 @@ export default async function handler(
         } else {
           const imgPath = data.Location;
 
+          console.log("imgPath", imgPath);
+
           const filter = { email: decoded.email };
           const update = {
             $push: {
@@ -63,13 +69,15 @@ export default async function handler(
                 return res.status(200).json({ message: "Project added." });
               } else {
                 return s3.deleteObject(params, (err, data) => {
-                  return res.status(200).json({ message: "User not found." });
+                  return res.status(200).json({ message: "Something wrong." });
                 });
               }
             }
           );
         }
       });
+    } else {
+      return res.status(404).json({ error: "You need login." });
     }
   }
 
@@ -84,7 +92,7 @@ export default async function handler(
 
     const picturePath = await handleScreen(projectPayload);
 
-    if (decoded && typeof decoded === "object") {
+    if (token && decoded && typeof decoded === "object") {
       User.findOne({ email: decoded.email })
         .then(async user => {
           if (user) {
@@ -128,6 +136,8 @@ export default async function handler(
             .status(402)
             .json({ error: "Project was added in account" });
         });
+    } else {
+      return res.status(404).json({ error: "You need login." });
     }
   }
 
@@ -141,7 +151,7 @@ export default async function handler(
     const token = req.headers.authorization;
     const decoded = verifyToken(String(token));
 
-    if (decoded && typeof decoded === "object") {
+    if (token && decoded && typeof decoded === "object") {
       User.findOne({ email: decoded.email })
         .then(async user => {
           user.projects = user.projects.filter(
@@ -163,6 +173,8 @@ export default async function handler(
             }
           });
         });
+    } else {
+      return res.status(404).json({ error: "You need login." });
     }
   }
 }

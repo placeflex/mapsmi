@@ -1,4 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import mapboxgl from "mapbox-gl";
+
+import React, { useState } from "react";
+import Map, { Source, Layer } from "react-map-gl";
 
 // settings
 import { mapColors } from "@/layouts/LayoutSettings/mapColors";
@@ -35,8 +39,6 @@ export const MapContainer = () => {
   const [style, setStyle] = useState("");
 
   useEffect(() => {
-    console.log("CHANGE");
-
     if (posterStyles) {
       const currentMapStyle = mapColors.find(
         style => style.id === posterStyles.color
@@ -49,6 +51,8 @@ export const MapContainer = () => {
   }, [posterStyles?.color]);
 
   const initBounds = () => {
+    console.log("currentPosterLocation", currentPosterLocation);
+
     if (
       currentPosterLocation.customCoordinates &&
       JSON.stringify(currentPosterLocation.customCoordinates) !== "{}"
@@ -61,15 +65,15 @@ export const MapContainer = () => {
         animate: false,
         padding: 20,
       });
-    } else {
-      map.setCenter(currentPosterLocation.center);
-      // map.fitBounds(currentPosterLocation.center, {
-      //   animate: false,
-      //   padding: 20,
-      // });
-      // map.flyTo({
-      //   center: currentPosterLocation.center,
-      // });
+    } else if (
+      currentPosterLocation?.center &&
+      currentPosterLocation?.center.length
+    ) {
+      setViewport(prev => ({
+        ...prev,
+        latitude: currentPosterLocation?.center[1],
+        longitude: currentPosterLocation?.center[0],
+      }));
     }
   };
 
@@ -111,10 +115,10 @@ export const MapContainer = () => {
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      {/* <Map
+      <Map
         {...viewport}
-        mapboxAccessToken="pk.eyJ1IjoicGxhY2VmbGV4IiwiYSI6ImNsbnltZDZrbjBzMnIyanFrOXpqbmR4Y20ifQ.rIHgECYOkgtU3yugLFHcLQ"
-        onMove={evt => setViewport(evt.viewState)}
+        mapboxAccessToken="sk.eyJ1IjoibHV4bWFwZGV2IiwiYSI6ImNscHB2cTBqaTEzYXQya29iZ2pxNHFpMnAifQ.n79a29D6mU1tLj2EQM1L6Q"
+        onMove={(evt: any) => setViewport(evt.viewState)}
         onDragEnd={onDragEnd}
         onZoomEnd={onZoomEnd}
         onLoad={onLoadEvent}
@@ -123,7 +127,7 @@ export const MapContainer = () => {
           id="raster-tiles-source"
           type="raster"
           tiles={[
-            `${style}/tiles/512/{z}/{x}/{y}/?access_token=pk.eyJ1IjoicGxhY2VmbGV4IiwiYSI6ImNsbnltZDZrbjBzMnIyanFrOXpqbmR4Y20ifQ.rIHgECYOkgtU3yugLFHcLQ`,
+            `${style}/tiles/512/{z}/{x}/{y}/?access_token=sk.eyJ1IjoibHV4bWFwZGV2IiwiYSI6ImNscHB2cTBqaTEzYXQya29iZ2pxNHFpMnAifQ.n79a29D6mU1tLj2EQM1L6Q`,
           ]}
         >
           <Layer
@@ -132,7 +136,7 @@ export const MapContainer = () => {
             source="raster-tiles-source"
           />
         </Source>
-      </Map> */}
+      </Map>
     </div>
   );
 };

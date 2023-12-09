@@ -1,15 +1,13 @@
-.map-wrapper {
-  height: 100%;
-  width: 100%;
-  pointer-events: none !important;
-
+.skymap {
   #map {
-    width: 100%;
+    width: auto;
     height: 100% !important;
     pointer-events: none !important;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    aspect-ratio: 1/1;
 
     canvas {
       display: block;
@@ -17,6 +15,34 @@
       height: 100%;
       object-fit: contain;
       pointer-events: none !important;
+      z-index: 2;
     }
+  }
+
+  &.maskApply {
+    #map {
+      -webkit-mask-box-image-source: var(--mask);
+      -webkit-mask-box-image-width: 1%;
+      background-size: 90% 90%;
+    }
+  }
+  &.portrait {
+    #map {
+      width: 100%;
+      height: auto !important;
+    }
+  }
+
+  // .map-wrapper {
+  //   height: 100%;
+  //   width: 100%;
+  //   pointer-events: none !important;
+  // }
+
+  .mask {
+    position: absolute;
+    width: 110%;
+    height: 110%;
+    z-index: 1;
   }
 }

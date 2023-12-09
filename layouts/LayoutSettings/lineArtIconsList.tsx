@@ -74,7 +74,7 @@ export interface IconInterface {
   icon: JSX.Element;
 }
 
-export const svgList: IconInterface[] = [
+export const lineArtIconsList: IconInterface[] = [
   {
     icon: <Svg1 />,
     id: 0,

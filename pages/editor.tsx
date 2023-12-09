@@ -12,10 +12,13 @@ import { Button } from "@/components/Button";
 import { LayoutContent } from "@/layouts/LayoutContent";
 import { SkyMap } from "@/layouts/SkyMap";
 import { MapContainer } from "@/layouts/Map";
+import { Zodiac } from "@/layouts/Zodiac";
 
 // lineart settings ( panel )
-import { svgList } from "@/layouts/LayoutSettings/iconsList";
+import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
+import { zodiacIconsList } from "@/layouts/LayoutSettings/zodiacIconsList";
 import { basicColors } from "@/layouts/LayoutSettings/colorsList";
+import { masks } from "@/layouts/LayoutSettings/skyMapMasks";
 import {
   basicLayoutStyles,
   mapLayoutStyles,
@@ -29,6 +32,7 @@ import { mapColors } from "@/layouts/LayoutSettings/mapColors";
 import { SkyMapPanelContent } from "@/modules/LayoutPanels/SkyMapPanelContent";
 import { LineArtPanelContent } from "@/modules/LayoutPanels/LineArtPanelContent";
 import { MapPanelContent } from "@/modules/LayoutPanels/MapPanelContent";
+import { ZodiacPanelContent } from "@/modules/LayoutPanels/ZodiacPanelContent";
 
 // stores
 import { useDispatch } from "react-redux";
@@ -52,13 +56,22 @@ export default function Editor() {
   const { product_id, id } = router.query;
 
   const user: UserFieldsProps = useTypedSelector(({ user }) => user.user);
-  const isUserLogged = useTypedSelector(({ user }) => user.loggedIn);
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
   const dispatch: AppDispatch = useDispatch();
 
   const handleSelectFigure = async (id: number) => {
-    const figure = svgList.find(icon => icon.id === id);
+    const figure = lineArtIconsList.find(icon => icon.id === id);
+    dispatch(
+      handleChangeStyles({
+        style: "artwork",
+        id: figure?.id,
+      })
+    );
+  };
+
+  const handleSelectZodiacFigure = async (id: number) => {
+    const figure = zodiacIconsList.find(icon => icon.id === id);
     dispatch(
       handleChangeStyles({
         style: "artwork",
@@ -162,6 +175,7 @@ export default function Editor() {
     "--illustration-color":
       basicColors[Number(layout.poster?.styles?.color)]?.illustrationColor,
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
+    "--mask": `url(${masks[Number(layout.poster?.styles?.maskId)]?.src})`,
   };
 
   const mapStyles = {
@@ -178,7 +192,7 @@ export default function Editor() {
           basicLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
             ?.applyName
         }
-        figure={svgList[Number(layout.poster?.styles?.artwork)]?.icon}
+        figure={lineArtIconsList[Number(layout.poster?.styles?.artwork)]?.icon}
         styles={styles}
         texts={{
           heading: layout.poster?.labels?.heading,
@@ -186,12 +200,15 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames({
-          [`lineart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
-            "cm",
-            ""
-          )}`]: layout?.selectedAttributes?.size?.name,
-        })}
+        className={classNames(
+          {
+            [`lineart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+              "cm",
+              ""
+            )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+        )}
       />
     ),
     1: (
@@ -208,12 +225,19 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames({
-          [`skymap poster-${layout?.selectedAttributes?.size?.name.replaceAll(
-            "cm",
-            ""
-          )}`]: layout?.selectedAttributes?.size?.name,
-        })}
+        className={classNames(
+          {
+            [`skymap poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+              "cm",
+              ""
+            )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          {
+            ["maskApply"]: layout.poster?.styles?.isMask,
+            ["overlayApply"]: layout.poster?.styles?.isOverlay,
+          },
+          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+        )}
       />
     ),
     2: (
@@ -229,12 +253,43 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames({
-          [`map poster-${layout?.selectedAttributes?.size?.name.replaceAll(
-            "cm",
-            ""
-          )}`]: layout?.selectedAttributes?.size?.name,
-        })}
+        className={classNames(
+          {
+            [`map poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+              "cm",
+              ""
+            )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+        )}
+      />
+    ),
+    3: (
+      <LayoutContent
+        layoutStyle={
+          skyMapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
+            ?.applyName
+        }
+        figure={<Zodiac />}
+        styles={styles}
+        texts={{
+          heading: layout.poster?.labels?.heading,
+          subline: layout.poster?.labels?.subline,
+          tagline: layout.poster?.labels?.tagline,
+          divider: layout.poster?.labels?.divider,
+        }}
+        className={classNames(
+          {
+            [`zodiac poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+              "cm",
+              ""
+            )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          {
+            ["overlayApply"]: layout.poster?.styles?.isOverlay,
+          },
+          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+        )}
       />
     ),
   };
@@ -268,12 +323,22 @@ export default function Editor() {
         handleChangeFont={handleChangeFont}
       />
     ),
+    3: (
+      <ZodiacPanelContent
+        handleSelectFigure={handleSelectZodiacFigure}
+        handleChangeLayoutColor={handleChangeLayoutColor}
+        handleChangeLayoutStyle={handleChangeLayoutSkyMapStyle}
+        handleSelectSize={handleSelectSize}
+        handleSelectOrientations={handleSelectOrientations}
+        handleChangeFont={handleChangeFont}
+      />
+    ),
   };
 
   return (
     <>
       <PageLayout>
-        <div className="flex">
+        <div className="flex editor-wrapper">
           <div className="min-w-[400px] max-w-[400px] w-full bg-white p-3 overflow-y-auto editor-panel flex flex-col">
             {layout.productId == Number(product_id) &&
               panelUI[layout.productId as keyof typeof panelUI]}
