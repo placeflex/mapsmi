@@ -11,7 +11,7 @@ import { Button } from "@/components/Button";
 // layout ui
 import { LayoutContent } from "@/layouts/LayoutContent";
 import { SkyMap } from "@/layouts/SkyMap";
-import { MapContainer } from "@/layouts/Map";
+import { MapContainer } from "@/layouts/Map/";
 import { Zodiac } from "@/layouts/Zodiac";
 
 // lineart settings ( panel )
@@ -24,7 +24,14 @@ import {
   mapLayoutStyles,
   skyMapLayoutStyles,
 } from "@/layouts/LayoutSettings/artworkStylesList";
-import { sizes, orientations } from "@/layouts/LayoutAttributes";
+import {
+  sizes,
+  orientations,
+  materials,
+  frames,
+  MATERIAL_PRICES,
+  FRAMES_PRICES,
+} from "@/layouts/LayoutAttributes";
 import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
 import { mapColors } from "@/layouts/LayoutSettings/mapColors";
 
@@ -42,7 +49,9 @@ import {
   handleChangeStyles,
   handleChangeAttributes,
   initFromProfile,
+  handleChangeFrame,
 } from "@/redux/layout";
+
 import { handleSaveProject, handleUpdateProject } from "@/redux/user";
 
 // types
@@ -54,7 +63,8 @@ import "@/modules/LayoutPanels/editor.scss";
 export default function Editor() {
   const router = useRouter();
   const { product_id, id } = router.query;
-
+  const FRAME_SCALE = `${1 * 1.5}vmin`;
+  const RENDER_SCALE = 1;
   const user: UserFieldsProps = useTypedSelector(({ user }) => user.user);
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
@@ -136,7 +146,10 @@ export default function Editor() {
   };
 
   const handleSelectSize = (id: number) => {
-    const size = sizes.find(style => style.id === id);
+    const currentMaterialId = layout.selectedAttributes.material.id;
+
+    const size = materials[currentMaterialId].sizes[id];
+
     dispatch(handleChangeAttributes({ attr: "size", value: size }));
   };
 
@@ -145,6 +158,18 @@ export default function Editor() {
     dispatch(
       handleChangeAttributes({ attr: "orientation", value: orientation })
     );
+  };
+
+  const handleSelectMaterial = (id: number) => {
+    const material = materials.find(material => material.id === id);
+
+    dispatch(handleChangeAttributes({ attr: "material", value: material }));
+  };
+
+  const handleSelectFrame = (id: number) => {
+    const currentFrame = frames[id];
+
+    dispatch(handleChangeFrame(currentFrame));
   };
 
   const handleUPDATEACCOUNT = () => {
@@ -166,7 +191,17 @@ export default function Editor() {
     } else {
       dispatch(initLayout(product_id));
     }
+    // dispatch(initLayout(product_id));
   }, [product_id, user.projects]);
+
+  // useEffect(() => {
+  //   const dpi = 300;
+  //   Object.defineProperty(window, "devicePixelRatio", {
+  //     get: function () {
+  //       return 10;
+  //     },
+  //   });
+  // }, []);
 
   const styles = {
     "--text-color":
@@ -176,6 +211,8 @@ export default function Editor() {
       basicColors[Number(layout.poster?.styles?.color)]?.illustrationColor,
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
     "--mask": `url(${masks[Number(layout.poster?.styles?.maskId)]?.src})`,
+    "--render-scale": RENDER_SCALE,
+    "--frame-scale": FRAME_SCALE,
   };
 
   const mapStyles = {
@@ -183,6 +220,8 @@ export default function Editor() {
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
     "--gradientColor":
       mapColors[Number(layout.poster?.styles?.color)]?.gradientColor,
+    "--render-scale": RENDER_SCALE,
+    "--frame-scale": FRAME_SCALE,
   };
 
   const editorUI = {
@@ -302,7 +341,9 @@ export default function Editor() {
         handleChangeLayoutStyle={handleChangeLayoutStyle}
         handleSelectSize={handleSelectSize}
         handleSelectOrientations={handleSelectOrientations}
+        handleSelectMaterial={handleSelectMaterial}
         handleChangeFont={handleChangeFont}
+        handleSelectFrame={handleSelectFrame}
       />
     ),
     1: (
@@ -310,8 +351,10 @@ export default function Editor() {
         handleChangeLayoutColor={handleChangeLayoutColor}
         handleChangeLayoutStyle={handleChangeLayoutSkyMapStyle}
         handleSelectSize={handleSelectSize}
+        handleSelectMaterial={handleSelectMaterial}
         handleSelectOrientations={handleSelectOrientations}
         handleChangeFont={handleChangeFont}
+        handleSelectFrame={handleSelectFrame}
       />
     ),
     2: (
@@ -319,8 +362,10 @@ export default function Editor() {
         handleChangeLayoutColor={handleChangeLayoutColor}
         handleChangeLayoutStyle={handleChangeLayoutMapStyle}
         handleSelectSize={handleSelectSize}
+        handleSelectMaterial={handleSelectMaterial}
         handleSelectOrientations={handleSelectOrientations}
         handleChangeFont={handleChangeFont}
+        handleSelectFrame={handleSelectFrame}
       />
     ),
     3: (
@@ -329,41 +374,27 @@ export default function Editor() {
         handleChangeLayoutColor={handleChangeLayoutColor}
         handleChangeLayoutStyle={handleChangeLayoutSkyMapStyle}
         handleSelectSize={handleSelectSize}
+        handleSelectMaterial={handleSelectMaterial}
         handleSelectOrientations={handleSelectOrientations}
         handleChangeFont={handleChangeFont}
+        handleSelectFrame={handleSelectFrame}
       />
     ),
   };
+
+  const RESULT_PRICE =
+    layout?.selectedAttributes?.frame?.id !== 0
+      ? MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
+          layout.selectedAttributes.size.id
+        ].price + FRAMES_PRICES[layout?.selectedAttributes?.frame?.id]?.price
+      : MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
+          layout.selectedAttributes.size.id
+        ].price;
 
   return (
     <>
       <PageLayout>
         <div className="flex editor-wrapper">
-          <div className="min-w-[400px] max-w-[400px] w-full bg-white p-3 overflow-y-auto editor-panel flex flex-col">
-            {layout.productId == Number(product_id) &&
-              panelUI[layout.productId as keyof typeof panelUI]}
-            {layout.editingProfileProject ? (
-              <Button
-                classNames="w-full mt-auto"
-                type="button"
-                onClick={handleUPDATEACCOUNT}
-              >
-                Update
-              </Button>
-            ) : (
-              <Button
-                classNames="w-full mt-auto"
-                type="button"
-                onClick={handleUPDATEACCOUNT}
-              >
-                Add To Collection
-              </Button>
-            )}
-
-            <Button classNames="w-full mt-2" type="button">
-              Add To Cart
-            </Button>
-          </div>
           <LayoutPreviewWrapper
             className={`${
               fontsList[Number(layout.poster?.styles?.font)]?.font.variable
@@ -372,6 +403,28 @@ export default function Editor() {
             {layout.productId == Number(product_id) &&
               editorUI[layout.productId as keyof typeof editorUI]}
           </LayoutPreviewWrapper>
+
+          <div className="min-w-[600px] max-w-[600px] w-full bg-white p-3 overflow-y-auto editor-panel flex flex-col relative">
+            <div className="mb-4 h-full overflow-y-auto">
+              {layout.productId == Number(product_id) &&
+                panelUI[layout.productId as keyof typeof panelUI]}
+            </div>
+
+            <div className="mt-auto p-4">
+              <Button
+                classNames="w-full"
+                type="button"
+                onClick={handleUPDATEACCOUNT}
+              >
+                Add To Collection
+              </Button>
+
+              <Button classNames="w-full mt-2" type="button">
+                {RESULT_PRICE}
+                Add To Cart
+              </Button>
+            </div>
+          </div>
         </div>
       </PageLayout>
     </>

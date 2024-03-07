@@ -1,4 +1,4 @@
-// import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
+import classNames from "classnames";
 interface Texts {
   heading?: string;
   subline?: string;
@@ -18,16 +18,18 @@ interface LineArtProps {
 // styles
 import "./globalLayoutStyles.scss";
 
-// import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/redux/store";
 
 export const LayoutContent = ({
   className = "",
   layoutStyle = "minimalist",
-  font,
   figure,
   styles,
   texts,
 }: LineArtProps) => {
+  const frame = useTypedSelector(
+    ({ layout }) => layout?.layout?.selectedAttributes?.frame
+  );
   let withoutText =
     !texts?.heading && !texts?.subline && !texts?.divider && !texts?.tagline;
 
@@ -51,6 +53,13 @@ export const LayoutContent = ({
           </div>
         )}
       </div>
+
+      {frame.id !== 0 && (
+        <div
+          id="poster-mount"
+          className={classNames(frame.name, frame.color, frame.material)}
+        ></div>
+      )}
     </div>
   );
 };

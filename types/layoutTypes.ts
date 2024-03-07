@@ -34,7 +34,7 @@ export interface LayoutSettings {
   poster?: Poster;
   selectedAttributes?: SelectedAttributes;
   date: string;
-  locations?: Object;
-  currentLocation?: {};
+  locationsDropdown?: Object;
+  locations?: {};
   editingProfileProject?: boolean;
 }

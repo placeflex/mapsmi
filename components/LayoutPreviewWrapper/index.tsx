@@ -19,12 +19,12 @@ interface LayoutPreviewWrapperProps {
   render?: boolean;
 }
 
-const GAP_FOR_SMALL_POSTER = 180;
-const GAP_FOR_MEDIUM_POSTER = 110;
-const GAP_FOR_BIG_POSTER = 80;
+const GAP_FOR_SMALL_POSTER = 220;
+const GAP_FOR_MEDIUM_POSTER = 160;
+const GAP_FOR_BIG_POSTER = 110;
 
 const initArtworkStyles = {
-  width: 900,
+  width: 400,
   height: 400,
   scale: 1,
   isRender: false,
@@ -51,20 +51,20 @@ export const LayoutPreviewWrapper = ({
   const posterSizeId = useTypedSelector(
     ({ layout }) => layout.layout?.selectedAttributes?.size?.id
   );
+  const posterMaterialId = useTypedSelector(
+    ({ layout }) => layout.layout?.selectedAttributes?.material?.id
+  );
   const posterOrientationId = useTypedSelector(
     ({ layout }) => layout.layout?.selectedAttributes?.orientation?.id
   );
   const layout = useTypedSelector(({ layout }) => layout.layout);
-
-  // const router = useRouter();
-  // const { product_id } = router.query;
 
   const [artworkStyles, setArtworkStyles] =
     useState<PropsScale>(initArtworkStyles);
 
   const handleChangeScale = () => {
     if (refLayoutWrapper.current && refArtworkWrapper.current) {
-      let gap = handleGetPosterGap(Number(posterSizeId));
+      let gap = render ? 0 : handleGetPosterGap(Number(posterSizeId));
 
       if (artworkStyles.width && artworkStyles.height) {
         const parentWidth = refLayoutWrapper.current.offsetWidth - gap;
@@ -78,115 +78,36 @@ export const LayoutPreviewWrapper = ({
         setArtworkStyles(prev => {
           return {
             ...prev,
-            scale: scale,
+            scale: scale >= 1 ? 1 : scale,
+            // scale: scale > 2.5 ? 2.5 : scale,
             isRender: true,
           };
         });
-
-        // if (
-        //   typeof window !== "undefined" &&
-        //   layout.productId === 2 &&
-        //   window.CustomMap &&
-        //   window.CustomMap.resize &&
-        //   artworkStyles.isRender
-        // ) {
-        //   window.CustomMap?.resize();
-        //   console.log("window.CustomMap", window.CustomMap);
-        // }
-
-        // if (posterSizeId === 0) {
-        //   setArtworkStyles(prev => ({
-        //     ...prev,
-        //     scale: 1,
-        //   }));
-        // } else {
-        //   setArtworkStyles(prev => ({
-        //     ...prev,
-        //     scale,
-        //   }));
-        // }
       }
     }
   };
 
   const handleResize = () => {
     if (refLayoutWrapper.current) {
-      let gap = handleGetPosterGap(Number(posterSizeId));
+      let gap = render ? 0 : handleGetPosterGap(Number(posterSizeId));
 
       if (posterOrientationId === 0) {
-        if (Number(layout.productId) == 2) {
-          let height = 3000 - gap;
-          let width = height / 1.44;
+        let width = layout.selectedAttributes?.size?.width - gap;
+        let height = layout.selectedAttributes?.size?.height - gap;
 
-          setArtworkStyles(prev => ({
-            ...prev,
-            width,
-            height,
-          }));
-
-          return;
-        }
-
-        switch (posterSizeId) {
-          case 0:
-            setArtworkStyles(prev => ({
-              ...prev,
-              width: 354.4,
-              height: 472.5,
-            }));
-            break;
-          case 1:
-            setArtworkStyles(prev => ({
-              ...prev,
-              width: 590.6,
-              height: 826.8,
-            }));
-            break;
-          default:
-            setArtworkStyles(prev => ({
-              ...prev,
-              width: 826.8,
-              height: 1181.2,
-            }));
-            break;
-        }
+        setArtworkStyles(prev => ({
+          ...prev,
+          width: render ? width : (width / 100) * 10,
+          height: render ? height : (height / 100) * 10,
+        }));
       } else {
-        if (Number(layout.productId) == 2) {
-          let width = 3000 - gap;
-          let height = width / 1.44;
-
-          setArtworkStyles(prev => ({
-            ...prev,
-            width,
-            height,
-          }));
-
-          return;
-        }
-
-        switch (posterSizeId) {
-          case 0:
-            setArtworkStyles(prev => ({
-              ...prev,
-              width: 472.5,
-              height: 354.4,
-            }));
-            break;
-          case 1:
-            setArtworkStyles(prev => ({
-              ...prev,
-              width: 826.8,
-              height: 590.6,
-            }));
-            break;
-          default:
-            setArtworkStyles(prev => ({
-              ...prev,
-              width: 1181.2,
-              height: 826.8,
-            }));
-            break;
-        }
+        let width = layout.selectedAttributes?.size?.height - gap;
+        let height = layout.selectedAttributes?.size?.width - gap;
+        setArtworkStyles(prev => ({
+          ...prev,
+          width: render ? width : (width / 100) * 10,
+          height: render ? height : (height / 100) * 10,
+        }));
       }
     }
   };
@@ -196,35 +117,18 @@ export const LayoutPreviewWrapper = ({
       handleResize();
       handleChangeScale();
       window.addEventListener("resize", handleChangeScale);
+
       return () => window.removeEventListener("resize", handleChangeScale);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    // refLayoutWrapper.current,
-    // refArtworkWrapper.current,
     artworkStyles.width,
     artworkStyles.height,
     posterSizeId,
     posterOrientationId,
     layout.productId,
+    layout.selectedAttributes,
   ]);
-
-  // useEffect(() => {
-  //   console.log("artworkStyles", artworkStyles);
-
-  //   if (
-  //     typeof window !== "undefined" &&
-  //     layout.productId === 2 &&
-  //     window.CustomMap &&
-  //     window.CustomMap.resize &&
-  //     artworkStyles.isRender &&
-  //     refArtworkWrapper.current &&
-  //     refLayoutWrapper.current
-  //   ) {
-
-  //     // window?.CustomMap?.resize();
-  //   }
-  // }, [posterOrientationId,posterSizeId]);
 
   return (
     <div
@@ -239,18 +143,12 @@ export const LayoutPreviewWrapper = ({
           width: `${artworkStyles?.width}px`,
           height: `${artworkStyles?.height}px`,
           transform: render
-            ? `scale(${artworkStyles?.scale})`
+            ? ``
             : `translate(-50%, -50%) scale(${artworkStyles?.scale})`,
         }}
         ref={refArtworkWrapper}
       >
-        {artworkStyles.isRender && layout.productId == 2 ? (
-          <div className="w-full h-full" key={JSON.stringify(artworkStyles)}>
-            {children}
-          </div>
-        ) : (
-          children
-        )}
+        {children}
       </div>
     </div>
   );

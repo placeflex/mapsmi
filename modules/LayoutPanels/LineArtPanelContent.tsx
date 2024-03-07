@@ -17,6 +17,8 @@ interface LineArtPanelContentInterface {
   handleSelectSize: (id: number) => void;
   handleSelectOrientations: (id: number) => void;
   handleChangeFont: (id: number) => void;
+  handleSelectMaterial: (id: number) => void;
+  handleSelectFrame: (id: number) => void;
 }
 
 export const LineArtPanelContent = ({
@@ -26,6 +28,8 @@ export const LineArtPanelContent = ({
   handleSelectSize,
   handleSelectOrientations,
   handleChangeFont,
+  handleSelectMaterial,
+  handleSelectFrame,
 }: LineArtPanelContentInterface) => {
   return (
     <Accordion
@@ -56,6 +60,8 @@ export const LineArtPanelContent = ({
             <SizeAccordion
               handleSelectSize={handleSelectSize}
               handleSelectOrientations={handleSelectOrientations}
+              handleSelectMaterial={handleSelectMaterial}
+              handleSelectFrame={handleSelectFrame}
             />
           ),
         },

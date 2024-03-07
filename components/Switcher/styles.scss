@@ -1,7 +1,8 @@
 .switcher {
   background: var(--cream) !important;
+  box-shadow: 1px;
 
   &.ant-switch-checked {
-    background: var(--second-bg) !important;
+    background: var(--secondaryBg) !important;
   }
 }

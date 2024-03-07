@@ -12,15 +12,14 @@ import {
 
 import { Accordion } from "@/components/Accordion";
 
-// stores
-import { useTypedSelector } from "@/redux/store";
-
 interface MapPanelContentInterface {
   handleChangeLayoutColor: (id: number) => void;
   handleSelectSize: (id: number) => void;
   handleChangeLayoutStyle: (id: number) => void;
   handleSelectOrientations: (id: number) => void;
   handleChangeFont: (id: number) => void;
+  handleSelectMaterial: (id: number) => void;
+  handleSelectFrame: (id: number) => void;
 }
 
 export const MapPanelContent = ({
@@ -29,13 +28,9 @@ export const MapPanelContent = ({
   handleSelectSize,
   handleSelectOrientations,
   handleChangeFont,
+  handleSelectMaterial,
+  handleSelectFrame,
 }: MapPanelContentInterface) => {
-  const posterStyles = useTypedSelector(
-    ({ layout }) => layout.layout?.poster?.styles
-  );
-  const posterAttributes = useTypedSelector(
-    ({ layout }) => layout.layout?.selectedAttributes
-  );
   return (
     <>
       <Accordion
@@ -70,6 +65,8 @@ export const MapPanelContent = ({
               <SizeAccordion
                 handleSelectSize={handleSelectSize}
                 handleSelectOrientations={handleSelectOrientations}
+                handleSelectMaterial={handleSelectMaterial}
+                handleSelectFrame={handleSelectFrame}
               />
             ),
           },

@@ -11,6 +11,9 @@ import {
   defaultSkyMapLayoutSettings,
 } from "@/constants/defaultLayoutSettings";
 
+// helpers
+import { toast } from "react-toastify";
+
 const initialState: { layout: any } = {
   layout: {},
 };
@@ -50,7 +53,6 @@ const layout = createSlice({
               : action.payload == 3
               ? defaultZodiacArtSettings
               : defaultLayoutSettings;
-          defaultLayoutSettings;
 
           state.layout = {
             ...defaultSettings,
@@ -72,7 +74,33 @@ const layout = createSlice({
     setLocations(state, action) {
       state.layout = {
         ...state.layout,
-        locations: action.payload,
+        locationsDropdown: action.payload,
+      };
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    setElementsColor(state, action) {
+      state.layout = {
+        ...state.layout,
+        elementsColor: action.payload,
+      };
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    setMapLabelsColor(state, action) {
+      state.layout = {
+        ...state.layout,
+        labelsTextColor: action.payload,
       };
 
       storagePoster({
@@ -83,9 +111,126 @@ const layout = createSlice({
     },
 
     setCurrentLocation(state, action) {
+      const multiLocationsIsDisabled =
+        !state.layout.connectLocations && state.layout.locations.length == 1;
+
+      const locationWasAdded = state.layout.locations.filter(
+        location => location.id == action.payload.id
+      );
+
+      if (locationWasAdded.length >= 1) {
+        toast.warning("This location was addes.");
+        return;
+      }
+
+      // TODO remove fist element
+      // if (multiLocationsIsDisabled) {
+      //   state.layout.locations.shift();
+      // }
+
       state.layout = {
         ...state.layout,
-        currentLocation: action.payload,
+        locations: state.layout.locations.concat([{ ...action.payload }]),
+        locationsDropdown: [],
+      };
+
+      if (state.layout.locations.length >= 2) {
+        state.layout = {
+          ...state.layout,
+          connectLocations: true,
+        };
+      }
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    setCurrentLocationForSkyMap(state, action) {
+      state.layout = {
+        ...state.layout,
+        locations: [action.payload],
+        locationsDropdown: [],
+      };
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    deleteLocation(state, action) {
+      state.layout = {
+        ...state.layout,
+        locations: state.layout.locations.filter(
+          location => location.id !== action.payload
+        ),
+        customCoordinates: {},
+      };
+
+      if (!state.layout.locations.length) {
+        state.layout = {
+          ...state.layout,
+          renderMarkers: false,
+          connectLocations: false,
+          renderLabels: false,
+        };
+      }
+
+      if (state.layout.locations.length === 1) {
+        state.layout = {
+          ...state.layout,
+          connectLocations: false,
+        };
+      }
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    renderMarkersController(state, action) {
+      state.layout = {
+        ...state.layout,
+        renderMarkers: action.payload,
+      };
+
+      if (!action.payload) {
+        state.layout = {
+          ...state.layout,
+          renderLabels: false,
+        };
+      }
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    renderLabelsController(state, action) {
+      state.layout = {
+        ...state.layout,
+        renderLabels: action.payload,
+      };
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    connectLocationsController(state, action) {
+      state.layout = {
+        ...state.layout,
+        connectLocations: action.payload,
       };
 
       storagePoster({
@@ -135,6 +280,26 @@ const layout = createSlice({
           [action.payload.attr]: action.payload.value,
         },
       };
+
+      if (action.payload.attr === "size") {
+        state.layout = {
+          ...state.layout,
+          price:
+            state.layout.selectedAttributes.material.sizes[
+              action.payload.value.id
+            ].price + state.layout.selectedAttributes.frame.price,
+        };
+      }
+
+      if (action.payload.attr === "material") {
+        state.layout = {
+          ...state.layout,
+          price:
+            state.layout.selectedAttributes.material.sizes[
+              state.layout.selectedAttributes.size.id
+            ].price + state.layout.selectedAttributes.frame.price,
+        };
+      }
 
       storagePoster({
         profileStore: state.layout.editingProfileProject,
@@ -200,10 +365,28 @@ const layout = createSlice({
     handleSaveCustomCoordinatesForMap(state, action) {
       state.layout = {
         ...state.layout,
-        currentLocation: {
-          ...state.layout.currentLocation,
-          customCoordinates: action.payload,
+        customCoordinates: {
+          ...action.payload,
         },
+      };
+
+      storagePoster({
+        profileStore: state.layout.editingProfileProject,
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    handleChangeFrame(state, action) {
+      state.layout = {
+        ...state.layout,
+        selectedAttributes: {
+          ...state.layout.selectedAttributes,
+          frame: action.payload,
+        },
+
+        price:
+          state.layout.selectedAttributes.size.price + action.payload.price,
       };
 
       storagePoster({
@@ -224,10 +407,18 @@ export const {
   setDate,
   setLocations,
   setCurrentLocation,
+  deleteLocation,
   handleResetLabels,
   initFromProfile,
   handleSaveCustomCoordinatesForMap,
   handleStylesController,
+  renderMarkersController,
+  connectLocationsController,
+  renderLabelsController,
+  handleChangeFrame,
+  setElementsColor,
+  setMapLabelsColor,
+  setCurrentLocationForSkyMap,
 } = layout.actions;
 
 export default layout.reducer;

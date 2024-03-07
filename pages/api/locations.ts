@@ -16,11 +16,18 @@ export default async function handler(
   if (req.method === "POST") {
     const { locationName } = req.body;
 
-    console.log("locationName", locationName);
+    // const apiKey = "YOUR_API_KEY";
+    // const response = await axios.get(
+    //   `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${locationName}&key=AIzaSyDhLDSvBUmds4BJwZCrhWZojrxQYmm54eg`
+    // );
 
-    console.log("process.env.MAPBOX_TOKEN", process.env.MAPBOX_TOKEN);
+    // console.log("response", response);
 
-    const response = await axios
+    // const predictions = response.data.predictions || [];
+
+    // return res.status(200).json({ predictions });
+
+    await axios
       .get(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
           locationName

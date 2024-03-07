@@ -1,0 +1,23 @@
+:root {
+  --primary: #f0122d;
+  --text: #111;
+  --wine: #995955;
+  --bg: #eaedf2;
+  --secondaryBg: #423024;
+  --black: #14191f;
+  --darkGrey: #454545;
+  --silver: #e5e5e5;
+  --blueGrey: #7b92a3;
+  --error: #f8382a;
+  --white: #fff;
+  --cream: #bd998d;
+  --light: #f8f5f2;
+  --hover: linear-gradient(
+    171deg,
+    rgba(240, 18, 45, 1) 0%,
+    rgba(240, 78, 45, 0.4598433123249299) 50%,
+    rgba(240, 107, 45, 1) 100%
+  );
+  --font-main: var(--font-main);
+  --font-dancing: var(--font-dancing);
+}

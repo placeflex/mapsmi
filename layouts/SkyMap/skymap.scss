@@ -1,13 +1,20 @@
 .skymap {
-  #map {
+  #map-holder {
     width: auto;
     height: 100% !important;
+  }
+
+  #map {
     pointer-events: none !important;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     aspect-ratio: 1/1;
+    height: 100% !important;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 99999px;
 
     canvas {
       display: block;
@@ -21,28 +28,26 @@
 
   &.maskApply {
     #map {
-      -webkit-mask-box-image-source: var(--mask);
-      -webkit-mask-box-image-width: 1%;
-      background-size: 90% 90%;
+      // -webkit-mask-box-image-source: var(--mask);
+      mask-image: var(--mask);
+      mask-repeat: no-repeat;
+      mask-size: cover;
+      mask-position: center;
+      // -webkit-mask-box-image-width: 1%;
+      // -webkit-mask-box-image-width: initial;
+      // -webkit-mask-box-image-outset: 0.1em;
+      // -webkit-mask-box-image-repeat: initial;
     }
   }
+
   &.portrait {
-    #map {
+    #map-holder {
       width: 100%;
       height: auto !important;
     }
   }
 
-  // .map-wrapper {
-  //   height: 100%;
-  //   width: 100%;
-  //   pointer-events: none !important;
-  // }
-
-  .mask {
-    position: absolute;
-    width: 110%;
-    height: 110%;
-    z-index: 1;
+  canvas {
+    transform: scale(1.065);
   }
 }

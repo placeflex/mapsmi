@@ -107,25 +107,28 @@ const config: Config = {
       },
 
       colors: {
-        primary: "#F0122D",
-        text: "#323232",
+        primary: "#f0122d",
+        text: "#111",
         wine: "#995955",
-        bg: "#fff",
-        black: "#111",
+        bg: "#eaedf2",
+        secondaryBg: "#423024",
+        black: "#14191f",
         darkGrey: "#454545",
+        silver: "#e5e5e5",
         blueGrey: "#7b92a3",
         error: "#f8382a",
-        cream: "#BD998D",
-        light: "#F8F5F2",
-        secondaryBg: "#423024",
+        cream: "#bd998d",
+        light: "#f8f5f2",
         white: "#ffffff",
         button: "#423024",
       },
+
       fontFamily: {
         sans: ["var(--font-main)", ...defaultTheme.fontFamily.sans],
         second: ["var(--font-dancing)", ...defaultTheme.fontFamily.sans],
         alexbrush: ["var(--font-brush)", ...defaultTheme.fontFamily.sans],
       },
+
       screens: {
         "2xl": { min: "1535px" },
         xl: { min: "1279px" },

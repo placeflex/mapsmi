@@ -6,7 +6,12 @@ import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
 import { zodiacIconsList } from "@/layouts/LayoutSettings/zodiacIconsList";
 import { basicColors } from "@/layouts/LayoutSettings/colorsList";
 import { basicLayoutStyles } from "@/layouts/LayoutSettings/artworkStylesList";
-import { sizes, orientations } from "@/layouts/LayoutAttributes";
+import {
+  sizes,
+  orientations,
+  materials,
+  frames,
+} from "@/layouts/LayoutAttributes";
 import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
 
 export const defaultLayoutSettings = {
@@ -27,13 +32,22 @@ export const defaultLayoutSettings = {
   selectedAttributes: {
     orientation: orientations[0],
     size: sizes[2],
+    material: materials[0],
+    frame: frames[0],
   },
   productId: 0,
   date: dayjs(new Date()).format("YYYY-MM-DD HH:mm"),
+  locationsDropdown: [],
   locations: [],
-  currentLocation: {},
+  markers: [],
   uuid: uuidv4(),
   editingProfileProject: false,
+  connectLocations: false,
+  renderMarkers: false,
+  renderLabels: false,
+  elementsColor: "#fff",
+  labelsTextColor: "#000",
+  // price: materials[0].sizes[2].price,
 };
 
 export const defaultZodiacArtSettings = {
@@ -67,6 +81,7 @@ export const defaultSkyMapLayoutSettings = {
       lines: true,
       milkyway: true,
       stars: true,
+      labels: true,
     },
   },
 };

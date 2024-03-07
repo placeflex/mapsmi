@@ -25,7 +25,7 @@ export const SkyMap = () => {
   );
   const posterDate = useTypedSelector(({ layout }) => layout.layout?.date);
   const currentPosterLocation: any = useTypedSelector(
-    ({ layout }) => layout.layout?.currentLocation
+    ({ layout }) => layout.layout?.locations
   );
 
   const FONT = "var(--font-main)";
@@ -37,6 +37,7 @@ export const SkyMap = () => {
   };
 
   const config = {
+    date: new Date(posterDate),
     container: "map",
     form: false,
     advanced: false,
@@ -46,16 +47,18 @@ export const SkyMap = () => {
     disableAnimations: false,
     zoomlevel: null,
     zoomextend: 1,
-    projection: "orthographic",
+    projection: "orthographic", //orthographic dafault
     transform: "equatorial",
     follow: "zenith",
-    width: 800,
-    height: 800,
+    width: 900,
+    height: 900,
+    orientationfixed: false,
+    projectionRatio: null,
     background: {
       fill: styles.ilstr,
       stroke: styles.stroke,
       opacity: 1,
-      width: 0,
+      width: 1,
     },
     lines: {
       graticule: {
@@ -69,7 +72,7 @@ export const SkyMap = () => {
       galactic: { show: false },
       supergalactic: { show: false },
     },
-    datapath: "",
+    datapath: "/data",
     planets: {
       which: [
         "sol",
@@ -90,19 +93,28 @@ export const SkyMap = () => {
       show: false,
       names: false,
     },
+    culture: "",
     constellations: {
-      names: true,
-      namesType: "iau",
+      names: posterStyles?.labels,
+      namesType: "name",
       nameStyle: {
         fill: `${styles.bg}`,
         align: "center",
         baseline: "middle",
-        font: [`14px ${FONT}`, `8px ${FONT}`, `0px ${FONT}`],
+        font: "14px Helvetica, Arial, sans-serif",
       },
       lines: posterStyles?.lines,
-      lineStyle: { stroke: styles.bg, width: 0.5, opacity: 0.5 },
+      lineStyle: { stroke: styles.bg, width: 1, opacity: 0.5 },
       bounds: false,
       boundStyle: { stroke: "#cccc00", width: 0.5, opacity: 0.8, dash: [2, 4] },
+    },
+    horizon: {
+      //Show horizon marker, if location is set and map projection is all-sky
+      show: false,
+      stroke: "#cccccc", // Line
+      width: 1.0,
+      fill: "#000000", // Area below horizon
+      opacity: 0.5,
     },
     mw: {
       show: posterStyles?.milkyway,
@@ -118,7 +130,7 @@ export const SkyMap = () => {
       // Отображение звезд ярче этой звездной величины
       colors: false, // Отображение звезд в цвете (или только белые)
 
-      size: 6,
+      size: 7,
       limit: 7,
       exponent: -0.28,
       designation: false,
@@ -131,9 +143,8 @@ export const SkyMap = () => {
       propernameType: "name",
       propernameStyle: {
         fill: "red",
-        font: `8px ${FONT}`,
-        align: "right",
-        baseline: "center",
+        align: "center",
+        baseline: "middle",
       },
       data: "stars.6.json",
     },
@@ -152,8 +163,8 @@ export const SkyMap = () => {
       if (JSON.stringify(currentPosterLocation) !== "{}") {
         cls.skyview({
           location: [
-            currentPosterLocation?.center[1],
-            currentPosterLocation?.center[0],
+            currentPosterLocation[0]?.center[1],
+            currentPosterLocation[0]?.center[0],
           ],
         });
       }
@@ -170,15 +181,15 @@ export const SkyMap = () => {
     if (cls) {
       cls?.apply(config);
     }
-  }, [posterStyles, config]);
+  }, [posterStyles, posterDate]);
 
   useEffect(() => {
     if (cls) {
       if (JSON.stringify(currentPosterLocation) !== "{}") {
         cls.skyview({
           location: [
-            currentPosterLocation?.center[1],
-            currentPosterLocation?.center[0],
+            currentPosterLocation[0]?.center[1],
+            currentPosterLocation[0]?.center[0],
           ],
         });
       }
@@ -192,14 +203,13 @@ export const SkyMap = () => {
   }, [currentPosterLocation, posterDate]);
 
   return (
-    <>
-      <div className="map-wrapper" id="map">
-        {posterStyles.isOverlay && (
-          <div className="mask">
-            {maskOverlays[posterStyles.overlayId].figure}
-          </div>
-        )}
-      </div>
-    </>
+    <div className="relative" id="map-holder">
+      {posterStyles.isOverlay && (
+        <div className="mask">
+          {maskOverlays[posterStyles.overlayId].figure}
+        </div>
+      )}
+      <div className="map-wrapper" id="map"></div>
+    </div>
   );
 };

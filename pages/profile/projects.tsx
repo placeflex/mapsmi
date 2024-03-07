@@ -5,6 +5,7 @@ import PrivateRoute from "@/components/PrivateRoute";
 import { ProfileLayout } from "@/modules/Profile/ProfileLayout";
 import { Layout as PageLayout } from "@/components/Layout";
 import { Container } from "@/components/Container";
+import { MyImageComponent } from "@/components/MyImageComponent";
 
 // helpers
 import { toast } from "react-toastify";
@@ -71,8 +72,9 @@ const UserProjects = () => {
                 <div className="flex flex-wrap -ml-2 -mr-2">
                   {user?.projects?.map((project, index) => {
                     const size = project.selectedAttributes.size.name;
-
-                    console.log("project", project);
+                    const frame = project.selectedAttributes.frame.material;
+                    const material = project.selectedAttributes.material;
+                    const price = project.price;
 
                     return (
                       <div
@@ -92,10 +94,13 @@ const UserProjects = () => {
                               });
                             }}
                           >
-                            <img
+                            <MyImageComponent
                               src={project.path}
+                              width={100}
+                              height={100}
+                              quality={20}
                               alt="preview"
-                              className="w-[140px]  h-[140px] object-contain"
+                              priority={true}
                             />
                           </div>
 
@@ -106,10 +111,16 @@ const UserProjects = () => {
                                 {productNames[Number(project.productId)]}
                               </h3>
                               <h3 className="text-[0.6rem] mb-1">
-                                Material: -
+                                Material: {material.name}
                               </h3>
                               <h3 className="text-[0.6rem] mb-1">
                                 Size: {size}
+                              </h3>
+                              <h3 className="text-[0.6rem] mb-1">
+                                Frame: {frame}
+                              </h3>
+                              <h3 className="text-[0.6rem] mb-1 font-bold">
+                                Price: {price}$
                               </h3>
                             </div>
 

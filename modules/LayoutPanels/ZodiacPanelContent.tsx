@@ -20,6 +20,8 @@ interface SkyMapPanelContentInterface {
   handleSelectSize: (id: number) => void;
   handleChangeFont: (id: number) => void;
   handleSelectFigure: (id: number) => void;
+  handleSelectMaterial: (id: number) => void;
+  handleSelectFrame: (id: number) => void;
 }
 
 export const ZodiacPanelContent = ({
@@ -29,6 +31,8 @@ export const ZodiacPanelContent = ({
   handleSelectOrientations,
   handleChangeFont,
   handleSelectFigure,
+  handleSelectMaterial,
+  handleSelectFrame,
 }: SkyMapPanelContentInterface) => {
   return (
     <>
@@ -62,6 +66,8 @@ export const ZodiacPanelContent = ({
               <SizeAccordion
                 handleSelectSize={handleSelectSize}
                 handleSelectOrientations={handleSelectOrientations}
+                handleSelectMaterial={handleSelectMaterial}
+                handleSelectFrame={handleSelectFrame}
               />
             ),
           },

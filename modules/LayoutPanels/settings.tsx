@@ -6,6 +6,8 @@ import classNames from "classnames";
 import { Input } from "@/components/Input";
 import { Switcher } from "@/components/Switcher";
 import { SearchSelect } from "@/components/SearchSelect";
+import { TabsPanel } from "@/components/TabsPanel";
+import { SketchPicker, ChromePicker } from "react-color";
 
 // lineart settings ( panel )
 import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
@@ -23,7 +25,14 @@ import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
 
 import dayjs from "dayjs";
 
-import { sizes, orientations } from "@/layouts/LayoutAttributes";
+import {
+  sizes,
+  orientations,
+  materials,
+  frames,
+  MATERIAL_PRICES,
+  FRAMES_PRICES,
+} from "@/layouts/LayoutAttributes";
 
 import { AutoComplete } from "@/components/AutoComplete";
 
@@ -45,7 +54,18 @@ import {
   handleResetLabels,
   handleChangeLables,
   handleStylesController,
+  deleteLocation,
+  renderMarkersController,
+  connectLocationsController,
+  renderLabelsController,
+  handleSaveCustomCoordinatesForMap,
+  setElementsColor,
+  setMapLabelsColor,
+  setCurrentLocationForSkyMap,
 } from "@/redux/layout";
+
+// icons
+import Delete from "@/public/icons/delete.svg";
 
 const debouncedSearch = debounce(callback => callback(), 1000);
 
@@ -214,31 +234,62 @@ export const TextsAccordion = () => {
 export const SizeAccordion = ({
   handleSelectSize,
   handleSelectOrientations,
+  handleSelectMaterial,
+  handleSelectFrame,
 }: any) => {
   const posterAttributes = useTypedSelector(
     ({ layout }) => layout.layout?.selectedAttributes
   );
+
+  const onChange = (id: string) => {
+    handleSelectMaterial(Number(id));
+  };
+
+  const materialItems =
+    materials.length &&
+    materials?.map(material => {
+      return {
+        key: material.id,
+        label: <span className="text-xs">{material.name}</span>,
+        children: (
+          <div>
+            {material?.sizes?.map((size, idx) => {
+              return (
+                <button
+                  className={`border text-xs cursor-pointer flex flex-col gap-1 items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1  ${
+                    Number(posterAttributes?.size?.id) == size.id
+                      ? "border-black"
+                      : ""
+                  }`}
+                  key={size.id}
+                  onClick={() => handleSelectSize(size.id)}
+                >
+                  <span className="block">{size.name}</span>
+                  <span></span>
+                  <span className="block">
+                    {MATERIAL_PRICES[material.id].prices[size.id]?.price} грн
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ),
+      };
+    });
 
   return (
     <>
       <div className="flex flex-col mb-4">
         <h5 className="font-bold text-xs mb-2">Select poster size</h5>
         <div className="flex flex-wrap gap-2">
-          {sizes.map(({ id, name }): React.ReactNode => {
-            return (
-              <button
-                className={`border text-xs cursor-pointer flex items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1  ${
-                  Number(posterAttributes?.size?.id) == id ? "border-black" : ""
-                }`}
-                key={id}
-                onClick={() => handleSelectSize(id)}
-              >
-                {name}
-              </button>
-            );
-          })}
+          <TabsPanel
+            defaultActiveKey={posterAttributes?.material?.id}
+            items={materialItems}
+            onChange={onChange}
+          />
         </div>
       </div>
+
       <div className="flex flex-col">
         <h5 className="font-bold text-xs mb-2">Select orientation</h5>
         <div className="flex flex-wrap gap-2">
@@ -259,6 +310,24 @@ export const SizeAccordion = ({
           })}
         </div>
       </div>
+
+      <div className="flex flex-col mt-2">
+        <h5 className="font-bold text-xs mb-2">Select Frame</h5>
+        <div className="flex flex-wrap gap-2">
+          {frames.map(frame => {
+            return (
+              <div
+                key={frame.id}
+                className="w-full"
+                onClick={() => handleSelectFrame(frame.id)}
+              >
+                <span>{frame.name}</span>
+                <span>{FRAMES_PRICES[frame.id].price}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </>
   );
 };
@@ -269,12 +338,24 @@ export const LocationAccrodion = () => {
   const productId = useTypedSelector(({ layout }) => layout?.layout.productId);
   const layoutDate = useTypedSelector(({ layout }) => layout.layout.date);
 
-  const locations = useTypedSelector<any>(
-    ({ layout }) => layout.layout.locations
+  const locationsDropdown = useTypedSelector<any>(
+    ({ layout }) => layout.layout.locationsDropdown
   );
 
   const currentPosterLocation: any = useTypedSelector(
-    ({ layout }) => layout.layout?.currentLocation
+    ({ layout }) => layout.layout?.locations
+  );
+
+  const connectLocations = useTypedSelector(
+    ({ layout }) => layout.layout.connectLocations
+  );
+
+  const renderMarkers = useTypedSelector(
+    ({ layout }) => layout.layout.renderMarkers
+  );
+
+  const renderLabels = useTypedSelector(
+    ({ layout }) => layout.layout.renderLabels
   );
 
   const fetchLocation = async () => {
@@ -375,15 +456,29 @@ export const LocationAccrodion = () => {
   };
 
   const handleSelectLocation = (location: any, opt: any) => {
-    dispatch(
-      setCurrentLocation({
-        ...opt,
-        name: opt.value,
-        data: opt.locationData,
-      })
-    );
+    if (productId == 2) {
+      dispatch(
+        setCurrentLocation({
+          ...opt,
+          name: opt.value,
+          data: opt.locationData,
+        })
+      );
+    } else {
+      dispatch(
+        setCurrentLocationForSkyMap({
+          ...opt,
+          name: opt.value,
+          data: opt.locationData,
+        })
+      );
+    }
 
     handleUpdateLabels(opt.value);
+
+    if (productId == 2) {
+      dispatch(handleSaveCustomCoordinatesForMap({}));
+    }
   };
 
   const onChangeDatePicker = (date: any) => {
@@ -407,18 +502,84 @@ export const LocationAccrodion = () => {
         You can search, drag/drop and zoom on the map to get the exact position
         you want on your poster.
       </p>
+
+      {productId == 2 && (
+        <>
+          Connect Locations{" "}
+          <Switcher
+            checked={connectLocations}
+            disabled={currentPosterLocation.length < 2}
+            onChange={() => {
+              dispatch(connectLocationsController(!connectLocations));
+            }}
+          />
+        </>
+      )}
+
       <div>
         <AutoComplete
-          options={locations}
+          options={locationsDropdown}
           placeholder="Search for a location, street or landmark"
           className="w-full"
           onChange={handleInputChange}
           onSelect={handleSelectLocation}
-          value={currentPosterLocation}
+          value={
+            productId == 2
+              ? locationsDropdown[locationsDropdown.length - 1]?.value
+              : currentPosterLocation[0]?.name
+          }
           label="SEARCH FOR A PLACE"
-          key={currentPosterLocation?.value}
+          key={currentPosterLocation?.length}
         />
       </div>
+
+      {productId == 2 &&
+        currentPosterLocation.map(loc => {
+          return (
+            <div
+              key={loc.id}
+              className="w-full flex justify-between items-center py-2 border-solid border border-main mt-2 px-2 rounded-sm"
+            >
+              <span className="font-bold text-xs whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                {loc.value}
+              </span>
+
+              <button
+                className="flex flex-col items-center justify-center text-extraSmall text-error ml-4"
+                onClick={() => dispatch(deleteLocation(loc.id))}
+              >
+                <Delete width={20} stroke="#ff0000" fill="#ff0000" />
+                Delete
+              </button>
+            </div>
+          );
+        })}
+
+      {productId == 2 && (
+        <div className="mt-2">
+          Markers{" "}
+          <Switcher
+            checked={renderMarkers}
+            disabled={!currentPosterLocation.length}
+            onChange={() => {
+              dispatch(renderMarkersController(!renderMarkers));
+            }}
+          />
+        </div>
+      )}
+
+      {productId == 2 && (
+        <div className="mt-2">
+          Labels{" "}
+          <Switcher
+            checked={renderLabels}
+            disabled={!currentPosterLocation.length || !renderMarkers}
+            onChange={() => {
+              dispatch(renderLabelsController(!renderLabels));
+            }}
+          />
+        </div>
+      )}
 
       {productId == 1 && (
         <div className="mt-4">
@@ -435,26 +596,105 @@ export const LocationAccrodion = () => {
 };
 
 export const ColorsForMapAccordion = ({ handleChange }: any) => {
+  const [showElementsColorPicker, setElementsColorPicker] = useState(false);
+  const [showLabelsTextColorPicker, setLabelsTextColorPicker] = useState(false);
+
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
+  const elementsColor = useTypedSelector(
+    ({ layout }) => layout.layout?.elementsColor
+  );
+  const labelsColor = useTypedSelector(
+    ({ layout }) => layout.layout?.labelsTextColor
+  );
+
+  const dispatch: AppDispatch = useDispatch();
 
   return (
-    <div className="icons overflow-y-auto grid grid-cols-4 gap-2 pr-4">
-      {mapColors.map(({ icon, id }): React.ReactNode => {
-        return (
+    <>
+      <div className="icons overflow-y-auto grid grid-cols-4 gap-2 pr-4">
+        {mapColors.map(({ icon, id }): React.ReactNode => {
+          return (
+            <div
+              key={id}
+              className={`border h-[100px] flex flex-col cursor-pointer border-1 ${
+                id === Number(posterStyles?.color) ? "border-black" : ""
+              }`}
+              onClick={() => handleChange(id)}
+            >
+              {icon}
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center my-4">
+        <h5 className="font-bold text-xs mr-4">Elements Color:</h5>
+        <div className="relative flex">
           <div
-            key={id}
-            className={`border h-[100px] flex flex-col cursor-pointer border-1 ${
-              id === Number(posterStyles?.color) ? "border-black" : ""
-            }`}
-            onClick={() => handleChange(id)}
+            className="p-1 border inline-block cursor-pointer"
+            onClick={() => setElementsColorPicker(prev => !prev)}
           >
-            {icon}
+            <div
+              className="w-[3.6rem] h-[1.4rem] border"
+              style={{
+                background: `${elementsColor}`,
+              }}
+            />
           </div>
-        );
-      })}
-    </div>
+
+          {showElementsColorPicker ? (
+            <div className="absolute z-10">
+              <div
+                className="fixed top-0 right-0 bottom-0 left-0"
+                onClick={() => setElementsColorPicker(prev => !prev)}
+              />
+              <ChromePicker
+                disableAlpha
+                color={elementsColor}
+                onChange={e => {
+                  dispatch(setElementsColor(e.hex));
+                }}
+              />
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="flex items-center my-4">
+        <h5 className="font-bold text-xs mr-4">Labels Text Color:</h5>
+        <div className="relative flex">
+          <div
+            className="p-1 border inline-block cursor-pointer"
+            onClick={() => setLabelsTextColorPicker(prev => !prev)}
+          >
+            <div
+              className="w-[3.6rem] h-[1.4rem] border"
+              style={{
+                background: `${labelsColor}`,
+              }}
+            />
+          </div>
+
+          {showLabelsTextColorPicker ? (
+            <div className="absolute z-10">
+              <div
+                className="fixed top-0 right-0 bottom-0 left-0"
+                onClick={() => setLabelsTextColorPicker(prev => !prev)}
+              />
+
+              <ChromePicker
+                disableAlpha
+                color={labelsColor}
+                onChange={e => {
+                  dispatch(setMapLabelsColor(e.hex));
+                }}
+              />
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </>
   );
 };
 
@@ -541,106 +781,118 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
           </div>
         )}
 
-        {productId == 1 && (
-          <>
-            <div className="flex justify-between mt-4">
-              <h5 className="text-xs font-bold">Mask</h5>
-              <Switcher
-                checked={isMask}
-                onChange={() => {
-                  dispatch(
-                    handleStylesController({ field: "isOverlay", value: false })
-                  );
-                  dispatch(
-                    handleStylesController({ field: "isMask", value: !isMask })
-                  );
-                }}
-              />
-            </div>
+        <>
+          <div className="flex justify-between mt-4">
+            <h5 className="text-xs font-bold">Mask</h5>
+            <Switcher
+              checked={isMask}
+              onChange={() => {
+                dispatch(
+                  handleStylesController({ field: "isOverlay", value: false })
+                );
+                dispatch(
+                  handleStylesController({ field: "isMask", value: !isMask })
+                );
+              }}
+            />
+          </div>
 
-            {isMask && (
-              <div className="icons max-h-[300px] overflow-y-auto grid grid-cols-4 gap-2 pr-4 mt-2">
-                {masks.map(({ id, src }) => {
-                  return (
-                    <div
-                      key={id}
-                      className={classNames(
-                        "h-[80px] border border-1 p-4 cursor-pointer flex justify-center items-center",
-                        id === Number(posterStyles?.maskId)
-                          ? "border-black"
-                          : ""
-                      )}
-                      onClick={() =>
-                        dispatch(
-                          handleStylesController({ field: "maskId", value: id })
-                        )
-                      }
-                    >
-                      <img src={src} alt="mask" />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+          {isMask && (
+            <div className="icons max-h-[300px] overflow-y-auto grid grid-cols-4 gap-2 pr-4 mt-2">
+              {masks.map(({ id, src }) => {
+                return (
+                  <div
+                    key={id}
+                    className={classNames(
+                      "h-[80px] border border-1 p-4 cursor-pointer flex justify-center items-center",
+                      id === Number(posterStyles?.maskId) ? "border-black" : ""
+                    )}
+                    onClick={() =>
+                      dispatch(
+                        handleStylesController({ field: "maskId", value: id })
+                      )
+                    }
+                  >
+                    <img src={src} alt="mask" />
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
-            <div className="flex justify-between mt-4">
-              <h5 className="text-xs font-bold">Stars</h5>
-              <Switcher
-                checked={posterStyles?.stars}
-                onChange={() => {
-                  dispatch(
-                    handleStylesController({
-                      field: "stars",
-                      value: !posterStyles?.stars,
-                    })
-                  );
-                }}
-              />
-            </div>
-            <div className="flex justify-between mt-4">
-              <h5 className="text-xs font-bold">Grid</h5>
-              <Switcher
-                checked={posterStyles?.grid}
-                onChange={() => {
-                  dispatch(
-                    handleStylesController({
-                      field: "grid",
-                      value: !posterStyles?.grid,
-                    })
-                  );
-                }}
-              />
-            </div>
-            <div className="flex justify-between mt-4">
-              <h5 className="text-xs font-bold">Lines</h5>
-              <Switcher
-                checked={posterStyles?.lines}
-                onChange={() => {
-                  dispatch(
-                    handleStylesController({
-                      field: "lines",
-                      value: !posterStyles?.lines,
-                    })
-                  );
-                }}
-              />
-            </div>
-            <div className="flex justify-between mt-4">
-              <h5 className="text-xs font-bold">Milky Way</h5>
-              <Switcher
-                checked={posterStyles?.milkyway}
-                onChange={() => {
-                  dispatch(
-                    handleStylesController({
-                      field: "milkyway",
-                      value: !posterStyles?.milkyway,
-                    })
-                  );
-                }}
-              />
-            </div>
-          </>
-        )}
+          <div className="flex justify-between mt-4">
+            <h5 className="text-xs font-bold">Stars</h5>
+            <Switcher
+              checked={posterStyles?.stars}
+              onChange={() => {
+                dispatch(
+                  handleStylesController({
+                    field: "stars",
+                    value: !posterStyles?.stars,
+                  })
+                );
+              }}
+            />
+          </div>
+
+          <div className="flex justify-between mt-4">
+            <h5 className="text-xs font-bold">Labels</h5>
+            <Switcher
+              checked={posterStyles?.labels}
+              onChange={() => {
+                dispatch(
+                  handleStylesController({
+                    field: "labels",
+                    value: !posterStyles?.labels,
+                  })
+                );
+              }}
+            />
+          </div>
+
+          <div className="flex justify-between mt-4">
+            <h5 className="text-xs font-bold">Grid</h5>
+            <Switcher
+              checked={posterStyles?.grid}
+              onChange={() => {
+                dispatch(
+                  handleStylesController({
+                    field: "grid",
+                    value: !posterStyles?.grid,
+                  })
+                );
+              }}
+            />
+          </div>
+          <div className="flex justify-between mt-4">
+            <h5 className="text-xs font-bold">Lines</h5>
+            <Switcher
+              checked={posterStyles?.lines}
+              onChange={() => {
+                dispatch(
+                  handleStylesController({
+                    field: "lines",
+                    value: !posterStyles?.lines,
+                  })
+                );
+              }}
+            />
+          </div>
+          <div className="flex justify-between mt-4">
+            <h5 className="text-xs font-bold">Milky Way</h5>
+            <Switcher
+              checked={posterStyles?.milkyway}
+              onChange={() => {
+                dispatch(
+                  handleStylesController({
+                    field: "milkyway",
+                    value: !posterStyles?.milkyway,
+                  })
+                );
+              }}
+            />
+          </div>
+        </>
       </div>
     </>
   );

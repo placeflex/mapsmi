@@ -9,7 +9,7 @@ import { LayoutPreviewWrapper } from "@/components/LayoutPreviewWrapper";
 // layout ui
 import { LayoutContent } from "@/layouts/LayoutContent";
 import { SkyMap } from "@/layouts/SkyMap";
-import { MapContainer } from "@/layouts/Map";
+import { MapContainer } from "@/layouts/Map/";
 import { Zodiac } from "@/layouts/Zodiac";
 // lineart settings ( panel )
 import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
@@ -28,24 +28,31 @@ import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
 import { initFromProfile } from "@/redux/layout";
 
-// types
-import { UserFieldsProps } from "@/redux/user";
-
 // styles
 import "@/modules/LayoutPanels/editor.scss";
 
 export default function Editor() {
   const router = useRouter();
-  const { product_id } = router.query;
+  const { product_id, preview } = router.query;
+
+  console.log("router.query", router.query);
 
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
   const dispatch: AppDispatch = useDispatch();
 
+  const FRAME_SCALE = preview ? `${10 * 0.5}vmin` : 0;
+
   useEffect(() => {
     const project = localStorage.getItem("profile-storage");
 
+    window.devicePixelRatio = 10;
+
     if (project) {
+      const body = document.querySelector("body");
+      if (body && body.style) {
+        body.style.overflow = "auto";
+      }
       dispatch(initFromProfile(JSON.parse(project)));
     }
   }, [product_id]);
@@ -58,6 +65,8 @@ export default function Editor() {
       basicColors[Number(layout.poster?.styles?.color)]?.illustrationColor,
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
     "--mask": `url(${masks[Number(layout.poster?.styles?.maskId)]?.src})`,
+    "--render-scale": 10,
+    "--frame-scale": FRAME_SCALE,
   };
 
   const mapStyles = {
@@ -65,6 +74,8 @@ export default function Editor() {
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
     "--gradientColor":
       mapColors[Number(layout.poster?.styles?.color)]?.gradientColor,
+    "--render-scale": 10,
+    "--frame-scale": FRAME_SCALE,
   };
 
   const editorUI = {
@@ -84,7 +95,7 @@ export default function Editor() {
         }}
         className={classNames(
           {
-            [`lineart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+            [`render lineart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
               ""
             )}`]: layout?.selectedAttributes?.size?.name,
@@ -109,7 +120,7 @@ export default function Editor() {
         }}
         className={classNames(
           {
-            [`skymap poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+            [`render skymap poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
               ""
             )}`]: layout?.selectedAttributes?.size?.name,
@@ -127,7 +138,7 @@ export default function Editor() {
         layoutStyle={
           mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
         }
-        figure={<MapContainer />}
+        figure={<MapContainer render={true} />}
         styles={mapStyles}
         texts={{
           heading: layout.poster?.labels?.heading,
@@ -137,7 +148,7 @@ export default function Editor() {
         }}
         className={classNames(
           {
-            [`map poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+            [`render map poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
               ""
             )}`]: layout?.selectedAttributes?.size?.name,
@@ -162,7 +173,7 @@ export default function Editor() {
         }}
         className={classNames(
           {
-            [`zodiac poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+            [`render zodiac poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
               ""
             )}`]: layout?.selectedAttributes?.size?.name,
@@ -176,9 +187,21 @@ export default function Editor() {
     ),
   };
 
+  const isPreview =
+    layout?.selectedAttributes?.frame?.id !== 0 && preview
+      ? {
+          padding: FRAME_SCALE,
+        }
+      : {
+          padding: 0,
+        };
+
   return (
     <>
-      <div className="h-full">
+      <div
+        className={classNames("h-full w-fit", preview && "screen-wrapper")}
+        style={isPreview}
+      >
         <LayoutPreviewWrapper
           className={`${
             fontsList[Number(layout.poster?.styles?.font)]?.font.variable
