@@ -1,36 +1,35 @@
 import { useEffect } from "react";
-import mapboxgl from "mapbox-gl";
 import { isEmpty } from "lodash";
 
 import React, { useState } from "react";
-// import Map, { Source, Layer, ScaleControl } from "react-map-gl";
-// import ReactMapGL from "react-map-gl";
-import "ol/ol.css"; // Import OpenLayers styles
 import { Map, Feature } from "ol";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
-import { XYZ, TileJSON, Tile } from "ol/source";
+import { XYZ } from "ol/source";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import OSM from "ol/source/OSM.js";
-import GeoJSON from "ol/format/GeoJSON";
 import { fromLonLat, transformExtent } from "ol/proj";
-import { Point, LineString, Circle } from "ol/geom";
+import { Point, LineString } from "ol/geom";
 import { Style, Icon, Stroke, Text, Fill } from "ol/style";
 import { createXYZ } from "ol/tilegrid";
 import * as turf from "@turf/turf";
 
-import VectorTileLayer from "ol/layer/VectorTile.js";
-import VectorTileSource from "ol/source/VectorTile.js";
-import MVT from "ol/format/MVT.js";
-
 // settings
 import { mapColors } from "@/layouts/LayoutSettings/mapColors";
+
+// constants
+import {
+  RENDER_SCALE_RENDER_PAGE,
+  RENDER_SCALE_EDITOR_PAGE,
+} from "@/constants/defaultLayoutSettings";
 
 // stores
 import { useDispatch } from "react-redux";
 import { handleSaveCustomCoordinatesForMap } from "@/redux/layout";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
+
+// styles
+import "ol/ol.css";
 
 declare global {
   interface Window {
@@ -98,26 +97,12 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     zoom: 2,
   });
 
-  const [style, setStyle] = useState("");
-
   useEffect(() => {
     if (map) {
       handleAddRoute();
       handleRenderMarkers();
     }
   }, [elementsColor, map, labelsTextColor]);
-
-  useEffect(() => {
-    if (posterStyles) {
-      const currentMapStyle = mapColors.find(
-        style => style.id === posterStyles.color
-      );
-
-      if (currentMapStyle) {
-        setStyle(currentMapStyle?.url);
-      }
-    }
-  }, [posterStyles?.color]);
 
   const handleAddRoute = () => {
     handleRemoveRouteLine();
@@ -196,8 +181,15 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       style: new Style({
         stroke: new Stroke({
           color: elementsColor,
-          width: render ? 40 : 4,
-          lineDash: [10, 10],
+          width: render
+            ? (RENDER_SCALE_RENDER_PAGE / 2) * RENDER_SCALE_RENDER_PAGE
+            : RENDER_SCALE_RENDER_PAGE / 2,
+          lineDash: render
+            ? [
+                RENDER_SCALE_RENDER_PAGE * RENDER_SCALE_RENDER_PAGE,
+                RENDER_SCALE_RENDER_PAGE * RENDER_SCALE_RENDER_PAGE,
+              ]
+            : [RENDER_SCALE_RENDER_PAGE, RENDER_SCALE_RENDER_PAGE],
         }),
       }),
     });
@@ -283,12 +275,14 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
 
   const alignMapForOneLocation = () => {
     const center = transformExtent(
-      currentPosterLocations[0].bbox,
+      currentPosterLocations[0]?.bbox ?? [0, 0, 0, 0],
       "EPSG:4326",
       "EPSG:3857"
     );
 
-    map.getView().fit(center, map.getSize());
+    if (center) {
+      map.getView().fit(center, map.getSize());
+    }
   };
 
   const alignMapForAllMarkers = () => {
@@ -388,11 +382,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         "EPSG:3857"
       );
 
-      const renderPosition = render
-        ? {
-            extent: savedBounds,
-          }
-        : {};
+      const renderPosition = render ? { extent: savedBounds } : {};
 
       newView = new View({
         projection: "EPSG:3857",
@@ -419,10 +409,14 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     });
     const source = render
       ? {
-          url: `http://localhost:8080/styles/blackBlue/{z}/{x}/{y}${scale}.png`,
+          url: `http://localhost:8080/styles/${
+            mapColors[posterStyles.color].name
+          }/{z}/{x}/{y}${scale}.png`,
         }
       : {
-          url: `http://localhost:8080/styles/blackBlue/{z}/{x}/{y}@2x.png`,
+          url: `http://localhost:8080/styles/${
+            mapColors[posterStyles.color].name
+          }/{z}/{x}/{y}@2x.png`,
         };
 
     // {
@@ -527,7 +521,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     return () => {
       map.setTarget(undefined);
     };
-  }, []);
+  }, [posterStyles.color]);
 
   return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
 };

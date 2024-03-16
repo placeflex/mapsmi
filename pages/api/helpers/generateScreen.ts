@@ -1,5 +1,7 @@
 import puppeteer from "puppeteer";
 
+import { handleGetPosterGap } from "@/components/LayoutPreviewWrapper";
+
 function vminToPixels(vminValue, screenWidth, screenHeight) {
   const vminInPixels = Math.min(screenWidth, screenHeight) * (vminValue / 100);
   return vminInPixels;
@@ -8,13 +10,15 @@ function vminToPixels(vminValue, screenWidth, screenHeight) {
 export const generateScreen = async (project: any) => {
   console.log("SCREEN START", 1);
 
+  const gap = handleGetPosterGap(project.selectedAttributes.size.id);
+
   const orientationPortraint =
     project.selectedAttributes.orientation.name.toLowerCase() === "portrait";
 
   const frameIsEnabled = project.selectedAttributes.frame.id !== 0;
 
-  const w = Math.round(project.selectedAttributes.size.width);
-  const h = Math.round(project.selectedAttributes.size.height);
+  const w = Math.round(project.selectedAttributes.size.width - gap);
+  const h = Math.round(project.selectedAttributes.size.height - gap);
 
   const pxw = vminToPixels(5, w, h) * 2;
 

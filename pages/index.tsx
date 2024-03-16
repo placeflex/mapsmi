@@ -7,8 +7,9 @@ import { Layout } from "@/components/Layout/";
 
 // modules
 import { Banner } from "@/modules/Home/Banner";
+import { OurBrand } from "@/modules/Home/OurBrand";
+import { OurPosters } from "@/modules/Home/OurPosters";
 // import { Products } from "@/modules/Home/Products";
-// import { OurPosters } from "@/modules/Home/OurPosters";
 
 // stores
 // import { useDispatch } from "react-redux";
@@ -46,7 +47,8 @@ export default function Home() {
     <Layout>
       <Banner />
       {/* <Products /> */}
-      {/* <OurPosters /> */}
+      <OurPosters />
+      <OurBrand />
     </Layout>
   );
 }

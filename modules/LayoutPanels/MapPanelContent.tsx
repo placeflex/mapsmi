@@ -1,5 +1,11 @@
 import React from "react";
 
+// icons
+import Location from "public/editor/location.svg";
+import Styles from "public/editor/style.svg";
+import Labels from "public/editor/labels.svg";
+import Size from "public/editor/size.svg";
+
 // settings panels
 import {
   LocationAccrodion,
@@ -10,7 +16,7 @@ import {
   FontsAccordion,
 } from "./settings";
 
-import { Accordion } from "@/components/Accordion";
+import { Accordion } from "@/components/Collapse/Collapse";
 
 interface MapPanelContentInterface {
   handleChangeLayoutColor: (id: number) => void;
@@ -37,30 +43,36 @@ export const MapPanelContent = ({
         items={[
           {
             title: "Location",
+            icon: <Location stroke="#000" width={20} height={20} />,
             content: <LocationAccrodion />,
           },
           {
             title: "Customize the colors",
+            icon: <Styles stroke="#000" width={20} height={20} />,
             content: (
               <ColorsForMapAccordion handleChange={handleChangeLayoutColor} />
             ),
           },
           {
             title: "Customize the text",
+            icon: <Labels stroke="#000" width={20} height={20} />,
             content: <TextsAccordion />,
           },
           {
             title: "Customize the font",
+            icon: <Labels stroke="#000" width={20} height={20} />,
             content: <FontsAccordion handleChange={handleChangeFont} />,
           },
           {
             title: "Customize the style",
+            icon: <Styles stroke="#000" width={20} height={20} />,
             content: (
               <LayoutsMapAccordion handleChange={handleChangeLayoutStyle} />
             ),
           },
           {
             title: "Change the size",
+            icon: <Size stroke="#000" width={20} height={20} />,
             content: (
               <SizeAccordion
                 handleSelectSize={handleSelectSize}

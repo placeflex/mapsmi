@@ -19,9 +19,9 @@ interface LayoutPreviewWrapperProps {
   render?: boolean;
 }
 
-const GAP_FOR_SMALL_POSTER = 220;
-const GAP_FOR_MEDIUM_POSTER = 160;
-const GAP_FOR_BIG_POSTER = 110;
+export const GAP_FOR_SMALL_POSTER = 220;
+export const GAP_FOR_MEDIUM_POSTER = 160;
+export const GAP_FOR_BIG_POSTER = 110;
 
 const initArtworkStyles = {
   width: 400,
@@ -30,7 +30,7 @@ const initArtworkStyles = {
   isRender: false,
 };
 
-const handleGetPosterGap = (sizeId: number) => {
+export const handleGetPosterGap = (sizeId: number) => {
   switch (sizeId) {
     case 0:
       return GAP_FOR_SMALL_POSTER;
@@ -64,7 +64,8 @@ export const LayoutPreviewWrapper = ({
 
   const handleChangeScale = () => {
     if (refLayoutWrapper.current && refArtworkWrapper.current) {
-      let gap = render ? 0 : handleGetPosterGap(Number(posterSizeId));
+      // let gap = render ? 0 : handleGetPosterGap(Number(posterSizeId));
+      let gap = handleGetPosterGap(Number(posterSizeId));
 
       if (artworkStyles.width && artworkStyles.height) {
         const parentWidth = refLayoutWrapper.current.offsetWidth - gap;
@@ -79,7 +80,6 @@ export const LayoutPreviewWrapper = ({
           return {
             ...prev,
             scale: scale >= 1 ? 1 : scale,
-            // scale: scale > 2.5 ? 2.5 : scale,
             isRender: true,
           };
         });
@@ -89,7 +89,8 @@ export const LayoutPreviewWrapper = ({
 
   const handleResize = () => {
     if (refLayoutWrapper.current) {
-      let gap = render ? 0 : handleGetPosterGap(Number(posterSizeId));
+      // let gap = render ? 0 : handleGetPosterGap(Number(posterSizeId));
+      let gap = handleGetPosterGap(Number(posterSizeId));
 
       if (posterOrientationId === 0) {
         let width = layout.selectedAttributes?.size?.width - gap;

@@ -44,6 +44,7 @@ import { ZodiacPanelContent } from "@/modules/LayoutPanels/ZodiacPanelContent";
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
+
 import {
   initLayout,
   handleChangeStyles,
@@ -53,9 +54,13 @@ import {
 } from "@/redux/layout";
 
 import { handleSaveProject, handleUpdateProject } from "@/redux/user";
+import { handleAddToPopularProjects } from "@/redux/popular-wallarts";
 
 // types
 import { UserFieldsProps } from "@/redux/user";
+
+// constants
+import { RENDER_SCALE_EDITOR_PAGE } from "@/constants/defaultLayoutSettings";
 
 // styles
 import "@/modules/LayoutPanels/editor.scss";
@@ -64,7 +69,6 @@ export default function Editor() {
   const router = useRouter();
   const { product_id, id } = router.query;
   const FRAME_SCALE = `${1 * 1.5}vmin`;
-  const RENDER_SCALE = 1;
   const user: UserFieldsProps = useTypedSelector(({ user }) => user.user);
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
@@ -184,6 +188,10 @@ export default function Editor() {
     }
   };
 
+  const handleAddPupularProject = () => {
+    dispatch(handleAddToPopularProjects({ id: product_id }));
+  };
+
   useEffect(() => {
     if (id) {
       const project = user?.projects?.find(project => project.uuid == id);
@@ -211,17 +219,33 @@ export default function Editor() {
       basicColors[Number(layout.poster?.styles?.color)]?.illustrationColor,
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
     "--mask": `url(${masks[Number(layout.poster?.styles?.maskId)]?.src})`,
-    "--render-scale": RENDER_SCALE,
+    "--render-scale": RENDER_SCALE_EDITOR_PAGE,
     "--frame-scale": FRAME_SCALE,
   };
 
+  const MAP_TEXT_COLOR =
+    mapColors[Number(layout?.poster?.styles?.color)]?.layoutsColor[
+      mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+    ]?.textColor ?? mapColors[Number(layout?.poster?.styles?.color)]?.textColor;
+
+  const MAP_GRADIENT_COLOR =
+    mapColors[Number(layout?.poster?.styles?.color)]?.layoutsColor[
+      mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+    ]?.gradientColor ??
+    mapColors[Number(layout?.poster?.styles?.color)]?.gradientColor;
+
+  const MAP_BG_COLOR =
+    mapColors[Number(layout?.poster?.styles?.color)]?.layoutsColor[
+      mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+    ]?.bgColor ?? mapColors[Number(layout?.poster?.styles?.color)]?.bgColor;
+
   const mapStyles = {
-    "--text-color": mapColors[Number(layout.poster?.styles?.color)]?.textColor,
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
-    "--gradientColor":
-      mapColors[Number(layout.poster?.styles?.color)]?.gradientColor,
-    "--render-scale": RENDER_SCALE,
     "--frame-scale": FRAME_SCALE,
+    "--render-scale": RENDER_SCALE_EDITOR_PAGE,
+    "--text-color": MAP_TEXT_COLOR,
+    "--gradientColor": MAP_GRADIENT_COLOR,
+    "--bg-color": MAP_BG_COLOR,
   };
 
   const editorUI = {
@@ -299,7 +323,8 @@ export default function Editor() {
               ""
             )}`]: layout?.selectedAttributes?.size?.name,
           },
-          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+          layout?.selectedAttributes?.orientation?.name.toLowerCase(),
+          mapColors[Number(layout.poster?.styles?.color)]?.name
         )}
       />
     ),
@@ -394,7 +419,7 @@ export default function Editor() {
   return (
     <>
       <PageLayout>
-        <div className="flex editor-wrapper">
+        <div className="flex flex-row-reverse editor-wrapper">
           <LayoutPreviewWrapper
             className={`${
               fontsList[Number(layout.poster?.styles?.font)]?.font.variable
@@ -404,24 +429,37 @@ export default function Editor() {
               editorUI[layout.productId as keyof typeof editorUI]}
           </LayoutPreviewWrapper>
 
-          <div className="min-w-[600px] max-w-[600px] w-full bg-white p-3 overflow-y-auto editor-panel flex flex-col relative">
-            <div className="mb-4 h-full overflow-y-auto">
-              {layout.productId == Number(product_id) &&
-                panelUI[layout.productId as keyof typeof panelUI]}
+          <div className="flex flex-col  border-r-[.2rem]">
+            <div className="editor-panel min-w-[480px] max-w-[480px] w-full overflow-y-auto flex flex-col relative p-[2rem]">
+              <div className="h-full overflow-y-auto">
+                {layout.productId == Number(product_id) &&
+                  panelUI[layout.productId as keyof typeof panelUI]}
+              </div>
             </div>
 
-            <div className="mt-auto p-4">
-              <Button
+            <div className="mt-auto">
+              {/* <Button
                 classNames="w-full"
                 type="button"
                 onClick={handleUPDATEACCOUNT}
               >
                 Add To Collection
-              </Button>
+              </Button> */}
 
-              <Button classNames="w-full mt-2" type="button">
+              <Button
+                classNames="w-full"
+                type="button"
+                onClick={handleUPDATEACCOUNT}
+              >
                 {RESULT_PRICE}
                 Add To Cart
+              </Button>
+              <Button
+                classNames="w-full"
+                type="button"
+                onClick={handleAddPupularProject}
+              >
+                POPULAR
               </Button>
             </div>
           </div>

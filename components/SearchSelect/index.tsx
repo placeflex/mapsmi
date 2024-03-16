@@ -25,7 +25,7 @@ export const SearchSelect = ({
   return (
     <>
       {label && (
-        <label htmlFor={label} className="block text-xs mb-2">
+        <label htmlFor={label} className="block mb-2">
           {label}
         </label>
       )}
@@ -33,7 +33,7 @@ export const SearchSelect = ({
       <Select
         // showSearch
         className={classNames(
-          "search-select font-sans h-[40px] text-xs",
+          "search-select font-sans h-[40px]",
           className
         )}
         popupClassName="search-select-popup"

@@ -28,9 +28,9 @@ export const MATERIAL_PRICES = [
   {
     id: 0,
     prices: [
-      { id: 0, price: 420 },
-      { id: 1, price: 560 },
-      { id: 2, price: 700 },
+      { id: 0, price: 400 },
+      { id: 1, price: 500 },
+      { id: 2, price: 600 },
     ],
   },
   {
@@ -93,13 +93,13 @@ export const orientations = [
 
 export const FRAMES_PRICES = [
   { id: 0, price: 0 },
-  { id: 1, price: 35.99, oldPrice: 39.99 },
-  { id: 2, price: 35.99, oldPrice: 39.99 },
+  { id: 1, price: 15.99, oldPrice: 39.99 },
+  { id: 2, price: 25.99, oldPrice: 39.99 },
   { id: 3, price: 35.99, oldPrice: 39.99 },
-  { id: 4, price: 53.99, oldPrice: 59.99 },
+  { id: 4, price: 43.99, oldPrice: 59.99 },
   { id: 5, price: 53.99, oldPrice: 59.99 },
-  { id: 6, price: 53.99, oldPrice: 59.99 },
-  { id: 7, price: 53.99, oldPrice: 59.99 },
+  { id: 6, price: 63.99, oldPrice: 59.99 },
+  { id: 7, price: 73.99, oldPrice: 59.99 },
 ];
 
 export const frames = [

@@ -26,7 +26,7 @@ export const AutoComplete = ({
   return (
     <>
       {label && (
-        <label htmlFor={label} className="block text-xs mb-2">
+        <label htmlFor={label} className="block  mb-2">
           {label}
         </label>
       )}

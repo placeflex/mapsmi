@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import classNames from "classnames";
 
 // components
 import { Container } from "@/components/Container";
@@ -16,26 +17,33 @@ export const Banner = () => {
   const dispatch = useDispatch();
 
   return (
-    <Container className="pt-5">
-      <div className="container">
+    <div className={classNames("poster", styles.poster)}>
+      <Container>
         <div
-          className={`flex items-center justify-center flex-col text-center ${styles.banner}`}
+          className={classNames(
+            `flex flex-col items-start justify-center`,
+            styles.posterInner
+          )}
         >
-          <h1 className="font-sans text-6xl capitalize">
-            A New Way to <em className="font-bold ">Remember</em> <br />
-            Your <em className="font-bold ">Favorite</em> Moments
+          <h1 className="text-h1 font-bold text-white mb-[2rem]">
+            Your Memories,
+            <br />
+            Mapped Masterfully
           </h1>
-
+          <p className=" text-white text-bodySmall mb-[2rem]">
+            Cherish your most treasured memories with our three distinct types
+            of maps.
+          </p>
           <Button
             onClick={() => dispatch(handleShowProductModal())}
-            classNames="mt-8 flex"
             type="button"
+            color="secondary"
+            classNames="text-caption"
           >
             Design your own
           </Button>
         </div>
-      </div>
-      {/* <div
+        {/* <div
         className={`grid grid-rows-2 grid-cols-12 gap-5  lg:gap-0  ${styles.banner}`}
       >
         <div className="relative row-span-2 col-span-6 lg:col-span-12 lg:row-span-3">
@@ -49,11 +57,11 @@ export const Banner = () => {
           />
 
           <div className="absolute w-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white text-center">
-            <h2 className="font-second text-6xl mb-4">Summer Sale</h2>
-            <span className="font-extrabold text-8xl mb-5 inline-block lg:text-4xl lg:mb-3">
+            <h2 className="font-second mb-4">Summer Sale</h2>
+            <span className="font-extrabold mb-5 inline-block lg:mb-3">
               20%OFF
             </span>
-            <p className="uppercase font-semibold text-2xl tracking-widest lg:text-sm">
+            <p className="uppercase font-semibold  tracking-widest lg:">
               EVERYTHING ON SITE
               <br />
               OUR BIGGEST SALE
@@ -84,9 +92,9 @@ export const Banner = () => {
           />
         </div>
 
-        <div className="flex items-center justify-center font-bold text-5xl bg-light col-span-6 py-2 px-24 xl:px-12 lg:col-span-12 lg:w-[calc(100%-24px)] lg:mx-auto lg:mt-[-40px] lg:z-[2] lg:py-6 lg:rounded-xl">
+        <div className="flex items-center justify-center font-bold bg-light col-span-6 py-2 px-24 xl:px-12 lg:col-span-12 lg:w-[calc(100%-24px)] lg:mx-auto lg:mt-[-40px] lg:z-[2] lg:py-6 lg:rounded-xl">
           <div className="text-center flex flex-col items-center">
-            <h1 className="font-sans text-3xl mb-4 mx-auto lg:text-2xl lg:mb-1">
+            <h1 className="font-sans mb-4 mx-auto lg: lg:mb-1">
               Custom posters for
               <br /> meaningful moments
             </h1>
@@ -106,6 +114,7 @@ export const Banner = () => {
           </div>
         </div>
       </div> */}
-    </Container>
+      </Container>
+    </div>
   );
 };

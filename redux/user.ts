@@ -85,7 +85,9 @@ const user = createSlice({
     },
 
     handleUpdateProject(state, action) {
-      const project = localStorage.getItem(productsVariations[4]);
+      const project = localStorage.getItem(
+        productsVariations[action.payload.id]
+      );
 
       if (project) {
         const request = api

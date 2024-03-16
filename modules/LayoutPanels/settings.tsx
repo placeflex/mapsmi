@@ -65,11 +65,12 @@ import {
 } from "@/redux/layout";
 
 // icons
-import Delete from "@/public/icons/delete.svg";
+// import Delete from "@/public/icons/delete.svg";
+import Delete from "@/public/icons/close.svg";
 
 const debouncedSearch = debounce(callback => callback(), 1000);
 
-export const IllustrationAccordion = ({ handleChange }: any) => {
+export const IllustrationAccordion = ({ handleChange, className }: any) => {
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
@@ -125,8 +126,8 @@ export const LayoutsAccordion = ({ handleChange }: any) => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-2">Layouts</h2>
-      <p className="mb-4 text-xs opacity-[0.4]">
+      <h2 className=" font-bold mb-2">Layouts</h2>
+      <p className="mb-4  opacity-[0.4]">
         We are all for freedom of choice, if you want to try different
         combinations than our favorites - go ahead and click customize and roll
         your own.
@@ -136,7 +137,7 @@ export const LayoutsAccordion = ({ handleChange }: any) => {
           return (
             <button
               key={id}
-              className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
+              className={`border bg-white  cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
                 id === Number(posterStyles?.layoutStyle) ? "border-black" : ""
               }`}
               onClick={() => handleChange(id)}
@@ -168,15 +169,15 @@ export const TextsAccordion = () => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-2">Labels</h2>
-      <p className="mb-4 text-xs opacity-[0.4]">
+      <h2 className=" font-bold mb-2">Labels</h2>
+      <p className="mb-4  opacity-[0.4]">
         You can customize your design using both text and colors. Use the
         suggested labels, or change them to something else!
       </p>
       <div className="mb-4">
         <Input
           label="Headline"
-          className="text-xs"
+          className=""
           onChange={v =>
             handleChange({
               label: "heading",
@@ -190,7 +191,7 @@ export const TextsAccordion = () => {
       <div className="mb-4">
         <Input
           label="Subline"
-          className="text-xs"
+          className=""
           onChange={v =>
             handleChange({
               label: "subline",
@@ -204,7 +205,7 @@ export const TextsAccordion = () => {
       <div className="mb-4">
         <Input
           label="Divider"
-          className="text-xs"
+          className=""
           onChange={v =>
             handleChange({
               label: "divider",
@@ -217,7 +218,7 @@ export const TextsAccordion = () => {
       </div>
       <Input
         label="Tagline"
-        className="text-xs"
+        className=""
         onChange={v =>
           handleChange({
             label: "tagline",
@@ -250,13 +251,13 @@ export const SizeAccordion = ({
     materials?.map(material => {
       return {
         key: material.id,
-        label: <span className="text-xs">{material.name}</span>,
+        label: <span className="">{material.name}</span>,
         children: (
           <div>
             {material?.sizes?.map((size, idx) => {
               return (
                 <button
-                  className={`border text-xs cursor-pointer flex flex-col gap-1 items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1  ${
+                  className={`border  cursor-pointer flex flex-col gap-1 items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1  ${
                     Number(posterAttributes?.size?.id) == size.id
                       ? "border-black"
                       : ""
@@ -280,7 +281,7 @@ export const SizeAccordion = ({
   return (
     <>
       <div className="flex flex-col mb-4">
-        <h5 className="font-bold text-xs mb-2">Select poster size</h5>
+        <h5 className="font-bold  mb-2">Select poster size</h5>
         <div className="flex flex-wrap gap-2">
           <TabsPanel
             defaultActiveKey={posterAttributes?.material?.id}
@@ -291,12 +292,12 @@ export const SizeAccordion = ({
       </div>
 
       <div className="flex flex-col">
-        <h5 className="font-bold text-xs mb-2">Select orientation</h5>
+        <h5 className="font-bold  mb-2">Select orientation</h5>
         <div className="flex flex-wrap gap-2">
           {orientations.map(({ id, name }): React.ReactNode => {
             return (
               <button
-                className={`border text-xs cursor-pointer flex items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1 ${
+                className={`border  cursor-pointer flex items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1 ${
                   id === Number(posterAttributes?.orientation?.id)
                     ? "border-black"
                     : ""
@@ -312,7 +313,7 @@ export const SizeAccordion = ({
       </div>
 
       <div className="flex flex-col mt-2">
-        <h5 className="font-bold text-xs mb-2">Select Frame</h5>
+        <h5 className="font-bold  mb-2">Select Frame</h5>
         <div className="flex flex-wrap gap-2">
           {frames.map(frame => {
             return (
@@ -497,8 +498,8 @@ export const LocationAccrodion = () => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-2">Location</h2>
-      <p className="mb-4 text-xs opacity-[0.4]">
+      <h2 className=" font-bold mb-2">Location</h2>
+      <p className="mb-4  opacity-[0.4]">
         You can search, drag/drop and zoom on the map to get the exact position
         you want on your poster.
       </p>
@@ -538,18 +539,17 @@ export const LocationAccrodion = () => {
           return (
             <div
               key={loc.id}
-              className="w-full flex justify-between items-center py-2 border-solid border border-main mt-2 px-2 rounded-sm"
+              className="w-full flex justify-between items-center border-solid border border-main mt-2 px-[1rem] py-[1rem] rounded-[0.6rem]"
             >
-              <span className="font-bold text-xs whitespace-nowrap overflow-hidden text-ellipsis w-full">
+              <span className="whitespace-nowrap overflow-hidden text-ellipsis w-full">
                 {loc.value}
               </span>
 
               <button
-                className="flex flex-col items-center justify-center text-extraSmall text-error ml-4"
+                className="flex flex-col items-center justify-center  ml-4"
                 onClick={() => dispatch(deleteLocation(loc.id))}
               >
-                <Delete width={20} stroke="#ff0000" fill="#ff0000" />
-                Delete
+                <Delete width={20} stroke="#000" />
               </button>
             </div>
           );
@@ -613,23 +613,24 @@ export const ColorsForMapAccordion = ({ handleChange }: any) => {
 
   return (
     <>
-      <div className="icons overflow-y-auto grid grid-cols-4 gap-2 pr-4">
-        {mapColors.map(({ icon, id }): React.ReactNode => {
+      <div className="icons overflow-y-auto items-start flex gap-2 h-[300px]">
+        {mapColors.map(({ icon, id, name }): React.ReactNode => {
           return (
             <div
               key={id}
-              className={`border h-[100px] flex flex-col cursor-pointer border-1 ${
-                id === Number(posterStyles?.color) ? "border-black" : ""
-              }`}
+              className="flex flex-col justify-center h-[120px] w-[33.333%]"
               onClick={() => handleChange(id)}
             >
-              {icon}
+              <div className="block w-full h-full">{icon}</div>
+              <span className="text-center mt-2">
+                {name.charAt(0).toUpperCase() + name.slice(1)}
+              </span>
             </div>
           );
         })}
       </div>
       <div className="flex items-center my-4">
-        <h5 className="font-bold text-xs mr-4">Elements Color:</h5>
+        <h5 className="font-bold  mr-4">Elements Color:</h5>
         <div className="relative flex">
           <div
             className="p-1 border inline-block cursor-pointer"
@@ -662,7 +663,7 @@ export const ColorsForMapAccordion = ({ handleChange }: any) => {
       </div>
 
       <div className="flex items-center my-4">
-        <h5 className="font-bold text-xs mr-4">Labels Text Color:</h5>
+        <h5 className="font-bold  mr-4">Labels Text Color:</h5>
         <div className="relative flex">
           <div
             className="p-1 border inline-block cursor-pointer"
@@ -717,8 +718,8 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-2">Layouts</h2>
-      <p className="mb-4 text-xs opacity-[0.4]">
+      <h2 className=" font-bold mb-2">Layouts</h2>
+      <p className="mb-4  opacity-[0.4]">
         We are all for freedom of choice, if you want to try different
         combinations than our favorites - go ahead and click customize and roll
         your own.
@@ -728,7 +729,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
           return (
             <button
               key={id}
-              className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
+              className={`border bg-white  cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
                 id === Number(posterStyles?.layoutStyle) ? "border-black" : ""
               }`}
               onClick={() => handleChange(id)}
@@ -741,7 +742,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
 
       <div className="mt-5 w-full">
         <div className="flex justify-between">
-          <h5 className="text-xs font-bold">Overlay</h5>
+          <h5 className=" font-bold">Overlay</h5>
           <Switcher
             checked={isOverlay}
             onChange={() => {
@@ -783,7 +784,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
 
         <>
           <div className="flex justify-between mt-4">
-            <h5 className="text-xs font-bold">Mask</h5>
+            <h5 className=" font-bold">Mask</h5>
             <Switcher
               checked={isMask}
               onChange={() => {
@@ -821,7 +822,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
           )}
 
           <div className="flex justify-between mt-4">
-            <h5 className="text-xs font-bold">Stars</h5>
+            <h5 className=" font-bold">Stars</h5>
             <Switcher
               checked={posterStyles?.stars}
               onChange={() => {
@@ -836,7 +837,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
           </div>
 
           <div className="flex justify-between mt-4">
-            <h5 className="text-xs font-bold">Labels</h5>
+            <h5 className=" font-bold">Labels</h5>
             <Switcher
               checked={posterStyles?.labels}
               onChange={() => {
@@ -851,7 +852,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
           </div>
 
           <div className="flex justify-between mt-4">
-            <h5 className="text-xs font-bold">Grid</h5>
+            <h5 className=" font-bold">Grid</h5>
             <Switcher
               checked={posterStyles?.grid}
               onChange={() => {
@@ -865,7 +866,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
             />
           </div>
           <div className="flex justify-between mt-4">
-            <h5 className="text-xs font-bold">Lines</h5>
+            <h5 className=" font-bold">Lines</h5>
             <Switcher
               checked={posterStyles?.lines}
               onChange={() => {
@@ -879,7 +880,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
             />
           </div>
           <div className="flex justify-between mt-4">
-            <h5 className="text-xs font-bold">Milky Way</h5>
+            <h5 className=" font-bold">Milky Way</h5>
             <Switcher
               checked={posterStyles?.milkyway}
               onChange={() => {
@@ -905,8 +906,8 @@ export const LayoutsMapAccordion = ({ handleChange }: any) => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-2">Layouts</h2>
-      <p className="mb-4 text-xs opacity-[0.4]">
+      <h2 className=" font-bold mb-2">Layouts</h2>
+      <p className="mb-4  opacity-[0.4]">
         We are all for freedom of choice, if you want to try different
         combinations than our favorites - go ahead and click customize and roll
         your own.
@@ -916,7 +917,7 @@ export const LayoutsMapAccordion = ({ handleChange }: any) => {
           return (
             <button
               key={id}
-              className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
+              className={`border bg-white  cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
                 id === Number(posterStyles?.layoutStyle) ? "border-black" : ""
               }`}
               onClick={() => handleChange(id)}
@@ -937,14 +938,14 @@ export const FontsAccordion = ({ handleChange }: any) => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-2">Fonts</h2>
-      <p className="mb-4 text-xs opacity-[0.4]">You can change fonts.</p>
+      <h2 className=" font-bold mb-2">Fonts</h2>
+      <p className="mb-4  opacity-[0.4]">You can change fonts.</p>
       <div className="icons overflow-y-auto flex flex-wrap gap-1">
         {fontsList.map(({ name, id }) => {
           return (
             <button
               key={id}
-              className={`border bg-white text-xs cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
+              className={`border bg-white  cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
                 id === Number(currentFontId) ? "border-black" : ""
               }`}
               onClick={() => handleChange(id)}
@@ -981,8 +982,8 @@ export const ZodiacSelect = ({ handleChange }: any) => {
         return (
           <div key={data.label} className="flex items-center">
             <div className="flex items-end">
-              <h5 className="font-bold text-small">{data.label}</h5>
-              <h6 className="text-extraSmall ml-1">{data.date}</h6>
+              <h5 className="font-bold">{data.label}</h5>
+              <h6 className="ml-1">{data.date}</h6>
             </div>
             <span
               role="img"

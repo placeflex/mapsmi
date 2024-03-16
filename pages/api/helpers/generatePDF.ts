@@ -1,17 +1,21 @@
 import puppeteer from "puppeteer";
 
+import { handleGetPosterGap } from "@/components/LayoutPreviewWrapper";
+
 export const generatePDF = async (project: any) => {
   console.log("PDF START", 1);
   const orientationPortraint =
     project.selectedAttributes.orientation.name.toLowerCase() === "portrait";
 
+  const gap = handleGetPosterGap(project.selectedAttributes.size.id);
+
   let sizes = {
     width: orientationPortraint
-      ? Math.round(project.selectedAttributes.size.width)
-      : Math.round(project.selectedAttributes.size.height),
+      ? Math.round(project.selectedAttributes.size.width - gap)
+      : Math.round(project.selectedAttributes.size.height - gap),
     height: orientationPortraint
-      ? Math.round(project.selectedAttributes.size.height)
-      : Math.round(project.selectedAttributes.size.width),
+      ? Math.round(project.selectedAttributes.size.height - gap)
+      : Math.round(project.selectedAttributes.size.width - gap),
   };
 
   const browser = await puppeteer.launch({

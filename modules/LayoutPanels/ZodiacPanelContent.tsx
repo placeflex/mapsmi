@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Accordion } from "@/components/Accordion";
+import { Accordion } from "@/components/Collapse/Collapse";
 
 // settings panels
 import {

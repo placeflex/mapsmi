@@ -1,6 +1,7 @@
 :root {
-  --primary: #f0122d;
-  --text: #111;
+  --primary: #fff;
+  --secondary: #e7ebef;
+  --text: #3a3a3a;
   --wine: #995955;
   --bg: #eaedf2;
   --secondaryBg: #423024;
@@ -9,9 +10,11 @@
   --silver: #e5e5e5;
   --blueGrey: #7b92a3;
   --error: #f8382a;
-  --white: #fff;
+  --white: #ffffff;
   --cream: #bd998d;
   --light: #f8f5f2;
+  --button: #203038;
+  --secondButton: #c2ced6;
   --hover: linear-gradient(
     171deg,
     rgba(240, 18, 45, 1) 0%,
