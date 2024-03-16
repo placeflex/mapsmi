@@ -28,6 +28,9 @@ import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
 import { initFromProfile } from "@/redux/layout";
 
+// constants
+import { RENDER_SCALE_RENDER_PAGE } from "@/constants/defaultLayoutSettings";
+
 // styles
 import "@/modules/LayoutPanels/editor.scss";
 
@@ -41,12 +44,12 @@ export default function Editor() {
 
   const dispatch: AppDispatch = useDispatch();
 
-  const FRAME_SCALE = preview ? `${10 * 0.5}vmin` : 0;
+  const FRAME_SCALE = preview ? `${RENDER_SCALE_RENDER_PAGE * 0.5}vmin` : 0;
 
   useEffect(() => {
     const project = localStorage.getItem("profile-storage");
 
-    window.devicePixelRatio = 10;
+    window.devicePixelRatio = RENDER_SCALE_RENDER_PAGE;
 
     if (project) {
       const body = document.querySelector("body");
@@ -65,17 +68,33 @@ export default function Editor() {
       basicColors[Number(layout.poster?.styles?.color)]?.illustrationColor,
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
     "--mask": `url(${masks[Number(layout.poster?.styles?.maskId)]?.src})`,
-    "--render-scale": 10,
+    "--render-scale": RENDER_SCALE_RENDER_PAGE,
     "--frame-scale": FRAME_SCALE,
   };
 
+  const MAP_TEXT_COLOR =
+    mapColors[Number(layout?.poster?.styles?.color)]?.layoutsColor[
+      mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+    ]?.textColor ?? mapColors[Number(layout?.poster?.styles?.color)]?.textColor;
+
+  const MAP_GRADIENT_COLOR =
+    mapColors[Number(layout?.poster?.styles?.color)]?.layoutsColor[
+      mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+    ]?.gradientColor ??
+    mapColors[Number(layout?.poster?.styles?.color)]?.gradientColor;
+
+  const MAP_BG_COLOR =
+    mapColors[Number(layout?.poster?.styles?.color)]?.layoutsColor[
+      mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+    ]?.bgColor ?? mapColors[Number(layout?.poster?.styles?.color)]?.bgColor;
+
   const mapStyles = {
-    "--text-color": mapColors[Number(layout.poster?.styles?.color)]?.textColor,
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
-    "--gradientColor":
-      mapColors[Number(layout.poster?.styles?.color)]?.gradientColor,
-    "--render-scale": 10,
+    "--render-scale": RENDER_SCALE_RENDER_PAGE,
     "--frame-scale": FRAME_SCALE,
+    "--text-color": MAP_TEXT_COLOR,
+    "--gradientColor": MAP_GRADIENT_COLOR,
+    "--bg-color": MAP_BG_COLOR,
   };
 
   const editorUI = {
@@ -102,6 +121,7 @@ export default function Editor() {
           },
           layout?.selectedAttributes?.orientation?.name.toLowerCase()
         )}
+        render={true}
       />
     ),
     1: (
@@ -131,6 +151,7 @@ export default function Editor() {
           },
           layout?.selectedAttributes?.orientation?.name.toLowerCase()
         )}
+        render={true}
       />
     ),
     2: (
@@ -153,8 +174,10 @@ export default function Editor() {
               ""
             )}`]: layout?.selectedAttributes?.size?.name,
           },
-          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+          layout?.selectedAttributes?.orientation?.name.toLowerCase(),
+          mapColors[Number(layout.poster?.styles?.color)]?.name
         )}
+        render={true}
       />
     ),
     3: (
@@ -183,6 +206,7 @@ export default function Editor() {
           },
           layout?.selectedAttributes?.orientation?.name.toLowerCase()
         )}
+        render={true}
       />
     ),
   };

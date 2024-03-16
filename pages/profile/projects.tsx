@@ -66,9 +66,7 @@ const UserProjects = () => {
               </div>
             ) : (
               <>
-                <h1 className="mb-5 font-bold text-2xl leading-none">
-                  Projects
-                </h1>
+                <h1 className="mb-5 font-bold  leading-none">Projects</h1>
                 <div className="flex flex-wrap -ml-2 -mr-2">
                   {user?.projects?.map((project, index) => {
                     const size = project.selectedAttributes.size.name;
@@ -126,7 +124,7 @@ const UserProjects = () => {
 
                             <div className="flex gap-2">
                               <button
-                                className="flex flex-col items-center justify-center text-extraSmall text-error"
+                                className="flex flex-col items-center justify-center text-error"
                                 onClick={() =>
                                   handleDeleteMyProject(project.uuid)
                                 }

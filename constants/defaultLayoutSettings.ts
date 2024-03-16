@@ -14,6 +14,9 @@ import {
 } from "@/layouts/LayoutAttributes";
 import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
 
+export const RENDER_SCALE_EDITOR_PAGE = 1;
+export const RENDER_SCALE_RENDER_PAGE = 10;
+
 export const defaultLayoutSettings = {
   poster: {
     labels: {
@@ -47,6 +50,7 @@ export const defaultLayoutSettings = {
   renderLabels: false,
   elementsColor: "#fff",
   labelsTextColor: "#000",
+  customCoordinates: {},
   // price: materials[0].sizes[2].price,
 };
 

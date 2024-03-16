@@ -69,8 +69,8 @@ export const ForgotPassword = () => {
   return (
     <ModalContent isModalOpen={isOpen} bgClose>
       <div className="py-5 px-5">
-        <h3 className="mb-2 text-center font-bold text-2xl">Forgot Password</h3>
-        <p className="text-xs text-center mb-5">
+        <h3 className="mb-2 text-center font-bold">Forgot Password</h3>
+        <p className="text-center mb-5">
           Password reset instructions will be sent to <br /> your registered
           email address.
         </p>
@@ -85,7 +85,7 @@ export const ForgotPassword = () => {
                   as={Input}
                 />
                 {formErrors.email && (
-                  <div className="text-error  text-xs">{formErrors.email}</div>
+                  <div className="text-error">{formErrors.email}</div>
                 )}
               </div>
 

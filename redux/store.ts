@@ -4,12 +4,14 @@ import { useSelector, TypedUseSelectorHook } from "react-redux";
 import layout from "./layout";
 import modals from "./modals";
 import user from "./user";
+import popularWallarts from "./popular-wallarts";
 
 const store = configureStore({
   reducer: {
     layout,
     user,
     modals,
+    popularWallarts,
   },
 });
 

@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { useRouter } from "next/router";
 interface Texts {
   heading?: string;
   subline?: string;
@@ -13,6 +14,7 @@ interface LineArtProps {
   styles?: Object;
   texts?: Texts;
   font?: any;
+  render?: boolean;
 }
 
 // styles
@@ -26,7 +28,10 @@ export const LayoutContent = ({
   figure,
   styles,
   texts,
+  render,
 }: LineArtProps) => {
+  const router = useRouter();
+  const { preview } = router.query;
   const frame = useTypedSelector(
     ({ layout }) => layout?.layout?.selectedAttributes?.frame
   );
@@ -39,22 +44,27 @@ export const LayoutContent = ({
       style={styles}
     >
       <div className="border-holder artwork-wrapper relative">
+        <div className="custom-line main"></div>
+        <div className="custom-line second"></div>
+
         <div className={`artworkFigure ${withoutText ? "h-full" : ""}`}>
+          {/* <div className="h-full w-full">{figure}</div> */}
           {figure}
+
+          {!withoutText && (
+            <div className="labels">
+              {texts?.heading && <h1 className="headline">{texts?.heading}</h1>}
+              {texts?.subline && <h2 className="subline">{texts?.subline}</h2>}
+              {texts?.divider && <h3 className="divider">{texts?.divider}</h3>}
+              {texts?.tagline && (
+                <span className="tagline">{texts?.tagline}</span>
+              )}
+            </div>
+          )}
         </div>
-        {!withoutText && (
-          <div className="labels">
-            {texts?.heading && <h1 className="headline">{texts?.heading}</h1>}
-            {texts?.subline && <h3 className="subline">{texts?.subline}</h3>}
-            {texts?.divider && (
-              <span className="divider">{texts?.divider}</span>
-            )}
-            {texts?.tagline && <h2 className="tagline">{texts?.tagline}</h2>}
-          </div>
-        )}
       </div>
 
-      {frame.id !== 0 && (
+      {frame.id !== 0 && (!render || preview) && (
         <div
           id="poster-mount"
           className={classNames(frame.name, frame.color, frame.material)}

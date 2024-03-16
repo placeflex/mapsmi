@@ -18,7 +18,7 @@ export const Input = ({
   return (
     <>
       {label && (
-        <label htmlFor={label} className="block text-xs mb-2">
+        <label htmlFor={label} className="block  mb-2">
           {label}
         </label>
       )}
@@ -26,7 +26,7 @@ export const Input = ({
       <InputComponent
         placeholder={placeholder}
         id={label}
-        className={`w-full text-xs font-sans h-[40px] ${className}`}
+        className={`w-full  font-sans h-[40px] ${className}`}
         {...props}
       />
     </>

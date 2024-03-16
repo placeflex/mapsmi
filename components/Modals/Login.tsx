@@ -70,7 +70,7 @@ export const Login = () => {
   return (
     <ModalContent isModalOpen={isOpen} bgClose>
       <div className="py-5 px-5">
-        <h3 className="mb-5 text-center font-bold text-2xl">Login</h3>
+        <h3 className="mb-5 text-center font-bold">Login</h3>
         <div className="rounded-md sm:w-[520px] ">
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             <Form className="w-full flex flex-wrap gap-[10px]">
@@ -82,7 +82,7 @@ export const Login = () => {
                   as={Input}
                 />
                 {formErrors.email && (
-                  <div className="text-error  text-xs">{formErrors.email}</div>
+                  <div className="text-error">{formErrors.email}</div>
                 )}
               </div>
 
@@ -94,7 +94,7 @@ export const Login = () => {
                   as={Input}
                 />
                 {formErrors.password && (
-                  <div className="text-error text-xs">
+                  <div className="text-error">
                     {formErrors.password}
                   </div>
                 )}
@@ -108,7 +108,7 @@ export const Login = () => {
 
           <div className="flex items-center justify-between mt-4">
             <span
-              className="text-xs text-button underline cursor-pointer hover:no-underline"
+              className=" text-button underline cursor-pointer hover:no-underline"
               onClick={() => {
                 dispatch(handleCloseModals());
                 dispatch(handleShowForgorPasswordModal());
@@ -117,7 +117,7 @@ export const Login = () => {
               Forgot Password?
             </span>
 
-            <span className="text-xs">
+            <span className="">
               Don't have an account?{" "}
               <span
                 className="text-button underline cursor-pointer hover:no-underline"

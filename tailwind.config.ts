@@ -3,7 +3,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 import type { Config } from "tailwindcss";
 
 const basicFontSettings = {
-  lineHeight: "1",
+  lineHeight: "1.2",
 };
 
 const config: Config = {
@@ -15,100 +15,26 @@ const config: Config = {
   ],
   theme: {
     fontSize: {
-      extraSmall: [
-        "0.4rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      small: [
-        "0.55rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      xs: [
-        "0.75rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      sm: [
-        "0.8rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      base: [
-        "1rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      lg: [
-        "1.125rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      xl: [
-        "1.25rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      "2xl": [
-        "1.5rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      "3xl": [
-        "1.875rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      "4xl": [
-        "2.25rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      "5xl": [
-        "3rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      "6xl": [
-        "3.75rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      "7xl": [
-        "4.5rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
-      "8xl": [
-        "6rem",
-        {
-          ...basicFontSettings,
-        },
-      ],
+      h1: ["5.6rem", { ...basicFontSettings }],
+      h2: ["4.8rem", { ...basicFontSettings }],
+      h3: ["4rem", { ...basicFontSettings }],
+      h4: ["3.2rem", { ...basicFontSettings }],
+      h5: ["2.4rem", { ...basicFontSettings }],
+      body: ["2.4rem", { ...basicFontSettings }],
+      bodyBold: ["2.4rem", { ...basicFontSettings }],
+      bodySmall: ["1.6rem", { ...basicFontSettings }],
+      bodySmallBold: ["1.6rem", { ...basicFontSettings }],
+      caption: ["1.4rem", { ...basicFontSettings }],
+      captionSmall: ["1.2rem", { ...basicFontSettings }],
+      button: ["1.6rem", { ...basicFontSettings }],
+      buttonSmall: ["1.4rem", { ...basicFontSettings }],
     },
-    extend: {
-      container: {
-        center: true,
-        padding: "1rem",
-      },
 
+    extend: {
       colors: {
-        primary: "#f0122d",
-        text: "#111",
+        primary: "#fff",
+        secondary: "#E7EBEF",
+        text: "#3A3A3A",
         wine: "#995955",
         bg: "#eaedf2",
         secondaryBg: "#423024",
@@ -120,7 +46,8 @@ const config: Config = {
         cream: "#bd998d",
         light: "#f8f5f2",
         white: "#ffffff",
-        button: "#423024",
+        button: "#203038",
+        secondButton: "#C2CED6",
       },
 
       fontFamily: {

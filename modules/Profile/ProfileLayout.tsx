@@ -104,7 +104,7 @@ export const ProfileLayout = ({ children }: any) => {
               <a
                 className={`${
                   router.pathname === route ? "text-wine" : ""
-                } mb-2 text-xs`}
+                } mb-2 `}
               >
                 {title}
               </a>
@@ -114,7 +114,7 @@ export const ProfileLayout = ({ children }: any) => {
 
         <button
           onClick={handleLogoutUser}
-          className="mt-8 text-error text-xs"
+          className="mt-8 text-error "
           type="button"
         >
           Sign Out

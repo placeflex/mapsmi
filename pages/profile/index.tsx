@@ -85,7 +85,7 @@ const UserProfile = () => {
       <PageLayout>
         <Container>
           <ProfileLayout>
-            <h1 className="mb-2 font-bold text-2xl leading-none">Account</h1>
+            <h1 className="mb-2 font-bold leading-none">Account</h1>
             <p className="mb-4">
               Here, you can edit your personal information such as your name and
               email address.
@@ -106,7 +106,7 @@ const UserProfile = () => {
                       as={Input}
                     />
                     {formErrors.name && (
-                      <div className="text-error text-xs">
+                      <div className="text-error ">
                         {formErrors.name}
                       </div>
                     )}
@@ -120,7 +120,7 @@ const UserProfile = () => {
                       as={Input}
                     />
                     {formErrors.surname && (
-                      <div className="text-error text-xs">
+                      <div className="text-error ">
                         {formErrors.surname}
                       </div>
                     )}

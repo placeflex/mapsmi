@@ -44,7 +44,7 @@ export const ProductVariations = () => {
               className="block w-full h-full object-contain"
             />
           </div>
-          <h3 className="mt-5 font-bold text-sm">StreetMap</h3>
+          <h3 className="mt-5 font-bold">StreetMap</h3>
           <p className="w-[200px] text-center text-[0.6em] mb-2 mt-2">
             Design your own personalised map poster! Pick the place, and
             personalize the text, color and size.
@@ -71,7 +71,7 @@ export const ProductVariations = () => {
               className="block w-full h-full object-contain"
             />
           </div>
-          <h3 className="mt-5 font-bold text-sm">LineArt</h3>
+          <h3 className="mt-5 font-bold">LineArt</h3>
           <p className="w-[200px] text-center text-[0.6em] mb-2 mt-2">
             Bring a minimalistic feel to your interior with our curated
             collection of line art prints.
@@ -98,7 +98,7 @@ export const ProductVariations = () => {
               className="block w-full h-full object-contain"
             />
           </div>
-          <h3 className="mt-5 font-bold text-sm">Sky Map</h3>
+          <h3 className="mt-5 font-bold">Sky Map</h3>
           <p className="w-[200px] text-center text-[0.6em] mb-2 mt-2">
             Easily create personalized prints of the night sky! Customize the
             text, dates and location.
@@ -125,7 +125,7 @@ export const ProductVariations = () => {
               className="block w-full h-full object-contain"
             />
           </div>
-          <h3 className="mt-5 font-bold text-sm">Sky Map</h3>
+          <h3 className="mt-5 font-bold">Sky Map</h3>
           <p className="w-[200px] text-center text-[0.6em] mb-2 mt-2">ZODIAC</p>
           <Button
             type="button"

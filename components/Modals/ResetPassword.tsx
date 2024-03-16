@@ -72,7 +72,7 @@ export const ResetPassword = () => {
   return (
     <ModalContent isModalOpen={isOpen} bgClose>
       <div className="py-5 px-5">
-        <h3 className="mb-2 text-center font-bold text-2xl">New Password</h3>
+        <h3 className="mb-2 text-center font-bold">New Password</h3>
         <div className="rounded-md sm:w-[520px] ">
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             <Form className="w-full flex flex-wrap gap-[10px]">
@@ -84,7 +84,7 @@ export const ResetPassword = () => {
                   as={Input}
                 />
                 {formErrors.password && (
-                  <div className="text-error text-xs">
+                  <div className="text-error">
                     {formErrors.password}
                   </div>
                 )}
@@ -98,7 +98,7 @@ export const ResetPassword = () => {
                   as={Input}
                 />
                 {formErrors.confirmPassword && (
-                  <div className="text-error text-xs">
+                  <div className="text-error">
                     {formErrors.confirmPassword}
                   </div>
                 )}

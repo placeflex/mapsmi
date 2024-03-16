@@ -19,30 +19,32 @@ interface DatePickerInterface {
   value?: string;
   label: string;
   ref?: React.ReactNode;
+  format?: string;
 }
 
 export const DatePickerComponent = forwardRef<DatePickerInterface, any>(
-  ({ className, label, value, ...props }, ref) => {
+  ({ className, label, value, format = "HH:mm", ...props }, ref) => {
     return (
       <>
         {label && (
-          <label htmlFor={label} className="block text-xs mb-2">
+          <label htmlFor={label} className="block  mb-2">
             {label}
           </label>
         )}
 
         <DatePicker
           showTime={{
-            format: "HH:mm",
+            format: format,
           }}
           format="YYYY-MM-DD HH:mm"
           onChange={props.onChange}
           className={classNames(
-            "datepicker-input font-sans text-xs h-[40px]",
+            "datepicker-input font-sans  h-[40px]",
             className
           )}
           value={dayjs(value, "YYYY-MM-DD HH:mm")}
           popupClassName="datepicker-dropdown"
+          {...props}
         />
       </>
     );

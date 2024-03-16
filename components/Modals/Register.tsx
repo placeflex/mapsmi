@@ -77,14 +77,14 @@ export const Register = () => {
   return (
     <ModalContent isModalOpen={isOpen} bgClose>
       <div className="py-5 px-5">
-        <h3 className="mb-5 text-center font-bold text-2xl">Register</h3>
+        <h3 className="mb-5 text-center font-bold">Register</h3>
         <div className="rounded-md sm:w-[520px]">
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             <Form className="w-full flex flex-wrap gap-[10px]">
               <div className="w-[calc(50%-5px)]">
                 <Field type="text" name="name" placeholder="Name" as={Input} />
                 {formErrors.name && (
-                  <div className="text-error  text-xs">{formErrors.name}</div>
+                  <div className="text-error">{formErrors.name}</div>
                 )}
               </div>
 
@@ -96,7 +96,7 @@ export const Register = () => {
                   as={Input}
                 />
                 {formErrors.surname && (
-                  <div className="text-error text-xs">{formErrors.surname}</div>
+                  <div className="text-error">{formErrors.surname}</div>
                 )}
               </div>
 
@@ -108,7 +108,7 @@ export const Register = () => {
                   as={Input}
                 />
                 {formErrors.email && (
-                  <div className="text-error text-xs">{formErrors.email}</div>
+                  <div className="text-error">{formErrors.email}</div>
                 )}
               </div>
 
@@ -120,7 +120,7 @@ export const Register = () => {
                   as={Input}
                 />
                 {formErrors.password && (
-                  <div className="text-error text-xs">
+                  <div className="text-error">
                     {formErrors.password}
                   </div>
                 )}
@@ -134,7 +134,7 @@ export const Register = () => {
                   as={Input}
                 />
                 {formErrors.confirmPassword && (
-                  <div className="text-error text-xs">
+                  <div className="text-error">
                     {formErrors.confirmPassword}
                   </div>
                 )}
@@ -146,7 +146,7 @@ export const Register = () => {
             </Form>
           </Formik>
 
-          <span className="text-xs text-right block mt-4">
+          <span className="text-right block mt-4">
             Already have an account?{" "}
             <span
               className="text-button underline cursor-pointer hover:no-underline"

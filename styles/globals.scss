@@ -2,41 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "./variables.scss";
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ccc;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #000;
+}
+
 #__next,
 body,
 html {
-  font-size: 18px;
+  font-size: 10px;
   font-family: var(--font-main);
   background: var(--bg);
   min-height: 100vh;
-
-  // @media screen and (min-width: 2400px) {
-  //   font-size: 24px;
-  // }
-}
-
-:root {
-  --primary: #f0122d;
-  --text: #111;
-  --wine: #995955;
-  --bg: #eaedf2;
-  --secondaryBg: #423024;
-  --black: #14191f;
-  --darkGrey: #454545;
-  --silver: #e5e5e5;
-  --blueGrey: #7b92a3;
-  --error: #f8382a;
-  --white: #fff;
-  --cream: #bd998d;
-  --light: #f8f5f2;
-  --hover: linear-gradient(
-    171deg,
-    rgba(240, 18, 45, 1) 0%,
-    rgba(240, 78, 45, 0.4598433123249299) 50%,
-    rgba(240, 107, 45, 1) 100%
-  );
-  --font-main: var(--font-main);
-  --font-dancing: var(--font-dancing);
 }
 
 [class^="ant-"] {

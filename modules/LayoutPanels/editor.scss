@@ -1,5 +1,7 @@
+$frameWidth: var(--frame-scale);
+
 .editor-wrapper {
-  height: calc(100vh - 66px);
+  height: calc(100vh - 62px);
 
   .editor-panel {
     .icons {
@@ -11,5 +13,13 @@
         object-position: center;
       }
     }
+  }
+
+  // FOR EDITOR PAGE
+  .type-frame {
+    top: calc($frameWidth * -0.91) !important;
+    right: calc($frameWidth * -0.91) !important;
+    bottom: calc($frameWidth * -0.91) !important;
+    left: calc($frameWidth * -0.91) !important;
   }
 }
