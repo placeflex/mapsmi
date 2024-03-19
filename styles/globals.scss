@@ -21,7 +21,8 @@ body,
 html {
   font-size: 10px;
   font-family: var(--font-main);
-  background: var(--bg);
+  // background: var(--bg);
+  background: #fff;
   min-height: 100vh;
 }
 
@@ -78,4 +79,8 @@ body {
   .ol-zoom {
     display: none !important;
   }
+}
+
+.swiper {
+  padding: 1rem 0.5rem !important;
 }

@@ -60,13 +60,13 @@ export const generateScreen = async (project: any) => {
     console.log("SCREEN START", 4);
 
     await page.evaluate(project => {
-      localStorage.setItem("profile-storage", JSON.stringify(project));
+      localStorage.setItem("render-storage", JSON.stringify(project));
     }, project);
 
     console.log("SCREEN START", 5);
 
     await page.waitForFunction(
-      () => localStorage.getItem("profile-storage") !== null
+      () => localStorage.getItem("render-storage") !== null
     );
 
     await page.reload({ waitUntil: "networkidle2", timeout: 0 });

@@ -25,14 +25,14 @@ import { toast } from "react-toastify";
 // apis
 import { api } from "@/axios";
 
+const initialValues = {
+  email: "",
+  password: "",
+};
+
 export const Login = () => {
   const dispatch = useDispatch();
   const isOpen = useTypedSelector(({ modals }) => modals.loginModal);
-
-  const initialValues = {
-    email: "",
-    password: "",
-  };
 
   const [formErrors, setFormErrors] = useState(initialValues);
 
@@ -94,9 +94,7 @@ export const Login = () => {
                   as={Input}
                 />
                 {formErrors.password && (
-                  <div className="text-error">
-                    {formErrors.password}
-                  </div>
+                  <div className="text-error">{formErrors.password}</div>
                 )}
               </div>
 

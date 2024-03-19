@@ -1,6 +1,8 @@
 import { useState, Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import classNames from "classnames";
 import { Popover, Transition, Disclosure, Dialog } from "@headlessui/react";
 
 // components
@@ -21,6 +23,7 @@ import LineArt from "@/public/lineart-example.png";
 
 // stores
 import { handleShowLoginModal } from "@/redux/modals";
+import { handleLogout } from "@/redux/user";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "@/redux/store";
 
@@ -62,15 +65,21 @@ const callsToAction = [
   { name: "Contact sales", href: "#" },
 ];
 
-export const Header: React.FC = () => {
+export const Header = ({ isFixed }: any) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { query } = useRouter();
 
-  const isUserLogged = useTypedSelector(({ user }) => user.loggedIn);
+  const isUserLogged = useTypedSelector(({ user }) => user.isAdmin);
 
   const dispatch = useDispatch();
 
   return (
-    <header className="flex px-[2rem] py-[1.5rem] relative w-full bg-primary/[.9]">
+    <header
+      className={classNames(
+        "flex px-[2rem] py-[1.5rem] w-full z-10 bg-primary/[.9]",
+        isFixed ? "sticky top-0" : "relative"
+      )}
+    >
       <Container>
         <div className="flex">
           <nav className="flex flex-1">
@@ -205,7 +214,7 @@ export const Header: React.FC = () => {
           </div>
 
           <div className="flex flex-1 justify-end">
-            {isUserLogged ? (
+            {/* {isUserLogged ? (
               <Link href="/profile" type="button" className="flex  mr-2">
                 <button type="button" className="flex items-center text-text">
                   <Login width={22} stroke="#000" fill="transparent" />
@@ -218,6 +227,27 @@ export const Header: React.FC = () => {
                 onClick={() => dispatch(handleShowLoginModal())}
               >
                 <Login width={22} stroke="#000" fill="transparent" />
+              </button>
+            )} */}
+
+            {query.admin === process.env.NEXT_PUBLIC_ADMIN_SECRET &&
+              !isUserLogged && (
+                <button
+                  type="button"
+                  className="flex items-center text-text mr-2"
+                  onClick={() => dispatch(handleShowLoginModal())}
+                >
+                  <Login width={22} stroke="#000" fill="transparent" />
+                </button>
+              )}
+
+            {isUserLogged && (
+              <button
+                type="button"
+                className="flex items-center text-text mr-2"
+                onClick={() => dispatch(handleLogout())}
+              >
+                LOGOUT
               </button>
             )}
 

@@ -2,6 +2,7 @@ $frameWidth: var(--frame-scale);
 
 .editor-wrapper {
   height: calc(100vh - 62px);
+  background: var(--bg);
 
   .editor-panel {
     .icons {

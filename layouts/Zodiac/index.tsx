@@ -16,19 +16,20 @@ export const Zodiac = () => {
   );
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
-      <div className="zodiac-bg flex items-center justify-center rounded-full relative">
-        {posterStyles.isOverlay && (
-          <div className="mask">
-            {maskOverlays[posterStyles?.overlayId]?.figure}
+    <div className="h-full w-full relative">
+      <div className="zodiac-wrp h-full flex flex-col items-center justify-center">
+        <div className="zodiac-bg flex items-center justify-center rounded-full relative">
+          {posterStyles.isOverlay && (
+            <div className="mask">
+              {maskOverlays[posterStyles?.overlayId]?.figure}
+            </div>
+          )}
+          <SkyForZodiacPoster />
+          <div className="zodiac-figure">
+            {zodiacIconsList[Number(layout.poster?.styles?.artwork)]?.figure}
           </div>
-        )}
-        <SkyForZodiacPoster />
-        <div className="zodiac-figure">
-          {zodiacIconsList[Number(layout.poster?.styles?.artwork)]?.figure}
         </div>
       </div>
-
       <div className="zodiac-icon">
         {zodiacIconsList[Number(layout.poster?.styles?.artwork)]?.icon}
       </div>

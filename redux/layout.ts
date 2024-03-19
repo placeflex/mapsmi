@@ -22,17 +22,10 @@ const layout = createSlice({
   name: "layout",
   initialState,
   reducers: {
-    initFromProfile(state, action) {
+    initLayoutForRenderPage(state, action) {
       state.layout = {
         ...action.payload,
-        editingProfileProject: true,
       };
-
-      storagePoster({
-        profileStore: true,
-        layout: state.layout,
-        productId: state.layout.productId,
-      });
     },
 
     initLayout(state, action) {
@@ -78,7 +71,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -91,7 +83,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -104,7 +95,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -142,7 +132,6 @@ const layout = createSlice({
       }
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -156,7 +145,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -188,7 +176,6 @@ const layout = createSlice({
       }
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -208,7 +195,6 @@ const layout = createSlice({
       }
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -221,7 +207,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -234,7 +219,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -247,7 +231,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -266,7 +249,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -302,7 +284,6 @@ const layout = createSlice({
       }
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -321,7 +302,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -337,7 +317,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -356,7 +335,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -371,7 +349,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -390,7 +367,6 @@ const layout = createSlice({
       };
 
       storagePoster({
-        profileStore: state.layout.editingProfileProject,
         layout: state.layout,
         productId: state.layout.productId,
       });
@@ -399,6 +375,7 @@ const layout = createSlice({
 });
 
 export const {
+  initLayoutForRenderPage,
   initLayout,
   handleChangeStyles,
   handleChangeAttributes,
@@ -409,7 +386,6 @@ export const {
   setCurrentLocation,
   deleteLocation,
   handleResetLabels,
-  initFromProfile,
   handleSaveCustomCoordinatesForMap,
   handleStylesController,
   renderMarkersController,

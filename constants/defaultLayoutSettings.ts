@@ -28,7 +28,7 @@ export const defaultLayoutSettings = {
     styles: {
       artwork: lineArtIconsList[0].id,
       color: basicColors[0].id,
-      layoutStyle: basicLayoutStyles[0],
+      layoutStyle: basicLayoutStyles[0].id,
       font: fontsList[0].id,
     },
   },

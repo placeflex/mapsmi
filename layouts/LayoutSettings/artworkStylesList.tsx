@@ -20,36 +20,6 @@ export const basicLayoutStyles: ArtworkStyleInterface[] = [
     name: "TerraTone",
     applyName: "terra-tone",
   },
-  // {
-  //   id: 2,
-  //   name: "Script",
-  //   applyName: "script",
-  // },
-  // {
-  //   id: 3,
-  //   name: "Brush",
-  //   applyName: "brush",
-  // },
-  // {
-  //   id: 4,
-  //   name: "Devided",
-  //   applyName: "devided",
-  // },
-  // {
-  //   id: 5,
-  //   name: "Boxed",
-  //   applyName: "boxed",
-  // },
-  // {
-  //   id: 6,
-  //   name: "Passpartou",
-  //   applyName: "passpartou",
-  // },
-  // {
-  //   id: 7,
-  //   name: "Quote (Script)",
-  //   applyName: "quoteScript",
-  // },
 ];
 
 export const skyMapLayoutStyles: ArtworkStyleInterface[] = [
@@ -60,28 +30,28 @@ export const skyMapLayoutStyles: ArtworkStyleInterface[] = [
   },
   {
     id: 1,
+    name: "Spectrum",
+    applyName: "spectrum",
+  },
+  {
+    id: 2,
     name: "Bold",
     applyName: "bold",
   },
   {
-    id: 2,
-    name: "Devided",
-    applyName: "devided",
-  },
-  {
     id: 3,
-    name: "Boxed",
-    applyName: "boxed",
+    name: "Bold-full",
+    applyName: "bold-full",
   },
   {
     id: 4,
-    name: "Passpartou",
-    applyName: "passpartou",
+    name: "Lopster",
+    applyName: "lopster",
   },
   {
     id: 5,
-    name: "Quote (Script)",
-    applyName: "quoteScript",
+    name: "Noir",
+    applyName: "noir",
   },
 ];
 

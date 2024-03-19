@@ -7,7 +7,8 @@ export const productsVariations: productsVariationsInterface = {
   1: "skymap-storage",
   2: "map-storage",
   3: "zodiac-storage",
-  4: "profile-storage",
+  4: "render-storage",
+  // 4: "profile-storage",
 };
 
 export const productNames: productsVariationsInterface = {
