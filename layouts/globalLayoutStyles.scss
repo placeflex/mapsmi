@@ -6,6 +6,7 @@ $marginSmall: 1.2em;
 $marginLarge: 1.4em;
 $marginXLarge: 1.6em;
 $marginXXLarge: 1.8em;
+$marginXXXLarge: 2em;
 
 // text sizes
 $textLarge: 3.4em;
@@ -35,6 +36,7 @@ $frameWidth: var(--frame-scale);
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%) scale(1.15);
+  z-index: 0;
 }
 
 .artwork {
@@ -236,29 +238,248 @@ $frameWidth: var(--frame-scale);
   }
 
   &.skymap {
-    // svg {
-    //   opacity: 1 !important;
-    // }
-
-    .artworkFigure {
-      padding: 0 2em;
-    }
-
     &.overlayApply {
-      // font-size: calc(var(--render-scale) * 1.4em) !important;
-
-      .artworkFigure {
-        padding: 0 4.5em;
-        gap: 3em;
+      #map-holder {
+        transform: scale(0.87);
       }
     }
 
-    &.quoteScript {
+    .artworkFigure {
+      overflow: hidden;
+      justify-content: flex-start;
+    }
+
+    #map-holder {
+      margin: auto;
+    }
+
+    .labels {
+      gap: 0.4em;
+      h1 {
+        font-size: 2.7em;
+      }
+
+      h2,
+      h3 {
+        font-size: 2em;
+      }
+
+      span {
+        margin-top: 1em;
+        font-size: 1.2em;
+        opacity: 0.7;
+      }
+    }
+
+    &.minimal {
       .labels {
-        position: static;
+        gap: 0.4em;
+        h1 {
+          font-size: 2.7em;
+        }
+
+        h2 {
+          @include subline-decoration-center($textColor);
+        }
+
+        h2,
+        h3 {
+          font-size: 2em;
+        }
+
+        span {
+          margin-top: 1em;
+          font-size: 1.2em;
+          opacity: 0.7;
+        }
+      }
+    }
+
+    &.spectrum {
+      .custom-line {
+        display: none;
+      }
+      .border-holder {
+        margin: 0;
+      }
+      .labels {
+        h2 {
+          @include subline-decoration-center($textColor);
+        }
+      }
+    }
+
+    &.bold-full,
+    &.bold {
+      .artworkFigure {
+        gap: 2em;
+      }
+
+      .labels {
+        background: $illustrationColor;
+        padding: 1em 1.5em;
+        text-transform: uppercase;
+        white-space: pre-wrap;
+        width: auto;
+        gap: 0.5em;
+        min-width: 50%;
+        letter-spacing: 0.2em;
+        left: auto;
+        bottom: 0;
+
+        * {
+          color: $bg;
+        }
+
+        h1 {
+          font-size: 1.6em;
+        }
+
+        h2,
+        h3 {
+          font-size: 0.8em;
+        }
+
+        span {
+          font-size: 0.7em;
+          opacity: 0.5;
+        }
+      }
+
+      // @include police-color-bold-layout;
+    }
+
+    &.bold-full {
+      .custom-line {
+        display: none;
+      }
+      .border-holder {
+        margin: 0;
+      }
+
+      &.landscape {
+        .labels {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    &.lopster {
+      .custom-line {
+        display: none;
+      }
+
+      .border-holder {
+        margin: 0;
+        padding: 2em;
+        position: relative;
+        background: $bg;
+      }
+
+      .artworkFigure {
+        position: relative;
+        overflow: hidden;
+        padding: 0;
+      }
+
+      &.landscape {
+        .labels {
+          gap: 0.4em;
+        }
+      }
+
+      #map-holder {
+        flex-grow: 1;
+        margin: auto auto;
+
+        #map {
+          margin: auto;
+        }
+      }
+
+      .labels {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        background: transparent;
+        padding: 1em;
+        border: 0.2em solid $textColor;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        padding-bottom: 1em;
+        pointer-events: none;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
+
+        * {
+          color: $textColor;
+        }
+
+        h1 {
+          font-size: 3em;
+          padding: 0 0.2em;
+          text-transform: uppercase;
+        }
+
+        h2,
+        h3,
+        span {
+          display: block;
+          font-size: 1.8em;
+        }
+
+        h3 {
+          @include subline-decoration-center($textColor);
+          font-size: 1.4em;
+        }
+
+        span {
+          font-size: 1.2em;
+          margin: 0;
+        }
+      }
+    }
+
+    &.noir {
+      .custom-line {
+        display: none;
+      }
+      .border-holder {
+        margin: 0;
+      }
+
+      .artworkFigure {
+        padding: 2em;
+      }
+
+      .labels {
+        background: transparent;
+        text-align: right;
+        justify-content: flex-end;
         align-items: flex-end;
-        transform: translate(0);
-        padding-bottom: 40em;
+
+        * {
+          color: $textColor;
+        }
+
+        h1 {
+          font-size: 2em;
+        }
+
+        h2,
+        h3 {
+          font-size: 1.8em;
+        }
+
+        span {
+          display: block;
+          margin-top: 0.2em;
+          font-size: 1.2em;
+        }
       }
     }
   }
@@ -386,8 +607,6 @@ $frameWidth: var(--frame-scale);
       .custom-line {
         display: none;
       }
-
-      // @include police-color-script-layout;
     }
 
     &.brush {
@@ -594,32 +813,44 @@ $frameWidth: var(--frame-scale);
   }
 
   &.zodiac {
+    &.overlayApply {
+      .zodiac-wrp {
+        transform: scale(0.87);
+      }
+    }
+
+    &.portrait {
+      .zodiac-bg {
+        height: auto !important;
+        width: 100% !important;
+        aspect-ratio: 1/1;
+      }
+    }
+
+    &.landscape {
+      .zodiac-bg {
+        width: auto !important;
+        height: 100% !important;
+        aspect-ratio: 1/1;
+      }
+    }
+
     .artworkFigure {
-      padding: $marginXXLarge;
+      padding: $marginXXXLarge;
     }
 
     .zodiac-bg {
-      height: 100%;
-      width: auto;
       padding: $marginSmall;
       border-radius: 9999px;
       background: $illustrationColor;
-      margin-bottom: $marginLarge;
 
       & > svg {
         opacity: 0.4;
         fill: $bg;
         z-index: 3;
-      }
-    }
-
-    &.overlayApply {
-      .zodiac-bg {
-        margin-bottom: $marginXLarge;
-      }
-
-      .artworkFigure {
-        padding: $marginXLarge;
+        display: block;
+        width: 100%;
+        height: 100%;
       }
     }
 
@@ -646,15 +877,229 @@ $frameWidth: var(--frame-scale);
       }
     }
 
-    &.quoteScript {
-      svg {
-        opacity: 1;
+    .labels {
+      gap: 0.4em;
+      h1 {
+        font-size: 2.7em;
+      }
+
+      h2,
+      h3 {
+        font-size: 2em;
+      }
+
+      span {
+        margin-top: 1em;
+        font-size: 1.2em;
+        opacity: 0.7;
+      }
+    }
+
+    &.minimal {
+      .labels {
+        gap: 0.4em;
+        h1 {
+          font-size: 2.7em;
+        }
+
+        h2 {
+          @include subline-decoration-center($textColor);
+        }
+
+        h2,
+        h3 {
+          font-size: 2em;
+        }
+
+        span {
+          margin-top: 1em;
+          font-size: 1.2em;
+          opacity: 0.7;
+        }
+      }
+    }
+
+    &.spectrum {
+      .custom-line {
+        display: none;
+      }
+      .border-holder {
+        margin: 0;
       }
       .labels {
-        position: static;
+        h2 {
+          @include subline-decoration-center($textColor);
+        }
+      }
+    }
+
+    &.bold-full,
+    &.bold {
+      .artworkFigure {
+        gap: 2em;
+      }
+
+      .labels {
+        background: $illustrationColor;
+        padding: 1em 1.5em;
+        text-transform: uppercase;
+        white-space: pre-wrap;
+        width: auto;
+        gap: 0.5em;
+        min-width: 50%;
+        letter-spacing: 0.2em;
+        left: auto;
+        bottom: 0;
+
+        * {
+          color: $bg;
+        }
+
+        h1 {
+          font-size: 1.6em;
+        }
+
+        h2,
+        h3 {
+          font-size: 0.8em;
+        }
+
+        span {
+          font-size: 0.7em;
+          opacity: 0.5;
+        }
+      }
+
+      // @include police-color-bold-layout;
+    }
+
+    &.bold-full {
+      .custom-line {
+        display: none;
+      }
+      .border-holder {
+        margin: 0;
+      }
+
+      &.landscape {
+        .labels {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    &.lopster {
+      .custom-line {
+        display: none;
+      }
+
+      .border-holder {
+        margin: 0;
+        padding: 2em;
+        position: relative;
+        background: $bg;
+      }
+
+      .artworkFigure {
+        position: relative;
+        overflow: hidden;
+        padding: 0;
+      }
+
+      &.landscape {
+        .labels {
+          gap: 0.4em;
+        }
+      }
+
+      .zodiac-wrp {
+        flex-grow: 1;
+        margin: auto auto;
+      }
+
+      .labels {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        background: transparent;
+        padding: 1em;
+        border: 0.2em solid $textColor;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        padding-bottom: 1em;
+        pointer-events: none;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
+
+        * {
+          color: $textColor;
+        }
+
+        h1 {
+          font-size: 3em;
+          padding: 0 0.2em;
+          text-transform: uppercase;
+        }
+
+        h2,
+        h3,
+        span {
+          display: block;
+          font-size: 1.8em;
+        }
+
+        h3 {
+          @include subline-decoration-center($textColor);
+          font-size: 1.4em;
+        }
+
+        span {
+          font-size: 1.2em;
+          margin: 0;
+        }
+      }
+    }
+
+    &.noir {
+      .custom-line {
+        display: none;
+      }
+      .border-holder {
+        margin: 0;
+      }
+
+      .artworkFigure {
+        padding: 2em;
+      }
+
+      .labels {
+        background: transparent;
+        text-align: right;
+        justify-content: flex-end;
         align-items: flex-end;
-        transform: translate(0);
-        padding-bottom: 40em;
+
+        * {
+          color: $textColor;
+        }
+
+        h1 {
+          font-size: 2em;
+        }
+
+        h2,
+        h3 {
+          font-size: 1.8em;
+        }
+
+        span {
+          display: block;
+          margin-top: 0.2em;
+          font-size: 1.2em;
+        }
       }
     }
   }

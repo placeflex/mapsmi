@@ -19,11 +19,11 @@ import { api } from "@/axios";
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "@/redux/store";
-import {
-  handleDeleteProject,
-  handleLogout,
-  handleSaveUser,
-} from "@/redux/user";
+// import {
+//   handleDeleteProject,
+//   handleLogout,
+//   handleSaveUser,
+// } from "@/redux/user";
 
 // icons
 import Empty from "@/public/icons/empty.svg";
@@ -31,34 +31,34 @@ import Delete from "@/public/icons/delete.svg";
 
 const UserProjects = () => {
   const dispatch = useDispatch();
-  const user = useTypedSelector(({ user }) => user.user);
+  const user = useTypedSelector(({ user }) => user.isAdmin);
   const router = useRouter();
 
-  const handleLogoutUser = () => {
-    dispatch(handleLogout());
-    router.push("/");
-  };
+  // const handleLogoutUser = () => {
+  //   dispatch(handleLogout());
+  //   router.push("/");
+  // };
 
-  const handleDeleteMyProject = (id: string) => {
-    const callback = () => {
-      api
-        .get("/me")
-        .then(user => {
-          dispatch(handleSaveUser(user));
-        })
-        .catch(({ error }) => {
-          handleLogoutUser();
-          toast.error(error);
-        });
-    };
+  // const handleDeleteMyProject = (id: string) => {
+  //   const callback = () => {
+  //     api
+  //       .get("/me")
+  //       .then(user => {
+  //         dispatch(handleSaveUser(user));
+  //       })
+  //       .catch(({ error }) => {
+  //         handleLogoutUser();
+  //         toast.error(error);
+  //       });
+  //   };
 
-    dispatch(handleDeleteProject({ id, callback }));
-  };
+  //   dispatch(handleDeleteProject({ id, callback }));
+  // };
 
   return (
     <PrivateRoute>
       <PageLayout>
-        <Container>
+        {/* <Container>
           <ProfileLayout>
             {user?.projects.length === 0 ? (
               <div className="flex flex-col items-center text-center">
@@ -142,12 +142,11 @@ const UserProjects = () => {
                       </div>
                     );
                   })}
-                  {/* </div> */}
                 </div>
               </>
             )}
           </ProfileLayout>
-        </Container>
+        </Container> */}
       </PageLayout>
     </PrivateRoute>
   );

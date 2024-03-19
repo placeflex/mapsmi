@@ -12,36 +12,39 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "PATCH") {
-    await connectDB();
-    const newUserFields = req.body;
-    const token = req.headers.authorization;
+  // if (req.method === "PATCH") {
+  //   await connectDB();
+  //   const newUserFields = req.body;
+  //   const token = req.headers.authorization;
 
-    const decoded = verifyToken(String(token));
+  //   const decoded = verifyToken(String(token));
 
-    try {
-      if (decoded && typeof decoded === "object") {
-        const filter = { email: decoded.email };
-        const update = { ...newUserFields };
-        const options = { new: true };
+  //   try {
+  //     if (decoded && typeof decoded === "object") {
+  //       const filter = { email: decoded.email };
+  //       const update = { ...newUserFields };
+  //       const options = { new: true };
 
-        await User.findOneAndUpdate(filter, update, options)
-          .then(updatedUser => {
-            if (updatedUser) {
-              const { name, surname } = updatedUser;
-              return res
-                .status(200)
-                .json({ data: { name, surname }, message: "Profile updated." });
-            } else {
-              return res.status(404).json({ error: "Email not found." });
-            }
-          })
-          .catch(error => {
-            return res.status(500).json({ error: "Internal Server Error" });
-          });
-      }
-    } catch {}
-  }
+  //       await User.findOneAndUpdate(filter, update, options)
+  //         .then(updatedUser => {
+  //           if (updatedUser) {
+  //             const { name, surname, token } = updatedUser;
+  //             return res
+  //               .status(200)
+  //               .json({
+  //                 data: { name, surname, token },
+  //                 message: "Profile updated.",
+  //               });
+  //           } else {
+  //             return res.status(404).json({ error: "Email not found." });
+  //           }
+  //         })
+  //         .catch(error => {
+  //           return res.status(500).json({ error: "Internal Server Error" });
+  //         });
+  //     }
+  //   } catch {}
+  // }
 
   if (req.method === "GET") {
     await connectDB();
@@ -53,12 +56,11 @@ export default async function handler(
       if (decoded && typeof decoded === "object") {
         User.findOne({ email: decoded?.email })
           .then(async user => {
-            const { name, surname, email, projects, ...userFields } = user;
+            const { name, email, token, ...userFields } = user;
             return res.status(200).json({
               name,
-              surname,
+              token,
               email,
-              projects,
             });
           })
           .catch(err => {

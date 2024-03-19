@@ -26,10 +26,11 @@ import { mapColors } from "@/layouts/LayoutSettings/mapColors";
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
-import { initFromProfile } from "@/redux/layout";
+import { initLayoutForRenderPage } from "@/redux/layout";
 
 // constants
 import { RENDER_SCALE_RENDER_PAGE } from "@/constants/defaultLayoutSettings";
+import { productsVariations } from "@/constants/constants";
 
 // styles
 import "@/modules/LayoutPanels/editor.scss";
@@ -47,7 +48,7 @@ export default function Editor() {
   const FRAME_SCALE = preview ? `${RENDER_SCALE_RENDER_PAGE * 0.5}vmin` : 0;
 
   useEffect(() => {
-    const project = localStorage.getItem("profile-storage");
+    const project = localStorage.getItem("render-storage");
 
     window.devicePixelRatio = RENDER_SCALE_RENDER_PAGE;
 
@@ -56,7 +57,8 @@ export default function Editor() {
       if (body && body.style) {
         body.style.overflow = "auto";
       }
-      dispatch(initFromProfile(JSON.parse(project)));
+
+      dispatch(initLayoutForRenderPage(JSON.parse(project)));
     }
   }, [product_id]);
 

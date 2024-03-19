@@ -21,20 +21,30 @@ interface LineArtProps {
 import "./globalLayoutStyles.scss";
 
 import { useTypedSelector } from "@/redux/store";
+import { useEffect } from "react";
 
 export const LayoutContent = ({
   className = "",
-  layoutStyle = "minimalist",
+  layoutStyle = "minimal",
   figure,
   styles,
   texts,
   render,
 }: LineArtProps) => {
   const router = useRouter();
-  const { preview } = router.query;
+  const { preview, product_id } = router.query;
   const frame = useTypedSelector(
     ({ layout }) => layout?.layout?.selectedAttributes?.frame
   );
+  const posterStyleId = useTypedSelector(
+    ({ layout }) => layout?.layout?.poster?.styles?.layoutStyle
+  );
+
+  // layoutID 4 (  )
+
+  const isZodiacOrSkyMapAndLopsterTheme =
+    (product_id === "3" || product_id === "1") && posterStyleId == 4;
+
   let withoutText =
     !texts?.heading && !texts?.subline && !texts?.divider && !texts?.tagline;
 
@@ -48,12 +58,14 @@ export const LayoutContent = ({
         <div className="custom-line second"></div>
 
         <div className={`artworkFigure ${withoutText ? "h-full" : ""}`}>
-          {/* <div className="h-full w-full">{figure}</div> */}
-          {figure}
+          {!isZodiacOrSkyMapAndLopsterTheme && figure}
 
           {!withoutText && (
             <div className="labels">
               {texts?.heading && <h1 className="headline">{texts?.heading}</h1>}
+
+              {isZodiacOrSkyMapAndLopsterTheme && figure}
+
               {texts?.subline && <h2 className="subline">{texts?.subline}</h2>}
               {texts?.divider && <h3 className="divider">{texts?.divider}</h3>}
               {texts?.tagline && (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import Image from "next/image";
 import classNames from "classnames";
 
 // components
@@ -314,16 +314,23 @@ export const SizeAccordion = ({
 
       <div className="flex flex-col mt-2">
         <h5 className="font-bold  mb-2">Select Frame</h5>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap justify-center">
           {frames.map(frame => {
             return (
               <div
                 key={frame.id}
-                className="w-full"
                 onClick={() => handleSelectFrame(frame.id)}
+                className="w-[calc(100%/4-1rem)] m-[0.5rem] relative cursor-pointer"
               >
-                <span>{frame.name}</span>
-                <span>{FRAMES_PRICES[frame.id].price}</span>
+                {frame.icon && (
+                  <Image
+                    src={frame.icon}
+                    alt="frame"
+                    objectFit="cover"
+                    className="w-full block"
+                  />
+                )}
+                <span>{FRAMES_PRICES[frame.id].price}$</span>
               </div>
             );
           })}
@@ -621,7 +628,7 @@ export const ColorsForMapAccordion = ({ handleChange }: any) => {
               className="flex flex-col justify-center h-[120px] w-[33.333%]"
               onClick={() => handleChange(id)}
             >
-              <div className="block w-full h-full">{icon}</div>
+              <div className="block w-full h-full relative">{icon}</div>
               <span className="text-center mt-2">
                 {name.charAt(0).toUpperCase() + name.slice(1)}
               </span>
@@ -960,6 +967,8 @@ export const FontsAccordion = ({ handleChange }: any) => {
 };
 
 export const ZodiacSelect = ({ handleChange }: any) => {
+  const dispatch = useDispatch();
+
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
@@ -971,11 +980,36 @@ export const ZodiacSelect = ({ handleChange }: any) => {
     figure: zodiac.figure,
   }));
 
+  const handleUpdate = id => {
+    const title = zodiacIconsList[id].name;
+    const date = zodiacIconsList[id].date;
+
+    console.log("title", title);
+
+    console.log("date", date);
+
+    dispatch(
+      handleChangeLables({
+        label: "heading",
+        value: title,
+      })
+    );
+
+    dispatch(
+      handleChangeLables({
+        label: "subline",
+        value: date,
+      })
+    );
+
+    handleChange(id);
+  };
+
   return (
     <SearchSelect
       placeholder="Select an option"
       options={options}
-      onChange={handleChange}
+      onChange={handleUpdate}
       className="w-full"
       value={posterStyles.artwork}
       optionRender={({ data }: any) => {

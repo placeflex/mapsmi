@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import terra from "@/public/mapColors/terra.png";
 import metropolis from "@/public/mapColors/metropolis.png";
 import horizon from "@/public/mapColors/horizon.png";
@@ -20,7 +22,15 @@ const VINTAGE_COLOR = "#ECC698";
 
 export const mapColors = [
   {
-    icon: <img src={terra.src} alt="alt" />,
+    icon: (
+      <Image
+        src={terra}
+        alt="street map"
+        layout="fill"
+        priority={false}
+        quality={50}
+      />
+    ),
     id: 0,
     name: "terra",
     textColor: TEXT_BLACK,
@@ -36,7 +46,15 @@ export const mapColors = [
     },
   },
   {
-    icon: <img src={metropolis.src} alt="alt" />,
+    icon: (
+      <Image
+        src={metropolis}
+        alt="street map"
+        layout="fill"
+        priority={false}
+        quality={50}
+      />
+    ),
     id: 1,
     name: "metropolis",
     textColor: TEXT_WHITE,
@@ -59,7 +77,15 @@ export const mapColors = [
     },
   },
   {
-    icon: <img src={horizon.src} alt="alt" />,
+    icon: (
+      <Image
+        src={horizon}
+        alt="street map"
+        layout="fill"
+        priority={false}
+        quality={50}
+      />
+    ),
     id: 2,
     name: "horizon",
     textColor: TEXT_WHITE,
@@ -82,7 +108,15 @@ export const mapColors = [
     },
   },
   {
-    icon: <img src={horizon.src} alt="alt" />,
+    icon: (
+      <Image
+        src={horizon}
+        alt="street map"
+        layout="fill"
+        priority={false}
+        quality={50}
+      />
+    ),
     id: 3,
     name: "volcano",
     textColor: TEXT_WHITE,

@@ -26,19 +26,13 @@ export interface Project {
   uuid: string;
 }
 export interface UserStateProps {
-  user: UserFieldsProps;
-  loggedIn: boolean;
+  // user: UserFieldsProps;
+  // loggedIn: boolean;
+  isAdmin: boolean;
 }
 
-const initialUserFields = {
-  email: "",
-  name: "",
-  projects: [],
-};
-
 const initialState: UserStateProps = {
-  user: initialUserFields,
-  loggedIn: false,
+  isAdmin: false,
 };
 
 const user = createSlice({
@@ -46,28 +40,21 @@ const user = createSlice({
   initialState,
   reducers: {
     handleSaveUser(state, action) {
-      const { token, ...userPayload } = action.payload;
-      state.user = {
-        ...state.user,
-        ...userPayload,
-      };
-      state.loggedIn = true;
-      if (token) {
+      const { token, email, name, ...userPayload } = action.payload;
+
+      if (token || email || name) {
+        state.isAdmin = true;
         setToken(token);
       }
     },
-
     handleLogout(state) {
-      state.user = initialUserFields;
-      state.loggedIn = false;
+      state.isAdmin = false;
       deleteToken();
     },
-
     handleSaveProject(state, action) {
       const project = localStorage.getItem(
         productsVariations[action.payload.id]
       );
-
       if (project) {
         const request = api
           .post("/project", JSON.parse(project))
@@ -77,58 +64,53 @@ const user = createSlice({
           .catch(({ response }) => {
             toast.error(response.data.error);
           });
-
         toast.promise(request, {
           pending: "Projects is saving in account. Please wait few seconds.",
         });
       }
     },
-
-    handleUpdateProject(state, action) {
-      const project = localStorage.getItem(
-        productsVariations[action.payload.id]
-      );
-
-      if (project) {
-        const request = api
-          .patch("/project", JSON.parse(project))
-          .then((data: any) => {
-            toast.success(data.message);
-          })
-          .catch(({ response }) => {
-            toast.error(response.data.error);
-          });
-
-        toast.promise(request, {
-          pending: "Project is updating! Please wait few seconds.",
-        });
-      }
-    },
-
-    handleDeleteProject(state, action) {
-      const request = api
-        .delete(`/project?id=${action.payload.id}`)
-        .then((data: any) => {
-          toast.success(data.message);
-          action.payload.callback && action.payload.callback();
-        })
-        .catch(({ response }) => {
-          toast.error(response.data.error);
-        });
-
-      toast.promise(request, {
-        pending: "Project is deleting! Please wait few seconds.",
-      });
-    },
+    // handleUpdateProject(state, action) {
+    //   const project = localStorage.getItem(
+    //     productsVariations[action.payload.id]
+    //   );
+    //   if (project) {
+    //     const request = api
+    //       .patch("/project", JSON.parse(project))
+    //       .then((data: any) => {
+    //         toast.success(data.message);
+    //       })
+    //       .catch(({ response }) => {
+    //         toast.error(response.data.error);
+    //       });
+    //     toast.promise(request, {
+    //       pending: "Project is updating! Please wait few seconds.",
+    //     });
+    //   }
+    // },
+    // handleDeleteProject(state, action) {
+    //   const request = api
+    //     .delete(`/project?id=${action.payload.id}`)
+    //     .then((data: any) => {
+    //       toast.success(data.message);
+    //       action.payload.callback && action.payload.callback();
+    //     })
+    //     .catch(({ response }) => {
+    //       toast.error(response.data.error);
+    //     });
+    //   toast.promise(request, {
+    //     pending: "Project is deleting! Please wait few seconds.",
+    //   });
+    // },
   },
 });
 
 export const {
   handleSaveUser,
   handleLogout,
+  // will remoce handleSaveProject
   handleSaveProject,
-  handleUpdateProject,
-  handleDeleteProject,
+  // handleUpdateProject,
+  // handleDeleteProject,
 } = user.actions;
 
 export default user.reducer;

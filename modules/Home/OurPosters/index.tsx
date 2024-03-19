@@ -9,8 +9,21 @@ import Image from "next/image";
 import terra from "@/public/mapColors/terra.png";
 import metropolis from "@/public/mapColors/metropolis.png";
 import horizon from "@/public/mapColors/horizon.png";
-import example from "@/public/example.png";
-import exampleTest from "@/public/example-test.png";
+
+import streetmap from "@/public/wallart-preview/streetmap.png";
+import streetmapAlt from "@/public/wallart-preview/streetmap-alt.png";
+
+import lineart from "@/public/wallart-preview/lineart.png";
+import lineartAlt from "@/public/wallart-preview/lineart-alt.png";
+
+import starmap from "@/public/wallart-preview/starmap.png";
+import starmapAlt from "@/public/wallart-preview/starmap-alt.png";
+
+import zodiac from "@/public/wallart-preview/zodiac.png";
+import zodiacAlt from "@/public/wallart-preview/zodiac-alt.png";
+
+import example from "@/public/frame-full.png";
+import exampleTest from "@/public/frame-full-second.png";
 import LineArt from "@/public/lineart-example.png";
 
 const slides = [
@@ -18,45 +31,49 @@ const slides = [
     id: 1,
     title: "Street Map",
     description: (
-      <p className="text-captionSmall mt-[1rem] leading-[2rem]">
+      <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
         Design your own personalised map poster! <br />
         Pick the place, and personalize the text, color and size.
       </p>
     ),
-    image: example,
+    image: streetmap,
+    imageAlt: streetmapAlt,
   },
   {
     id: 2,
     title: "LineArt",
     description: (
-      <p className="text-captionSmall mt-[1rem] leading-[2rem]">
+      <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
         Bring a minimalistic feel to your interior with <br /> our curated
         collection of line art prints.
       </p>
     ),
-    image: LineArt,
+    image: lineart,
+    imageAlt: lineartAlt,
   },
   {
     id: 3,
     title: "Star Map",
     description: (
-      <p className="text-captionSmall mt-[1rem] leading-[2rem]">
+      <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
         Bring a minimalistic feel to your interior with <br /> our curated
         collection of line art prints.
       </p>
     ),
-    image: LineArt,
+    image: starmap,
+    imageAlt: starmapAlt,
   },
   {
     id: 4,
     title: "Zodiac",
     description: (
-      <p className="text-captionSmall mt-[1rem] leading-[2rem]">
+      <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
         Bring a minimalistic feel to your interior with <br /> our curated
         collection of line art prints.
       </p>
     ),
-    image: LineArt,
+    image: zodiacAlt,
+    imageAlt: zodiac,
   },
 ];
 
@@ -76,12 +93,12 @@ export const OurPosters = () => {
             spaceBetween={20}
             pagination={{ clickable: false }}
             autoplay={{}}
-            className="mt-[3rem]"
+            className="mt-[2rem]"
           >
-            {slides.map(({ image, id, title, description }) => {
+            {slides.map(({ image, imageAlt, id, title, description }) => {
               return (
                 <SwiperSlide key={id}>
-                  <div className="relative flex flex-col bg-white">
+                  <div className="relative flex flex-col bg-fff shadow-md">
                     <div className="w-full relative aspect-square">
                       <Image
                         src={image}
@@ -93,13 +110,26 @@ export const OurPosters = () => {
                         priority={true}
                       />
                     </div>
+                    {imageAlt && (
+                      <div className="transition w-full aspect-square absolute top-0 left-0 right-0 bottom-0 opacity-0 z-10 hover:opacity-100">
+                        <Image
+                          src={imageAlt}
+                          alt="terra"
+                          layout="fill"
+                          objectFit="cover"
+                          objectPosition="center"
+                          quality={100}
+                          priority={true}
+                        />
+                      </div>
+                    )}
 
-                    <div className="py-[2rem] px-[1rem] text-center">
-                      <h3 className="text-bodySmall font-semibold">{title}</h3>
+                    <div className="py-[2rem] px-[1rem] flex flex-col">
+                      <h3 className="text-body font-semibold">{title}</h3>
 
                       {description}
 
-                      <span className="block mt-[1rem] font-semibold text-caption">
+                      <span className="block mt-[.5rem] font-semibold text-caption">
                         €44.99-79.99
                       </span>
                     </div>

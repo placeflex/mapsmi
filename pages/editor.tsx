@@ -49,15 +49,13 @@ import {
   initLayout,
   handleChangeStyles,
   handleChangeAttributes,
-  initFromProfile,
   handleChangeFrame,
 } from "@/redux/layout";
 
-import { handleSaveProject, handleUpdateProject } from "@/redux/user";
 import { handleAddToPopularProjects } from "@/redux/popular-wallarts";
 
 // types
-import { UserFieldsProps } from "@/redux/user";
+import { UserFieldsProps, handleSaveProject } from "@/redux/user";
 
 // constants
 import { RENDER_SCALE_EDITOR_PAGE } from "@/constants/defaultLayoutSettings";
@@ -69,7 +67,7 @@ export default function Editor() {
   const router = useRouter();
   const { product_id, id } = router.query;
   const FRAME_SCALE = `${1 * 1.5}vmin`;
-  const user: UserFieldsProps = useTypedSelector(({ user }) => user.user);
+  const isAdmin = useTypedSelector(({ user }) => user.isAdmin);
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
   const dispatch: AppDispatch = useDispatch();
@@ -177,15 +175,16 @@ export default function Editor() {
   };
 
   const handleUPDATEACCOUNT = () => {
-    try {
-      if (id) {
-        dispatch(handleUpdateProject({ id: product_id }));
-      } else {
-        dispatch(handleSaveProject({ id: product_id }));
-      }
-    } catch {
-      console.log("SOMETHING WRONG");
-    }
+    dispatch(handleSaveProject({ id: product_id }));
+    // try {
+    //   if (id) {
+    //     dispatch(handleUpdateProject({ id: product_id }));
+    //   } else {
+    //     dispatch(handleSaveProject({ id: product_id }));
+    //   }
+    // } catch {
+    //   console.log("SOMETHING WRONG");
+    // }
   };
 
   const handleAddPupularProject = () => {
@@ -193,23 +192,8 @@ export default function Editor() {
   };
 
   useEffect(() => {
-    if (id) {
-      const project = user?.projects?.find(project => project.uuid == id);
-      dispatch(initFromProfile(project));
-    } else {
-      dispatch(initLayout(product_id));
-    }
-    // dispatch(initLayout(product_id));
-  }, [product_id, user.projects]);
-
-  // useEffect(() => {
-  //   const dpi = 300;
-  //   Object.defineProperty(window, "devicePixelRatio", {
-  //     get: function () {
-  //       return 10;
-  //     },
-  //   });
-  // }, []);
+    dispatch(initLayout(product_id));
+  }, [product_id]);
 
   const styles = {
     "--text-color":
@@ -447,20 +431,29 @@ export default function Editor() {
               </Button> */}
 
               <Button
-                classNames="w-full"
+                classNames="w-full text-button relative h-[8rem] flex items-center justify-between uppercase"
                 type="button"
+                color="primary"
                 onClick={handleUPDATEACCOUNT}
               >
-                {RESULT_PRICE}
-                Add To Cart
+                <span className="h-full flex items-center justify-center text-caption gap-[1rem]">
+                  <span className="line-through opacity-50">
+                    {RESULT_PRICE}$
+                  </span>
+                  <span className="font-bold">{RESULT_PRICE / 2}$</span>
+                </span>
+                <span className="font-bold text-bodySmall">Add To Cart</span>
               </Button>
-              <Button
-                classNames="w-full"
-                type="button"
-                onClick={handleAddPupularProject}
-              >
-                POPULAR
-              </Button>
+
+              {isAdmin && (
+                <Button
+                  classNames="w-full"
+                  type="button"
+                  onClick={handleAddPupularProject}
+                >
+                  POPULAR
+                </Button>
+              )}
             </div>
           </div>
         </div>

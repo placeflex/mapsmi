@@ -4,7 +4,7 @@ import { useTypedSelector } from "@/redux/store";
 
 const AuthChecker = ({ children }) => {
   const router = useRouter();
-  const isUserLogged = useTypedSelector(({ user }) => user.loggedIn);
+  const isUserLogged = useTypedSelector(({ user }) => user.isAdmin);
 
   useEffect(() => {
     const isLogged = localStorage.getItem("token") || isUserLogged;

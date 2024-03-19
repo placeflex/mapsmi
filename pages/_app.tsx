@@ -42,7 +42,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
     const token = localStorage.getItem("token");
     const resetPasswordToken = localStorage.getItem("token");
 
-    if (token && !router.pathname.includes("/profile")) {
+    if (token) {
       try {
         api
           .get("/me")

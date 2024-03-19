@@ -1,19 +1,37 @@
-$poster: url("../../../public/home/poster.jpg");
+// $poster: url("../../../public/home/poster.jpg");
+$poster: url("../../../public/home/poster-second.png");
+// $poster: url("../../../public/home/poster-sec.png");
 
 .poster {
   background: $poster;
   background-size: cover;
-  background-position: bottom left;
+  background-position: bottom;
+
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
 }
 
 .posterInner {
-  height: 600px;
-  min-height: 600px;
+  height: 800px;
+  min-height: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 
   @media screen and (min-width: 1440px) {
-    height: 900px;
-    min-height: 900px;
+    height: 100vh;
+    min-height: 100vh;
   }
 
   h1 {

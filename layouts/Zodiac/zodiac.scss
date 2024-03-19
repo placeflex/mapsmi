@@ -1,13 +1,37 @@
 .zodiac {
-  &.portrait {
-    .zodiac-bg {
-      width: 100%;
-      height: auto;
-    }
+  .artworkFigure {
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .zodiac-wrp {
+    // position: relative;
+    // max-height: 60%;
+    width: 100%;
+    margin: auto;
+    flex-grow: 1;
+  }
+
+  // &.landscape {
+  //   .zodiac-wrp {
+  //     max-height: 75%;
+  //   }
+  // }
+
+  .zodiac-bg {
+    display: block;
+    height: 100% !important;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .zodiac-icon {
-    width: 5%;
-    height: 5%;
+    width: 3em;
+    height: 3em;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
