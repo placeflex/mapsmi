@@ -11,7 +11,7 @@ api.interceptors.request.use(config => {
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   if (token && token.length) {
-    config.headers.Authorization = token;
+    config.headers.Authorization = `${token}`;
   }
 
   return config;
@@ -22,11 +22,15 @@ api.interceptors.response.use(
     return response.data;
   },
   error => {
-    // if (response == "TOKEN EXPIRED") {
-    //   toast.error(response.data.error);
-    //   return Promise.reject(error);
-    // }
+    const { response } = error;
+    const { data } = response;
 
-    return Promise.reject(error.response.data);
+    if (response.status === 401 && data.message === "Token expired") {
+      localStorage.removeItem("token");
+      location.reload();
+      toast.error(data.message);
+    }
+
+    return Promise.reject(error);
   }
 );

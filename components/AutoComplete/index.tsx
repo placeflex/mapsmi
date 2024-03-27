@@ -1,6 +1,7 @@
 import { AutoComplete as AntdAutoComplete } from "antd";
 import classNames from "classnames";
 
+import Delete from "@/public/icons/close.svg";
 interface AutoCompleteProps {
   label?: string;
   className?: string;
@@ -26,7 +27,7 @@ export const AutoComplete = ({
   return (
     <>
       {label && (
-        <label htmlFor={label} className="block  mb-2">
+        <label htmlFor={label} className="block mb-2 text-caption">
           {label}
         </label>
       )}
@@ -38,7 +39,7 @@ export const AutoComplete = ({
         onSelect={onSelect}
         onSearch={onChange}
         placeholder={placeholder}
-        allowClear={{ clearIcon: <div>X</div> }}
+        allowClear={{ clearIcon: <Delete width={20} stroke="#000" /> }}
         defaultValue={value}
         {...props}
       />

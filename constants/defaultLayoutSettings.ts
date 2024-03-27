@@ -51,6 +51,12 @@ export const defaultLayoutSettings = {
   elementsColor: "#fff",
   labelsTextColor: "#000",
   customCoordinates: {},
+  design_category: [],
+  design_type: [],
+  gift: [],
+  product_type: [],
+  orientation: [],
+  featured: [],
   // price: materials[0].sizes[2].price,
 };
 

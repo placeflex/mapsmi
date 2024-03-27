@@ -44,6 +44,7 @@ import { ZodiacPanelContent } from "@/modules/LayoutPanels/ZodiacPanelContent";
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
+import { handleShowProjectSettingsModal } from "@/redux/modals";
 
 import {
   initLayout,
@@ -52,20 +53,26 @@ import {
   handleChangeFrame,
 } from "@/redux/layout";
 
-import { handleAddToPopularProjects } from "@/redux/popular-wallarts";
+import {
+  handleAddToPopularProjects,
+  handleDeletePopularProject,
+} from "@/redux/popular-wallarts";
 
 // types
 import { UserFieldsProps, handleSaveProject } from "@/redux/user";
 
 // constants
-import { RENDER_SCALE_EDITOR_PAGE } from "@/constants/defaultLayoutSettings";
+import {
+  RENDER_SCALE_EDITOR_PAGE,
+  RENDER_SCALE_RENDER_PAGE,
+} from "@/constants/defaultLayoutSettings";
 
 // styles
 import "@/modules/LayoutPanels/editor.scss";
 
 export default function Editor() {
   const router = useRouter();
-  const { product_id, id } = router.query;
+  const { product_id, id, from } = router.query;
   const FRAME_SCALE = `${1 * 1.5}vmin`;
   const isAdmin = useTypedSelector(({ user }) => user.isAdmin);
   const layout = useTypedSelector(({ layout }) => layout?.layout);
@@ -187,11 +194,8 @@ export default function Editor() {
     // }
   };
 
-  const handleAddPupularProject = () => {
-    dispatch(handleAddToPopularProjects({ id: product_id }));
-  };
-
   useEffect(() => {
+    window.devicePixelRatio = 2;
     dispatch(initLayout(product_id));
   }, [product_id]);
 
@@ -422,14 +426,6 @@ export default function Editor() {
             </div>
 
             <div className="mt-auto">
-              {/* <Button
-                classNames="w-full"
-                type="button"
-                onClick={handleUPDATEACCOUNT}
-              >
-                Add To Collection
-              </Button> */}
-
               <Button
                 classNames="w-full text-button relative h-[8rem] flex items-center justify-between uppercase"
                 type="button"
@@ -449,9 +445,9 @@ export default function Editor() {
                 <Button
                   classNames="w-full"
                   type="button"
-                  onClick={handleAddPupularProject}
+                  onClick={() => dispatch(handleShowProjectSettingsModal())}
                 >
-                  POPULAR
+                  SETTINGS
                 </Button>
               )}
             </div>

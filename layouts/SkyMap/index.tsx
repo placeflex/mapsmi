@@ -209,6 +209,7 @@ export const SkyMap = () => {
           {maskOverlays[posterStyles.overlayId].figure}
         </div>
       )}
+
       <div className="map-wrapper" id="map"></div>
     </div>
   );

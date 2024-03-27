@@ -6,6 +6,7 @@ const initialState = {
   loginModal: false,
   forgotPassword: false,
   resetPassword: false,
+  isOpenProjectAdminSettings: false,
 };
 
 const modals = createSlice({
@@ -27,6 +28,9 @@ const modals = createSlice({
     handleShowResetPasswordModal(state) {
       state.resetPassword = true;
     },
+    handleShowProjectSettingsModal(state) {
+      state.isOpenProjectAdminSettings = true;
+    },
 
     handleCloseModals(state) {
       state.productModal = false;
@@ -34,6 +38,7 @@ const modals = createSlice({
       state.loginModal = false;
       state.forgotPassword = false;
       state.resetPassword = false;
+      state.isOpenProjectAdminSettings = false;
     },
   },
 });
@@ -45,6 +50,7 @@ export const {
   handleCloseModals,
   handleShowForgorPasswordModal,
   handleShowResetPasswordModal,
+  handleShowProjectSettingsModal,
 } = modals.actions;
 
 export default modals.reducer;

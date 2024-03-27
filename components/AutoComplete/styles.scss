@@ -1,40 +1,53 @@
 .autocomplete {
-  font-size: 0.7rem !important;
+  font-size: 1.4rem !important;
   color: inherit !important;
   box-shadow: none !important;
-  // background: var(--light) !important;
 
   * {
     font-size: inherit !important;
     box-shadow: none !important;
+    border-radius: 0 !important;
   }
 
   &:hover,
   &.ant-select-focused {
     .ant-select-selector {
-      border-color: var(--cream) !important;
+      border-color: var(--bg) !important;
+    }
+  }
+
+  .ant-select-clear {
+    width: 1.4rem;
+    height: 1.4rem;
+    opacity: 1;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
   }
 }
 
 .autocomplete-popup {
   .ant-select-item-option-active {
-    background: var(--cream) !important;
-    color: var(--white) !important;
+    background: var(--bg) !important;
+    color: var(--text) !important;
   }
   .ant-select-item-option-selected {
     background-color: transparent !important;
   }
 
   .ant-select-item-option-active.ant-select-item-option-selected {
-    background: var(--cream) !important;
-    // color: #fff !important;
+    background: var(--bg) !important;
   }
 
   .ant-select-item {
     display: flex;
     align-items: center;
-    font-size: 0.7rem !important;
-    height: 2.4rem !important;
+    font-size: 1.4rem !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 1.2rem 1rem;
   }
 }

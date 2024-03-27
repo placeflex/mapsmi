@@ -10,6 +10,9 @@ interface SearchSelectProps {
   options?: any;
   placeholder?: string;
   optionRender?: any;
+  mode: "multiple" | "tags";
+  allowClear?: boolean;
+  defaultValue?: string[];
 }
 
 import "./styles.scss";
@@ -25,7 +28,7 @@ export const SearchSelect = ({
   return (
     <>
       {label && (
-        <label htmlFor={label} className="block mb-2">
+        <label htmlFor={label} className="block mb-2 text-caption">
           {label}
         </label>
       )}
@@ -33,7 +36,7 @@ export const SearchSelect = ({
       <Select
         // showSearch
         className={classNames(
-          "search-select font-sans h-[40px]",
+          "search-select font-sans min-h-[4rem]",
           className
         )}
         popupClassName="search-select-popup"

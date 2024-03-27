@@ -1,9 +1,10 @@
 import { connectDB } from "@/mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { errors } from "./helpers/errors";
 
 import bcrypt from "bcryptjs";
 
-import { verifyToken } from "./helpers/tokens";
+import { verifyToken, generateToken } from "./helpers/tokens";
 
 // schemes
 import User from "./models/user";
@@ -49,17 +50,25 @@ export default async function handler(
   if (req.method === "GET") {
     await connectDB();
     const token = req.headers.authorization;
-
     const decoded = verifyToken(String(token));
 
     try {
       if (decoded && typeof decoded === "object") {
         User.findOne({ email: decoded?.email })
           .then(async user => {
-            const { name, email, token, ...userFields } = user;
+            console.log("user", user);
+
+            const { name, email, role, confirmedEmail, ...userFields } = user;
+
+            // const token = await generateToken({
+            //   email,
+            // });
+
             return res.status(200).json({
+              role,
               name,
-              token,
+              // token,
+              confirmedEmail,
               email,
             });
           })
@@ -69,7 +78,10 @@ export default async function handler(
             });
           });
       } else {
-        return res.status(500).json({ error: "Token Expired." });
+        const { TOKEN_EXPIRED } = errors;
+        res
+          .status(TOKEN_EXPIRED.status)
+          .json({ message: TOKEN_EXPIRED.message });
       }
     } catch {}
   }

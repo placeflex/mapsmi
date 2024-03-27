@@ -1,54 +1,48 @@
 .search-select {
-  font-size: 0.7rem;
-  color: inherit;
-  // background: var(--light) !important;
-  // border: none !important;
+  font-size: 1.4rem !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
 
   * {
-    // background: inherit ;
-    // color: inherit ;
-    font-family: inherit;
-    font-size: inherit;
-    box-shadow: none;
+    font-size: inherit !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .ant-select-selector {
+    height: 100%;
+    flex-grow: 1;
   }
 
   &:hover,
   &.ant-select-focused {
     .ant-select-selector {
-      box-shadow: none !important;
-      border-color: var(--cream) !important;
+      border-color: var(--bg) !important;
     }
   }
 }
 
 .search-select-popup {
   .ant-select-item-option-active {
-    background: var(--light) !important;
-    // color: #fff !important;
+    background: var(--bg) !important;
+    color: var(--text) !important;
   }
   .ant-select-item-option-selected {
     background-color: transparent !important;
   }
 
   .ant-select-item-option-active.ant-select-item-option-selected {
-    background: var(--light) !important;
-    // color: #fff !important;
+    background: var(--bg) !important;
   }
 
   .ant-select-item {
     display: flex;
     align-items: center;
-    font-size: 0.7rem !important;
-    height: 2.4rem !important;
-
-    a {
-      // &:hover {
-      //   // color: var(--white) !important;
-      // }
-
-      &.selected {
-        text-decoration: underline;
-      }
-    }
+    font-size: 1.4rem !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 1.2rem 1rem;
   }
 }

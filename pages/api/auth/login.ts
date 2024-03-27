@@ -18,23 +18,22 @@ export default async function handler(
     User.findOne({ email })
       .then(async user => {
         if (user) {
-          const { name, surname, email, projects, ...userFields } = user;
+          const { name, surname, email, role, ...userFields } = user;
           const isPasswordValid = await bcrypt.compare(password, user.password);
-
-          const token = await generateToken({
-            email,
-          });
 
           if (!isPasswordValid) {
             return res.status(409).json({ error: "Wrong password." });
           }
 
+          const token = await generateToken({
+            email,
+          });
+
           return res.status(200).json({
             data: {
+              role,
               name,
               email,
-              surname,
-              projects,
               token,
             },
           });

@@ -43,7 +43,7 @@ export default function PopularWallarts() {
             return (
               <div
                 key={props.id}
-                className="w-[15.33%]"
+                className="w-[15.33%] h-[300px] relative cursor-pointer"
                 onClick={() => {
                   storagePoster({
                     productId: props.productId,
@@ -54,11 +54,16 @@ export default function PopularWallarts() {
                     pathname: "/editor",
                     query: {
                       product_id: props.productId,
+                      from: "pupular-wallarts",
                     },
                   });
                 }}
               >
-                <img src={path} alt="" />
+                <img
+                  src={path}
+                  alt=""
+                  className="w-full h-full block object-contain"
+                />
                 <h2>{props.title}</h2>
                 <p>{props.description}</p>
               </div>

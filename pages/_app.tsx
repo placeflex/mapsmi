@@ -11,6 +11,8 @@ import { Provider } from "react-redux";
 import store from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { handleSaveUser, handleLogout } from "@/redux/user";
+import { handleShowLoginModal } from "@/redux/modals";
+import { useTypedSelector } from "@/redux/store";
 
 // fonts
 import { main_font, dancing, alexbrush } from "@/constants/fonts";
@@ -33,10 +35,23 @@ import { Register } from "@/components/Modals/Register";
 import { Login } from "@/components/Modals/Login";
 import { ForgotPassword } from "@/components/Modals/ForgotPassword";
 import { ResetPassword } from "@/components/Modals/ResetPassword";
+import { ProjectAdminSettings } from "@/components/Modals/ProjectAdminSettings";
+
+import { SidePanelLayout } from "@/components/SidePanel/layout";
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const dispatch = useDispatch();
+  const isOpenProjectSettings = useTypedSelector(
+    ({ modals }) => modals.isOpenProjectAdminSettings
+  );
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (router.query.admin == "login" && !token) {
+      dispatch(handleShowLoginModal());
+    }
+  }, [router.query.admin]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -47,11 +62,12 @@ function CustomApp({ Component, pageProps }: AppProps) {
         api
           .get("/me")
           .then(user => {
+            console.log("user", user);
             dispatch(handleSaveUser(user));
           })
           .catch(({ response }) => {
-            dispatch(handleLogout());
-            toast.error(response?.data?.error);
+            // dispatch(handleLogout());
+            // toast.error(response?.data?.error);
           });
       } catch (error) {
         throw new Error(`GET ME ERROR: ${error}`);
@@ -67,7 +83,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <div
-        className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans`}
+        className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans overflow-y-auto h-[100vh]`}
       >
         <Component {...pageProps} />
         <ProductVariations />
@@ -75,6 +91,10 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <Login />
         <ForgotPassword />
         <ResetPassword />
+
+        <SidePanelLayout isOpen={isOpenProjectSettings} bgClose={true}>
+          <ProjectAdminSettings />
+        </SidePanelLayout>
         <ToastContainer
           position="bottom-right"
           hideProgressBar={false}

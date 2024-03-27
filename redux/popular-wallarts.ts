@@ -39,13 +39,40 @@ const popularWallarts = createSlice({
       }
     },
 
+    handleDeletePopularProject(state, action) {
+      const project = localStorage.getItem(
+        productsVariations[action.payload.id]
+      );
+
+      console.log("project", project);
+
+      if (project) {
+        const request = api
+          .delete(`/popular-wallarts?projectId=${JSON.parse(project).uuid}`)
+          .then((data: any) => {
+            toast.success(data.message);
+          })
+          .catch(({ response }) => {
+            toast.error(response.data.error);
+          });
+
+        toast.promise(request, {
+          pending:
+            "Project is adding to popular projects! Please wait few seconds.",
+        });
+      }
+    },
+
     handleGetPopularProjects(state, action) {
       state.wallarts = action.payload;
     },
   },
 });
 
-export const { handleAddToPopularProjects, handleGetPopularProjects } =
-  popularWallarts.actions;
+export const {
+  handleAddToPopularProjects,
+  handleGetPopularProjects,
+  handleDeletePopularProject,
+} = popularWallarts.actions;
 
 export default popularWallarts.reducer;

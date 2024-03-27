@@ -230,7 +230,7 @@ export const Header = ({ isFixed }: any) => {
               </button>
             )} */}
 
-            {query.admin === process.env.NEXT_PUBLIC_ADMIN_SECRET &&
+            {/* {query.admin === process.env.NEXT_PUBLIC_ADMIN_SECRET &&
               !isUserLogged && (
                 <button
                   type="button"
@@ -239,7 +239,7 @@ export const Header = ({ isFixed }: any) => {
                 >
                   <Login width={22} stroke="#000" fill="transparent" />
                 </button>
-              )}
+              )} */}
 
             {isUserLogged && (
               <button

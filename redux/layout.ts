@@ -60,6 +60,18 @@ const layout = createSlice({
       }
     },
 
+    setWallartAdminSettings(state, action) {
+      state.layout = {
+        ...state.layout,
+        [action.payload.field]: action.payload.value,
+      };
+
+      storagePoster({
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
     setProductId(state, action) {
       state.layout.productId = action.payload;
     },
@@ -142,6 +154,18 @@ const layout = createSlice({
         ...state.layout,
         locations: [action.payload],
         locationsDropdown: [],
+      };
+
+      storagePoster({
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    reOrderLocations(state, action) {
+      state.layout = {
+        ...state.layout,
+        locations: action.payload,
       };
 
       storagePoster({
@@ -395,6 +419,8 @@ export const {
   setElementsColor,
   setMapLabelsColor,
   setCurrentLocationForSkyMap,
+  reOrderLocations,
+  setWallartAdminSettings,
 } = layout.actions;
 
 export default layout.reducer;

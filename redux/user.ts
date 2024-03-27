@@ -13,9 +13,9 @@ import { api } from "@/axios";
 import { toast } from "react-toastify";
 
 export interface UserFieldsProps {
-  email: string;
-  name: string;
-  projects: Project[];
+  email?: string;
+  name?: string;
+  role?: string;
 }
 
 export interface Project {
@@ -26,13 +26,14 @@ export interface Project {
   uuid: string;
 }
 export interface UserStateProps {
-  // user: UserFieldsProps;
+  user: UserFieldsProps;
   // loggedIn: boolean;
   isAdmin: boolean;
 }
 
 const initialState: UserStateProps = {
   isAdmin: false,
+  user: {},
 };
 
 const user = createSlice({
@@ -40,11 +41,17 @@ const user = createSlice({
   initialState,
   reducers: {
     handleSaveUser(state, action) {
-      const { token, email, name, ...userPayload } = action.payload;
+      const { token, email, name, role, ...userPayload } = action.payload;
 
-      if (token || email || name) {
-        state.isAdmin = true;
+      if (token) {
         setToken(token);
+        state.isAdmin = false;
+        state.user = { email, name, role };
+      }
+
+      if (role === "admin") {
+        state.isAdmin = true;
+        state.user = { email, name, role };
       }
     },
     handleLogout(state) {

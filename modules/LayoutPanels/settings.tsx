@@ -8,6 +8,7 @@ import { Switcher } from "@/components/Switcher";
 import { SearchSelect } from "@/components/SearchSelect";
 import { TabsPanel } from "@/components/TabsPanel";
 import { SketchPicker, ChromePicker } from "react-color";
+import ReactDragListView from "react-drag-listview";
 
 // lineart settings ( panel )
 import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
@@ -55,6 +56,7 @@ import {
   handleChangeLables,
   handleStylesController,
   deleteLocation,
+  reOrderLocations,
   renderMarkersController,
   connectLocationsController,
   renderLabelsController,
@@ -65,8 +67,8 @@ import {
 } from "@/redux/layout";
 
 // icons
-// import Delete from "@/public/icons/delete.svg";
 import Delete from "@/public/icons/close.svg";
+import Drag from "@/public/icons/drag-icon.svg";
 
 const debouncedSearch = debounce(callback => callback(), 1000);
 
@@ -503,6 +505,23 @@ export const LocationAccrodion = () => {
     }
   };
 
+  const onMoveEnd = (newList: any) => {
+    console.log("onMoveEnd", newList);
+  };
+
+  const dragProps = {
+    onDragEnd(fromIndex, toIndex) {
+      const newLocations = [...currentPosterLocation];
+      const [removed] = newLocations.splice(fromIndex, 1);
+      newLocations.splice(toIndex, 0, removed);
+
+      dispatch(reOrderLocations(newLocations));
+    },
+    nodeSelector: "div",
+    handleSelector: ".drag",
+    lineClassName: "lineName",
+  };
+
   return (
     <>
       <h2 className=" font-bold mb-2">Location</h2>
@@ -511,20 +530,7 @@ export const LocationAccrodion = () => {
         you want on your poster.
       </p>
 
-      {productId == 2 && (
-        <>
-          Connect Locations{" "}
-          <Switcher
-            checked={connectLocations}
-            disabled={currentPosterLocation.length < 2}
-            onChange={() => {
-              dispatch(connectLocationsController(!connectLocations));
-            }}
-          />
-        </>
-      )}
-
-      <div>
+      <div className="">
         <AutoComplete
           options={locationsDropdown}
           placeholder="Search for a location, street or landmark"
@@ -536,35 +542,57 @@ export const LocationAccrodion = () => {
               ? locationsDropdown[locationsDropdown.length - 1]?.value
               : currentPosterLocation[0]?.name
           }
-          label="SEARCH FOR A PLACE"
+          label="Search for place"
           key={currentPosterLocation?.length}
         />
       </div>
 
-      {productId == 2 &&
-        currentPosterLocation.map(loc => {
-          return (
-            <div
-              key={loc.id}
-              className="w-full flex justify-between items-center border-solid border border-main mt-2 px-[1rem] py-[1rem] rounded-[0.6rem]"
-            >
-              <span className="whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                {loc.value}
-              </span>
+      {productId == 2 && currentPosterLocation.length ? (
+        <div className="mt-[1rem]">
+          <h3 className="font-bold">Your Locations</h3>
+          <ReactDragListView {...dragProps}>
+            {currentPosterLocation.map((loc, idx) => {
+              return (
+                <div
+                  key={loc.id}
+                  className="w-full flex justify-between items-center border-solid border border-main mt-2 px-[1rem] py-[1.1rem] overflow-hidden"
+                >
+                  <button className="drag mr-[1rem]">
+                    <Drag width={20} />
+                  </button>
+                  <span className="whitespace-nowrap overflow-hidden text-ellipsis w-full text-caption">
+                    {loc.value}
+                  </span>
 
-              <button
-                className="flex flex-col items-center justify-center  ml-4"
-                onClick={() => dispatch(deleteLocation(loc.id))}
-              >
-                <Delete width={20} stroke="#000" />
-              </button>
-            </div>
-          );
-        })}
+                  <button
+                    className="flex flex-col items-center justify-center ml-4"
+                    onClick={() => dispatch(deleteLocation(loc.id))}
+                  >
+                    <Delete width={14} stroke="#000" />
+                  </button>
+                </div>
+              );
+            })}
+          </ReactDragListView>
+        </div>
+      ) : null}
 
       {productId == 2 && (
-        <div className="mt-2">
-          Markers{" "}
+        <div className="mt-[2rem] flex items-center justify-between">
+          <span>Connect Locations</span>
+          <Switcher
+            checked={connectLocations}
+            disabled={currentPosterLocation.length < 2}
+            onChange={() => {
+              dispatch(connectLocationsController(!connectLocations));
+            }}
+          />
+        </div>
+      )}
+
+      {productId == 2 && (
+        <div className="mt-[2rem] flex items-center justify-between">
+          <span>Markers</span>
           <Switcher
             checked={renderMarkers}
             disabled={!currentPosterLocation.length}
@@ -576,8 +604,8 @@ export const LocationAccrodion = () => {
       )}
 
       {productId == 2 && (
-        <div className="mt-2">
-          Labels{" "}
+        <div className="mt-[2rem] flex items-center justify-between">
+          <span>Labels</span>
           <Switcher
             checked={renderLabels}
             disabled={!currentPosterLocation.length || !renderMarkers}
@@ -812,7 +840,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
                   <div
                     key={id}
                     className={classNames(
-                      "h-[80px] border border-1 p-4 cursor-pointer flex justify-center items-center",
+                      "h-[80px] border border-1 p-4 cursor-pointer flex justify-center items-center relative",
                       id === Number(posterStyles?.maskId) ? "border-black" : ""
                     )}
                     onClick={() =>
@@ -821,7 +849,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
                       )
                     }
                   >
-                    <img src={src} alt="mask" />
+                    <Image src={src} priority={true} alt="name" layout="fill" />
                   </div>
                 );
               })}

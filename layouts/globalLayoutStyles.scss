@@ -86,7 +86,6 @@ $frameWidth: var(--frame-scale);
 .artwork {
   .border-holder {
     margin: 2em;
-    // border: $borderLine solid $illustrationColor;
   }
 
   .custom-line {
@@ -390,7 +389,7 @@ $frameWidth: var(--frame-scale);
 
       #map-holder {
         flex-grow: 1;
-        margin: auto auto;
+        margin: 3em auto;
 
         #map {
           margin: auto;
@@ -509,7 +508,7 @@ $frameWidth: var(--frame-scale);
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 1.5em;
 
       *:last-child {
         margin-bottom: 0;
@@ -620,8 +619,8 @@ $frameWidth: var(--frame-scale);
 
       .labels {
         position: static;
-        padding: 3em 1em 3.4em 1em;
-        gap: 0.3em;
+        padding: 3em 1em 3.2em 1em;
+        gap: 1em;
         overflow: hidden;
         background: transparent;
 
@@ -656,50 +655,46 @@ $frameWidth: var(--frame-scale);
         flex-direction: column-reverse;
       }
 
+      .border-holder {
+        margin: 0;
+      }
+
       .labels {
         position: static;
-        display: block;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
         width: 100%;
-        gap: 0;
-        padding: 0 0 1.6em 0;
+        gap: 0.5em;
+        padding: 2em;
         background: transparent;
 
         h1 {
-          font-size: 2.8em;
-          line-height: 1;
+          font-size: 1.8em;
+          line-height: 1.2;
           text-align: left;
-          float: left;
-          width: 40%;
+          width: 52%;
+          text-transform: uppercase;
         }
 
-        h2 {
-          font-size: 1.5em;
+        .right-content {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          justify-content: flex-end;
+          width: 48%;
+          text-align: right;
+          gap: 0.4em;
         }
 
         span,
         h3,
         h2 {
           display: block;
-          width: 51%;
-          float: right !important;
           font-size: 1.7em;
-          text-align: right;
-          line-height: 1.65;
-        }
-
-        h3,
-        span {
-          font-size: 1.5em;
-        }
-
-        span {
-          display: block;
-          width: 100%;
-          font-size: 1.4em;
         }
       }
-
-      // @include police-color-crispi-layout;
     }
 
     &.lopster {
@@ -788,7 +783,8 @@ $frameWidth: var(--frame-scale);
         text-align: right;
         justify-content: flex-end;
         align-items: flex-end;
-        padding: 3em;
+        padding: 2em;
+        gap: 1em;
 
         * {
           color: $textColor;

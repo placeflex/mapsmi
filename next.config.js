@@ -15,6 +15,7 @@ const nextConfig = {
       "www.mapiful.com",
       "splashplacestest.s3.us-west-004.backblazeb2.com",
       "storage.mixplaces.com",
+      "s3.us-west-004.backblazeb2.com",
     ],
   },
 };

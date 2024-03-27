@@ -40,6 +40,8 @@ export const LayoutContent = ({
     ({ layout }) => layout?.layout?.poster?.styles?.layoutStyle
   );
 
+  console.log("posterStyleId", posterStyleId);
+
   // layoutID 4 (  )
 
   const isZodiacOrSkyMapAndLopsterTheme =
@@ -66,10 +68,30 @@ export const LayoutContent = ({
 
               {isZodiacOrSkyMapAndLopsterTheme && figure}
 
-              {texts?.subline && <h2 className="subline">{texts?.subline}</h2>}
-              {texts?.divider && <h3 className="divider">{texts?.divider}</h3>}
-              {texts?.tagline && (
-                <span className="tagline">{texts?.tagline}</span>
+              {posterStyleId == 6 ? (
+                <div className="right-content">
+                  {texts?.subline && (
+                    <h2 className="subline">{texts?.subline}</h2>
+                  )}
+                  {texts?.divider && (
+                    <h3 className="divider">{texts?.divider}</h3>
+                  )}
+                  {texts?.tagline && (
+                    <span className="tagline">{texts?.tagline}</span>
+                  )}
+                </div>
+              ) : (
+                <>
+                  {texts?.subline && (
+                    <h2 className="subline">{texts?.subline}</h2>
+                  )}
+                  {texts?.divider && (
+                    <h3 className="divider">{texts?.divider}</h3>
+                  )}
+                  {texts?.tagline && (
+                    <span className="tagline">{texts?.tagline}</span>
+                  )}
+                </>
               )}
             </div>
           )}

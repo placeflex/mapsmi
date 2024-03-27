@@ -28,11 +28,16 @@ const userScheme = new Schema(
       required: false,
       default: false,
     },
-    projects: {
-      type: Array,
-      required: false,
-      default: [],
+    role: {
+      type: String,
+      required: true,
+      default: "user",
     },
+    // projects: {
+    //   type: Array,
+    //   required: false,
+    //   default: [],
+    // },
   },
   { timestamps: true }
 );

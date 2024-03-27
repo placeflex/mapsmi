@@ -216,7 +216,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       source: vectorSource,
     });
 
-    vectorSource.set("id", "markerSourse");
     vectorLayer.set("id", "markersLayer");
 
     map.addLayer(vectorLayer);
@@ -286,8 +285,25 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   };
 
   const alignMapForAllMarkers = () => {
-    const vectorSource = new VectorSource();
+    // const layerToRemove = map
+    //   .getLayers()
+    //   .getArray()
+    //   .find(layer => layer.get("id") === "movePositionLayer");
 
+    // if (layerToRemove) {
+    //   map.removeLayer(layerToRemove);
+    // }
+
+    const vectorSource = new VectorSource();
+    // const vectorLayer = new VectorLayer({
+    //   source: vectorSource,
+    // });
+
+    // vectorLayer.set("id", "movePositionLayer");
+
+    // map.addLayer(vectorLayer);
+
+    // setTimeout(() => {
     currentPosterLocations.forEach(coordinate => {
       const point = new Point(fromLonLat(coordinate.center));
 
@@ -301,6 +317,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
 
       map.getView().fit(extent, { padding: [100, 100, 100, 100] });
     });
+    // }, 500);
   };
 
   const handleRemoveMarkers = () => {
@@ -340,17 +357,27 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     }
   }, [map, currentPosterLocations.length]);
 
+  // useEffect(() => {
+  //   if (map) {
+  //     dispatch(handleSaveCustomCoordinatesForMap({}));
+
+  //     if (currentPosterLocations.length == 1 && isEmpty(customCoordinates)) {
+  //       alignMapForOneLocation();
+  //     }
+
+  //     if (currentPosterLocations.length >= 2 && isEmpty(customCoordinates)) {
+  //       alignMapForAllMarkers();
+  //     }
+  //   }
+  // }, [map, posterAttributes.size.id]);
+
   useEffect(() => {
     if (map) {
-      if (renderMarkers) {
-        handleRenderMarkers();
-      }
-
       if (connectLocations) {
         handleAddRoute();
       }
 
-      if (renderLabels) {
+      if (renderLabels || renderMarkers) {
         handleRenderMarkers();
       }
 
@@ -360,6 +387,11 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
 
       if (!connectLocations) {
         handleRemoveRouteLine();
+      }
+
+      if (currentPosterLocations.length == 0) {
+        handleRemoveRouteLine();
+        handleRemoveMarkers();
       }
     }
   }, [
