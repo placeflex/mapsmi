@@ -10,7 +10,7 @@ interface SearchSelectProps {
   options?: any;
   placeholder?: string;
   optionRender?: any;
-  mode: "multiple" | "tags";
+  mode?: "multiple" | "tags";
   allowClear?: boolean;
   defaultValue?: string[];
 }

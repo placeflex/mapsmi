@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { ModalContent } from "./ModalContent";
 import { SearchSelect } from "@/components/SearchSelect";
 import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
 
 // stores
 import { useDispatch } from "react-redux";
@@ -29,6 +30,23 @@ const design_category = [
   { label: "Landmarks", value: "landmarks" },
   { label: "Nature", value: "nature" },
   { label: "Design Ideas", value: "design_ideas" },
+];
+
+const cities = [
+  { label: "Kiev Posters", value: "kiev_posters" },
+  { label: "Lviv Posters", value: "lviv_posters" },
+  { label: "Amsterdam Posters", value: "amsterdam_posters" },
+  { label: "Barcelona Posters", value: "barcelona_posters" },
+  { label: "Boston Posters", value: "boston_posters" },
+  { label: "Chicago Posters", value: "chicago_posters" },
+  { label: "Dubai Posters", value: "dubai_posters" },
+  { label: "Las Vegas Posters", value: "las_vegas_posters" },
+  { label: "London Posters", value: "london_posters" },
+  { label: "New York City Posters", value: "new_york_city_posters" },
+  { label: "Rome Posters", value: "rome_posters" },
+  { label: "Tokyo Posters", value: "tokyo_posters" },
+  { label: "Venice Posters", value: "venice_posters" },
+  { label: "Washington DC Posters", value: "washington_dc_posters" },
 ];
 
 const design_type = [
@@ -137,6 +155,16 @@ export const ProjectAdminSettings = () => {
       <h3 className="text-h5">Administration</h3>
 
       <div className="mt-[2rem]">
+        <Input
+          label="Name"
+          value={layout.name}
+          onChange={value =>
+            handleSetWallartAdminSettings("name", value.target.value)
+          }
+        />
+      </div>
+
+      <div className="mt-[2rem]">
         <SearchSelect
           options={design_category}
           mode="multiple"
@@ -219,6 +247,19 @@ export const ProjectAdminSettings = () => {
           placeholder="Featured"
           defaultValue={layout.featured}
           onChange={value => handleSetWallartAdminSettings("featured", value)}
+        />
+      </div>
+
+      <div className="mt-[2rem]">
+        <SearchSelect
+          options={cities}
+          mode="multiple"
+          allowClear
+          className="w-full"
+          label="Cities"
+          placeholder="Cities"
+          defaultValue={layout.cities}
+          onChange={value => handleSetWallartAdminSettings("cities", value)}
         />
       </div>
 

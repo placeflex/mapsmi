@@ -112,6 +112,26 @@ const wallartScheme = new Schema({
     required: true,
     default: [],
   },
+  cities: {
+    type: Array,
+    required: true,
+    default: [],
+  },
+  price: {
+    type: [Number, String],
+    required: false,
+    default: "",
+  },
+  name: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  routeType: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
 });
 
 export default models["popular-wallarts"] ||

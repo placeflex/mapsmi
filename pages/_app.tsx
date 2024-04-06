@@ -36,7 +36,7 @@ import { Login } from "@/components/Modals/Login";
 import { ForgotPassword } from "@/components/Modals/ForgotPassword";
 import { ResetPassword } from "@/components/Modals/ResetPassword";
 import { ProjectAdminSettings } from "@/components/Modals/ProjectAdminSettings";
-
+import { Markers } from "@/components/Modals/Markers";
 import { SidePanelLayout } from "@/components/SidePanel/layout";
 
 function CustomApp({ Component, pageProps }: AppProps) {
@@ -45,6 +45,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   const isOpenProjectSettings = useTypedSelector(
     ({ modals }) => modals.isOpenProjectAdminSettings
   );
+  const markersPanel = useTypedSelector(({ modals }) => modals.markersPanel);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -83,7 +84,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <div
-        className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans overflow-y-auto h-[100vh]`}
+        className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans overflow-y-auto overflow-x-hidden h-[100vh]`}
       >
         <Component {...pageProps} />
         <ProductVariations />
@@ -94,6 +95,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
         <SidePanelLayout isOpen={isOpenProjectSettings} bgClose={true}>
           <ProjectAdminSettings />
+        </SidePanelLayout>
+        <SidePanelLayout isOpen={markersPanel.state} bgClose={true}>
+          <Markers />
         </SidePanelLayout>
         <ToastContainer
           position="bottom-right"

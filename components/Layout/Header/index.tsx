@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -26,6 +26,9 @@ import { handleShowLoginModal } from "@/redux/modals";
 import { handleLogout } from "@/redux/user";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "@/redux/store";
+
+// routes
+import { popularWallartsRoot } from "@/constants/routers";
 
 const products = [
   {
@@ -60,17 +63,186 @@ const products = [
   },
 ];
 
-const callsToAction = [
-  { name: "Watch demo", href: "#" },
-  { name: "Contact sales", href: "#" },
+const designs = [
+  {
+    title: "Featured",
+    links: [
+      {
+        title: "On Sale Posters",
+        link: `${popularWallartsRoot}?featured=on_sale`,
+      },
+      {
+        title: "New Arrivals",
+        link: `${popularWallartsRoot}?featured=new_arrivals`,
+      },
+      {
+        title: "Staff Picks",
+        link: `${popularWallartsRoot}?featured=staff_picks`,
+      },
+      {
+        title: "Bundles",
+        link: `${popularWallartsRoot}?featured=bundles`,
+      },
+    ],
+  },
+  {
+    title: "Product Type",
+    links: [
+      {
+        title: "Star Maps",
+        link: `${popularWallartsRoot}?product_type=star_maps`,
+      },
+      {
+        title: "Street Maps",
+        link: `${popularWallartsRoot}?product_type=street_maps`,
+      },
+      {
+        title: "Custom Maps",
+        link: `${popularWallartsRoot}?product_type=custom_maps`,
+      },
+      {
+        title: "Line Art",
+        link: `${popularWallartsRoot}?product_type=line_art`,
+      },
+      {
+        title: "Cat Art",
+        link: `${popularWallartsRoot}?product_type=cat_art`,
+      },
+      {
+        title: "Flowers Art",
+        link: `${popularWallartsRoot}?product_type=flowers_art`,
+      },
+    ],
+  },
+  {
+    title: "Orientation",
+    links: [
+      {
+        title: "Landscape Posters",
+        link: `${popularWallartsRoot}?orientation=landscape`,
+      },
+      {
+        title: "Portrait Posters",
+        link: `${popularWallartsRoot}?orientation=portrait`,
+      },
+    ],
+  },
+  {
+    title: "Categories",
+    links: [
+      {
+        title: "Family",
+        link: `${popularWallartsRoot}?design_category=family`,
+      },
+      {
+        title: "Travel",
+        link: `${popularWallartsRoot}?design_category=travel`,
+      },
+      {
+        title: "Astrology",
+        link: `${popularWallartsRoot}?design_category=astrology`,
+      },
+      {
+        title: "Life Events",
+        link: `${popularWallartsRoot}?design_category=life_events`,
+      },
+      {
+        title: "Sports",
+        link: `${popularWallartsRoot}?design_category=sports`,
+      },
+      {
+        title: "Couples",
+        link: `${popularWallartsRoot}?design_category=couples`,
+      },
+      {
+        title: "Places",
+        link: `${popularWallartsRoot}?design_category=places`,
+      },
+      {
+        title: "History",
+        link: `${popularWallartsRoot}?design_category=history`,
+      },
+      {
+        title: "Landmarks",
+        link: `${popularWallartsRoot}?design_category=landmarks`,
+      },
+      {
+        title: "Nature",
+        link: `${popularWallartsRoot}?design_category=nature`,
+      },
+      {
+        title: "Design Ideas",
+        link: `${popularWallartsRoot}?design_category=design_ideas`,
+      },
+    ],
+  },
+  {
+    title: "Cities",
+    links: [
+      {
+        title: "Kiev Posters",
+        link: `${popularWallartsRoot}?cities=kiev_posters`,
+      },
+      {
+        title: "Lviv Posters",
+        link: `${popularWallartsRoot}?cities=lviv_posters`,
+      },
+      {
+        title: "Amsterdam Posters",
+        link: `${popularWallartsRoot}?cities=amsterdam_posters`,
+      },
+      {
+        title: "Barcelona Posters",
+        link: `${popularWallartsRoot}?cities=barcelona_posters`,
+      },
+      {
+        title: "Boston Posters",
+        link: `${popularWallartsRoot}?cities=boston_posters`,
+      },
+      {
+        title: "Chicago Posters",
+        link: `${popularWallartsRoot}?cities=chicago_posters`,
+      },
+      {
+        title: "Dubai Posters",
+        link: `${popularWallartsRoot}?cities=dubai_posters`,
+      },
+      {
+        title: "Las Vegas Posters",
+        link: `${popularWallartsRoot}?cities=las_vegas_posters`,
+      },
+      {
+        title: "London Posters",
+        link: `${popularWallartsRoot}?cities=london_posters`,
+      },
+      {
+        title: "New York City Posters",
+        link: `${popularWallartsRoot}?cities=new_york_city_posters`,
+      },
+      {
+        title: "Rome Posters",
+        link: `${popularWallartsRoot}?cities=rome_posters`,
+      },
+      {
+        title: "Tokyo Posters",
+        link: `${popularWallartsRoot}?cities=tokyo_posters`,
+      },
+      {
+        title: "Venice Posters",
+        link: `${popularWallartsRoot}?cities=venice_posters`,
+      },
+      {
+        title: "Washington DC Posters",
+        link: `${popularWallartsRoot}?cities=washington_dc_posters`,
+      },
+    ],
+  },
 ];
 
 export const Header = ({ isFixed }: any) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { query } = useRouter();
-
   const isUserLogged = useTypedSelector(({ user }) => user.isAdmin);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
 
   return (
@@ -82,7 +254,7 @@ export const Header = ({ isFixed }: any) => {
     >
       <Container>
         <div className="flex">
-          <nav className="flex flex-1">
+          <nav className="flex flex-1 gap-[2rem]">
             <div className="flex lg:hidden">
               <button
                 type="button"
@@ -93,7 +265,11 @@ export const Header = ({ isFixed }: any) => {
               </button>
             </div>
             <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-12">
-              <Popover className="">
+              {isMenuOpen && (
+                <div className="fixed top-[6.2rem] left-0 right-0 bottom-0 z-[-2] bg-text/[.7]"></div>
+              )}
+
+              <Popover>
                 <Popover.Button className="flex items-center gap-x-1 text-caption text-text">
                   Wall Art
                 </Popover.Button>
@@ -108,8 +284,94 @@ export const Header = ({ isFixed }: any) => {
                   leaveTo="opacity-0 translate-y-1"
                 >
                   <Popover.Panel className="absolute left-0 top-[6.2rem] z-10 w-screen overflow-hidden bg-bg">
-                    <div className="py-[2rem] px-[2rem] flex gap-[2rem]">
-                      {products.map(({ name, image, description, href }) => (
+                    <div className="py-[2rem] px-[2rem]">
+                      <Container>
+                        <div className="flex gap-[2rem]">
+                          {products.map(
+                            ({ name, image, description, href }) => (
+                              <div
+                                key={name}
+                                className="group w-[15%] group relative flex flex-col rounded-lg  bg-white"
+                              >
+                                <div className="flex transition relative aspect-square group-hover:blur-sm">
+                                  <Image
+                                    src={image}
+                                    alt="terra"
+                                    layout="fill"
+                                    objectFit="cover"
+                                    objectPosition="center"
+                                    quality={100}
+                                    priority={true}
+                                  />
+                                </div>
+                                <div className="flex-auto p-[2rem]">
+                                  <a
+                                    href={href}
+                                    className="block text-bodySmall font-bold text-text mb-[.5rem] 2xl:text-body"
+                                  >
+                                    {name}
+                                    <span className="absolute inset-0" />
+                                  </a>
+                                  <p className="mt-1 text-text text-captionSmall 2xl:text-caption">
+                                    {description}
+                                  </p>
+                                </div>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </Container>
+                    </div>
+                  </Popover.Panel>
+                </Transition>
+              </Popover>
+            </Popover.Group>
+
+            <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-12">
+              <Popover className="">
+                <Popover.Button className="flex items-center gap-x-1 text-caption text-text">
+                  Designs
+                </Popover.Button>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-200"
+                  enterFrom="opacity-0 translate-y-1"
+                  enterTo="opacity-100 translate-y-0"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="opacity-100 translate-y-0"
+                  leaveTo="opacity-0 translate-y-1"
+                >
+                  <Popover.Panel className="absolute left-0 top-[6.2rem] z-10 w-screen overflow-hidden bg-bg">
+                    <div className="py-[2rem] px-[2rem]">
+                      <Container>
+                        <div className="flex gap-[2rem]">
+                          {designs.map(({ title, links }, idx) => {
+                            return (
+                              <div key={idx} className="w-[15%]">
+                                <h5 className="text-bodySmall font-semibold mb-[1rem]">
+                                  {title}
+                                </h5>
+
+                                {links.length > 0 && (
+                                  <div>
+                                    {links.map(({ title, link }, idx) => {
+                                      return (
+                                        <Link href={link} key={idx}>
+                                          <span className="block text-captionSmall text-text mb-[1rem]">
+                                            {title}
+                                          </span>
+                                        </Link>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </Container>
+                      {/* {products.map(({ name, image, description, href }) => (
                         <div
                           key={name}
                           className="group w-[15%] group relative flex flex-col rounded-lg  bg-white"
@@ -138,13 +400,14 @@ export const Header = ({ isFixed }: any) => {
                             </p>
                           </div>
                         </div>
-                      ))}
+                      ))} */}
                     </div>
                   </Popover.Panel>
                 </Transition>
               </Popover>
             </Popover.Group>
 
+            {/* MOBILE VERSION */}
             <Dialog
               as="div"
               className="lg:hidden"
@@ -180,7 +443,7 @@ export const Header = ({ isFixed }: any) => {
                               Product
                             </Disclosure.Button>
                             <Disclosure.Panel className="mt-2 space-y-2">
-                              {[...products, ...callsToAction].map(item => (
+                              {[...products].map(item => (
                                 <Disclosure.Button
                                   key={item.name}
                                   as="a"

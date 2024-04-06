@@ -14,7 +14,7 @@ import ReactDragListView from "react-drag-listview";
 import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
 import { zodiacIconsList } from "@/layouts/LayoutSettings/zodiacIconsList";
 import { basicColors } from "@/layouts/LayoutSettings/colorsList";
-import { mapColors } from "@/layouts/LayoutSettings/mapColors";
+import { mapColors, mapMarkers } from "@/layouts/LayoutSettings/mapColors";
 import { maskOverlays, masks } from "@/layouts/LayoutSettings/skyMapMasks";
 import {
   basicLayoutStyles,
@@ -33,6 +33,7 @@ import {
   frames,
   MATERIAL_PRICES,
   FRAMES_PRICES,
+  ROUTE_TYPES,
 } from "@/layouts/LayoutAttributes";
 
 import { AutoComplete } from "@/components/AutoComplete";
@@ -43,6 +44,11 @@ import { DatePickerComponent } from "@/components/Datepicker";
 // stores
 import { useDispatch } from "react-redux";
 import { AppDispatch, useTypedSelector } from "@/redux/store";
+
+import {
+  handleShowProjectSettingsModal,
+  handleSetCurrentIDForMarkersPanel,
+} from "@/redux/modals";
 
 import { debounce } from "lodash";
 
@@ -64,13 +70,14 @@ import {
   setElementsColor,
   setMapLabelsColor,
   setCurrentLocationForSkyMap,
+  handleChangeRouteTypeForStreetMap,
 } from "@/redux/layout";
 
 // icons
 import Delete from "@/public/icons/close.svg";
 import Drag from "@/public/icons/drag-icon.svg";
 
-const debouncedSearch = debounce(callback => callback(), 1000);
+const debouncedApply = debounce(callback => callback(), 1000);
 
 export const IllustrationAccordion = ({ handleChange, className }: any) => {
   const posterStyles = useTypedSelector(
@@ -368,16 +375,22 @@ export const LocationAccrodion = () => {
     ({ layout }) => layout.layout.renderLabels
   );
 
+  const elementsColor = useTypedSelector(
+    ({ layout }) => layout.layout.elementsColor
+  );
+
   const fetchLocation = async () => {
     try {
       const response: [] = await api.post("/locations", {
         locationName: location,
       });
 
-      const modifyLocations = response.map((opt: { place_name: string }) => {
+      const modifyLocations = response.map((opt: any) => {
         return {
-          value: opt.place_name,
-          label: opt.place_name,
+          value: opt.description,
+          label: opt.description,
+          // value: opt.place_name,
+          // label: opt.place_name,
           ...opt,
         };
       });
@@ -437,12 +450,14 @@ export const LocationAccrodion = () => {
         })
       );
 
-      dispatch(
-        handleChangeLables({
-          label: "subline",
-          value: spltName[1],
-        })
-      );
+      if (spltName[1]) {
+        dispatch(
+          handleChangeLables({
+            label: "subline",
+            value: spltName[1],
+          })
+        );
+      }
 
       if (spltName[2]) {
         dispatch(
@@ -459,32 +474,48 @@ export const LocationAccrodion = () => {
     setLocation(locationName);
 
     if (locationName) {
-      debouncedSearch(fetchLocation);
+      debouncedApply(fetchLocation);
     } else {
       dispatch(setLocations([]));
     }
   };
 
-  const handleSelectLocation = (location: any, opt: any) => {
+  const handleDeleteLocation = (placeId: string) => {
+    dispatch(deleteLocation(placeId));
+
+    if (currentPosterLocation[currentPosterLocation.length - 2]) {
+      handleUpdateLabels(
+        currentPosterLocation[currentPosterLocation.length - 2].label
+      );
+    } else {
+      handleUpdateLabels(currentPosterLocation[0].label);
+    }
+  };
+
+  const handleSelectLocation = async (location: any, opt: any) => {
+    const response: any = await api.get(`/locations?placeId=${opt.place_id}`);
+
+    console.log("response", response);
+
     if (productId == 2) {
       dispatch(
         setCurrentLocation({
           ...opt,
-          name: opt.value,
-          data: opt.locationData,
+          ...response,
+          markerId: 0,
         })
       );
     } else {
       dispatch(
         setCurrentLocationForSkyMap({
           ...opt,
-          name: opt.value,
-          data: opt.locationData,
+          ...response,
+          // name: opt.description,
         })
       );
     }
 
-    handleUpdateLabels(opt.value);
+    handleUpdateLabels(response.description);
 
     if (productId == 2) {
       dispatch(handleSaveCustomCoordinatesForMap({}));
@@ -509,11 +540,17 @@ export const LocationAccrodion = () => {
     console.log("onMoveEnd", newList);
   };
 
+  const handleChangeRouteType = (id: number) => {
+    dispatch(handleChangeRouteTypeForStreetMap(id));
+  };
+
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {
       const newLocations = [...currentPosterLocation];
       const [removed] = newLocations.splice(fromIndex, 1);
       newLocations.splice(toIndex, 0, removed);
+
+      console.log("newLocations", newLocations);
 
       dispatch(reOrderLocations(newLocations));
     },
@@ -530,22 +567,20 @@ export const LocationAccrodion = () => {
         you want on your poster.
       </p>
 
-      <div className="">
-        <AutoComplete
-          options={locationsDropdown}
-          placeholder="Search for a location, street or landmark"
-          className="w-full"
-          onChange={handleInputChange}
-          onSelect={handleSelectLocation}
-          value={
-            productId == 2
-              ? locationsDropdown[locationsDropdown.length - 1]?.value
-              : currentPosterLocation[0]?.name
-          }
-          label="Search for place"
-          key={currentPosterLocation?.length}
-        />
-      </div>
+      <AutoComplete
+        options={locationsDropdown}
+        placeholder="Search for a location, street or landmark"
+        className="w-full"
+        onChange={handleInputChange}
+        onSelect={handleSelectLocation}
+        value={
+          productId == 2
+            ? locationsDropdown[locationsDropdown.length - 1]?.value
+            : currentPosterLocation[0]?.name
+        }
+        label="Search for place"
+        key={currentPosterLocation?.length}
+      />
 
       {productId == 2 && currentPosterLocation.length ? (
         <div className="mt-[1rem]">
@@ -555,18 +590,39 @@ export const LocationAccrodion = () => {
               return (
                 <div
                   key={loc.id}
-                  className="w-full flex justify-between items-center border-solid border border-main mt-2 px-[1rem] py-[1.1rem] overflow-hidden"
+                  className="flex items-center border-solid border border-main mt-2 px-[1rem] py-[1.1rem] overflow-hidden"
                 >
                   <button className="drag mr-[1rem]">
                     <Drag width={20} />
                   </button>
-                  <span className="whitespace-nowrap overflow-hidden text-ellipsis w-full text-caption">
-                    {loc.value}
+                  <span className="w-[70%] mr-auto whitespace-nowrap flex">
+                    <span className="w-full truncate text-caption">
+                      {loc.value}
+                    </span>
                   </span>
+
+                  {renderMarkers && (
+                    <button
+                      onClick={() =>
+                        dispatch(
+                          handleSetCurrentIDForMarkersPanel({
+                            id: loc.markerId,
+                            locationId: loc.place_id,
+                          })
+                        )
+                      }
+                      className="ml-auto bg-black"
+                    >
+                      {
+                        mapMarkers(false, elementsColor)[loc.markerId]
+                          ?.iconExample
+                      }
+                    </button>
+                  )}
 
                   <button
                     className="flex flex-col items-center justify-center ml-4"
-                    onClick={() => dispatch(deleteLocation(loc.id))}
+                    onClick={() => handleDeleteLocation(loc.place_id)}
                   >
                     <Delete width={14} stroke="#000" />
                   </button>
@@ -578,42 +634,57 @@ export const LocationAccrodion = () => {
       ) : null}
 
       {productId == 2 && (
-        <div className="mt-[2rem] flex items-center justify-between">
-          <span>Connect Locations</span>
-          <Switcher
-            checked={connectLocations}
-            disabled={currentPosterLocation.length < 2}
-            onChange={() => {
-              dispatch(connectLocationsController(!connectLocations));
-            }}
-          />
-        </div>
-      )}
+        <>
+          <div className="mt-[2rem] flex items-center justify-between">
+            <span>Connect Locations</span>
+            <Switcher
+              checked={connectLocations}
+              disabled={currentPosterLocation.length < 2}
+              onChange={() => {
+                dispatch(connectLocationsController(!connectLocations));
+              }}
+            />
+          </div>
 
-      {productId == 2 && (
-        <div className="mt-[2rem] flex items-center justify-between">
-          <span>Markers</span>
-          <Switcher
-            checked={renderMarkers}
-            disabled={!currentPosterLocation.length}
-            onChange={() => {
-              dispatch(renderMarkersController(!renderMarkers));
-            }}
-          />
-        </div>
-      )}
+          {connectLocations && (
+            <div>
+              {Object.entries(ROUTE_TYPES).map(([key, value]) => {
+                return (
+                  <div
+                    key={key}
+                    onClick={() => handleChangeRouteType(Number(key))}
+                  >
+                    <p>
+                      {key}: {value}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
-      {productId == 2 && (
-        <div className="mt-[2rem] flex items-center justify-between">
-          <span>Labels</span>
-          <Switcher
-            checked={renderLabels}
-            disabled={!currentPosterLocation.length || !renderMarkers}
-            onChange={() => {
-              dispatch(renderLabelsController(!renderLabels));
-            }}
-          />
-        </div>
+          <div className="mt-[2rem] flex items-center justify-between">
+            <span>Markers</span>
+            <Switcher
+              checked={renderMarkers}
+              disabled={!currentPosterLocation.length}
+              onChange={() => {
+                dispatch(renderMarkersController(!renderMarkers));
+              }}
+            />
+          </div>
+
+          <div className="mt-[2rem] flex items-center justify-between">
+            <span>Labels</span>
+            <Switcher
+              checked={renderLabels}
+              disabled={!currentPosterLocation.length || !renderMarkers}
+              onChange={() => {
+                dispatch(renderLabelsController(!renderLabels));
+              }}
+            />
+          </div>
+        </>
       )}
 
       {productId == 1 && (
@@ -631,9 +702,6 @@ export const LocationAccrodion = () => {
 };
 
 export const ColorsForMapAccordion = ({ handleChange }: any) => {
-  const [showElementsColorPicker, setElementsColorPicker] = useState(false);
-  const [showLabelsTextColorPicker, setLabelsTextColorPicker] = useState(false);
-
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
@@ -643,6 +711,11 @@ export const ColorsForMapAccordion = ({ handleChange }: any) => {
   const labelsColor = useTypedSelector(
     ({ layout }) => layout.layout?.labelsTextColor
   );
+
+  const [showElementsColorPicker, setElementsColorPicker] = useState(false);
+  const [showLabelsTextColorPicker, setLabelsTextColorPicker] = useState(false);
+
+  const [localElementsColor, setLocalElementsColor] = useState(elementsColor);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -687,9 +760,10 @@ export const ColorsForMapAccordion = ({ handleChange }: any) => {
               />
               <ChromePicker
                 disableAlpha
-                color={elementsColor}
+                color={localElementsColor}
                 onChange={e => {
-                  dispatch(setElementsColor(e.hex));
+                  setLocalElementsColor(e.hex);
+                  debouncedApply(() => dispatch(setElementsColor(e.hex)));
                 }}
               />
             </div>
@@ -887,7 +961,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
           </div>
 
           <div className="flex justify-between mt-4">
-            <h5 className=" font-bold">Grid</h5>
+            <h5 className="font-bold">Grid</h5>
             <Switcher
               checked={posterStyles?.grid}
               onChange={() => {
@@ -901,7 +975,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
             />
           </div>
           <div className="flex justify-between mt-4">
-            <h5 className=" font-bold">Lines</h5>
+            <h5 className="font-bold">Lines</h5>
             <Switcher
               checked={posterStyles?.lines}
               onChange={() => {
@@ -915,7 +989,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
             />
           </div>
           <div className="flex justify-between mt-4">
-            <h5 className=" font-bold">Milky Way</h5>
+            <h5 className="font-bold">Milky Way</h5>
             <Switcher
               checked={posterStyles?.milkyway}
               onChange={() => {
@@ -941,7 +1015,7 @@ export const LayoutsMapAccordion = ({ handleChange }: any) => {
 
   return (
     <>
-      <h2 className=" font-bold mb-2">Layouts</h2>
+      <h2 className="font-bold mb-2">Layouts</h2>
       <p className="mb-4  opacity-[0.4]">
         We are all for freedom of choice, if you want to try different
         combinations than our favorites - go ahead and click customize and roll

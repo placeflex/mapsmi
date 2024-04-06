@@ -4,6 +4,8 @@ export const routes = [
   { route: "/map-editor", productId: 2 },
 ];
 
+export const popularWallartsRoot = "/popular-wallarts";
+
 const profileRoot = "/profile";
 
 export const profileRoutes = {

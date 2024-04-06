@@ -14,6 +14,8 @@ import {
 } from "@/layouts/LayoutAttributes";
 import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
 
+import { ROUTE_TYPES } from "@/layouts/LayoutAttributes";
+
 export const RENDER_SCALE_EDITOR_PAGE = 1;
 export const RENDER_SCALE_RENDER_PAGE = 10;
 
@@ -44,7 +46,7 @@ export const defaultLayoutSettings = {
   locations: [],
   markers: [],
   uuid: uuidv4(),
-  editingProfileProject: false,
+  // editingProfileProject: false,
   connectLocations: false,
   renderMarkers: false,
   renderLabels: false,
@@ -57,7 +59,10 @@ export const defaultLayoutSettings = {
   product_type: [],
   orientation: [],
   featured: [],
-  // price: materials[0].sizes[2].price,
+  cities: [],
+  routeType: 0,
+  price: 0,
+  name: "",
 };
 
 export const defaultZodiacArtSettings = {

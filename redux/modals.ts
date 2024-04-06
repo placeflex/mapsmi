@@ -1,12 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface IModals {
+  productModal: boolean;
+  registerModal: boolean;
+  loginModal: boolean;
+  forgotPassword: boolean;
+  resetPassword: boolean;
+  isOpenProjectAdminSettings: boolean;
+  markersPanel: {
+    state: boolean;
+    id: number;
+    locationId: number;
+  };
+}
+
+const initialState: IModals = {
   productModal: false,
   registerModal: false,
   loginModal: false,
   forgotPassword: false,
   resetPassword: false,
   isOpenProjectAdminSettings: false,
+  markersPanel: {
+    state: false,
+    id: 0,
+    locationId: 0,
+  },
 };
 
 const modals = createSlice({
@@ -32,6 +51,13 @@ const modals = createSlice({
       state.isOpenProjectAdminSettings = true;
     },
 
+    handleSetCurrentIDForMarkersPanel(state, action) {
+      state.markersPanel = {
+        state: true,
+        ...action.payload,
+      };
+    },
+
     handleCloseModals(state) {
       state.productModal = false;
       state.registerModal = false;
@@ -39,6 +65,11 @@ const modals = createSlice({
       state.forgotPassword = false;
       state.resetPassword = false;
       state.isOpenProjectAdminSettings = false;
+      state.markersPanel = {
+        state: false,
+        id: 0,
+        locationId: 0,
+      };
     },
   },
 });
@@ -51,6 +82,7 @@ export const {
   handleShowForgorPasswordModal,
   handleShowResetPasswordModal,
   handleShowProjectSettingsModal,
+  handleSetCurrentIDForMarkersPanel,
 } = modals.actions;
 
 export default modals.reducer;

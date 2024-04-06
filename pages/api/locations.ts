@@ -16,37 +16,54 @@ export default async function handler(
   if (req.method === "POST") {
     const { locationName } = req.body;
 
-    // const apiKey = "YOUR_API_KEY";
-    // const response = await axios.get(
-    //   `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${locationName}&key=AIzaSyDhLDSvBUmds4BJwZCrhWZojrxQYmm54eg`
-    // );
+    const response = await axios.get(
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${locationName}&key=AIzaSyAKTvkEE0rTN3fmKqPejI3zVdEJWjeVgL4`
+    );
 
-    // console.log("response", response);
+    const predictions = response.data.predictions || [];
 
-    // const predictions = response.data.predictions || [];
-
-    // return res.status(200).json({ predictions });
-
-    await axios
-      .get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-          locationName
-        )}.json?access_token=${process.env.MAPBOX_GEO_TOKEN}&autocomplete=true`
-      )
-      .then(({ data }) => {
-        // console.log("data", data);
-
-        res.status(200).json(data.features);
-      })
-      .catch(err => {
-        console.log("err", err);
-        res.status(404).json("Not found.");
-      });
-
-    // console.log("response", response);
+    return res.status(200).json(predictions);
   }
 
   if (req.method === "GET") {
-    res.status(200).json(["SUCCES"]);
+    const { placeId } = req.query;
+
+    const response = await axios.get(
+      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyAKTvkEE0rTN3fmKqPejI3zVdEJWjeVgL4`
+    );
+
+    const location = response.data.result.geometry.location;
+    const viewport = response.data.result.geometry.viewport;
+
+    const center = [
+      (viewport.northeast.lng + viewport.southwest.lng) / 2,
+      (viewport.northeast.lat + viewport.southwest.lat) / 2,
+    ];
+
+    const bbox = [
+      viewport.southwest.lng,
+      viewport.southwest.lat,
+      viewport.northeast.lng,
+      viewport.northeast.lat,
+    ];
+
+    console.log("response", response);
+
+    const locationResult = {
+      lat: response.data.result.geometry.location.lat,
+      lng: response.data.result.geometry.location.lng,
+      description: response.data.result.formatted_address,
+      name: response.data.result.name,
+      vacinity: response.data.result.vicinity,
+      place_id: response.data.result.place_id,
+      bbox,
+      center,
+      geometry: {
+        type: "Point",
+        coordinates: [location.lng, location.lat],
+      },
+    };
+
+    res.status(200).json(locationResult);
   }
 }

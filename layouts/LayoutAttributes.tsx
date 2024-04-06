@@ -24,6 +24,12 @@ const RENDER_SIZES = [
   { id: 2, ...replaceDemenssionss("70x100cm") },
 ];
 
+export const ROUTE_TYPES = {
+  0: "airplane",
+  1: "driving",
+  2: "walking",
+};
+
 export const sizes = [
   { name: "30x40cm", id: 0, ...replaceDemenssionss("30x40cm") },
   { name: "50x70cm", id: 1, ...replaceDemenssionss("50x70cm") },

@@ -11,6 +11,8 @@ import {
   defaultSkyMapLayoutSettings,
 } from "@/constants/defaultLayoutSettings";
 
+import { MATERIAL_PRICES, FRAMES_PRICES } from "@/layouts/LayoutAttributes";
+
 // helpers
 import { toast } from "react-toastify";
 
@@ -61,9 +63,18 @@ const layout = createSlice({
     },
 
     setWallartAdminSettings(state, action) {
+      const price =
+        state.layout?.selectedAttributes?.frame?.id !== 0
+          ? MATERIAL_PRICES[state.layout?.selectedAttributes?.material?.id]
+              ?.prices[state.layout.selectedAttributes.size.id].price +
+            FRAMES_PRICES[state.layout?.selectedAttributes?.frame?.id]?.price
+          : MATERIAL_PRICES[state.layout?.selectedAttributes?.material?.id]
+              ?.prices[state.layout.selectedAttributes.size.id].price;
+
       state.layout = {
         ...state.layout,
         [action.payload.field]: action.payload.value,
+        price: price,
       };
 
       storagePoster({
@@ -117,7 +128,7 @@ const layout = createSlice({
         !state.layout.connectLocations && state.layout.locations.length == 1;
 
       const locationWasAdded = state.layout.locations.filter(
-        location => location.id == action.payload.id
+        location => location.place_id == action.payload.place_id
       );
 
       if (locationWasAdded.length >= 1) {
@@ -175,27 +186,32 @@ const layout = createSlice({
     },
 
     deleteLocation(state, action) {
-      state.layout = {
-        ...state.layout,
-        locations: state.layout.locations.filter(
-          location => location.id !== action.payload
-        ),
-        customCoordinates: {},
-      };
+      const currentLocations = state.layout.locations.filter(
+        location => location.place_id !== action.payload
+      );
 
-      if (!state.layout.locations.length) {
+      if (currentLocations.length == 1) {
         state.layout = {
           ...state.layout,
           renderMarkers: false,
           connectLocations: false,
           renderLabels: false,
+          locations: currentLocations,
+          customCoordinates: {},
+        };
+      } else {
+        state.layout = {
+          ...state.layout,
+          locations: currentLocations,
         };
       }
 
-      if (state.layout.locations.length === 1) {
+      if (currentLocations.length == 0) {
         state.layout = {
           ...state.layout,
+          renderMarkers: false,
           connectLocations: false,
+          renderLabels: false,
         };
       }
 
@@ -224,7 +240,21 @@ const layout = createSlice({
       });
     },
 
+    handleChangeRouteTypeForStreetMap(state, action) {
+      state.layout = {
+        ...state.layout,
+        routeType: action.payload,
+      };
+
+      storagePoster({
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
     renderLabelsController(state, action) {
+      console.log(action.payload);
+
       state.layout = {
         ...state.layout,
         renderLabels: action.payload,
@@ -395,6 +425,29 @@ const layout = createSlice({
         productId: state.layout.productId,
       });
     },
+
+    handleApplyMarkerForLocation(state, action) {
+      console.log("action", action.payload);
+
+      state.layout = {
+        ...state.layout,
+        locations: state.layout.locations.map(location => {
+          if (location.place_id === action.payload.place_id) {
+            return {
+              ...location,
+              markerId: action.payload.markerId,
+            };
+          }
+
+          return location;
+        }),
+      };
+
+      storagePoster({
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
   },
 });
 
@@ -421,6 +474,8 @@ export const {
   setCurrentLocationForSkyMap,
   reOrderLocations,
   setWallartAdminSettings,
+  handleChangeRouteTypeForStreetMap,
+  handleApplyMarkerForLocation,
 } = layout.actions;
 
 export default layout.reducer;

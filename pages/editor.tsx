@@ -195,9 +195,11 @@ export default function Editor() {
   };
 
   useEffect(() => {
-    window.devicePixelRatio = 2;
+    if (layout.productId == 1) {
+      window.devicePixelRatio = 2;
+    }
     dispatch(initLayout(product_id));
-  }, [product_id]);
+  }, [product_id, from]);
 
   const styles = {
     "--text-color":
@@ -212,18 +214,18 @@ export default function Editor() {
   };
 
   const MAP_TEXT_COLOR =
-    mapColors[Number(layout?.poster?.styles?.color)]?.layoutsColor[
+    mapColors[Number(layout?.poster?.styles?.color)]?.layoutOverrides[
       mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
     ]?.textColor ?? mapColors[Number(layout?.poster?.styles?.color)]?.textColor;
 
   const MAP_GRADIENT_COLOR =
-    mapColors[Number(layout?.poster?.styles?.color)]?.layoutsColor[
+    mapColors[Number(layout?.poster?.styles?.color)]?.layoutOverrides[
       mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
     ]?.gradientColor ??
     mapColors[Number(layout?.poster?.styles?.color)]?.gradientColor;
 
   const MAP_BG_COLOR =
-    mapColors[Number(layout?.poster?.styles?.color)]?.layoutsColor[
+    mapColors[Number(layout?.poster?.styles?.color)]?.layoutOverrides[
       mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
     ]?.bgColor ?? mapColors[Number(layout?.poster?.styles?.color)]?.bgColor;
 

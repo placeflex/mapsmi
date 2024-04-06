@@ -21,23 +21,22 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
+    await connectDB();
     const token = req.headers.authorization;
     const decoded = verifyToken(String(token));
-
-    console.log("decoded", decoded);
 
     if (decoded && typeof decoded === "object") {
       User.findOne({ email: decoded.email }).then(async user => {
         if (user.role == "admin") {
-          await connectDB();
           const b2 = new B2({
             applicationKeyId: process.env.BUCKET_KEY,
             applicationKey: process.env.BUCKET_SECRET,
           });
           const projectPayload = req.body;
-          const id = projectPayload.uuid;
+          const id = uuidv4();
 
           const screen = await generateScreen(projectPayload);
+          await generatePDF(projectPayload);
 
           await b2.authorize();
 
@@ -55,6 +54,7 @@ export default async function handler(
           const newProject = new PopularWallartScheme({
             ...projectPayload,
             path: `https://splashplacestest.s3.us-west-004.backblazeb2.com/project-${id}.png`,
+            uuid: id,
           });
 
           await newProject.save();
@@ -76,10 +76,22 @@ export default async function handler(
 
   if (req.method === "GET") {
     await connectDB();
+    // const page = parseInt(String(req.query.page)) || 1;
+    // const limit = parseInt(String(req.query.limit)) || 10;
+    // const skip = (page - 1) * limit;
+
+    const wallartCetogorieKey = Object.keys(req.query)[0];
+    const wallartCetogorieValue = req.query[wallartCetogorieKey];
 
     try {
-      // Найдите все проекты в коллекции popular-projects
-      const projects = await PopularWallartScheme.find();
+      // const projects = await PopularWallartScheme.find({ product_type: { $in: ["line_art"] } })
+      // .skip(skip)
+      // .limit(limit)
+      // .exec();
+
+      const projects = await PopularWallartScheme.find({
+        [wallartCetogorieKey]: { $in: [wallartCetogorieValue] },
+      }).exec();
 
       res.status(200).json({ success: true, data: projects });
     } catch (error) {

@@ -15,7 +15,8 @@ import { createXYZ } from "ol/tilegrid";
 import * as turf from "@turf/turf";
 
 // settings
-import { mapColors } from "@/layouts/LayoutSettings/mapColors";
+import { mapColors, mapMarkers } from "@/layouts/LayoutSettings/mapColors";
+import { ROUTE_TYPES } from "@/layouts/LayoutAttributes";
 
 // constants
 import {
@@ -25,9 +26,19 @@ import {
 
 // stores
 import { useDispatch } from "react-redux";
-import { handleSaveCustomCoordinatesForMap } from "@/redux/layout";
+import {
+  handleSaveCustomCoordinatesForMap,
+  renderMarkersController,
+  renderLabelsController,
+} from "@/redux/layout";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
 
+// helpers
+import { toast } from "react-toastify";
+
+import markerIcon from "@/public/test_marker.png";
+import markerIconSmall from "@/public/test_marker_small.png";
+import Dot from "@/public/dot.svg";
 // styles
 import "ol/ol.css";
 
@@ -56,6 +67,8 @@ const MIN_ZOOM = 1;
 export const MapContainer = ({ render = false }: MapContainerProps) => {
   const [map, setMap] = useState<any>();
   const dispatch: AppDispatch = useDispatch();
+
+  const [geometries, setGeo]: any = useState([]);
 
   const posterAttributes = useTypedSelector(
     ({ layout }) => layout?.layout.selectedAttributes
@@ -92,19 +105,18 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     ({ layout }) => layout.layout?.labelsTextColor
   );
 
+  const locationsMarkers = useTypedSelector(({ layout }) =>
+    layout.layout?.locations?.map(item => item.markerId)
+  );
+
+  const routeTypeId = useTypedSelector(({ layout }) => layout.layout.routeType);
+
   const [viewState, setViewState] = useState({
     center: [0, 0],
     zoom: 2,
   });
 
-  useEffect(() => {
-    if (map) {
-      handleAddRoute();
-      handleRenderMarkers();
-    }
-  }, [elementsColor, map, labelsTextColor]);
-
-  const handleAddRoute = () => {
+  const handleAddAirplaneRoute = () => {
     handleRemoveRouteLine();
 
     const layerToRemove = map
@@ -121,7 +133,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         return el.center;
       })
       .map((point, index, source) => {
-        const offset = 0.05;
+        const offset = 0.2;
 
         if (index < source.length - 1) {
           let route = turf.toWgs84({
@@ -182,8 +194,8 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         stroke: new Stroke({
           color: elementsColor,
           width: render
-            ? (RENDER_SCALE_RENDER_PAGE / 2) * RENDER_SCALE_RENDER_PAGE
-            : RENDER_SCALE_RENDER_PAGE / 2,
+            ? (RENDER_SCALE_RENDER_PAGE / 3) * RENDER_SCALE_RENDER_PAGE
+            : RENDER_SCALE_RENDER_PAGE / 3,
           lineDash: render
             ? [
                 RENDER_SCALE_RENDER_PAGE * RENDER_SCALE_RENDER_PAGE,
@@ -197,10 +209,16 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     vectorLayer.set("id", "routeLine");
 
     map.addLayer(vectorLayer);
+
+    if (renderMarkers) {
+      handleRenderMarkers();
+    }
   };
 
   const handleRenderMarkers = () => {
     handleRemoveMarkers();
+
+    console.log("RENDER MARKERS");
 
     const layerToRemove = map
       .getLayers()
@@ -223,18 +241,15 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     currentPosterLocations.forEach(coordinate => {
       const point = new Point(fromLonLat(coordinate.center));
 
+      const svgData = mapMarkers(render, elementsColor)[coordinate.markerId]
+        .icon;
+
       const style = new Style({
         image: new Icon({
           offset: [0, 0],
-          src:
-            "data:image/svg+xml;charset=utf-8," +
-            encodeURIComponent(
-              `<svg fill="${elementsColor}" width="${
-                render ? 50 * 10 : 50
-              }px" height="${
-                render ? 50 * 10 : 50
-              }px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">  <path d="M7.8 10a2.2 2.2 0 0 0 4.4 0 2.2 2.2 0 0 0-4.4 0z" /> </svg>`
-            ),
+          src: `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+            svgData
+          )}`,
         }),
       });
 
@@ -244,8 +259,8 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
 
       if (renderLabels) {
         const size = render
-          ? "150px bold Courier New,sans-serif"
-          : "14px bold Courier New,sans-serif";
+          ? "150px Verdana,Courier,Helvetica,Arial,sans-serif"
+          : "12px Verdana,Courier,Helvetica,Arial,sans-serif";
         const paddings = render ? [60, 60, 60, 90] : [7, 7, 7, 10];
         const offset = render ? -280 : -30;
 
@@ -270,6 +285,8 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       marker.setStyle(style);
       vectorSource.addFeature(marker);
     });
+
+    dispatch(renderMarkersController(true));
   };
 
   const alignMapForOneLocation = () => {
@@ -285,25 +302,8 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   };
 
   const alignMapForAllMarkers = () => {
-    // const layerToRemove = map
-    //   .getLayers()
-    //   .getArray()
-    //   .find(layer => layer.get("id") === "movePositionLayer");
-
-    // if (layerToRemove) {
-    //   map.removeLayer(layerToRemove);
-    // }
-
     const vectorSource = new VectorSource();
-    // const vectorLayer = new VectorLayer({
-    //   source: vectorSource,
-    // });
 
-    // vectorLayer.set("id", "movePositionLayer");
-
-    // map.addLayer(vectorLayer);
-
-    // setTimeout(() => {
     currentPosterLocations.forEach(coordinate => {
       const point = new Point(fromLonLat(coordinate.center));
 
@@ -317,7 +317,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
 
       map.getView().fit(extent, { padding: [100, 100, 100, 100] });
     });
-    // }, 500);
   };
 
   const handleRemoveMarkers = () => {
@@ -329,6 +328,8 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     if (layerToRemove) {
       map.removeLayer(layerToRemove);
     }
+
+    // dispatch(renderMarkersController(false));
   };
 
   const handleRemoveRouteLine = () => {
@@ -342,11 +343,195 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     }
   };
 
+  const handleGetWalkingOrDrivingRoutes = async locations => {
+    for (let i = 0; i < locations.length - 1; i++) {
+      let start = locations[i];
+      let end = locations[i + 1];
+      await handleGetWalkingOrDrivingRoute(start, end);
+    }
+  };
+
+  const handleGetWalkingOrDrivingRoute = async (start, end) => {
+    var url = `https://api.mapbox.com/directions/v5/mapbox/${ROUTE_TYPES[routeTypeId]}/${start.lng},${start.lat};${end.lng},${end.lat}?steps=true&geometries=geojson&overview=full&access_token=${process.env.MAPBOX_TOKEN}`;
+
+    await fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        if (
+          data.code == "InvalidInput" ||
+          data.message == "Route exceeds maximum distance limitation"
+        ) {
+          return toast.warning(data.message);
+        }
+
+        var coordinates = data.routes[0].geometry.coordinates;
+
+        var lineString = new LineString(coordinates.map(s => fromLonLat(s)));
+
+        var lineFeature = new Feature({
+          geometry: lineString,
+        });
+
+        lineFeature.setStyle(
+          new Style({
+            stroke: new Stroke({
+              color: elementsColor,
+              width: render
+                ? (RENDER_SCALE_RENDER_PAGE / 3) * RENDER_SCALE_RENDER_PAGE
+                : RENDER_SCALE_RENDER_PAGE / 3,
+              lineDash: render
+                ? [
+                    RENDER_SCALE_RENDER_PAGE * RENDER_SCALE_RENDER_PAGE,
+                    RENDER_SCALE_RENDER_PAGE * RENDER_SCALE_RENDER_PAGE,
+                  ]
+                : [RENDER_SCALE_RENDER_PAGE, RENDER_SCALE_RENDER_PAGE],
+            }),
+          })
+        );
+
+        setGeo(prevState => [...prevState, lineFeature]);
+      })
+      .catch(err => {
+        console.log("err,", err);
+      });
+  };
+
+  const handleRemoveCustomLineForWalkingOrDriving = () => {
+    setGeo([]);
+
+    const layerToRemove = map
+      .getLayers()
+      .getArray()
+      .find(layer => layer.get("id") === "routecustomLine");
+
+    if (layerToRemove) {
+      map.removeLayer(layerToRemove);
+    }
+  };
+
+  useEffect(() => {
+    if (map && renderMarkers && locationsMarkers.length > 0) {
+      handleRemoveMarkers();
+      handleRenderMarkers();
+    }
+  }, [JSON.stringify(locationsMarkers), map]);
+
+  useEffect(() => {
+    if (geometries.length && map) {
+      const layerToRemove = map
+        .getLayers()
+        .getArray()
+        .find(layer => layer.get("id") === "routecustomLine");
+
+      if (layerToRemove) {
+        map.removeLayer(layerToRemove);
+      }
+
+      var vectorSource = new VectorSource({
+        features: geometries,
+      });
+
+      var vectorLayer = new VectorLayer({
+        source: vectorSource,
+      });
+
+      vectorLayer.set("id", "routecustomLine");
+
+      map.addLayer(vectorLayer);
+
+      if (renderMarkers) {
+        handleRenderMarkers();
+      }
+
+      // handleRenderMarkers();
+    }
+  }, [geometries, map]);
+
+  // FOR CHANGE COLORS OF MARKERS AND LABELS
   useEffect(() => {
     if (map) {
+      console.log(" ROUTE_TYPES[routeTypeId]", ROUTE_TYPES[routeTypeId]);
+
+      if (
+        ROUTE_TYPES[routeTypeId] !== "walking" &&
+        ROUTE_TYPES[routeTypeId] !== "driving"
+      ) {
+        if (connectLocations) {
+          handleRemoveRouteLine();
+          handleAddAirplaneRoute();
+        }
+      } else {
+        if (connectLocations) {
+          setGeo(prev => {
+            return prev.map((item: any) => {
+              item.setStyle(
+                new Style({
+                  stroke: new Stroke({
+                    color: elementsColor,
+                    width: render
+                      ? (RENDER_SCALE_RENDER_PAGE / 3) *
+                        RENDER_SCALE_RENDER_PAGE
+                      : RENDER_SCALE_RENDER_PAGE / 3,
+                    lineDash: render
+                      ? [
+                          RENDER_SCALE_RENDER_PAGE * RENDER_SCALE_RENDER_PAGE,
+                          RENDER_SCALE_RENDER_PAGE * RENDER_SCALE_RENDER_PAGE,
+                        ]
+                      : [RENDER_SCALE_RENDER_PAGE, RENDER_SCALE_RENDER_PAGE],
+                  }),
+                })
+              );
+
+              return item;
+            });
+          });
+        }
+
+        if (renderMarkers) {
+          setTimeout(() => {
+            handleRenderMarkers();
+          }, 200);
+
+          return;
+        }
+      }
+
+      if (renderMarkers) {
+        handleRenderMarkers();
+      }
+    }
+  }, [elementsColor, map, labelsTextColor]);
+
+  useEffect(() => {
+    if (map) {
+      if (connectLocations) {
+        if (
+          ROUTE_TYPES[routeTypeId] == "walking" ||
+          ROUTE_TYPES[routeTypeId] == "driving"
+        ) {
+          handleRemoveCustomLineForWalkingOrDriving();
+          handleRemoveRouteLine();
+          handleGetWalkingOrDrivingRoutes(currentPosterLocations);
+        } else {
+          handleRemoveCustomLineForWalkingOrDriving();
+          handleRemoveRouteLine();
+          handleAddAirplaneRoute();
+        }
+      } else {
+        handleRemoveRouteLine();
+        handleRemoveCustomLineForWalkingOrDriving();
+      }
+    }
+  }, [routeTypeId, map, connectLocations, currentPosterLocations.length]);
+
+  // FOR CENTER MAP AFTER UPDATE LOCATIONS LENGTH
+  useEffect(() => {
+    if (map) {
+      // getRoute(locations[0], locations[1]);
       // TODO align and clear custom coordinates
 
       if (currentPosterLocations.length == 1 && isEmpty(customCoordinates)) {
+        handleRemoveCustomLineForWalkingOrDriving();
         alignMapForOneLocation();
       }
 
@@ -371,11 +556,12 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   //   }
   // }, [map, posterAttributes.size.id]);
 
+  // RENDER MARKERS OR ROUTE LINE
   useEffect(() => {
     if (map) {
-      if (connectLocations) {
-        handleAddRoute();
-      }
+      // if (connectLocations) {
+      //   handleAddAirplaneRoute();
+      // }
 
       if (renderLabels || renderMarkers) {
         handleRenderMarkers();
@@ -385,9 +571,9 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         handleRemoveMarkers();
       }
 
-      if (!connectLocations) {
-        handleRemoveRouteLine();
-      }
+      // if (!connectLocations) {
+      //   handleRemoveRouteLine();
+      // }
 
       if (currentPosterLocations.length == 0) {
         handleRemoveRouteLine();
@@ -402,6 +588,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     renderLabels,
   ]);
 
+  // INIT MAP
   useEffect(() => {
     console.log("INIT");
     let savedBounds;
@@ -490,8 +677,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       console.log("RENDER COMPLETE");
 
       map.getView().on("change:resolution", event => {
-        // Код, который выполнится при изменении масштаба (zoom)
-        // const newViewState = view.getProperties();
         console.log("Map zoom!");
         const newViewState = view.getProperties();
 
