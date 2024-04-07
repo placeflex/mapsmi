@@ -7,21 +7,21 @@ import classNames from "classnames";
 import { LayoutPreviewWrapper } from "@/components/LayoutPreviewWrapper";
 
 // layout ui
-import { LayoutContent } from "@/layouts/LayoutContent";
+import { WallartContent } from "@/layouts/WallartContent";
 import { SkyMap } from "@/layouts/SkyMap";
 import { MapContainer } from "@/layouts/Map/";
 import { Zodiac } from "@/layouts/Zodiac";
 // lineart settings ( panel )
-import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
-import { basicColors } from "@/layouts/LayoutSettings/colorsList";
-import { masks } from "@/layouts/LayoutSettings/skyMapMasks";
+import { lineArtIcons } from "@/layouts/wallartSettings/lineArtIcons";
+import { basicColors } from "@/layouts/wallartSettings/colorsList";
+import { masks } from "@/layouts/wallartSettings/skyMapMasks";
 import {
   basicLayoutStyles,
   mapLayoutStyles,
   skyMapLayoutStyles,
-} from "@/layouts/LayoutSettings/artworkStylesList";
-import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
-import { mapColors } from "@/layouts/LayoutSettings/mapColors";
+} from "@/layouts/wallartSettings/wallartStyles";
+import { fontsList } from "@/layouts/wallartSettings/wallartFonts";
+import { mapColors } from "@/layouts/wallartSettings/mapColors";
 
 // stores
 import { useDispatch } from "react-redux";
@@ -29,7 +29,7 @@ import { useTypedSelector, AppDispatch } from "@/redux/store";
 import { initLayoutForRenderPage } from "@/redux/layout";
 
 // constants
-import { RENDER_SCALE_RENDER_PAGE } from "@/constants/defaultLayoutSettings";
+import { RENDER_SCALE_RENDER_PAGE } from "@/layouts/wallartSettings/defaultWallartSettings";
 import { productsVariations } from "@/constants/constants";
 
 // styles
@@ -49,6 +49,7 @@ export default function Editor() {
 
   useEffect(() => {
     const project = localStorage.getItem("render-storage");
+    document.body.classList.add("render-page");
 
     window.devicePixelRatio = RENDER_SCALE_RENDER_PAGE;
 
@@ -101,12 +102,12 @@ export default function Editor() {
 
   const editorUI = {
     0: (
-      <LayoutContent
+      <WallartContent
         layoutStyle={
           basicLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
             ?.applyName
         }
-        figure={lineArtIconsList[Number(layout.poster?.styles?.artwork)]?.icon}
+        figure={lineArtIcons[Number(layout.poster?.styles?.artwork)]?.icon}
         styles={styles}
         texts={{
           heading: layout.poster?.labels?.heading,
@@ -127,7 +128,7 @@ export default function Editor() {
       />
     ),
     1: (
-      <LayoutContent
+      <WallartContent
         layoutStyle={
           skyMapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
             ?.applyName
@@ -157,7 +158,7 @@ export default function Editor() {
       />
     ),
     2: (
-      <LayoutContent
+      <WallartContent
         layoutStyle={
           mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
         }
@@ -183,7 +184,7 @@ export default function Editor() {
       />
     ),
     3: (
-      <LayoutContent
+      <WallartContent
         layoutStyle={
           skyMapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
             ?.applyName

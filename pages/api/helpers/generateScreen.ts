@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-
+import sharp from "sharp";
 import { handleGetPosterGap } from "@/components/LayoutPreviewWrapper";
 
 function vminToPixels(vminValue, screenWidth, screenHeight) {
@@ -106,14 +106,21 @@ export const generateScreen = async (project: any) => {
 
       console.log("SCREEN START END");
 
-      const screenshotBuffer = await elementHandle.screenshot({
+      // elementHandle
+      const screenshotBuffer = await page.screenshot({
         encoding: "binary",
       });
+
+      console.log("RESIZE START", screenshotBuffer);
+
+      const resizeBuffer = await sharp(screenshotBuffer).resize(520).toBuffer();
+
+      console.log("RESIZE BUFFER", resizeBuffer);
 
       await browser.close();
       //   console.log("SCREEN END");
 
-      return screenshotBuffer;
+      return resizeBuffer;
     }
   } catch (error) {
     console.error("An error occurred:", error);

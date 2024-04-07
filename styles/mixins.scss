@@ -8,9 +8,9 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: -2.5em;
-    width: 2em;
-    height: 0.1em;
+    left: -2em;
+    width: 1.5em;
+    height: 0.05em;
     background-color: $color;
     opacity: 1;
   }
@@ -20,9 +20,9 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: -2.5em;
-    width: 2em;
-    height: 0.1em;
+    right: -2em;
+    width: 1.5em;
+    height: 0.05em;
     background-color: $color;
     opacity: 1;
   }

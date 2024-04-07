@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { basicColors } from "@/layouts/LayoutSettings/colorsList";
+import { basicColors } from "@/layouts/wallartSettings/colorsList";
 
 // stores
 import { useTypedSelector } from "@/redux/store";
@@ -8,7 +8,7 @@ import { useTypedSelector } from "@/redux/store";
 import "./skymap.scss";
 
 // masks
-import { maskOverlays } from "@/layouts/LayoutSettings/skyMapMasks";
+import { maskOverlays } from "@/layouts/wallartSettings/skyMapMasks";
 
 // import starts from "@/public/data";
 
@@ -206,7 +206,7 @@ export const SkyMap = () => {
     <div className="relative" id="map-holder">
       {posterStyles.isOverlay && (
         <div className="mask">
-          {maskOverlays[posterStyles.overlayId].figure}
+          {maskOverlays[posterStyles.overlayId]?.figure}
         </div>
       )}
 

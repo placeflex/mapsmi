@@ -44,7 +44,7 @@ export default function Home() {
   }, [router.query]);
 
   return (
-    <Layout fixed={true}>
+    <Layout fixed={true} scroll={true}>
       <Banner />
       {/* <Products /> */}
       <OurPosters />

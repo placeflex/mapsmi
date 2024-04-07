@@ -9,14 +9,30 @@ type Props = {
   children?: React.ReactNode;
   className?: string;
   fixed?: boolean;
+  scroll?: boolean;
 };
 
-export const Layout = ({ children, fixed = false, className }: Props) => {
+export const Layout = ({
+  children,
+  fixed = false,
+  className,
+  scroll,
+}: Props) => {
   return (
     <>
-      <Header isFixed={fixed} />
-      <main className={className}>{children}</main>
-      <Footer />
+      {scroll ? (
+        <div className="scroll overflow-y-auto overflow-x-hidden h-[100vh]">
+          <Header isFixed={fixed} />
+          <main className={className}>{children}</main>
+          <Footer />
+        </div>
+      ) : (
+        <>
+          <Header isFixed={fixed} />
+          <main className={className}>{children}</main>
+          <Footer />
+        </>
+      )}
     </>
   );
 };

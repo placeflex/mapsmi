@@ -132,6 +132,11 @@ const wallartScheme = new Schema({
     required: false,
     default: 0,
   },
+  labelsStyle: {
+    type: String,
+    required: false,
+    default: "fill",
+  },
 });
 
 export default models["popular-wallarts"] ||

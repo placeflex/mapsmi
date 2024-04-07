@@ -23,6 +23,11 @@ const popularWallarts = createSlice({
       );
 
       if (project) {
+        const createProject = {
+          ...JSON.parse(project),
+          price: action.payload.price,
+        };
+
         const request = api
           .post("/popular-wallarts", JSON.parse(project))
           .then((data: any) => {
@@ -44,13 +49,12 @@ const popularWallarts = createSlice({
         productsVariations[action.payload.id]
       );
 
-      console.log("project", project);
-
       if (project) {
         const request = api
           .delete(`/popular-wallarts?projectId=${JSON.parse(project).uuid}`)
           .then((data: any) => {
             toast.success(data.message);
+            action.payload.callback && action.payload.callback();
           })
           .catch(({ response }) => {
             toast.error(response.data.error);

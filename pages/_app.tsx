@@ -39,6 +39,9 @@ import { ProjectAdminSettings } from "@/components/Modals/ProjectAdminSettings";
 import { Markers } from "@/components/Modals/Markers";
 import { SidePanelLayout } from "@/components/SidePanel/layout";
 
+// TODO: FOR v@
+// import { SelectLocationOnMap } from "@/components/Modals/SelectLocationOnMap";
+
 function CustomApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -84,7 +87,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <div
-        className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans overflow-y-auto overflow-x-hidden h-[100vh]`}
+        className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans`}
       >
         <Component {...pageProps} />
         <ProductVariations />
@@ -99,6 +102,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <SidePanelLayout isOpen={markersPanel.state} bgClose={true}>
           <Markers />
         </SidePanelLayout>
+
+        {/* TODO: FOR v2 */}
+        {/* <SidePanelLayout isOpen={true} bgClose={false}>
+          <SelectLocationOnMap />
+        </SidePanelLayout> */}
         <ToastContainer
           position="bottom-right"
           hideProgressBar={false}

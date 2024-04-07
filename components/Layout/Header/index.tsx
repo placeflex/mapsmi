@@ -180,6 +180,10 @@ const designs = [
     title: "Cities",
     links: [
       {
+        title: "Ukraine Posters",
+        link: `${popularWallartsRoot}?cities=ukraine_posters`,
+      },
+      {
         title: "Kiev Posters",
         link: `${popularWallartsRoot}?cities=kiev_posters`,
       },

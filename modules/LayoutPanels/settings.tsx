@@ -11,18 +11,19 @@ import { SketchPicker, ChromePicker } from "react-color";
 import ReactDragListView from "react-drag-listview";
 
 // lineart settings ( panel )
-import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
-import { zodiacIconsList } from "@/layouts/LayoutSettings/zodiacIconsList";
-import { basicColors } from "@/layouts/LayoutSettings/colorsList";
-import { mapColors, mapMarkers } from "@/layouts/LayoutSettings/mapColors";
-import { maskOverlays, masks } from "@/layouts/LayoutSettings/skyMapMasks";
+import { lineArtIcons } from "@/layouts/wallartSettings/lineArtIcons";
+import { zodiacIcons } from "@/layouts/wallartSettings/zodiacIcons";
+import { basicColors } from "@/layouts/wallartSettings/colorsList";
+import { mapColors } from "@/layouts/wallartSettings/mapColors";
+import { mapMarkers } from "@/layouts/wallartSettings/mapMarkers";
+import { maskOverlays, masks } from "@/layouts/wallartSettings/skyMapMasks";
 import {
   basicLayoutStyles,
   mapLayoutStyles,
   skyMapLayoutStyles,
-} from "@/layouts/LayoutSettings/artworkStylesList";
+} from "@/layouts/wallartSettings/wallartStyles";
 
-import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
+import { fontsList } from "@/layouts/wallartSettings/wallartFonts";
 
 import dayjs from "dayjs";
 
@@ -34,7 +35,7 @@ import {
   MATERIAL_PRICES,
   FRAMES_PRICES,
   ROUTE_TYPES,
-} from "@/layouts/LayoutAttributes";
+} from "@/layouts/wallartAttributes";
 
 import { AutoComplete } from "@/components/AutoComplete";
 
@@ -54,6 +55,9 @@ import { debounce } from "lodash";
 
 import { api } from "@/axios";
 
+// helpers
+import { removeNumbersFromString } from "@/helpers/helpers";
+
 import {
   setDate,
   setLocations,
@@ -71,6 +75,7 @@ import {
   setMapLabelsColor,
   setCurrentLocationForSkyMap,
   handleChangeRouteTypeForStreetMap,
+  handleChangeLabelsStyle,
 } from "@/redux/layout";
 
 // icons
@@ -86,7 +91,7 @@ export const IllustrationAccordion = ({ handleChange, className }: any) => {
 
   return (
     <div className="icons h-[300px] overflow-y-auto grid pr-4 grid-cols-3 gap-2 w-full">
-      {lineArtIconsList.map(({ icon, id }): React.ReactNode => {
+      {lineArtIcons.map(({ icon, id }): React.ReactNode => {
         return (
           <div
             key={id}
@@ -350,54 +355,37 @@ export const SizeAccordion = ({
 };
 
 export const LocationAccrodion = () => {
-  const [location, setLocation] = useState("");
   const dispatch: AppDispatch = useDispatch();
-  const productId = useTypedSelector(({ layout }) => layout?.layout.productId);
-  const layoutDate = useTypedSelector(({ layout }) => layout.layout.date);
 
-  const locationsDropdown = useTypedSelector<any>(
-    ({ layout }) => layout.layout.locationsDropdown
-  );
+  const {
+    productId,
+    date,
+    locationsDropdown,
+    locations,
+    connectLocations,
+    renderMarkers,
+    renderLabels,
+    elementsColor,
+    routeType,
+  } = useTypedSelector(({ layout }) => layout.layout);
 
-  const currentPosterLocation: any = useTypedSelector(
-    ({ layout }) => layout.layout?.locations
-  );
-
-  const connectLocations = useTypedSelector(
-    ({ layout }) => layout.layout.connectLocations
-  );
-
-  const renderMarkers = useTypedSelector(
-    ({ layout }) => layout.layout.renderMarkers
-  );
-
-  const renderLabels = useTypedSelector(
-    ({ layout }) => layout.layout.renderLabels
-  );
-
-  const elementsColor = useTypedSelector(
-    ({ layout }) => layout.layout.elementsColor
-  );
-
-  const fetchLocation = async () => {
+  const fetchLocation = async locationName => {
     try {
       const response: [] = await api.post("/locations", {
-        locationName: location,
+        locationName: locationName,
       });
 
       const modifyLocations = response.map((opt: any) => {
         return {
           value: opt.description,
           label: opt.description,
-          // value: opt.place_name,
-          // label: opt.place_name,
           ...opt,
         };
       });
 
       dispatch(setLocations(modifyLocations));
     } catch (error) {
-      console.error("Ошибка:", error);
+      console.error("fetchLocation ERROR:", error);
     }
   };
 
@@ -411,21 +399,21 @@ export const LocationAccrodion = () => {
         dispatch(
           handleChangeLables({
             label: "heading",
-            value: spltName[0],
+            value: removeNumbersFromString(spltName[0]),
           })
         );
 
         dispatch(
           handleChangeLables({
             label: "subline",
-            value: dayjs(layoutDate).format("MMMM D, YYYY h:mm A"),
+            value: dayjs(date).format("MMMM D, YYYY h:mm A"),
           })
         );
 
         dispatch(
           handleChangeLables({
             label: "tagline",
-            value: spltName[1],
+            value: removeNumbersFromString(spltName[1]),
           })
         );
       } else {
@@ -438,7 +426,7 @@ export const LocationAccrodion = () => {
         dispatch(
           handleChangeLables({
             label: "subline",
-            value: dayjs(layoutDate).format("MMMM D, YYYY h:mm A"),
+            value: dayjs(date).format("MMMM D, YYYY h:mm A"),
           })
         );
       }
@@ -446,7 +434,7 @@ export const LocationAccrodion = () => {
       dispatch(
         handleChangeLables({
           label: "heading",
-          value: spltName[0],
+          value: removeNumbersFromString(spltName[0]),
         })
       );
 
@@ -454,7 +442,7 @@ export const LocationAccrodion = () => {
         dispatch(
           handleChangeLables({
             label: "subline",
-            value: spltName[1],
+            value: removeNumbersFromString(spltName[1]),
           })
         );
       }
@@ -463,7 +451,7 @@ export const LocationAccrodion = () => {
         dispatch(
           handleChangeLables({
             label: "tagline",
-            value: spltName[2],
+            value: removeNumbersFromString(spltName[2]),
           })
         );
       }
@@ -471,10 +459,8 @@ export const LocationAccrodion = () => {
   };
 
   const handleInputChange = (locationName: any) => {
-    setLocation(locationName);
-
     if (locationName) {
-      debouncedApply(fetchLocation);
+      debouncedApply(() => fetchLocation(locationName));
     } else {
       dispatch(setLocations([]));
     }
@@ -483,19 +469,15 @@ export const LocationAccrodion = () => {
   const handleDeleteLocation = (placeId: string) => {
     dispatch(deleteLocation(placeId));
 
-    if (currentPosterLocation[currentPosterLocation.length - 2]) {
-      handleUpdateLabels(
-        currentPosterLocation[currentPosterLocation.length - 2].label
-      );
+    if (locations[locations.length - 2]) {
+      handleUpdateLabels(locations[locations.length - 2].label);
     } else {
-      handleUpdateLabels(currentPosterLocation[0].label);
+      handleUpdateLabels(locations[0].label);
     }
   };
 
   const handleSelectLocation = async (location: any, opt: any) => {
     const response: any = await api.get(`/locations?placeId=${opt.place_id}`);
-
-    console.log("response", response);
 
     if (productId == 2) {
       dispatch(
@@ -503,6 +485,7 @@ export const LocationAccrodion = () => {
           ...opt,
           ...response,
           markerId: 0,
+          labelPosition: "top",
         })
       );
     } else {
@@ -510,7 +493,6 @@ export const LocationAccrodion = () => {
         setCurrentLocationForSkyMap({
           ...opt,
           ...response,
-          // name: opt.description,
         })
       );
     }
@@ -536,23 +518,17 @@ export const LocationAccrodion = () => {
     }
   };
 
-  const onMoveEnd = (newList: any) => {
-    console.log("onMoveEnd", newList);
-  };
-
   const handleChangeRouteType = (id: number) => {
     dispatch(handleChangeRouteTypeForStreetMap(id));
   };
 
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {
-      const newLocations = [...currentPosterLocation];
+      const newLocations = [...locations];
       const [removed] = newLocations.splice(fromIndex, 1);
       newLocations.splice(toIndex, 0, removed);
 
-      console.log("newLocations", newLocations);
-
-      dispatch(reOrderLocations(newLocations));
+      debouncedApply(() => dispatch(reOrderLocations(newLocations)));
     },
     nodeSelector: "div",
     handleSelector: ".drag",
@@ -576,17 +552,22 @@ export const LocationAccrodion = () => {
         value={
           productId == 2
             ? locationsDropdown[locationsDropdown.length - 1]?.value
-            : currentPosterLocation[0]?.name
+            : locations[0]?.name
         }
         label="Search for place"
-        key={currentPosterLocation?.length}
+        key={locations?.length}
       />
 
-      {productId == 2 && currentPosterLocation.length ? (
+      {/* TODO: FOR v2 */}
+      {/* <div className="flex">
+        <button>SELECT ON MAP</button>
+      </div> */}
+
+      {productId == 2 && locations.length ? (
         <div className="mt-[1rem]">
           <h3 className="font-bold">Your Locations</h3>
           <ReactDragListView {...dragProps}>
-            {currentPosterLocation.map((loc, idx) => {
+            {locations.map((loc, idx) => {
               return (
                 <div
                   key={loc.id}
@@ -611,7 +592,7 @@ export const LocationAccrodion = () => {
                           })
                         )
                       }
-                      className="ml-auto bg-black"
+                      className="ml-auto"
                     >
                       {
                         mapMarkers(false, elementsColor)[loc.markerId]
@@ -639,7 +620,7 @@ export const LocationAccrodion = () => {
             <span>Connect Locations</span>
             <Switcher
               checked={connectLocations}
-              disabled={currentPosterLocation.length < 2}
+              disabled={locations.length < 2}
               onChange={() => {
                 dispatch(connectLocationsController(!connectLocations));
               }}
@@ -647,16 +628,26 @@ export const LocationAccrodion = () => {
           </div>
 
           {connectLocations && (
-            <div>
-              {Object.entries(ROUTE_TYPES).map(([key, value]) => {
+            <div className="flex mt-[2rem] gap-[1rem]">
+              {Object.values(ROUTE_TYPES).map((type, idx) => {
                 return (
                   <div
-                    key={key}
-                    onClick={() => handleChangeRouteType(Number(key))}
+                    key={idx}
+                    onClick={() => handleChangeRouteType(Number(type.id))}
+                    className={classNames(
+                      "w-[20%] flex flex-col items-center justify-center cursor-pointer p-2 shadow-lg",
+                      type.id == routeType
+                        ? "border-2 border-secondButton rounded-sm text-darkGrey"
+                        : ""
+                    )}
                   >
-                    <p>
-                      {key}: {value}
-                    </p>
+                    <Image
+                      src={type.pic}
+                      alt={type.name}
+                      width={50}
+                      height={20}
+                    />
+                    <p className="text-captionSmall">{type.name}</p>
                   </div>
                 );
               })}
@@ -667,22 +658,39 @@ export const LocationAccrodion = () => {
             <span>Markers</span>
             <Switcher
               checked={renderMarkers}
-              disabled={!currentPosterLocation.length}
+              disabled={!locations.length}
               onChange={() => {
                 dispatch(renderMarkersController(!renderMarkers));
               }}
             />
           </div>
 
-          <div className="mt-[2rem] flex items-center justify-between">
-            <span>Labels</span>
-            <Switcher
-              checked={renderLabels}
-              disabled={!currentPosterLocation.length || !renderMarkers}
-              onChange={() => {
-                dispatch(renderLabelsController(!renderLabels));
-              }}
-            />
+          <div className="flex flex-col">
+            <div className="mt-[2rem] flex items-center justify-between">
+              <span>Labels</span>
+              <Switcher
+                checked={renderLabels}
+                disabled={!locations.length || !renderMarkers}
+                onChange={() => {
+                  dispatch(renderLabelsController(!renderLabels));
+                }}
+              />
+            </div>
+
+            {renderLabels && (
+              <div>
+                <button
+                  onClick={() => dispatch(handleChangeLabelsStyle("fill"))}
+                >
+                  Fill
+                </button>
+                <button
+                  onClick={() => dispatch(handleChangeLabelsStyle("outline"))}
+                >
+                  Outline
+                </button>
+              </div>
+            )}
           </div>
         </>
       )}
@@ -693,7 +701,7 @@ export const LocationAccrodion = () => {
             label="PICK YOUR SPECIAL MOMENT"
             onChange={onChangeDatePicker}
             className="w-full"
-            value={dayjs(layoutDate).format("YYYY-MM-DD HH:mm")}
+            value={dayjs(date).format("YYYY-MM-DD HH:mm")}
           />
         </div>
       )}
@@ -1075,7 +1083,7 @@ export const ZodiacSelect = ({ handleChange }: any) => {
     ({ layout }) => layout.layout?.poster?.styles
   );
 
-  const options = zodiacIconsList.map(zodiac => ({
+  const options = zodiacIcons.map(zodiac => ({
     label: zodiac.name,
     value: zodiac.id,
     date: zodiac.date,
@@ -1083,8 +1091,8 @@ export const ZodiacSelect = ({ handleChange }: any) => {
   }));
 
   const handleUpdate = id => {
-    const title = zodiacIconsList[id].name;
-    const date = zodiacIconsList[id].date;
+    const title = zodiacIcons[id].name;
+    const date = zodiacIcons[id].date;
 
     console.log("title", title);
 

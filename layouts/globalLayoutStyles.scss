@@ -35,7 +35,7 @@ $frameWidth: var(--frame-scale);
   z-index: 1;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%) scale(1.15);
+  transform: translate(-50%, -50%) scale(1.12);
   z-index: 0;
 }
 
@@ -389,7 +389,7 @@ $frameWidth: var(--frame-scale);
 
       #map-holder {
         flex-grow: 1;
-        margin: 3em auto;
+        margin: auto auto;
 
         #map {
           margin: auto;
@@ -499,7 +499,7 @@ $frameWidth: var(--frame-scale);
     .labels {
       position: absolute;
       z-index: 1;
-      padding: $marginXXLarge $marginSmall;
+      padding: 2em 1.5em;
       width: calc(100% + 2px);
       bottom: -1px;
       left: -1px;
@@ -508,7 +508,8 @@ $frameWidth: var(--frame-scale);
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1.5em;
+      gap: 1em;
+      overflow: hidden;
 
       *:last-child {
         margin-bottom: 0;
@@ -517,6 +518,24 @@ $frameWidth: var(--frame-scale);
 
       h1 {
         font-weight: bold;
+      }
+    }
+
+    &.minimal-full,
+    &.minimal {
+      .labels {
+        h1 {
+          font-size: 3em;
+        }
+
+        h3,
+        h2 {
+          font-size: 2em;
+        }
+
+        span {
+          font-size: 1.5em;
+        }
       }
     }
 
@@ -546,7 +565,6 @@ $frameWidth: var(--frame-scale);
         gap: 0.5em;
         min-width: 50%;
         letter-spacing: 0.2em;
-        box-shadow: 2em 2em 45em rgba(0, 0, 0, 0.2);
         left: auto;
         bottom: 0;
 
@@ -585,7 +603,7 @@ $frameWidth: var(--frame-scale);
         background: transparent;
         border-top: 0.3em solid $textColor;
         gap: 0.8em;
-        padding: 1.6em 0 0;
+        padding: 1.6em;
         width: 100%;
 
         h1 {
@@ -603,6 +621,10 @@ $frameWidth: var(--frame-scale);
         }
       }
 
+      .border-holder {
+        margin: 0;
+      }
+
       .custom-line {
         display: none;
       }
@@ -614,7 +636,7 @@ $frameWidth: var(--frame-scale);
       }
 
       .border-holder {
-        margin: 2em 2em 0 2em;
+        margin: 0;
       }
 
       .labels {
@@ -625,17 +647,17 @@ $frameWidth: var(--frame-scale);
         background: transparent;
 
         h1 {
-          font-size: 2.8em;
+          font-size: 2.3em;
         }
 
         h2 {
           @include subline-decoration-center($textColor);
-          font-size: 2.4em;
+          font-size: 1.7em;
         }
 
         h3,
         span {
-          font-size: 2.2em;
+          font-size: 1.2em;
         }
 
         span {
@@ -733,7 +755,7 @@ $frameWidth: var(--frame-scale);
         flex-direction: column;
         align-items: center;
         justify-content: flex-end;
-        padding-bottom: 1.4em;
+        padding: 2em 1em 2em 1em;
         pointer-events: none;
         gap: 0.8em;
         top: auto;
@@ -747,25 +769,26 @@ $frameWidth: var(--frame-scale);
         }
 
         h1 {
-          position: absolute;
-          top: 0.5em;
-          font-size: 3em;
+          // position: absolute;
+          // top: 0.5em;
+          margin-bottom: auto;
+          font-size: 3.4em;
         }
 
         h2,
         h3,
         span {
           display: block;
-          font-size: 2em;
+          font-size: 1.6em;
         }
 
         h3 {
           @include subline-decoration-center($textColor);
-          font-size: 1.6em;
+          font-size: 1.2em;
         }
 
         span {
-          font-size: 1.4em;
+          font-size: 1em;
         }
       }
     }

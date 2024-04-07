@@ -58,10 +58,13 @@ export default function PopularWallarts() {
   };
 
   return (
-    <Layout className="">
+    <Layout className="bg-secondary" fixed={true} scroll={true}>
       <Container>
         <div className="py-[10rem]">
-          <h1 className="text-h3 font-bold mb-[3rem]">{pageTitle}</h1>
+          <h1 className="text-h3 font-bold mb-[1rem]">{pageTitle}</h1>
+          <h2 className="text-caption mb-[3rem]">
+            Custom prints and stunning {pageTitle} for your home or office.
+          </h2>
 
           <div className="flex flex-wrap mx-[-1rem]">
             {wallarts?.map(
@@ -78,11 +81,11 @@ export default function PopularWallarts() {
                 return (
                   <div
                     key={props.id}
-                    className="w-[calc(100%/4-4rem)] m-[2rem] bg-white"
+                    className="w-[calc(100%/4-4rem)] m-[2rem] aspect-square"
                   >
                     <div
                       key={props.id}
-                      className="flex jusify-center w-full relative cursor-pointer h-[40rem]"
+                      className="flex jusify-center w-full relative cursor-pointer h-full"
                       onClick={() => {
                         storagePoster({
                           productId: props.productId,
@@ -101,24 +104,30 @@ export default function PopularWallarts() {
                         }, 100);
                       }}
                     >
-                      <Image
-                        src={path}
-                        alt={props.name}
-                        objectFit="contain"
-                        layout="fill"
-                        quality={20}
-                        priority={true}
-                        className="h-full w-auto"
-                      />
+                      <div className="relative h-full w-full">
+                        <Image
+                          src={path}
+                          alt={props.name}
+                          objectFit="contain"
+                          quality={50}
+                          layout="fill"
+                          // priority={true}
+                          // width={400}
+                          // height={400}
+                        />
+                      </div>
                     </div>
 
-                    <div className="py-[2rem]">
-                      <h2 className="text-center mx-auto text-bodySmall w-[100%]">
+                    <div className="py-[2rem] px-[2rem]">
+                      <h2 className="capitalize text-center mx-auto text-caption w-[100%] truncate">
                         {props.name}
                       </h2>
                       {price && (
-                        <h2 className="text-center mx-auto text-captionSmall w-[50%] mt-[1rem] font-bold">
-                          {price} UAH
+                        <h2 className="text-center mx-auto text-captionSmall w-[50%] mt-[1rem] truncate">
+                          As Designed{" "}
+                          <span className="font-bold text-blueGrey">
+                            {price} UAH
+                          </span>
                         </h2>
                       )}
                     </div>

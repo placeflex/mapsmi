@@ -1,9 +1,9 @@
-import { ArtworkStyleInterface } from "@/layouts/LayoutSettings/artworkStylesList";
+import { ArtworkStyleInterface } from "@/layouts/wallartSettings/wallartStyles";
 
 import {
   SizeInterface,
   OrientationsInterface,
-} from "@/layouts/LayoutAttributes";
+} from "@/layouts/wallartAttributes";
 
 export interface PosterStyles {
   artwork?: number;

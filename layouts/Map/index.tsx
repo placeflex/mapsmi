@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { isEmpty } from "lodash";
 
 import React, { useState } from "react";
-import { Map, Feature } from "ol";
+import { Map, Feature, Overlay } from "ol";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import { XYZ } from "ol/source";
@@ -15,14 +15,16 @@ import { createXYZ } from "ol/tilegrid";
 import * as turf from "@turf/turf";
 
 // settings
-import { mapColors, mapMarkers } from "@/layouts/LayoutSettings/mapColors";
-import { ROUTE_TYPES } from "@/layouts/LayoutAttributes";
+import { mapColors } from "@/layouts/wallartSettings/mapColors";
+import { mapMarkers } from "@/layouts/wallartSettings/mapMarkers";
+import { ROUTE_TYPES } from "@/layouts/wallartAttributes";
 
 // constants
 import {
   RENDER_SCALE_RENDER_PAGE,
   RENDER_SCALE_EDITOR_PAGE,
-} from "@/constants/defaultLayoutSettings";
+} from "@/layouts/wallartSettings/defaultWallartSettings";
+import { basisMarkerSize } from "@/layouts/wallartSettings/mapMarkers";
 
 // stores
 import { useDispatch } from "react-redux";
@@ -30,6 +32,7 @@ import {
   handleSaveCustomCoordinatesForMap,
   renderMarkersController,
   renderLabelsController,
+  handleChangeLables,
 } from "@/redux/layout";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
 
@@ -55,11 +58,7 @@ interface MapContainerProps {
 }
 
 function formatBounds(bounds) {
-  const { _ne, _sw } = bounds;
-  return [
-    [bounds[0], bounds[1]],
-    [bounds[2], bounds[3]],
-  ];
+  return [bounds[0], bounds[1], bounds[2], bounds[3]];
 }
 
 const MIN_ZOOM = 1;
@@ -67,49 +66,28 @@ const MIN_ZOOM = 1;
 export const MapContainer = ({ render = false }: MapContainerProps) => {
   const [map, setMap] = useState<any>();
   const dispatch: AppDispatch = useDispatch();
-
   const [geometries, setGeo]: any = useState([]);
 
-  const posterAttributes = useTypedSelector(
-    ({ layout }) => layout?.layout.selectedAttributes
-  );
-  const currentPosterLocations: any = useTypedSelector(
-    ({ layout }) => layout.layout.locations
-  );
+  const {
+    locations,
+    customCoordinates,
+    connectLocations,
+    renderMarkers,
+    renderLabels,
+    elementsColor,
+    labelsTextColor,
+    routeType,
+    labelsStyle,
+  } = useTypedSelector(({ layout }) => layout.layout);
 
-  const customCoordinates: any = useTypedSelector(
-    ({ layout }) => layout.layout.customCoordinates
-  );
-
-  const connectLocations = useTypedSelector(
-    ({ layout }) => layout.layout.connectLocations
-  );
-
-  const renderMarkers = useTypedSelector(
-    ({ layout }) => layout.layout.renderMarkers
-  );
-
-  const renderLabels = useTypedSelector(
-    ({ layout }) => layout.layout.renderLabels
-  );
+  console.log("routeType", routeType);
 
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
-
-  const elementsColor = useTypedSelector(
-    ({ layout }) => layout.layout?.elementsColor
-  );
-
-  const labelsTextColor = useTypedSelector(
-    ({ layout }) => layout.layout?.labelsTextColor
-  );
-
-  const locationsMarkers = useTypedSelector(({ layout }) =>
-    layout.layout?.locations?.map(item => item.markerId)
-  );
-
-  const routeTypeId = useTypedSelector(({ layout }) => layout.layout.routeType);
+  const locationsIdsForReorder = locations?.map(item => item.place_id);
+  const locationsMarkersIds = locations?.map(item => item.markerId);
+  const locationsLabelsPosition = locations?.map(item => item.labelPosition);
 
   const [viewState, setViewState] = useState({
     center: [0, 0],
@@ -128,12 +106,12 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       map.removeLayer(layerToRemove);
     }
 
-    const locationsDropdown = currentPosterLocations
+    const locationsDropdown = locations
       .map(el => {
-        return el.center;
+        return el.geometry.coordinates;
       })
       .map((point, index, source) => {
-        const offset = 0.2;
+        const offset = 0.0015;
 
         if (index < source.length - 1) {
           let route = turf.toWgs84({
@@ -218,8 +196,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   const handleRenderMarkers = () => {
     handleRemoveMarkers();
 
-    console.log("RENDER MARKERS");
-
     const layerToRemove = map
       .getLayers()
       .getArray()
@@ -238,8 +214,8 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
 
     map.addLayer(vectorLayer);
 
-    currentPosterLocations.forEach(coordinate => {
-      const point = new Point(fromLonLat(coordinate.center));
+    locations.forEach(coordinate => {
+      const point = new Point(fromLonLat(coordinate.geometry.coordinates));
 
       const svgData = mapMarkers(render, elementsColor)[coordinate.markerId]
         .icon;
@@ -258,24 +234,94 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       });
 
       if (renderLabels) {
-        const size = render
-          ? "150px Verdana,Courier,Helvetica,Arial,sans-serif"
-          : "12px Verdana,Courier,Helvetica,Arial,sans-serif";
-        const paddings = render ? [60, 60, 60, 90] : [7, 7, 7, 10];
-        const offset = render ? -280 : -30;
+        const labelPosition = coordinate.labelPosition;
+        const fontSize = render ? 12 * RENDER_SCALE_RENDER_PAGE : 12;
+        const fontSettings = `${fontSize}px Verdana,Courier,Helvetica,Arial,sans-serif`;
+        const basisPadding = render ? 5 * RENDER_SCALE_RENDER_PAGE : 5;
+        const paddings = [
+          basisPadding,
+          basisPadding * 2,
+          basisPadding,
+          basisPadding * 2,
+        ];
+        let offsetY;
+        let offsetX;
+        const MIN_GAP = 10;
+        const LABEL_BORDER_WIDTH = render ? 1 * RENDER_SCALE_RENDER_PAGE : 1;
+        const markerSize = render
+          ? basisMarkerSize * RENDER_SCALE_RENDER_PAGE
+          : basisMarkerSize;
+
+        const tempElement = document.createElement("span");
+        tempElement.style.font = fontSettings;
+        tempElement.style.padding = `${paddings[0]}px ${paddings[1]}px ${paddings[2]}px ${paddings[3]}px`;
+
+        tempElement.textContent = coordinate.value.split(",").length
+          ? coordinate.value.split(",")[0]
+          : coordinate.value;
+
+        document.body.appendChild(tempElement);
+        const labelWidth = tempElement.offsetWidth;
+        const labelHeight = tempElement.offsetHeight;
+        document.body.removeChild(tempElement);
+
+        // const positionX = -labelWidth / 2 + basisMarkerSize / 2;
+        // const positionX = render
+        //   ? basisMarkerSize * RENDER_SCALE_RENDER_PAGE * 1.5
+        //   : basisMarkerSize * 1.5;
+        // const positionLeft = render
+        //   ? -basisMarkerSize * RENDER_SCALE_RENDER_PAGE * 1.5
+        //   : -basisMarkerSize * 1.5;
+        // const positionRight = render
+        //   ? (labelWidth / basisMarkerSize) * RENDER_SCALE_RENDER_PAGE * 1.5
+        //   : basisMarkerSize + basisMarkerSize * 1.5;
+
+        switch (labelPosition) {
+          case "top":
+            offsetY = -labelHeight - markerSize / 2 + paddings[0];
+            break;
+          case "left":
+            offsetX = -labelWidth / 2 - markerSize / 2 - paddings[3];
+            offsetY = 0;
+            break;
+          case "right":
+            offsetX = labelWidth / 2 + markerSize / 2 + paddings[1];
+            offsetY = 0;
+            break;
+          case "bottom":
+            offsetX = 0;
+            offsetY = labelHeight + markerSize / 2 - paddings[2];
+            break;
+        }
+
+        const labelLocalStyle =
+          labelsStyle == "fill"
+            ? {
+                backgroundFill: new Fill({
+                  color: elementsColor,
+                }),
+              }
+            : {
+                backgroundFill: new Fill({
+                  color: "transparent",
+                }),
+                backgroundStroke: new Stroke({
+                  color: elementsColor,
+                  width: LABEL_BORDER_WIDTH,
+                }),
+              };
 
         const label = new Text({
           text: coordinate.value.split(",").length
             ? coordinate.value.split(",")[0]
-            : coordinate.value, // Текст метки
-          offsetY: offset, // Смещение метки вверх относительно маркера
-          font: size, // Шрифт и размер текста
+            : coordinate.value,
+          offsetY: offsetY,
+          offsetX: offsetX,
+          font: fontSettings,
           fill: new Fill({
-            color: labelsTextColor, // Цвет текста
+            color: labelsTextColor,
           }),
-          backgroundFill: new Fill({
-            color: elementsColor, // Цвет фона текста (белый с непрозрачностью 0.8)
-          }),
+          ...labelLocalStyle,
           padding: paddings,
         });
 
@@ -291,7 +337,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
 
   const alignMapForOneLocation = () => {
     const center = transformExtent(
-      currentPosterLocations[0]?.bbox ?? [0, 0, 0, 0],
+      locations[0]?.bbox ?? [0, 0, 0, 0],
       "EPSG:4326",
       "EPSG:3857"
     );
@@ -304,7 +350,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   const alignMapForAllMarkers = () => {
     const vectorSource = new VectorSource();
 
-    currentPosterLocations.forEach(coordinate => {
+    locations.forEach(coordinate => {
       const point = new Point(fromLonLat(coordinate.center));
 
       const marker = new Feature({
@@ -344,15 +390,14 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   };
 
   const handleGetWalkingOrDrivingRoutes = async locations => {
-    for (let i = 0; i < locations.length - 1; i++) {
-      let start = locations[i];
-      let end = locations[i + 1];
-      await handleGetWalkingOrDrivingRoute(start, end);
-    }
-  };
+    const coordinates = locations.reduce(
+      (accString, location) => `${accString}${location.lng},${location.lat};`,
+      ""
+    );
+    const coordinatesFetchValues = coordinates.slice(0, coordinates.length - 1);
 
-  const handleGetWalkingOrDrivingRoute = async (start, end) => {
-    var url = `https://api.mapbox.com/directions/v5/mapbox/${ROUTE_TYPES[routeTypeId]}/${start.lng},${start.lat};${end.lng},${end.lat}?steps=true&geometries=geojson&overview=full&access_token=${process.env.MAPBOX_TOKEN}`;
+    var url =
+      await `https://api.mapbox.com/directions/v5/mapbox/${ROUTE_TYPES[routeType].name}/${coordinatesFetchValues}?steps=false&geometries=geojson&overview=full&access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`;
 
     await fetch(url)
       .then(response => response.json())
@@ -364,11 +409,24 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
           return toast.warning(data.message);
         }
 
-        var coordinates = data.routes[0].geometry.coordinates;
+        const coordinates = data.routes[0].geometry.coordinates;
+        const lineString = new LineString(coordinates.map(s => fromLonLat(s)));
+        const distance = data.routes.reduce(
+          (acc, route) => acc + route.distance,
+          0
+        );
 
-        var lineString = new LineString(coordinates.map(s => fromLonLat(s)));
+        const formattedDistance = (distance / 1000).toLocaleString("ru-RU", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        });
 
-        var lineFeature = new Feature({
+        const distanceTitle =
+          distance <= 1000
+            ? `${distance.toFixed(0)} Meters`
+            : `${formattedDistance} km`;
+
+        const lineFeature = new Feature({
           geometry: lineString,
         });
 
@@ -390,6 +448,12 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         );
 
         setGeo(prevState => [...prevState, lineFeature]);
+        dispatch(
+          handleChangeLables({
+            label: "tagline",
+            value: distanceTitle,
+          })
+        );
       })
       .catch(err => {
         console.log("err,", err);
@@ -410,11 +474,16 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   };
 
   useEffect(() => {
-    if (map && renderMarkers && locationsMarkers.length > 0) {
+    if (map && renderMarkers && locationsMarkersIds.length > 0) {
       handleRemoveMarkers();
       handleRenderMarkers();
     }
-  }, [JSON.stringify(locationsMarkers), map]);
+  }, [
+    JSON.stringify(locationsMarkersIds),
+    JSON.stringify(locationsLabelsPosition),
+    labelsStyle,
+    map,
+  ]);
 
   useEffect(() => {
     if (geometries.length && map) {
@@ -450,11 +519,9 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   // FOR CHANGE COLORS OF MARKERS AND LABELS
   useEffect(() => {
     if (map) {
-      console.log(" ROUTE_TYPES[routeTypeId]", ROUTE_TYPES[routeTypeId]);
-
       if (
-        ROUTE_TYPES[routeTypeId] !== "walking" &&
-        ROUTE_TYPES[routeTypeId] !== "driving"
+        ROUTE_TYPES[routeType].name !== "walking" &&
+        ROUTE_TYPES[routeType].name !== "driving"
       ) {
         if (connectLocations) {
           handleRemoveRouteLine();
@@ -503,15 +570,17 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   }, [elementsColor, map, labelsTextColor]);
 
   useEffect(() => {
+    console.log("TRIGGER");
+
     if (map) {
       if (connectLocations) {
         if (
-          ROUTE_TYPES[routeTypeId] == "walking" ||
-          ROUTE_TYPES[routeTypeId] == "driving"
+          ROUTE_TYPES[routeType].name == "walking" ||
+          ROUTE_TYPES[routeType].name == "driving"
         ) {
           handleRemoveCustomLineForWalkingOrDriving();
           handleRemoveRouteLine();
-          handleGetWalkingOrDrivingRoutes(currentPosterLocations);
+          handleGetWalkingOrDrivingRoutes(locations);
         } else {
           handleRemoveCustomLineForWalkingOrDriving();
           handleRemoveRouteLine();
@@ -522,7 +591,14 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         handleRemoveCustomLineForWalkingOrDriving();
       }
     }
-  }, [routeTypeId, map, connectLocations, currentPosterLocations.length]);
+  }, [
+    routeType,
+    map,
+    connectLocations,
+    JSON.stringify(locationsIdsForReorder),
+  ]);
+
+  // JSON.stringify(locations)
 
   // FOR CENTER MAP AFTER UPDATE LOCATIONS LENGTH
   useEffect(() => {
@@ -530,39 +606,21 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       // getRoute(locations[0], locations[1]);
       // TODO align and clear custom coordinates
 
-      if (currentPosterLocations.length == 1 && isEmpty(customCoordinates)) {
+      if (locations.length == 1 && isEmpty(customCoordinates)) {
         handleRemoveCustomLineForWalkingOrDriving();
         alignMapForOneLocation();
       }
 
       // TODO align and clear custom coordinates
-      if (currentPosterLocations.length >= 2 && isEmpty(customCoordinates)) {
+      if (locations.length >= 2 && isEmpty(customCoordinates)) {
         alignMapForAllMarkers();
       }
     }
-  }, [map, currentPosterLocations.length]);
-
-  // useEffect(() => {
-  //   if (map) {
-  //     dispatch(handleSaveCustomCoordinatesForMap({}));
-
-  //     if (currentPosterLocations.length == 1 && isEmpty(customCoordinates)) {
-  //       alignMapForOneLocation();
-  //     }
-
-  //     if (currentPosterLocations.length >= 2 && isEmpty(customCoordinates)) {
-  //       alignMapForAllMarkers();
-  //     }
-  //   }
-  // }, [map, posterAttributes.size.id]);
+  }, [map, locations.length]);
 
   // RENDER MARKERS OR ROUTE LINE
   useEffect(() => {
     if (map) {
-      // if (connectLocations) {
-      //   handleAddAirplaneRoute();
-      // }
-
       if (renderLabels || renderMarkers) {
         handleRenderMarkers();
       }
@@ -571,22 +629,12 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         handleRemoveMarkers();
       }
 
-      // if (!connectLocations) {
-      //   handleRemoveRouteLine();
-      // }
-
-      if (currentPosterLocations.length == 0) {
+      if (locations.length == 0) {
         handleRemoveRouteLine();
-        handleRemoveMarkers();
+        // handleRemoveMarkers();
       }
     }
-  }, [
-    map,
-    renderMarkers,
-    currentPosterLocations.length,
-    connectLocations,
-    renderLabels,
-  ]);
+  }, [map, renderMarkers, locations.length, connectLocations, renderLabels]);
 
   // INIT MAP
   useEffect(() => {
@@ -596,7 +644,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
 
     if (customCoordinates && customCoordinates?.bounds?.length) {
       savedBounds = transformExtent(
-        [...customCoordinates?.bounds[0], ...customCoordinates?.bounds[1]],
+        [...customCoordinates.bounds],
         "EPSG:4326",
         "EPSG:3857"
       );

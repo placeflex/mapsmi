@@ -9,21 +9,21 @@ import { LayoutPreviewWrapper } from "@/components/LayoutPreviewWrapper";
 import { Button } from "@/components/Button";
 
 // layout ui
-import { LayoutContent } from "@/layouts/LayoutContent";
+import { WallartContent } from "@/layouts/WallartContent";
 import { SkyMap } from "@/layouts/SkyMap";
 import { MapContainer } from "@/layouts/Map/";
 import { Zodiac } from "@/layouts/Zodiac";
 
 // lineart settings ( panel )
-import { lineArtIconsList } from "@/layouts/LayoutSettings/lineArtIconsList";
-import { zodiacIconsList } from "@/layouts/LayoutSettings/zodiacIconsList";
-import { basicColors } from "@/layouts/LayoutSettings/colorsList";
-import { masks } from "@/layouts/LayoutSettings/skyMapMasks";
+import { lineArtIcons } from "@/layouts/wallartSettings/lineArtIcons";
+import { zodiacIcons } from "@/layouts/wallartSettings/zodiacIcons";
+import { basicColors } from "@/layouts/wallartSettings/colorsList";
+import { masks } from "@/layouts/wallartSettings/skyMapMasks";
 import {
   basicLayoutStyles,
   mapLayoutStyles,
   skyMapLayoutStyles,
-} from "@/layouts/LayoutSettings/artworkStylesList";
+} from "@/layouts/wallartSettings/wallartStyles";
 import {
   sizes,
   orientations,
@@ -31,9 +31,9 @@ import {
   frames,
   MATERIAL_PRICES,
   FRAMES_PRICES,
-} from "@/layouts/LayoutAttributes";
-import { fontsList } from "@/layouts/LayoutSettings/layoutFonts";
-import { mapColors } from "@/layouts/LayoutSettings/mapColors";
+} from "@/layouts/wallartAttributes";
+import { fontsList } from "@/layouts/wallartSettings/wallartFonts";
+import { mapColors } from "@/layouts/wallartSettings/mapColors";
 
 // panels
 import { SkyMapPanelContent } from "@/modules/LayoutPanels/SkyMapPanelContent";
@@ -53,11 +53,6 @@ import {
   handleChangeFrame,
 } from "@/redux/layout";
 
-import {
-  handleAddToPopularProjects,
-  handleDeletePopularProject,
-} from "@/redux/popular-wallarts";
-
 // types
 import { UserFieldsProps, handleSaveProject } from "@/redux/user";
 
@@ -65,7 +60,7 @@ import { UserFieldsProps, handleSaveProject } from "@/redux/user";
 import {
   RENDER_SCALE_EDITOR_PAGE,
   RENDER_SCALE_RENDER_PAGE,
-} from "@/constants/defaultLayoutSettings";
+} from "@/layouts/wallartSettings/defaultWallartSettings";
 
 // styles
 import "@/modules/LayoutPanels/editor.scss";
@@ -80,7 +75,7 @@ export default function Editor() {
   const dispatch: AppDispatch = useDispatch();
 
   const handleSelectFigure = async (id: number) => {
-    const figure = lineArtIconsList.find(icon => icon.id === id);
+    const figure = lineArtIcons.find(icon => icon.id === id);
     dispatch(
       handleChangeStyles({
         style: "artwork",
@@ -90,7 +85,7 @@ export default function Editor() {
   };
 
   const handleSelectZodiacFigure = async (id: number) => {
-    const figure = zodiacIconsList.find(icon => icon.id === id);
+    const figure = zodiacIcons.find(icon => icon.id === id);
     dispatch(
       handleChangeStyles({
         style: "artwork",
@@ -240,12 +235,12 @@ export default function Editor() {
 
   const editorUI = {
     0: (
-      <LayoutContent
+      <WallartContent
         layoutStyle={
           basicLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
             ?.applyName
         }
-        figure={lineArtIconsList[Number(layout.poster?.styles?.artwork)]?.icon}
+        figure={lineArtIcons[Number(layout.poster?.styles?.artwork)]?.icon}
         styles={styles}
         texts={{
           heading: layout.poster?.labels?.heading,
@@ -265,7 +260,7 @@ export default function Editor() {
       />
     ),
     1: (
-      <LayoutContent
+      <WallartContent
         layoutStyle={
           skyMapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
             ?.applyName
@@ -294,7 +289,7 @@ export default function Editor() {
       />
     ),
     2: (
-      <LayoutContent
+      <WallartContent
         layoutStyle={
           mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
         }
@@ -319,7 +314,7 @@ export default function Editor() {
       />
     ),
     3: (
-      <LayoutContent
+      <WallartContent
         layoutStyle={
           skyMapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
             ?.applyName

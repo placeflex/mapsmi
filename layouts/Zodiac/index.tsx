@@ -1,9 +1,9 @@
 // icons
 // masks
-import { maskOverlays, masks } from "@/layouts/LayoutSettings/skyMapMasks";
+import { maskOverlays, masks } from "@/layouts/wallartSettings/skyMapMasks";
 import SkyForZodiacPoster from "@/public/zodiacs/sky.svg";
 
-import { zodiacIconsList } from "@/layouts/LayoutSettings/zodiacIconsList";
+import { zodiacIcons } from "@/layouts/wallartSettings/zodiacIcons";
 
 import { useTypedSelector, AppDispatch } from "@/redux/store";
 
@@ -18,20 +18,20 @@ export const Zodiac = () => {
   return (
     <div className="h-full w-full relative">
       <div className="zodiac-wrp h-full flex flex-col items-center justify-center">
+        {posterStyles.isOverlay && (
+          <div className="mask">
+            {maskOverlays[posterStyles?.overlayId]?.figure}
+          </div>
+        )}
         <div className="zodiac-bg flex items-center justify-center rounded-full relative">
-          {posterStyles.isOverlay && (
-            <div className="mask">
-              {maskOverlays[posterStyles?.overlayId]?.figure}
-            </div>
-          )}
           <SkyForZodiacPoster />
           <div className="zodiac-figure">
-            {zodiacIconsList[Number(layout.poster?.styles?.artwork)]?.figure}
+            {zodiacIcons[Number(layout.poster?.styles?.artwork)]?.figure}
           </div>
         </div>
       </div>
       <div className="zodiac-icon">
-        {zodiacIconsList[Number(layout.poster?.styles?.artwork)]?.icon}
+        {zodiacIcons[Number(layout.poster?.styles?.artwork)]?.icon}
       </div>
     </div>
   );

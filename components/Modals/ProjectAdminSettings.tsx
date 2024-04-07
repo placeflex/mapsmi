@@ -15,8 +15,7 @@ import {
 } from "@/redux/popular-wallarts";
 import { setWallartAdminSettings } from "@/redux/layout";
 
-// helpers
-import { toast } from "react-toastify";
+import { MATERIAL_PRICES, FRAMES_PRICES } from "@/layouts/wallartAttributes";
 
 const design_category = [
   { label: "Family", value: "family" },
@@ -33,6 +32,7 @@ const design_category = [
 ];
 
 const cities = [
+  { label: "Ukraine Posters", value: "ukraine_posters" },
   { label: "Kiev Posters", value: "kiev_posters" },
   { label: "Lviv Posters", value: "lviv_posters" },
   { label: "Amsterdam Posters", value: "amsterdam_posters" },
@@ -133,18 +133,33 @@ export const ProjectAdminSettings = () => {
   const { product_id, id, from } = router.query;
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
+  const price =
+    layout?.selectedAttributes?.frame?.id !== 0
+      ? MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
+          layout.selectedAttributes.size.id
+        ].price + FRAMES_PRICES[layout?.selectedAttributes?.frame?.id]?.price
+      : MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
+          layout.selectedAttributes.size.id
+        ].price;
+
   const handleAddPupularProject = () => {
-    dispatch(handleAddToPopularProjects({ id: product_id }));
+    dispatch(handleAddToPopularProjects({ id: product_id, price }));
   };
 
   const handleDeleteFromPupularProject = () => {
-    dispatch(handleDeletePopularProject({ id: product_id }));
+    const callback = () => {
+      const { from, ...query } = router.query;
+
+      router.push({
+        query: query,
+      });
+    };
+    dispatch(
+      handleDeletePopularProject({ id: product_id, callback: callback })
+    );
   };
 
   const handleSetWallartAdminSettings = (field, value) => {
-    console.log("field", field);
-    console.log("value", value);
-
     dispatch(setWallartAdminSettings({ field: field, value: value }));
   };
 

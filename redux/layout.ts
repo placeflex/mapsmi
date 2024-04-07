@@ -6,12 +6,10 @@ import { LayoutSettings } from "@/types/layoutTypes";
 import { storagePoster } from "@/helpers/storageData";
 import { productsVariations } from "@/constants/constants";
 import {
-  defaultLayoutSettings,
+  defaultWallartSettings,
   defaultZodiacArtSettings,
   defaultSkyMapLayoutSettings,
-} from "@/constants/defaultLayoutSettings";
-
-import { MATERIAL_PRICES, FRAMES_PRICES } from "@/layouts/LayoutAttributes";
+} from "@/layouts/wallartSettings/defaultWallartSettings";
 
 // helpers
 import { toast } from "react-toastify";
@@ -47,7 +45,7 @@ const layout = createSlice({
               ? defaultSkyMapLayoutSettings
               : action.payload == 3
               ? defaultZodiacArtSettings
-              : defaultLayoutSettings;
+              : defaultWallartSettings;
 
           state.layout = {
             ...defaultSettings,
@@ -63,18 +61,9 @@ const layout = createSlice({
     },
 
     setWallartAdminSettings(state, action) {
-      const price =
-        state.layout?.selectedAttributes?.frame?.id !== 0
-          ? MATERIAL_PRICES[state.layout?.selectedAttributes?.material?.id]
-              ?.prices[state.layout.selectedAttributes.size.id].price +
-            FRAMES_PRICES[state.layout?.selectedAttributes?.frame?.id]?.price
-          : MATERIAL_PRICES[state.layout?.selectedAttributes?.material?.id]
-              ?.prices[state.layout.selectedAttributes.size.id].price;
-
       state.layout = {
         ...state.layout,
         [action.payload.field]: action.payload.value,
-        price: price,
       };
 
       storagePoster({
@@ -193,9 +182,9 @@ const layout = createSlice({
       if (currentLocations.length == 1) {
         state.layout = {
           ...state.layout,
-          renderMarkers: false,
+          // renderMarkers: false,
           connectLocations: false,
-          renderLabels: false,
+          // renderLabels: false,
           locations: currentLocations,
           customCoordinates: {},
         };
@@ -308,6 +297,24 @@ const layout = createSlice({
       });
     },
 
+    handleStylesController(state, action) {
+      state.layout = {
+        ...state.layout,
+        poster: {
+          ...state.layout.poster,
+          styles: {
+            ...state.layout.poster.styles,
+            [action.payload.field]: action.payload.value,
+          },
+        },
+      };
+
+      storagePoster({
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
     handleChangeAttributes(state, action) {
       state.layout = {
         ...state.layout,
@@ -376,24 +383,6 @@ const layout = createSlice({
       });
     },
 
-    handleStylesController(state, action) {
-      state.layout = {
-        ...state.layout,
-        poster: {
-          ...state.layout.poster,
-          styles: {
-            ...state.layout.poster.styles,
-            [action.payload.field]: action.payload.value,
-          },
-        },
-      };
-
-      storagePoster({
-        layout: state.layout,
-        productId: state.layout.productId,
-      });
-    },
-
     handleSaveCustomCoordinatesForMap(state, action) {
       state.layout = {
         ...state.layout,
@@ -426,9 +415,19 @@ const layout = createSlice({
       });
     },
 
-    handleApplyMarkerForLocation(state, action) {
-      console.log("action", action.payload);
+    handleChangeLabelsStyle(state, action) {
+      state.layout = {
+        ...state.layout,
+        labelsStyle: action.payload,
+      };
 
+      storagePoster({
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
+
+    handleApplyMarkerForLocation(state, action) {
       state.layout = {
         ...state.layout,
         locations: state.layout.locations.map(location => {
@@ -448,6 +447,27 @@ const layout = createSlice({
         productId: state.layout.productId,
       });
     },
+
+    handleChangeLabelPosition(state, action) {
+      state.layout = {
+        ...state.layout,
+        locations: state.layout.locations.map(location => {
+          if (location.place_id === action.payload.place_id) {
+            return {
+              ...location,
+              labelPosition: action.payload.labelPosition,
+            };
+          }
+
+          return location;
+        }),
+      };
+
+      storagePoster({
+        layout: state.layout,
+        productId: state.layout.productId,
+      });
+    },
   },
 });
 
@@ -455,6 +475,7 @@ export const {
   initLayoutForRenderPage,
   initLayout,
   handleChangeStyles,
+  handleChangeLabelsStyle,
   handleChangeAttributes,
   handleChangeLables,
   setProductId,
@@ -476,6 +497,7 @@ export const {
   setWallartAdminSettings,
   handleChangeRouteTypeForStreetMap,
   handleApplyMarkerForLocation,
+  handleChangeLabelPosition,
 } = layout.actions;
 
 export default layout.reducer;
