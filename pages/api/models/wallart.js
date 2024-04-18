@@ -27,6 +27,11 @@ const wallartScheme = new Schema({
     required: true,
     default: "",
   },
+  fileId: {
+    type: String,
+    required: true,
+    default: "",
+  },
   productId: {
     type: Number,
     required: true,

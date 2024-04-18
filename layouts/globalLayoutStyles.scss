@@ -688,7 +688,7 @@ $frameWidth: var(--frame-scale);
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        gap: 0.5em;
+        gap: 0.8em;
         padding: 2em;
         background: transparent;
 
@@ -707,7 +707,7 @@ $frameWidth: var(--frame-scale);
           justify-content: flex-end;
           width: 48%;
           text-align: right;
-          gap: 0.4em;
+          gap: 0.7em;
         }
 
         span,
@@ -715,6 +715,11 @@ $frameWidth: var(--frame-scale);
         h2 {
           display: block;
           font-size: 1.7em;
+        }
+
+        h3 {
+          font-size: 1em;
+          opacity: 0.5;
         }
       }
     }
@@ -1283,4 +1288,13 @@ $frameWidth: var(--frame-scale);
   //     top: 70%;
   //   }
   // }
+}
+
+.cart-screen {
+  height: 100vh;
+  width: 100vw;
+
+  & > .render {
+    height: 100vh;
+  }
 }

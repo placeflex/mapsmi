@@ -324,25 +324,25 @@ const layout = createSlice({
         },
       };
 
-      if (action.payload.attr === "size") {
-        state.layout = {
-          ...state.layout,
-          price:
-            state.layout.selectedAttributes.material.sizes[
-              action.payload.value.id
-            ].price + state.layout.selectedAttributes.frame.price,
-        };
-      }
+      // if (action.payload.attr === "size") {
+      //   state.layout = {
+      //     ...state.layout,
+      //     price:
+      //       state.layout.selectedAttributes.material.sizes[
+      //         action.payload.value.id
+      //       ].price + state.layout.selectedAttributes.frame.price,
+      //   };
+      // }
 
-      if (action.payload.attr === "material") {
-        state.layout = {
-          ...state.layout,
-          price:
-            state.layout.selectedAttributes.material.sizes[
-              state.layout.selectedAttributes.size.id
-            ].price + state.layout.selectedAttributes.frame.price,
-        };
-      }
+      // if (action.payload.attr === "material") {
+      //   state.layout = {
+      //     ...state.layout,
+      //     price:
+      //       state.layout.selectedAttributes.material.sizes[
+      //         state.layout.selectedAttributes.size.id
+      //       ].price + state.layout.selectedAttributes.frame.price,
+      //   };
+      // }
 
       storagePoster({
         layout: state.layout,
@@ -405,8 +405,8 @@ const layout = createSlice({
           frame: action.payload,
         },
 
-        price:
-          state.layout.selectedAttributes.size.price + action.payload.price,
+        // price:
+        //   state.layout.selectedAttributes.size.price + action.payload.price,
       };
 
       storagePoster({

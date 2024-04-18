@@ -29,7 +29,7 @@ const popularWallarts = createSlice({
         };
 
         const request = api
-          .post("/popular-wallarts", JSON.parse(project))
+          .post("/popular-wallarts", createProject)
           .then((data: any) => {
             toast.success(data.message);
           })
@@ -62,7 +62,33 @@ const popularWallarts = createSlice({
 
         toast.promise(request, {
           pending:
-            "Project is adding to popular projects! Please wait few seconds.",
+            "Project is deleting from popular projects! Please wait few seconds.",
+        });
+      }
+    },
+
+    handleUpdatePopularProject(state, action) {
+      const project = localStorage.getItem(
+        productsVariations[action.payload.id]
+      );
+
+      if (project) {
+        const updateProject = {
+          ...JSON.parse(project),
+          price: action.payload.price,
+        };
+
+        const request = api
+          .patch("/popular-wallarts", updateProject)
+          .then((data: any) => {
+            toast.success(data.message);
+          })
+          .catch(({ response }) => {
+            toast.error(response.data.error);
+          });
+
+        toast.promise(request, {
+          pending: "Project is updating ! Please wait few seconds.",
         });
       }
     },
@@ -77,6 +103,7 @@ export const {
   handleAddToPopularProjects,
   handleGetPopularProjects,
   handleDeletePopularProject,
+  handleUpdatePopularProject,
 } = popularWallarts.actions;
 
 export default popularWallarts.reducer;

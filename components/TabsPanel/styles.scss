@@ -6,7 +6,8 @@
 
   .ant-tabs-nav {
     &::before {
-      border-color: var(--cream);
+      display: none;
+      // border-color: var(--button);
     }
   }
 
@@ -14,10 +15,10 @@
     flex-grow: 1 !important;
     justify-content: center;
     margin: 0 !important;
-    color: var(--cream);
+    color: var(--secondaryBg);
 
     &:hover {
-      color: var(--cream);
+      color: var(--secondButton);
     }
 
     &.ant-tabs-tab-active {
@@ -37,8 +38,8 @@
     display: flex;
     gap: 5px;
 
-    * {
-      font-size: 0.6rem;
-    }
+    // * {
+    //   font-size: 0.6rem;
+    // }
   }
 }

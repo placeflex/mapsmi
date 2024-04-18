@@ -16,6 +16,13 @@ import { handleGetPopularProjects } from "@/redux/popular-wallarts";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
 import { storagePoster } from "@/helpers/storageData";
 
+import {
+  initLayout,
+  handleChangeStyles,
+  handleChangeAttributes,
+  handleChangeFrame,
+} from "@/redux/layout";
+
 // components
 import { Layout } from "@/components/Layout/";
 
@@ -69,7 +76,6 @@ export default function PopularWallarts() {
           <div className="flex flex-wrap mx-[-1rem]">
             {wallarts?.map(
               ({
-                path,
                 type,
                 updatedAt,
                 createdAt,
@@ -81,55 +87,52 @@ export default function PopularWallarts() {
                 return (
                   <div
                     key={props.id}
-                    className="w-[calc(100%/4-4rem)] m-[2rem] aspect-square"
+                    className="w-[calc(100%/4-4rem)] h-[50rem] m-[2rem]"
                   >
                     <div
                       key={props.id}
-                      className="flex jusify-center w-full relative cursor-pointer h-full"
+                      className="flex flex-col jusify-center items-center w-full relative cursor-pointer h-full"
                       onClick={() => {
+                        localStorage.removeItem("map-storage");
                         storagePoster({
                           productId: props.productId,
                           layout: props,
                         });
-
-                        // TODO: TIMEOUT BECAUSE NEED TIME FOR APPLY DATA IN LOCAL STORAGE
-                        setTimeout(() => {
-                          router.push({
-                            pathname: "/editor",
-                            query: {
-                              product_id: props.productId,
-                              from: "pupular-wallarts",
-                            },
-                          });
-                        }, 100);
+                        dispatch(initLayout(props.productId));
+                        router.push({
+                          pathname: "/editor",
+                          query: {
+                            product_id: props.productId,
+                            from: "pupular-wallarts",
+                            fields: JSON.stringify(props),
+                          },
+                        });
                       }}
                     >
-                      <div className="relative h-full w-full">
+                      <div className="relative grow w-full">
                         <Image
-                          src={path}
+                          src={props.path}
                           alt={props.name}
                           objectFit="contain"
                           quality={50}
                           layout="fill"
-                          // priority={true}
-                          // width={400}
-                          // height={400}
                         />
                       </div>
-                    </div>
 
-                    <div className="py-[2rem] px-[2rem]">
-                      <h2 className="capitalize text-center mx-auto text-caption w-[100%] truncate">
-                        {props.name}
-                      </h2>
-                      {price && (
-                        <h2 className="text-center mx-auto text-captionSmall w-[50%] mt-[1rem] truncate">
-                          As Designed{" "}
-                          <span className="font-bold text-blueGrey">
-                            {price} UAH
-                          </span>
+                      <div className="mt-[2rem] px-[2rem] w-full">
+                        <h2 className="capitalize text-center mx-auto text-caption w-[100%] truncate">
+                          {props.name}
                         </h2>
-                      )}
+
+                        {price && (
+                          <h2 className="text-center mx-auto text-captionSmall mt-[1rem] text-nowrap">
+                            As Designed{" "}
+                            <span className="font-bold text-blueGrey">
+                              {price} UAH
+                            </span>
+                          </h2>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );

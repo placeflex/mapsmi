@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import classNames from "classnames";
@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { Layout as PageLayout } from "@/components/Layout";
 import { LayoutPreviewWrapper } from "@/components/LayoutPreviewWrapper";
 import { Button } from "@/components/Button";
+import { toast } from "react-toastify";
 
 // layout ui
 import { WallartContent } from "@/layouts/WallartContent";
@@ -45,6 +46,7 @@ import { ZodiacPanelContent } from "@/modules/LayoutPanels/ZodiacPanelContent";
 import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
 import { handleShowProjectSettingsModal } from "@/redux/modals";
+import { handleGetCart } from "@/redux/cart";
 
 import {
   initLayout,
@@ -61,13 +63,36 @@ import {
   RENDER_SCALE_EDITOR_PAGE,
   RENDER_SCALE_RENDER_PAGE,
 } from "@/layouts/wallartSettings/defaultWallartSettings";
+import { productsVariations } from "@/constants/constants";
+
+// helpers
+import {
+  updateUserCartStorage,
+  storagePoster,
+  updateCartItem,
+  saveCartStorage,
+  getCartStorage,
+} from "@/helpers/storageData";
+import { debounce, isEqual, isEmpty, omit } from "lodash";
+export const debouncedApply = debounce(callback => {
+  callback();
+}, 500);
 
 // styles
 import "@/modules/LayoutPanels/editor.scss";
 
+// test
+import { api } from "@/axios";
+
 export default function Editor() {
   const router = useRouter();
-  const { product_id, id, from } = router.query;
+  const {
+    product_id,
+    id,
+    from,
+    fields,
+    renderScreenForCart = false,
+  } = router.query;
   const FRAME_SCALE = `${1 * 1.5}vmin`;
   const isAdmin = useTypedSelector(({ user }) => user.isAdmin);
   const layout = useTypedSelector(({ layout }) => layout?.layout);
@@ -176,25 +201,152 @@ export default function Editor() {
     dispatch(handleChangeFrame(currentFrame));
   };
 
-  const handleUPDATEACCOUNT = () => {
-    dispatch(handleSaveProject({ id: product_id }));
-    // try {
-    //   if (id) {
-    //     dispatch(handleUpdateProject({ id: product_id }));
-    //   } else {
-    //     dispatch(handleSaveProject({ id: product_id }));
-    //   }
-    // } catch {
-    //   console.log("SOMETHING WRONG");
-    // }
+  const handleAddToCart = async () => {
+    const storage = localStorage.getItem("cart-storage");
+
+    if (storage) {
+      const cartData = JSON.parse(storage);
+
+      let existingItemIndex = -1;
+      for (let i = cartData.length - 1; i >= 0; i--) {
+        if (cartData[i].uuid === layout.uuid) {
+          existingItemIndex = i;
+          break;
+        }
+      }
+
+      const existingItem = cartData[existingItemIndex];
+
+      console.log("existingItemIndex", existingItemIndex);
+      console.log("existingItem", existingItem);
+
+      if (existingItemIndex !== -1 && !isEmpty(existingItem)) {
+        console.log("объект с таким же uuid уже есть в массиве");
+
+        const { path, quantity, fileId, ...ex } = existingItem;
+        const { path: p, quantity: q, fileId: f, ...ls } = layout;
+
+        const isEqualExceptPathAndQuantity =
+          JSON.stringify(ex) == JSON.stringify(ls);
+        // const isEqualExceptPathAndQuantity = isEqual(
+        //   omit(existingItem, ["path", "quantity", "fileId"]),
+        //   omit(layout, ["path", "quantity", "fileId"])
+        // );
+
+        console.log(
+          "isEqualExceptPathAndQuantity",
+          isEqualExceptPathAndQuantity
+        );
+
+        if (!isEqualExceptPathAndQuantity) {
+          console.log("объект в корзине и  ОТЛИЧАЕТСЯ от добавляемого");
+
+          const rq = api
+            .post("cart", layout)
+            .then(async ({ data, message }: any) => {
+              cartData.push({ ...data, quantity: 1 });
+              await saveCartStorage(cartData);
+              dispatch(handleGetCart());
+
+              toast.success(message);
+            })
+            .catch(({ error }) => {});
+
+          toast.promise(rq, {
+            pending: "Cart is updating! Please wait few seconds.",
+          });
+        } else {
+          console.log("объект в корзине и не отличается от добавляемого");
+
+          cartData[existingItemIndex] = {
+            ...layout,
+            path: existingItem.path,
+            quantity: existingItem.quantity + 1,
+          };
+
+          await saveCartStorage(cartData);
+          dispatch(handleGetCart());
+
+          toast.success("Cart updated.");
+        }
+      } else {
+        console.log("объект с таким uuid нет в массиве, добавляем его");
+
+        const rq = api
+          .post("cart", layout)
+          .then(async ({ data, message }: any) => {
+            cartData.push({ ...data, quantity: 1 });
+            await saveCartStorage(cartData);
+            dispatch(handleGetCart());
+            toast.success(message);
+          })
+          .then(() => {})
+          .catch(({ error }) => {});
+
+        toast.promise(rq, {
+          pending: "Project is adding to cart! Please wait few seconds.",
+        });
+
+        // if (!layout.path && !layout.fileId) {
+        //   const rq = api
+        //     .post("cart", layout)
+        //     .then(async ({ data, message }: any) => {
+        //       cartData.push({ ...data, quantity: 1 });
+        //       await saveCartStorage(cartData);
+        //       dispatch(handleGetCart());
+        //       toast.success(message);
+        //     })
+        //     .then(() => {})
+        //     .catch(({ error }) => {});
+
+        //   toast.promise(rq, {
+        //     pending: "Project is adding to cart! Please wait few seconds.",
+        //   });
+        // } else {
+        //   cartData.push({ ...layout, quantity: 1 });
+        //   await saveCartStorage(cartData);
+        //   dispatch(handleGetCart());
+        // }
+      }
+    }
+  };
+
+  const handleAddWallartToCart = async () => {
+    handleAddToCart();
   };
 
   useEffect(() => {
     if (layout.productId == 1) {
       window.devicePixelRatio = 2;
     }
-    dispatch(initLayout(product_id));
+
+    if (product_id) {
+      if (fields) {
+        const productDataFromPupularWallarts = JSON.parse(fields as string);
+        storagePoster({
+          productId: product_id,
+          layout: productDataFromPupularWallarts,
+        });
+        dispatch(initLayout(product_id));
+      } else {
+        dispatch(initLayout(product_id));
+      }
+    }
   }, [product_id, from]);
+
+  useEffect(() => {
+    if (product_id && !renderScreenForCart) {
+      debouncedApply(() => {
+        router.push({
+          query: {
+            ...router.query,
+            product_id: layout.productId,
+            fields: JSON.stringify(layout),
+          },
+        });
+      });
+    }
+  }, [JSON.stringify(layout)]);
 
   const styles = {
     "--text-color":
@@ -309,7 +461,8 @@ export default function Editor() {
             )}`]: layout?.selectedAttributes?.size?.name,
           },
           layout?.selectedAttributes?.orientation?.name.toLowerCase(),
-          mapColors[Number(layout.poster?.styles?.color)]?.name
+          mapColors[Number(layout.poster?.styles?.color)]?.name,
+          renderScreenForCart && "render"
         )}
       />
     ),
@@ -403,54 +556,67 @@ export default function Editor() {
 
   return (
     <>
-      <PageLayout>
-        <div className="flex flex-row-reverse editor-wrapper">
+      {!renderScreenForCart && product_id ? (
+        <PageLayout>
+          <div className="flex flex-row-reverse editor-wrapper">
+            <LayoutPreviewWrapper
+              className={classNames(
+                fontsList[Number(layout.poster?.styles?.font)]?.font.variable
+              )}
+            >
+              {layout.productId == Number(product_id) &&
+                editorUI[layout.productId as keyof typeof editorUI]}
+            </LayoutPreviewWrapper>
+
+            <div className="flex flex-col  border-r-[.2rem]">
+              <div className="editor-panel min-w-[480px] max-w-[480px] w-full overflow-y-auto flex flex-col relative p-[2rem]">
+                <div className="h-full overflow-y-auto">
+                  {layout.productId == Number(product_id) &&
+                    panelUI[layout.productId as keyof typeof panelUI]}
+                </div>
+              </div>
+
+              <div className="mt-auto">
+                <Button
+                  className="w-full text-button relative h-[8rem] flex items-center justify-between uppercase"
+                  type="button"
+                  color="primary"
+                  onClick={handleAddWallartToCart}
+                >
+                  <span className="h-full flex items-center justify-center text-caption gap-[1rem]">
+                    <span className="line-through opacity-50">
+                      {RESULT_PRICE}$
+                    </span>
+                    <span className="font-bold">{RESULT_PRICE / 2}$</span>
+                  </span>
+                  <span className="font-bold text-bodySmall">Add To Cart</span>
+                </Button>
+
+                {isAdmin && (
+                  <Button
+                    className="w-full"
+                    type="button"
+                    onClick={() => dispatch(handleShowProjectSettingsModal())}
+                  >
+                    SETTINGS
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        </PageLayout>
+      ) : (
+        <div className="flex flex-row-reverse editor-wrapper render-cart-screen-wrapper">
           <LayoutPreviewWrapper
-            className={`${
+            className={classNames(
               fontsList[Number(layout.poster?.styles?.font)]?.font.variable
-            }`}
+            )}
           >
             {layout.productId == Number(product_id) &&
               editorUI[layout.productId as keyof typeof editorUI]}
           </LayoutPreviewWrapper>
-
-          <div className="flex flex-col  border-r-[.2rem]">
-            <div className="editor-panel min-w-[480px] max-w-[480px] w-full overflow-y-auto flex flex-col relative p-[2rem]">
-              <div className="h-full overflow-y-auto">
-                {layout.productId == Number(product_id) &&
-                  panelUI[layout.productId as keyof typeof panelUI]}
-              </div>
-            </div>
-
-            <div className="mt-auto">
-              <Button
-                classNames="w-full text-button relative h-[8rem] flex items-center justify-between uppercase"
-                type="button"
-                color="primary"
-                onClick={handleUPDATEACCOUNT}
-              >
-                <span className="h-full flex items-center justify-center text-caption gap-[1rem]">
-                  <span className="line-through opacity-50">
-                    {RESULT_PRICE}$
-                  </span>
-                  <span className="font-bold">{RESULT_PRICE / 2}$</span>
-                </span>
-                <span className="font-bold text-bodySmall">Add To Cart</span>
-              </Button>
-
-              {isAdmin && (
-                <Button
-                  classNames="w-full"
-                  type="button"
-                  onClick={() => dispatch(handleShowProjectSettingsModal())}
-                >
-                  SETTINGS
-                </Button>
-              )}
-            </div>
-          </div>
         </div>
-      </PageLayout>
+      )}
     </>
   );
 }

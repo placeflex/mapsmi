@@ -1,36 +1,24 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "ol/ol.css";
 import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
-import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
-import { fromLonLat, toLonLat, transformExtent } from "ol/proj";
-import VectorSource from "ol/source/Vector";
-import VectorLayer from "ol/layer/Vector";
-import { Icon, Style } from "ol/style";
-import Modify from "ol/interaction/Modify";
 
-import { debounce } from "lodash";
-import axios from "axios";
-const debouncedApply = debounce(callback => callback(), 1500);
+import { toLonLat, transformExtent } from "ol/proj";
+
+// helpers
+import { debouncedApply } from "@/helpers/helpers";
 
 import { useDispatch } from "react-redux";
 import { AppDispatch, useTypedSelector } from "@/redux/store";
-import {
-  setLocations,
-  setCurrentLocation,
-  handleSaveCustomCoordinatesForMap,
-  setCurrentLocationForSkyMap,
-} from "@/redux/layout";
+import { setLocations } from "@/redux/layout";
 
 import { AutoComplete } from "@/components/AutoComplete";
 
 import { api } from "@/axios";
 
 import Pin from "@/public/pin.svg";
-import { it } from "node:test";
 
 function formatBounds(bounds) {
   const { _ne, _sw } = bounds;

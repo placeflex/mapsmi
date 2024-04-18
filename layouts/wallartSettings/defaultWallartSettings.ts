@@ -62,7 +62,7 @@ export const defaultWallartSettings = {
   featured: [],
   cities: [],
   routeType: 0,
-  price: 0,
+  // price: 0,
   name: "",
 };
 

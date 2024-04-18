@@ -1,4 +1,5 @@
 import { Input as InputComponent } from "antd";
+import classNames from "classnames";
 
 interface InputProps {
   label?: string;
@@ -7,28 +8,65 @@ interface InputProps {
   maxlength?: number;
   value?: string;
   placeholder?: string;
+  labelClasses?: string;
+  inputClasses?: string;
+  required?: boolean;
+  type?: string;
 }
 
 export const Input = ({
   label = "",
+  labelClasses = "",
   className = "",
   placeholder,
+  required = false,
   ...props
 }: InputProps) => {
   return (
     <>
-      {label && (
-        <label htmlFor={label} className="block mb-2 text-caption">
-          {label}
-        </label>
-      )}
+      {label ? (
+        <label
+          htmlFor={label}
+          className={classNames(
+            "flex flex-col mb-2 text-caption",
+            labelClasses
+          )}
+        >
+          <span className="mb-[1rem]">
+            {label}{" "}
+            {required && (
+              <abbr
+                className="required text-error no-underline"
+                title="required"
+              >
+                *
+              </abbr>
+            )}
+          </span>
 
-      <InputComponent
-        placeholder={placeholder}
-        id={label}
-        className={`w-full rounded-none  font-sans h-[40px] ${className}`}
-        {...props}
-      />
+          <InputComponent
+            required={required}
+            placeholder={placeholder}
+            id={label}
+            className={classNames(
+              "w-full rounded-none  font-sans h-[40px]",
+              className
+            )}
+            {...props}
+          />
+        </label>
+      ) : (
+        <InputComponent
+          required={required}
+          placeholder={placeholder}
+          id={label}
+          className={classNames(
+            "w-full rounded-none  font-sans h-[40px]",
+            className
+          )}
+          {...props}
+        />
+      )}
     </>
   );
 };

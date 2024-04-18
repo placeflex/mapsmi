@@ -24,3 +24,7 @@ $frameWidth: var(--frame-scale);
     left: calc($frameWidth * -0.91) !important;
   }
 }
+
+.render-cart-screen-wrapper {
+  background: var(--bg);
+}

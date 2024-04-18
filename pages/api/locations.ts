@@ -47,8 +47,6 @@ export default async function handler(
       viewport.northeast.lat,
     ];
 
-    console.log("response", response);
-
     const locationResult = {
       lat: response.data.result.geometry.location.lat,
       lng: response.data.result.geometry.location.lng,

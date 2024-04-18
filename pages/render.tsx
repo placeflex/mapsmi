@@ -39,8 +39,6 @@ export default function Editor() {
   const router = useRouter();
   const { product_id, preview } = router.query;
 
-  console.log("router.query", router.query);
-
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
   const dispatch: AppDispatch = useDispatch();

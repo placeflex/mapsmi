@@ -80,8 +80,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     labelsStyle,
   } = useTypedSelector(({ layout }) => layout.layout);
 
-  console.log("routeType", routeType);
-
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
@@ -90,8 +88,8 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   const locationsLabelsPosition = locations?.map(item => item.labelPosition);
 
   const [viewState, setViewState] = useState({
-    center: [0, 0],
-    zoom: 2,
+    center: [3398883.5667333677, 6516260.28551439],
+    zoom: 10,
   });
 
   const handleAddAirplaneRoute = () => {
@@ -236,17 +234,17 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       if (renderLabels) {
         const labelPosition = coordinate.labelPosition;
         const fontSize = render ? 12 * RENDER_SCALE_RENDER_PAGE : 12;
-        const fontSettings = `${fontSize}px Verdana,Courier,Helvetica,Arial,sans-serif`;
+        const fontSettings = `${fontSize}px Courier,Helvetica,Arial,sans-serif`;
         const basisPadding = render ? 5 * RENDER_SCALE_RENDER_PAGE : 5;
         const paddings = [
           basisPadding,
-          basisPadding * 2,
           basisPadding,
-          basisPadding * 2,
+          basisPadding,
+          basisPadding * 1.5,
         ];
         let offsetY;
         let offsetX;
-        const MIN_GAP = 10;
+        let textAlign;
         const LABEL_BORDER_WIDTH = render ? 1 * RENDER_SCALE_RENDER_PAGE : 1;
         const markerSize = render
           ? basisMarkerSize * RENDER_SCALE_RENDER_PAGE
@@ -265,32 +263,25 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         const labelHeight = tempElement.offsetHeight;
         document.body.removeChild(tempElement);
 
-        // const positionX = -labelWidth / 2 + basisMarkerSize / 2;
-        // const positionX = render
-        //   ? basisMarkerSize * RENDER_SCALE_RENDER_PAGE * 1.5
-        //   : basisMarkerSize * 1.5;
-        // const positionLeft = render
-        //   ? -basisMarkerSize * RENDER_SCALE_RENDER_PAGE * 1.5
-        //   : -basisMarkerSize * 1.5;
-        // const positionRight = render
-        //   ? (labelWidth / basisMarkerSize) * RENDER_SCALE_RENDER_PAGE * 1.5
-        //   : basisMarkerSize + basisMarkerSize * 1.5;
-
         switch (labelPosition) {
           case "top":
-            offsetY = -labelHeight - markerSize / 2 + paddings[0];
+            offsetY = -markerSize - basisPadding;
+            textAlign = "center";
             break;
           case "left":
-            offsetX = -labelWidth / 2 - markerSize / 2 - paddings[3];
+            offsetX = -markerSize;
             offsetY = 0;
+            textAlign = "end";
             break;
           case "right":
-            offsetX = labelWidth / 2 + markerSize / 2 + paddings[1];
+            offsetX = markerSize;
             offsetY = 0;
+            textAlign = "start";
             break;
           case "bottom":
             offsetX = 0;
-            offsetY = labelHeight + markerSize / 2 - paddings[2];
+            offsetY = +markerSize + basisPadding;
+            textAlign = "center";
             break;
         }
 
@@ -323,6 +314,10 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
           }),
           ...labelLocalStyle,
           padding: paddings,
+          scale: 1.2,
+          placement: "point",
+          textAlign: textAlign, // Center text horizontally
+          textBaseline: "middle", // Center text vertically
         });
 
         style.setText(label);
@@ -570,8 +565,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
   }, [elementsColor, map, labelsTextColor]);
 
   useEffect(() => {
-    console.log("TRIGGER");
-
     if (map) {
       if (connectLocations) {
         if (
@@ -597,8 +590,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     connectLocations,
     JSON.stringify(locationsIdsForReorder),
   ]);
-
-  // JSON.stringify(locations)
 
   // FOR CENTER MAP AFTER UPDATE LOCATIONS LENGTH
   useEffect(() => {
@@ -638,12 +629,13 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
 
   // INIT MAP
   useEffect(() => {
-    console.log("INIT");
+    console.log("customCoordinates", customCoordinates);
+
     let savedBounds;
     let newView;
 
     if (customCoordinates && customCoordinates?.bounds?.length) {
-      savedBounds = transformExtent(
+      let savedBounds = transformExtent(
         [...customCoordinates.bounds],
         "EPSG:4326",
         "EPSG:3857"
@@ -664,7 +656,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       ? newView
       : new View({
           ...viewState,
-          zoom: MIN_ZOOM,
           minZoom: MIN_ZOOM,
         });
 
@@ -721,7 +712,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       setMap(map);
       window.CustomMap = map;
       window.CustomMapIsReady = true;
-
       console.log("RENDER COMPLETE");
 
       map.getView().on("change:resolution", event => {
@@ -744,8 +734,6 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       });
 
       map.getView().on("change:center", event => {
-        // Код, который выполнится при изменении центра карты (перетаскивание)
-        console.log("Map перетаскивание!");
         const newViewState = view.getProperties();
 
         var extent = map.getView().calculateExtent(map.getSize());

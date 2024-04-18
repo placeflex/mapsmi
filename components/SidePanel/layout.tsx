@@ -65,7 +65,12 @@ export const SidePanelLayout = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0 "
             >
-              <div className="relative bg-bg text-left shadow-xl transition-all h-[100vh] w-[70rem] min-h-[100vh] flex-1 p-[2rem]">
+              <div
+                className={classNames(
+                  "relative bg-bg text-left shadow-xl transition-all h-[100vh] w-[70rem] min-h-[100vh] flex-1 p-[2rem]",
+                  className
+                )}
+              >
                 <div className="h-full overflow-y-auto">{children}</div>
               </div>
             </Transition.Child>

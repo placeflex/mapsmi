@@ -1,4 +1,4 @@
-import { useState, Fragment, useRef } from "react";
+import { useState, Fragment, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -22,8 +22,9 @@ import exampleTest from "@/public/example-test.png";
 import LineArt from "@/public/lineart-example.png";
 
 // stores
-import { handleShowLoginModal } from "@/redux/modals";
+import { handleShowLoginModal, handleOpenCartPanel } from "@/redux/modals";
 import { handleLogout } from "@/redux/user";
+import { handleGetCart } from "@/redux/cart";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "@/redux/store";
 
@@ -248,6 +249,15 @@ export const Header = ({ isFixed }: any) => {
   const isUserLogged = useTypedSelector(({ user }) => user.isAdmin);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const cartItems = useTypedSelector(({ cart }) => cart.cart);
+
+  useEffect(() => {
+    dispatch(handleGetCart());
+  }, []);
+
+  const openCartPanel = () => {
+    dispatch(handleOpenCartPanel());
+  };
 
   return (
     <header
@@ -518,8 +528,14 @@ export const Header = ({ isFixed }: any) => {
               </button>
             )}
 
-            <button type="button" className="flex items-center justify-end ">
+            <button
+              type="button"
+              className="flex items-center justify-end"
+              onClick={() => openCartPanel()}
+            >
               <Basket width={25} fill="#000" />
+
+              <span className="text-text ml-2">{cartItems.length}</span>
             </button>
           </div>
         </div>

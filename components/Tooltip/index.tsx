@@ -13,10 +13,16 @@ export const CustomTooltip = ({
   text = "Tooltip",
   arrow = true,
   placement = "top",
-  size = 16,
+  size = 20,
 }: CustomTooltipProps) => {
   return (
-    <Tooltip placement={placement} title={text} arrow={arrow}>
+    <Tooltip
+      trigger="click"
+      placement={placement}
+      title={text}
+      arrow={arrow}
+      className="cursor-pointer text-caption"
+    >
       <TooltipIcon width={size} height={size} />
     </Tooltip>
   );

@@ -8,41 +8,73 @@ interface AutoCompleteProps {
   onChange?: (v: any) => void;
   onSelect?: (v: any, opt: Object) => void;
   options: any;
-  placeholder: string;
+  placeholder?: string;
   value?: Object;
+  required?: boolean;
+  labelClasses?: string;
 }
 
 import "./styles.scss";
 
 export const AutoComplete = ({
   label = "",
+  labelClasses = "",
   className = "",
   options = [],
   onChange,
   onSelect,
   placeholder = "",
   value,
+  required,
   ...props
 }: AutoCompleteProps) => {
   return (
     <>
-      {label && (
-        <label htmlFor={label} className="block mb-2 text-caption">
-          {label}
-        </label>
-      )}
+      {label ? (
+        <label
+          htmlFor={label}
+          className={classNames(
+            "flex flex-col mb-2 text-caption",
+            labelClasses
+          )}
+        >
+          <span className="mb-[1rem]">
+            {label}{" "}
+            {required && (
+              <abbr
+                className="required text-error no-underline"
+                title="required"
+              >
+                *
+              </abbr>
+            )}
+          </span>
 
-      <AntdAutoComplete
-        options={options}
-        className={classNames("autocomplete h-[40px]", className)}
-        popupClassName="autocomplete-popup"
-        onSelect={onSelect}
-        onSearch={onChange}
-        placeholder={placeholder}
-        allowClear={{ clearIcon: <Delete width={20} stroke="#000" /> }}
-        defaultValue={value}
-        {...props}
-      />
+          <AntdAutoComplete
+            options={options}
+            className={classNames("autocomplete h-[40px] w-full", className)}
+            popupClassName="autocomplete-popup"
+            onSelect={onSelect}
+            onSearch={onChange}
+            placeholder={placeholder}
+            allowClear={{ clearIcon: <Delete width={20} stroke="#000" /> }}
+            defaultValue={value}
+            {...props}
+          />
+        </label>
+      ) : (
+        <AntdAutoComplete
+          options={options}
+          className={classNames("autocomplete h-[40px]", className)}
+          popupClassName="autocomplete-popup"
+          onSelect={onSelect}
+          onSearch={onChange}
+          placeholder={placeholder}
+          allowClear={{ clearIcon: <Delete width={20} stroke="#000" /> }}
+          defaultValue={value}
+          {...props}
+        />
+      )}
     </>
   );
 };

@@ -12,6 +12,7 @@ import { useTypedSelector } from "@/redux/store";
 import {
   handleAddToPopularProjects,
   handleDeletePopularProject,
+  handleUpdatePopularProject,
 } from "@/redux/popular-wallarts";
 import { setWallartAdminSettings } from "@/redux/layout";
 
@@ -146,6 +147,10 @@ export const ProjectAdminSettings = () => {
     dispatch(handleAddToPopularProjects({ id: product_id, price }));
   };
 
+  const handleUpdateProject = () => {
+    dispatch(handleUpdatePopularProject({ id: product_id, price }));
+  };
+
   const handleDeleteFromPupularProject = () => {
     const callback = () => {
       const { from, ...query } = router.query;
@@ -154,6 +159,7 @@ export const ProjectAdminSettings = () => {
         query: query,
       });
     };
+
     dispatch(
       handleDeletePopularProject({ id: product_id, callback: callback })
     );
@@ -280,18 +286,30 @@ export const ProjectAdminSettings = () => {
 
       <div className="mt-[2rem] flex gap-[2rem]">
         <Button
-          classNames="w-full text-button font-semibold"
+          className="w-full text-button font-semibold"
           type="button"
           onClick={handleAddPupularProject}
           variant="contained"
           color="primary"
         >
-          Add To Popular
+          Create new
         </Button>
 
         {from == "pupular-wallarts" && (
           <Button
-            classNames="w-full text-button font-semibold"
+            className="w-full text-button font-semibold"
+            type="button"
+            onClick={handleUpdateProject}
+            variant="contained"
+            color="primary"
+          >
+            Update
+          </Button>
+        )}
+
+        {from == "pupular-wallarts" && (
+          <Button
+            className="w-full text-button font-semibold"
             type="button"
             onClick={handleDeleteFromPupularProject}
           >

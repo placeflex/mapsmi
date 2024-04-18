@@ -7,6 +7,7 @@ interface IModals {
   forgotPassword: boolean;
   resetPassword: boolean;
   isOpenProjectAdminSettings: boolean;
+  isOpenCartPanel: boolean;
   markersPanel: {
     state: boolean;
     id: number;
@@ -21,6 +22,7 @@ const initialState: IModals = {
   forgotPassword: false,
   resetPassword: false,
   isOpenProjectAdminSettings: false,
+  isOpenCartPanel: false,
   markersPanel: {
     state: false,
     id: 0,
@@ -58,12 +60,17 @@ const modals = createSlice({
       };
     },
 
+    handleOpenCartPanel(state) {
+      state.isOpenCartPanel = true;
+    },
+
     handleCloseModals(state) {
       state.productModal = false;
       state.registerModal = false;
       state.loginModal = false;
       state.forgotPassword = false;
       state.resetPassword = false;
+      state.isOpenCartPanel = false;
       state.isOpenProjectAdminSettings = false;
       state.markersPanel = {
         state: false,
@@ -83,6 +90,7 @@ export const {
   handleShowResetPasswordModal,
   handleShowProjectSettingsModal,
   handleSetCurrentIDForMarkersPanel,
+  handleOpenCartPanel,
 } = modals.actions;
 
 export default modals.reducer;

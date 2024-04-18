@@ -9,6 +9,7 @@ import { SearchSelect } from "@/components/SearchSelect";
 import { TabsPanel } from "@/components/TabsPanel";
 import { SketchPicker, ChromePicker } from "react-color";
 import ReactDragListView from "react-drag-listview";
+import { CustomTooltip } from "@/components/Tooltip";
 
 // lineart settings ( panel )
 import { lineArtIcons } from "@/layouts/wallartSettings/lineArtIcons";
@@ -51,7 +52,9 @@ import {
   handleSetCurrentIDForMarkersPanel,
 } from "@/redux/modals";
 
-import { debounce } from "lodash";
+// helpers
+import { debouncedApply, isHexColor } from "@/helpers/helpers";
+import { getLatLngData } from "@/helpers/coordinateFormatFunction";
 
 import { api } from "@/axios";
 
@@ -81,8 +84,9 @@ import {
 // icons
 import Delete from "@/public/icons/close.svg";
 import Drag from "@/public/icons/drag-icon.svg";
-
-const debouncedApply = debounce(callback => callback(), 1000);
+// labels
+import LabelFill from "@/public/labels/label-fill.svg";
+import LabelOutline from "@/public/labels/label-outline.svg";
 
 export const IllustrationAccordion = ({ handleChange, className }: any) => {
   const posterStyles = useTypedSelector(
@@ -95,7 +99,7 @@ export const IllustrationAccordion = ({ handleChange, className }: any) => {
         return (
           <div
             key={id}
-            className={`border h-[120px] bg-white p-4 cursor-pointer border-1 ${
+            className={`h-[120px] bg-white p-4 cursor-pointer border ${
               id === Number(posterStyles?.artwork) ? "border-black" : ""
             }`}
             onClick={() => handleChange(id)}
@@ -119,7 +123,7 @@ export const ColorsAccordion = ({ handleChange }: any) => {
         return (
           <div
             key={id}
-            className={`border flex items-center justify-center h-[50px] bg-white cursor-pointer border-1 ${
+            className={`flex items-center justify-center h-[50px] bg-white cursor-pointer border ${
               id === Number(posterStyles?.color) ? "border-black" : ""
             }`}
             onClick={() => handleChange(id)}
@@ -151,7 +155,7 @@ export const LayoutsAccordion = ({ handleChange }: any) => {
           return (
             <button
               key={id}
-              className={`border bg-white  cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
+              className={`border cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm grow ${
                 id === Number(posterStyles?.layoutStyle) ? "border-black" : ""
               }`}
               onClick={() => handleChange(id)}
@@ -246,114 +250,6 @@ export const TextsAccordion = () => {
   );
 };
 
-export const SizeAccordion = ({
-  handleSelectSize,
-  handleSelectOrientations,
-  handleSelectMaterial,
-  handleSelectFrame,
-}: any) => {
-  const posterAttributes = useTypedSelector(
-    ({ layout }) => layout.layout?.selectedAttributes
-  );
-
-  const onChange = (id: string) => {
-    handleSelectMaterial(Number(id));
-  };
-
-  const materialItems =
-    materials.length &&
-    materials?.map(material => {
-      return {
-        key: material.id,
-        label: <span className="">{material.name}</span>,
-        children: (
-          <div>
-            {material?.sizes?.map((size, idx) => {
-              return (
-                <button
-                  className={`border  cursor-pointer flex flex-col gap-1 items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1  ${
-                    Number(posterAttributes?.size?.id) == size.id
-                      ? "border-black"
-                      : ""
-                  }`}
-                  key={size.id}
-                  onClick={() => handleSelectSize(size.id)}
-                >
-                  <span className="block">{size.name}</span>
-                  <span></span>
-                  <span className="block">
-                    {MATERIAL_PRICES[material.id].prices[size.id]?.price} грн
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        ),
-      };
-    });
-
-  return (
-    <>
-      <div className="flex flex-col mb-4">
-        <h5 className="font-bold  mb-2">Select poster size</h5>
-        <div className="flex flex-wrap gap-2">
-          <TabsPanel
-            defaultActiveKey={posterAttributes?.material?.id}
-            items={materialItems}
-            onChange={onChange}
-          />
-        </div>
-      </div>
-
-      <div className="flex flex-col">
-        <h5 className="font-bold  mb-2">Select orientation</h5>
-        <div className="flex flex-wrap gap-2">
-          {orientations.map(({ id, name }): React.ReactNode => {
-            return (
-              <button
-                className={`border  cursor-pointer flex items-center justify-center px-2 py-2 rounded-md grow hover:bg-black hover:text-white shadow-sm border-1 ${
-                  id === Number(posterAttributes?.orientation?.id)
-                    ? "border-black"
-                    : ""
-                }`}
-                key={id}
-                onClick={() => handleSelectOrientations(id)}
-              >
-                {name}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="flex flex-col mt-2">
-        <h5 className="font-bold  mb-2">Select Frame</h5>
-        <div className="flex flex-wrap justify-center">
-          {frames.map(frame => {
-            return (
-              <div
-                key={frame.id}
-                onClick={() => handleSelectFrame(frame.id)}
-                className="w-[calc(100%/4-1rem)] m-[0.5rem] relative cursor-pointer"
-              >
-                {frame.icon && (
-                  <Image
-                    src={frame.icon}
-                    alt="frame"
-                    objectFit="cover"
-                    className="w-full block"
-                  />
-                )}
-                <span>{FRAMES_PRICES[frame.id].price}$</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </>
-  );
-};
-
 export const LocationAccrodion = () => {
   const dispatch: AppDispatch = useDispatch();
 
@@ -367,7 +263,16 @@ export const LocationAccrodion = () => {
     renderLabels,
     elementsColor,
     routeType,
+    labelsTextColor,
+    labelsStyle,
+    poster,
   } = useTypedSelector(({ layout }) => layout.layout);
+
+  const [showElementsColorPicker, setElementsColorPicker] = useState(false);
+  const [showLabelsTextColorPicker, setLabelsTextColorPicker] = useState(false);
+
+  const [localElementsColor, setLocalElementsColor] = useState(elementsColor);
+  const [localLabelsColor, setLocalLabelsColor] = useState(labelsTextColor);
 
   const fetchLocation = async locationName => {
     try {
@@ -389,7 +294,13 @@ export const LocationAccrodion = () => {
     }
   };
 
-  const handleUpdateLabels = (name: string) => {
+  const handleUpdateLabels = ({
+    name,
+    coord,
+  }: {
+    name: string;
+    coord?: string;
+  }) => {
     dispatch(handleResetLabels());
 
     const spltName = name.split(",");
@@ -430,7 +341,9 @@ export const LocationAccrodion = () => {
           })
         );
       }
-    } else {
+    }
+
+    if (productId == 2) {
       dispatch(
         handleChangeLables({
           label: "heading",
@@ -455,6 +368,13 @@ export const LocationAccrodion = () => {
           })
         );
       }
+
+      dispatch(
+        handleChangeLables({
+          label: "divider",
+          value: coord,
+        })
+      );
     }
   };
 
@@ -470,16 +390,39 @@ export const LocationAccrodion = () => {
     dispatch(deleteLocation(placeId));
 
     if (locations[locations.length - 2]) {
-      handleUpdateLabels(locations[locations.length - 2].label);
+      const b = getLatLngData(
+        locations[locations.length - 2].geometry.coordinates[1],
+        locations[locations.length - 2].geometry.coordinates[0]
+      );
+
+      handleUpdateLabels({
+        name: locations[locations.length - 2].label,
+        coord: `${b.latitudeData.formattedDecimalDegrees}°${b.latitudeData.direction} / ${b.longitudeData.formattedDecimalDegrees}°${b.longitudeData.direction}`,
+      });
     } else {
-      handleUpdateLabels(locations[0].label);
+      const b = getLatLngData(
+        locations[0].geometry.coordinates[1],
+        locations[0].geometry.coordinates[0]
+      );
+      handleUpdateLabels({
+        name: locations[0].label,
+        coord: `${b.latitudeData.formattedDecimalDegrees}°${b.latitudeData.direction} / ${b.longitudeData.formattedDecimalDegrees}°${b.longitudeData.direction}`,
+      });
     }
   };
 
   const handleSelectLocation = async (location: any, opt: any) => {
     const response: any = await api.get(`/locations?placeId=${opt.place_id}`);
 
+    console.log("response", response);
+
+    const b = getLatLngData(
+      response.geometry.coordinates[1],
+      response.geometry.coordinates[0]
+    );
+
     if (productId == 2) {
+      // FOR STREETMAP
       dispatch(
         setCurrentLocation({
           ...opt,
@@ -488,7 +431,15 @@ export const LocationAccrodion = () => {
           labelPosition: "top",
         })
       );
+
+      console.log("locations", locations);
+
+      if (locations.length == 0) {
+        dispatch(renderMarkersController(true));
+        dispatch(renderLabelsController(true));
+      }
     } else {
+      // FOR SKYMAP
       dispatch(
         setCurrentLocationForSkyMap({
           ...opt,
@@ -497,7 +448,10 @@ export const LocationAccrodion = () => {
       );
     }
 
-    handleUpdateLabels(response.description);
+    handleUpdateLabels({
+      name: opt.label,
+      coord: `${b.latitudeData.formattedDecimalDegrees}°${b.latitudeData.direction} / ${b.longitudeData.formattedDecimalDegrees}°${b.longitudeData.direction}`,
+    });
 
     if (productId == 2) {
       dispatch(handleSaveCustomCoordinatesForMap({}));
@@ -537,7 +491,7 @@ export const LocationAccrodion = () => {
 
   return (
     <>
-      <h2 className=" font-bold mb-2">Location</h2>
+      <h2 className="font-bold mb-2">Location</h2>
       <p className="mb-4  opacity-[0.4]">
         You can search, drag/drop and zoom on the map to get the exact position
         you want on your poster.
@@ -617,7 +571,13 @@ export const LocationAccrodion = () => {
       {productId == 2 && (
         <>
           <div className="mt-[2rem] flex items-center justify-between">
-            <span>Connect Locations</span>
+            <span className="flex items-center gap-[1rem] font-bold">
+              Connect Locations{" "}
+              <CustomTooltip
+                placement="right"
+                text="Добавляет соединительную линию между двумя или более местами на плакате с картой улиц, которая подчеркивает ваше путешествие с места на место."
+              />
+            </span>
             <Switcher
               checked={connectLocations}
               disabled={locations.length < 2}
@@ -634,20 +594,25 @@ export const LocationAccrodion = () => {
                   <div
                     key={idx}
                     onClick={() => handleChangeRouteType(Number(type.id))}
-                    className={classNames(
-                      "w-[20%] flex flex-col items-center justify-center cursor-pointer p-2 shadow-lg",
-                      type.id == routeType
-                        ? "border-2 border-secondButton rounded-sm text-darkGrey"
-                        : ""
-                    )}
+                    className={classNames("text-center cursor-pointer")}
                   >
-                    <Image
-                      src={type.pic}
-                      alt={type.name}
-                      width={50}
-                      height={20}
-                    />
-                    <p className="text-captionSmall">{type.name}</p>
+                    <div
+                      className={classNames(
+                        "border-2",
+                        type.id == routeType && "border-black"
+                      )}
+                    >
+                      <Image
+                        src={type.pic}
+                        alt={type.name}
+                        width={50}
+                        height={20}
+                      />
+                    </div>
+
+                    <span className="text-text text-captionSmall">
+                      {type.name}
+                    </span>
                   </div>
                 );
               })}
@@ -655,7 +620,13 @@ export const LocationAccrodion = () => {
           )}
 
           <div className="mt-[2rem] flex items-center justify-between">
-            <span>Markers</span>
+            <span className="flex items-center gap-[1rem] font-bold">
+              Markers{" "}
+              <CustomTooltip
+                placement="right"
+                text="Добавляет точечные маркеры на карте для обозначения одного или нескольких конкретных мест на карте, доступные в нескольких различных стилях значков."
+              />
+            </span>
             <Switcher
               checked={renderMarkers}
               disabled={!locations.length}
@@ -667,7 +638,13 @@ export const LocationAccrodion = () => {
 
           <div className="flex flex-col">
             <div className="mt-[2rem] flex items-center justify-between">
-              <span>Labels</span>
+              <span className="flex items-center gap-[1rem] font-bold">
+                Labels{" "}
+                <CustomTooltip
+                  placement="right"
+                  text="Добавляет настраиваемую метку к маркерам на карте."
+                />
+              </span>
               <Switcher
                 checked={renderLabels}
                 disabled={!locations.length || !renderMarkers}
@@ -678,17 +655,148 @@ export const LocationAccrodion = () => {
             </div>
 
             {renderLabels && (
-              <div>
+              <div className="mt-[1rem] flex gap-[2rem]">
                 <button
                   onClick={() => dispatch(handleChangeLabelsStyle("fill"))}
                 >
-                  Fill
+                  <div
+                    className={classNames(
+                      "p-[1rem] border",
+                      labelsStyle == "fill" && "border-black"
+                    )}
+                  >
+                    <LabelFill width={50} />
+                  </div>
+
+                  <span className="text-text text-captionSmall">Solid</span>
                 </button>
                 <button
                   onClick={() => dispatch(handleChangeLabelsStyle("outline"))}
                 >
-                  Outline
+                  <div
+                    className={classNames(
+                      "p-[1rem] border",
+                      labelsStyle == "outline" && "border-black"
+                    )}
+                  >
+                    <LabelOutline width={50} />
+                  </div>
+
+                  <span className="text-text text-captionSmall">Outline</span>
                 </button>
+              </div>
+            )}
+
+            {renderMarkers && (
+              <div className="flex flex-col mt-[2rem]">
+                <span className="flex items-center gap-[1rem] font-bold mb-[1rem]">
+                  Marker & Label Color
+                  <CustomTooltip
+                    placement="right"
+                    text="Изменяет цвет маркеров, меток маркеров."
+                  />
+                </span>
+                <div className="relative flex">
+                  <div className="flex w-full cursor-pointer border border-silver">
+                    <div
+                      onClick={() => setElementsColorPicker(prev => !prev)}
+                      className="w-[10rem] h-[5rem] border-r border-silver"
+                      style={{
+                        background: `${elementsColor}`,
+                      }}
+                    />
+
+                    <Input
+                      className="w-full h-full border-0"
+                      value={localElementsColor}
+                      maxlength={7}
+                      onChange={e => {
+                        setLocalElementsColor(e.target.value);
+                        if (isHexColor(e.target.value)) {
+                          debouncedApply(() =>
+                            dispatch(setElementsColor(e.target.value))
+                          );
+                        }
+                      }}
+                    />
+                  </div>
+
+                  {showElementsColorPicker ? (
+                    <div className="absolute z-10">
+                      <div
+                        className="fixed top-0 right-0 bottom-0 left-0"
+                        onClick={() => setElementsColorPicker(prev => !prev)}
+                      />
+                      <ChromePicker
+                        disableAlpha
+                        color={localElementsColor}
+                        onChange={e => {
+                          setLocalElementsColor(e.hex);
+                          debouncedApply(() =>
+                            dispatch(setElementsColor(e.hex))
+                          );
+                        }}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            )}
+
+            {renderLabels && (
+              <div className="flex flex-col mt-[1rem]">
+                <span className="flex items-center gap-[1rem] font-bold mb-[1rem]">
+                  Labels Text Color
+                  <CustomTooltip
+                    placement="right"
+                    text="Изменяет цвет текста меток."
+                  />
+                </span>
+                <div className="relative flex">
+                  <div className="flex w-full cursor-pointer border border-silver">
+                    <div
+                      className="w-[10rem] h-[5rem] border-r border-silver"
+                      onClick={() => setLabelsTextColorPicker(prev => !prev)}
+                      style={{
+                        background: `${localLabelsColor}`,
+                      }}
+                    />
+
+                    <Input
+                      className="w-full h-full border-0"
+                      value={localLabelsColor}
+                      maxlength={7}
+                      onChange={e => {
+                        setLocalLabelsColor(e.target.value);
+                        if (isHexColor(e.target.value)) {
+                          debouncedApply(() =>
+                            dispatch(setMapLabelsColor(e.target.value))
+                          );
+                        }
+                      }}
+                    />
+                  </div>
+
+                  {showLabelsTextColorPicker ? (
+                    <div className="absolute z-10">
+                      <div
+                        className="fixed top-0 right-0 bottom-0 left-0"
+                        onClick={() => setLabelsTextColorPicker(prev => !prev)}
+                      />
+
+                      <ChromePicker
+                        disableAlpha
+                        color={localLabelsColor}
+                        onChange={e => {
+                          setLocalLabelsColor(e.hex);
+                          debouncedApply(() =>
+                            dispatch(setMapLabelsColor(e.hex))
+                          );
+                        }}
+                      />
+                    </div>
+                  ) : null}
+                </div>
               </div>
             )}
           </div>
@@ -710,107 +818,34 @@ export const LocationAccrodion = () => {
 };
 
 export const ColorsForMapAccordion = ({ handleChange }: any) => {
-  const posterStyles = useTypedSelector(
-    ({ layout }) => layout.layout?.poster?.styles
-  );
-  const elementsColor = useTypedSelector(
-    ({ layout }) => layout.layout?.elementsColor
-  );
-  const labelsColor = useTypedSelector(
-    ({ layout }) => layout.layout?.labelsTextColor
-  );
-
-  const [showElementsColorPicker, setElementsColorPicker] = useState(false);
-  const [showLabelsTextColorPicker, setLabelsTextColorPicker] = useState(false);
-
-  const [localElementsColor, setLocalElementsColor] = useState(elementsColor);
-
-  const dispatch: AppDispatch = useDispatch();
+  const { poster } = useTypedSelector(({ layout }) => layout.layout);
 
   return (
     <>
-      <div className="icons overflow-y-auto items-start flex gap-2 h-[300px]">
-        {mapColors.map(({ icon, id, name }): React.ReactNode => {
+      <div className="icons overflow-y-auto content-start items-start flex flex-wrap gap-[0.3rem] h-[300px]">
+        {mapColors.map(({ icon, id, name, applyName }): React.ReactNode => {
           return (
             <div
               key={id}
-              className="flex flex-col justify-center h-[120px] w-[33.333%]"
+              className="flex flex-col w-[calc(100%/4-0.25rem)] mb-[0.5rem] cursor-pointer"
               onClick={() => handleChange(id)}
             >
-              <div className="block w-full h-full relative">{icon}</div>
-              <span className="text-center mt-2">
-                {name.charAt(0).toUpperCase() + name.slice(1)}
+              <div
+                className={classNames(
+                  "block border p-[.5rem] w-full aspect-square relative",
+                  poster.styles.color == id && "border-black"
+                )}
+              >
+                <div className={classNames("w-full h-full relative")}>
+                  {icon}
+                </div>
+              </div>
+              <span className="text-center mt-[0.5rem] text-captionSmall">
+                {applyName.charAt(0).toUpperCase() + applyName.slice(1)}
               </span>
             </div>
           );
         })}
-      </div>
-      <div className="flex items-center my-4">
-        <h5 className="font-bold  mr-4">Elements Color:</h5>
-        <div className="relative flex">
-          <div
-            className="p-1 border inline-block cursor-pointer"
-            onClick={() => setElementsColorPicker(prev => !prev)}
-          >
-            <div
-              className="w-[3.6rem] h-[1.4rem] border"
-              style={{
-                background: `${elementsColor}`,
-              }}
-            />
-          </div>
-
-          {showElementsColorPicker ? (
-            <div className="absolute z-10">
-              <div
-                className="fixed top-0 right-0 bottom-0 left-0"
-                onClick={() => setElementsColorPicker(prev => !prev)}
-              />
-              <ChromePicker
-                disableAlpha
-                color={localElementsColor}
-                onChange={e => {
-                  setLocalElementsColor(e.hex);
-                  debouncedApply(() => dispatch(setElementsColor(e.hex)));
-                }}
-              />
-            </div>
-          ) : null}
-        </div>
-      </div>
-
-      <div className="flex items-center my-4">
-        <h5 className="font-bold  mr-4">Labels Text Color:</h5>
-        <div className="relative flex">
-          <div
-            className="p-1 border inline-block cursor-pointer"
-            onClick={() => setLabelsTextColorPicker(prev => !prev)}
-          >
-            <div
-              className="w-[3.6rem] h-[1.4rem] border"
-              style={{
-                background: `${labelsColor}`,
-              }}
-            />
-          </div>
-
-          {showLabelsTextColorPicker ? (
-            <div className="absolute z-10">
-              <div
-                className="fixed top-0 right-0 bottom-0 left-0"
-                onClick={() => setLabelsTextColorPicker(prev => !prev)}
-              />
-
-              <ChromePicker
-                disableAlpha
-                color={labelsColor}
-                onChange={e => {
-                  dispatch(setMapLabelsColor(e.hex));
-                }}
-              />
-            </div>
-          ) : null}
-        </div>
       </div>
     </>
   );
@@ -846,7 +881,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
           return (
             <button
               key={id}
-              className={`border bg-white  cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
+              className={`border bg-white  cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm grow ${
                 id === Number(posterStyles?.layoutStyle) ? "border-black" : ""
               }`}
               onClick={() => handleChange(id)}
@@ -883,7 +918,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
                 <div
                   key={id}
                   className={classNames(
-                    "h-[80px] border border-1 p-4 cursor-pointer",
+                    "h-[80px] border p-4 cursor-pointer",
                     id === Number(posterStyles?.overlayId) ? "border-black" : ""
                   )}
                   onClick={() =>
@@ -922,7 +957,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
                   <div
                     key={id}
                     className={classNames(
-                      "h-[80px] border border-1 p-4 cursor-pointer flex justify-center items-center relative",
+                      "h-[80px] border p-4 cursor-pointer flex justify-center items-center relative",
                       id === Number(posterStyles?.maskId) ? "border-black" : ""
                     )}
                     onClick={() =>
@@ -1023,19 +1058,21 @@ export const LayoutsMapAccordion = ({ handleChange }: any) => {
 
   return (
     <>
-      <h2 className="font-bold mb-2">Layouts</h2>
-      <p className="mb-4  opacity-[0.4]">
+      <h2 className="font-bold mb-[2rem]">Layouts</h2>
+      <p className="mb-[2rem] opacity-[0.4]">
         We are all for freedom of choice, if you want to try different
         combinations than our favorites - go ahead and click customize and roll
         your own.
       </p>
-      <div className="icons overflow-y-auto flex flex-wrap gap-1">
+      <div className="icons overflow-y-auto flex flex-wrap gap-[1rem]">
         {mapLayoutStyles.map(({ name, id }) => {
           return (
             <button
               key={id}
-              className={`border bg-white  cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
-                id === Number(posterStyles?.layoutStyle) ? "border-black" : ""
+              className={`cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(100%/3-1rem)] hover:bg-black hover:text-white shadow-sm border grow ${
+                id === Number(posterStyles?.layoutStyle)
+                  ? "border-black bg-black text-white"
+                  : ""
               }`}
               onClick={() => handleChange(id)}
             >
@@ -1055,15 +1092,17 @@ export const FontsAccordion = ({ handleChange }: any) => {
 
   return (
     <>
-      <h2 className=" font-bold mb-2">Fonts</h2>
-      <p className="mb-4  opacity-[0.4]">You can change fonts.</p>
-      <div className="icons overflow-y-auto flex flex-wrap gap-1">
+      <h2 className="font-bold mb-[2rem]">Fonts</h2>
+      <p className="mb-[2rem] opacity-[0.4]">You can change fonts.</p>
+      <div className="icons overflow-y-auto flex flex-wrap  gap-[1rem]">
         {fontsList.map(({ name, id }) => {
           return (
             <button
               key={id}
-              className={`border bg-white  cursor-pointer flex items-center justify-center px-3 py-2 rounded-md w-[calc(33%-2)] hover:bg-black hover:text-white shadow-sm border-1 grow ${
-                id === Number(currentFontId) ? "border-black" : ""
+              className={`cursor-pointer flex items-center justify-center px-[1rem] py-[0.4rem] rounded-md w-[calc(100%/3-1rem)] hover:bg-black hover:text-white shadow-sm border grow ${
+                id === Number(currentFontId)
+                  ? "border-black bg-black text-white"
+                  : ""
               }`}
               onClick={() => handleChange(id)}
             >
@@ -1071,6 +1110,126 @@ export const FontsAccordion = ({ handleChange }: any) => {
             </button>
           );
         })}
+      </div>
+    </>
+  );
+};
+
+export const SizeAccordion = ({
+  handleSelectSize,
+  handleSelectOrientations,
+  handleSelectMaterial,
+  handleSelectFrame,
+}: any) => {
+  const posterAttributes = useTypedSelector(
+    ({ layout }) => layout.layout?.selectedAttributes
+  );
+
+  const onChange = (id: string) => {
+    handleSelectMaterial(Number(id));
+  };
+
+  const materialItems =
+    materials.length &&
+    materials?.map(material => {
+      return {
+        key: material.id,
+        label: <span className="">{material.name}</span>,
+        children: (
+          <div>
+            {material?.sizes?.map((size, idx) => {
+              return (
+                <button
+                  className={`cursor-pointer flex flex-col items-center justify-center py-[1rem] grow hover:bg-black hover:text-white border  ${
+                    Number(posterAttributes?.size?.id) == size.id
+                      ? "border-black bg-black text-white"
+                      : ""
+                  }`}
+                  key={size.id}
+                  onClick={() => handleSelectSize(size.id)}
+                >
+                  <span className="block text-captionSmall mb-[0.5rem]">
+                    {size.name}
+                  </span>
+                  <span className="block text-caption font-semibold">
+                    {MATERIAL_PRICES[material.id].prices[size.id]?.price} грн
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ),
+      };
+    });
+
+  return (
+    <>
+      <div className="flex flex-col mb-[2rem]">
+        <h5 className="font-bold  mb-[2rem]">Select poster size</h5>
+        <div className="flex flex-wrap gap-[1rem]">
+          <TabsPanel
+            defaultActiveKey={posterAttributes?.material?.id}
+            items={materialItems}
+            onChange={onChange}
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col">
+        <h5 className="font-bold  mb-[2rem]">Select orientation</h5>
+        <div className="flex flex-wrap gap-[1rem]">
+          {orientations.map(({ id, name }): React.ReactNode => {
+            return (
+              <button
+                className={`border cursor-pointer flex items-center justify-center py-[1rem] grow hover:bg-black hover:text-white ${
+                  id === Number(posterAttributes?.orientation?.id)
+                    ? "border-black bg-black text-white"
+                    : ""
+                }`}
+                key={id}
+                onClick={() => handleSelectOrientations(id)}
+              >
+                {name}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex flex-col mt-[2rem]">
+        <h5 className="font-bold  mb-[2rem]">Material Options</h5>
+        <div className="flex flex-wrap gap-[0.3rem]">
+          {frames.map(frame => {
+            return (
+              <div
+                key={frame.id}
+                onClick={() => handleSelectFrame(frame.id)}
+                className="w-[calc(100%/4-0.25rem)] mb-[0.5rem] cursor-pointer"
+              >
+                {frame.icon && (
+                  <div
+                    className={classNames(
+                      "border p-[.5rem] h-[10rem] relative flex items-center justify-center",
+                      Number(posterAttributes?.frame?.id) == frame.id &&
+                        "border-black"
+                    )}
+                  >
+                    {frame.icon}
+                    {/* <Image
+                      src={frame.icon}
+                      alt="frame"
+                      objectFit="cover"
+                      className="w-full block"
+                    /> */}
+                  </div>
+                )}
+                <span className="text-caption text-center block mt-[0.5rem]">
+                  {FRAMES_PRICES[frame.id].price}$
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );

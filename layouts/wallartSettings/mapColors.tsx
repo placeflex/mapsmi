@@ -1,8 +1,13 @@
 import Image from "next/image";
 
-import terra from "@/public/mapColors/terra.png";
-import metropolis from "@/public/mapColors/metropolis.png";
-import horizon from "@/public/mapColors/horizon.png";
+import terra from "@/public/mapColors/1.png";
+import metropolis from "@/public/mapColors/2.png";
+import gold from "@/public/mapColors/3.png";
+import black from "@/public/mapColors/4.png";
+// import white from "@/public/mapColors/3.png";
+import magma from "@/public/mapColors/6.png";
+import magmaNew from "@/public/mapColors/7.png";
+import road from "@/public/mapColors/8.png";
 
 const BLACK_GRADIENT =
   "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 45.51%, rgba(0, 0, 0, 0.97) 100%)";
@@ -28,11 +33,13 @@ export const mapColors = [
         alt="street map"
         layout="fill"
         priority={false}
-        quality={50}
+        objectFit="cover"
+        quality={100}
       />
     ),
     id: 0,
     name: "terra",
+    applyName: "Terra",
     textColor: TEXT_BLACK,
     gradientColor: WHITE_GRADIENT,
     bgColor: "#fff",
@@ -52,11 +59,13 @@ export const mapColors = [
         alt="street map"
         layout="fill"
         priority={false}
-        quality={50}
+        objectFit="cover"
+        quality={100}
       />
     ),
     id: 1,
     name: "metropolis",
+    applyName: "Metropolis",
     textColor: TEXT_WHITE,
     gradientColor: BLACK_GRADIENT,
     bgColor: "#fff",
@@ -79,15 +88,17 @@ export const mapColors = [
   {
     icon: (
       <Image
-        src={horizon}
+        src={gold}
         alt="street map"
         layout="fill"
         priority={false}
-        quality={50}
+        objectFit="cover"
+        quality={100}
       />
     ),
     id: 2,
     name: "horizon",
+    applyName: "Horizon",
     textColor: TEXT_WHITE,
     gradientColor: BLACK_GRADIENT,
     bgColor: "#fff",
@@ -110,15 +121,17 @@ export const mapColors = [
   {
     icon: (
       <Image
-        src={horizon}
+        src={black}
         alt="street map"
         layout="fill"
         priority={false}
-        quality={50}
+        objectFit="cover"
+        quality={100}
       />
     ),
     id: 3,
     name: "volcano",
+    applyName: "Volcano",
     textColor: TEXT_WHITE,
     gradientColor: BLACK_GRADIENT,
     bgColor: "#fff",
@@ -141,15 +154,17 @@ export const mapColors = [
   {
     icon: (
       <Image
-        src={horizon}
+        src={magma}
         alt="street map"
         layout="fill"
         priority={false}
-        quality={50}
+        objectFit="cover"
+        quality={100}
       />
     ),
     id: 4,
     name: "magma",
+    applyName: "Magma",
     textColor: TEXT_WHITE,
     gradientColor: BLACK_GRADIENT,
     bgColor: TEXT_WHITE,
@@ -167,35 +182,121 @@ export const mapColors = [
         gradientColor: "transparent",
         bgColor: "transparent",
       },
+      lopster: {
+        textColor: TEXT_BLACK,
+        gradientColor: BLACK_GRADIENT,
+        bgColor: TEXT_BLACK,
+      },
     },
   },
   {
     icon: (
       <Image
-        src={horizon}
+        src={magmaNew}
         alt="street map"
         layout="fill"
         priority={false}
-        quality={50}
+        objectFit="cover"
+        quality={100}
       />
     ),
     id: 5,
     name: "magmanew",
+    applyName: "Magma New",
     textColor: TEXT_WHITE,
     gradientColor: BLACK_GRADIENT,
     bgColor: TEXT_BLACK,
 
     layoutOverrides: {
-      bold: {
-        // textColor: TEXT_BLACK,
-        // bgColor: TEXT_BLACK,
-      },
-      // ["bold-full"]: { textColor: TEXT_BLACK },
-      // script: { textColor: TEXT_BLACK },
+      bold: {},
       brush: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
-      // crispi: { textColor: TEXT_BLACK },
+      crispi: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
       noir: {
         textColor: TEXT_WHITE,
+        gradientColor: "transparent",
+        bgColor: "transparent",
+      },
+    },
+  },
+  {
+    icon: (
+      <Image
+        src={road}
+        alt="street map"
+        layout="fill"
+        priority={false}
+        objectFit="cover"
+        quality={100}
+      />
+    ),
+    id: 6,
+    name: "road_trip",
+    applyName: "Road Trip",
+    textColor: TEXT_BLACK,
+    gradientColor: WHITE_GRADIENT,
+    bgColor: TEXT_WHITE,
+
+    layoutOverrides: {
+      bold: {},
+      brush: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
+      noir: {
+        textColor: TEXT_BLACK,
+        gradientColor: "transparent",
+        bgColor: "transparent",
+      },
+    },
+  },
+  {
+    icon: (
+      <Image
+        src={road}
+        alt="street map"
+        layout="fill"
+        priority={false}
+        objectFit="cover"
+        quality={100}
+      />
+    ),
+    id: 7,
+    name: "tokyo",
+    applyName: "Tokyo",
+    textColor: TEXT_BLACK,
+    gradientColor: WHITE_GRADIENT,
+    bgColor: TEXT_WHITE,
+
+    layoutOverrides: {
+      bold: {},
+      brush: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
+      noir: {
+        textColor: TEXT_BLACK,
+        gradientColor: "transparent",
+        bgColor: "transparent",
+      },
+    },
+  },
+  {
+    icon: (
+      <Image
+        src={road}
+        alt="street map"
+        layout="fill"
+        priority={false}
+        objectFit="cover"
+        quality={100}
+      />
+    ),
+    id: 8,
+    name: "taragona",
+    applyName: "Taragona",
+    textColor: TEXT_BLACK,
+    gradientColor: WHITE_GRADIENT,
+    bgColor: TEXT_WHITE,
+
+    layoutOverrides: {
+      bold: {},
+      brush: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
+      noir: {
+        textColor: TEXT_BLACK,
         gradientColor: "transparent",
         bgColor: "transparent",
       },

@@ -38,6 +38,7 @@ import { ResetPassword } from "@/components/Modals/ResetPassword";
 import { ProjectAdminSettings } from "@/components/Modals/ProjectAdminSettings";
 import { Markers } from "@/components/Modals/Markers";
 import { SidePanelLayout } from "@/components/SidePanel/layout";
+import { Cart } from "@/components/Modals/Cart";
 
 // TODO: FOR v@
 // import { SelectLocationOnMap } from "@/components/Modals/SelectLocationOnMap";
@@ -49,6 +50,8 @@ function CustomApp({ Component, pageProps }: AppProps) {
     ({ modals }) => modals.isOpenProjectAdminSettings
   );
   const markersPanel = useTypedSelector(({ modals }) => modals.markersPanel);
+
+  const cartPanel = useTypedSelector(({ modals }) => modals.isOpenCartPanel);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -101,6 +104,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
         </SidePanelLayout>
         <SidePanelLayout isOpen={markersPanel.state} bgClose={true}>
           <Markers />
+        </SidePanelLayout>
+        <SidePanelLayout isOpen={cartPanel} bgClose={true} className="w-[55rem]">
+          <Cart />
         </SidePanelLayout>
 
         {/* TODO: FOR v2 */}

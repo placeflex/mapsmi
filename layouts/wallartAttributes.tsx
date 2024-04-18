@@ -1,8 +1,11 @@
+import Image from "next/image";
 import frame1 from "@/public/frames/icons/frame1.png";
 import frame2 from "@/public/frames/icons/frame2.png";
 import frame3 from "@/public/frames/icons/frame3.png";
 import frame4 from "@/public/frames/icons/frame4.png";
 import frame5 from "@/public/frames/icons/frame5.png";
+import empty from "@/public/frames/icons/empty.png";
+import Empty from "@/public/frames/icons/empty.svg";
 
 export interface SizeInterface {
   name: string;
@@ -132,54 +135,104 @@ export const frames = [
     name: "none",
     color: "",
     material: "",
+    icon: <Empty width={20} height={20} />,
   },
   {
     id: 1,
     name: "type-hanger",
     color: "color-natural",
     material: "material-wood",
-    icon: frame1,
+    icon: (
+      <Image
+        src={frame1}
+        alt="frame"
+        objectFit="cover"
+        className="w-full block"
+      />
+    ),
   },
   {
     id: 2,
     name: "type-hanger",
     color: "color-white",
     material: "material-wood",
-    icon: frame2,
+    icon: (
+      <Image
+        src={frame2}
+        alt="frame"
+        objectFit="cover"
+        className="w-full block"
+      />
+    ),
   },
   {
     id: 3,
     name: "type-hanger",
     color: "color-black",
     material: "material-wood",
-    icon: frame3,
+    icon: (
+      <Image
+        src={frame3}
+        alt="frame"
+        objectFit="cover"
+        className="w-full block"
+      />
+    ),
   },
   {
     id: 4,
     name: "type-frame",
     color: "color-natural",
     material: "material-wood",
-    icon: frame4,
+    icon: (
+      <Image
+        src={frame4}
+        alt="frame"
+        objectFit="cover"
+        className="w-full block"
+      />
+    ),
   },
   {
     id: 5,
     name: "type-frame",
     color: "color-white",
     material: "material-wood",
-    icon: frame5,
+    icon: (
+      <Image
+        src={frame5}
+        alt="frame"
+        objectFit="cover"
+        className="w-full block"
+      />
+    ),
   },
   {
     id: 6,
     name: "type-frame",
     color: "color-black",
     material: "material-metal",
-    icon: frame5,
+    icon: (
+      <Image
+        src={frame5}
+        alt="frame"
+        objectFit="cover"
+        className="w-full block"
+      />
+    ),
   },
   {
     id: 7,
     name: "type-frame",
     color: "color-black",
     material: "material-wood",
-    icon: frame5,
+    icon: (
+      <Image
+        src={frame5}
+        alt="frame"
+        objectFit="cover"
+        className="w-full block"
+      />
+    ),
   },
 ];

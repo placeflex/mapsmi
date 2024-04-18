@@ -22,7 +22,7 @@ html {
   font-size: 10px;
   font-family: var(--font-main);
   // background: var(--bg);
-  min-height: 100vh;
+  // min-height: 100vh;
 }
 
 [class^="ant-"] {
@@ -46,7 +46,7 @@ body {
 .ant-picker:hover,
 .ant-picker-focused,
 .ant-input:hover {
-  border-color: var(--wine) !important;
+  border-color: var(--button) !important;
   box-shadow: none !important;
 }
 
@@ -91,4 +91,23 @@ body {
 
 .lineName {
   border-color: var(--text) !important;
+}
+
+.form {
+  height: 400px;
+}
+
+.ant-tooltip {
+  .ant-tooltip-inner {
+    font-size: 1.2rem;
+    background: var(--button);
+    padding: 1.2rem 1.5rem;
+  }
+
+  .ant-tooltip-arrow {
+    &::after,
+    &::before {
+      background: var(--button);
+    }
+  }
 }

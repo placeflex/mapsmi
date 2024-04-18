@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import sharp from "sharp";
+import Jimp from "jimp";
 import { handleGetPosterGap } from "@/components/LayoutPreviewWrapper";
 
 function vminToPixels(vminValue, screenWidth, screenHeight) {
@@ -106,21 +106,28 @@ export const generateScreen = async (project: any) => {
 
       console.log("SCREEN START END");
 
-      // elementHandle
       const screenshotBuffer = await page.screenshot({
         encoding: "binary",
       });
 
-      console.log("RESIZE START", screenshotBuffer);
-
-      const resizeBuffer = await sharp(screenshotBuffer).resize(520).toBuffer();
-
-      console.log("RESIZE BUFFER", resizeBuffer);
-
+      console.log("SCREEN END", screenshotBuffer);
       await browser.close();
-      //   console.log("SCREEN END");
 
-      return resizeBuffer;
+      const readBuffer = Jimp.read(screenshotBuffer)
+        .then(image => {
+          return image
+            .resize(520, Jimp.AUTO)
+            .quality(100)
+            .getBufferAsync(Jimp.MIME_PNG);
+        })
+        .then(buffer => {
+          return buffer;
+        })
+        .catch(err => {
+          console.log("readBuffer Error:", err);
+        });
+
+      return await readBuffer;
     }
   } catch (error) {
     console.error("An error occurred:", error);
