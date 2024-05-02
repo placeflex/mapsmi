@@ -38,7 +38,7 @@ export const defaultWallartSettings = {
     orientation: orientations[0],
     size: sizes[2],
     material: materials[0],
-    frame: frames[0],
+    frame: frames[0][0],
   },
   productId: 0,
   date: dayjs(new Date()).format("YYYY-MM-DD HH:mm"),

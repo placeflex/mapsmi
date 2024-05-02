@@ -26,6 +26,7 @@ const config: Config = {
       bodySmallBold: ["1.6rem", { ...basicFontSettings }],
       caption: ["1.4rem", { ...basicFontSettings }],
       captionSmall: ["1.2rem", { ...basicFontSettings }],
+      captionXs: ["1rem", { ...basicFontSettings }],
       button: ["1.6rem", { ...basicFontSettings }],
       buttonSmall: ["1.4rem", { ...basicFontSettings }],
     },

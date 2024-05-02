@@ -26,7 +26,7 @@ export const ModalContent = ({
   return (
     <Transition show={isModalOpen}>
       <div className="fixed inset-0 z-[100] w-screen overflow-y-auto">
-        <div className="flex min-h-full items-center justify-center p-4">
+        <div className="flex min-h-full items-center justify-center px-[2rem] py-[4rem]">
           {bgClose && (
             <Transition.Child
               as={Fragment}
@@ -54,7 +54,7 @@ export const ModalContent = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0 "
           >
-            <div className="relative bg-bg  transform overflow-hidden rounded-lg text-left shadow-xl transition-all">
+            <div className="relative bg-bg transform overflow-hidden overflow-y-auto rounded-lg text-left shadow-xl transition-all">
               <button
                 type="button"
                 className="absolute right-2 top-2 leading-none"

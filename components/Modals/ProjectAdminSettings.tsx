@@ -16,7 +16,7 @@ import {
 } from "@/redux/popular-wallarts";
 import { setWallartAdminSettings } from "@/redux/layout";
 
-import { MATERIAL_PRICES, FRAMES_PRICES } from "@/layouts/wallartAttributes";
+import { MATERIAL_PRICES, frames } from "@/layouts/wallartAttributes";
 
 const design_category = [
   { label: "Family", value: "family" },
@@ -134,14 +134,16 @@ export const ProjectAdminSettings = () => {
   const { product_id, id, from } = router.query;
   const layout = useTypedSelector(({ layout }) => layout?.layout);
 
-  const price =
-    layout?.selectedAttributes?.frame?.id !== 0
-      ? MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
-          layout.selectedAttributes.size.id
-        ].price + FRAMES_PRICES[layout?.selectedAttributes?.frame?.id]?.price
-      : MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
-          layout.selectedAttributes.size.id
-        ].price;
+  const price = layout?.selectedAttributes?.frame?.type
+    ? MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
+        layout.selectedAttributes.size.id
+      ].price +
+      frames[layout?.selectedAttributes?.size?.id]?.[
+        layout?.selectedAttributes?.frame?.id
+      ]?.price
+    : MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
+        layout.selectedAttributes.size.id
+      ].price;
 
   const handleAddPupularProject = () => {
     dispatch(handleAddToPopularProjects({ id: product_id, price }));

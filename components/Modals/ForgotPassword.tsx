@@ -89,7 +89,7 @@ export const ForgotPassword = () => {
                 )}
               </div>
 
-              <Button classNames="mt-2 flex mx-auto" type="submit">
+              <Button className="mt-2 flex mx-auto" type="submit">
                 Next
               </Button>
             </Form>

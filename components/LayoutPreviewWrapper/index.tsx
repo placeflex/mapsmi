@@ -79,6 +79,7 @@ export const LayoutPreviewWrapper = ({
         setArtworkStyles(prev => {
           return {
             ...prev,
+            // scale: scale,
             scale: scale >= 1 ? 1 : scale,
             isRender: true,
           };

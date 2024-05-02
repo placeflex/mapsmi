@@ -238,7 +238,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         const basisPadding = render ? 5 * RENDER_SCALE_RENDER_PAGE : 5;
         const paddings = [
           basisPadding,
-          basisPadding,
+          render ? basisPadding * 1.35 : basisPadding,
           basisPadding,
           basisPadding * 1.5,
         ];

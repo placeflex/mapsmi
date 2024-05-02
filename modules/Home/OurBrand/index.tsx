@@ -22,7 +22,7 @@ export const OurBrand = () => {
             type="button"
             variant="outlined"
             color="primary"
-            classNames="text-caption mt-[2rem]"
+            className="text-caption mt-[2rem]"
           >
             Design your own
           </Button>

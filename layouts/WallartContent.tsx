@@ -94,6 +94,8 @@ export const WallartContent = ({
         </div>
       </div>
 
+      {/* <div className="filter_satin"></div> */}
+
       {frame.id !== 0 && (!render || preview) && (
         <div
           id="poster-mount"

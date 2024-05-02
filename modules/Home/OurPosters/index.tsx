@@ -1,6 +1,7 @@
 // components
 import { Slider } from "@/components/Slider";
 import { Container } from "@/components/Container";
+import { Button } from "@/components/Button";
 
 import { SwiperSlide } from "swiper/react";
 
@@ -88,12 +89,17 @@ export const OurPosters = () => {
           <h3 className="text-bodySmall">
             Transform your precious moments into artwork that lasts.
           </h3>
+          <button className="swiper-button-prev">PREV</button>
           <Slider
+            loop={true}
             slidesPerView={4}
             spaceBetween={20}
-            pagination={{ clickable: false }}
-            autoplay={{}}
-            className="mt-[2rem]"
+            // pagination={{ clickable: false }}
+            // autoplay={{
+            //   delay: 3500,
+            //   pauseOnMouseEnter: true,
+            // }}
+            // className="mt-[2rem]"
           >
             {slides.map(({ image, imageAlt, id, title, description }) => {
               return (
@@ -111,7 +117,7 @@ export const OurPosters = () => {
                       />
                     </div>
                     {imageAlt && (
-                      <div className="transition w-full aspect-square absolute top-0 left-0 right-0 bottom-0 opacity-0 z-10 hover:opacity-100">
+                      <div className="transition w-full aspect-square absolute top-0 left-0 right-0 bottom-0 opacity-0 z-10 hover:opacity-100 mb-[2rem]">
                         <Image
                           src={imageAlt}
                           alt="terra"
@@ -124,20 +130,31 @@ export const OurPosters = () => {
                       </div>
                     )}
 
-                    <div className="py-[2rem] px-[1rem] flex flex-col">
-                      <h3 className="text-body font-semibold">{title}</h3>
+                    <div className="py-[1rem] px-[1rem] flex flex-col">
+                      <h3 className="text-body">{title}</h3>
 
                       {description}
 
                       <span className="block mt-[.5rem] font-semibold text-caption">
                         €44.99-79.99
                       </span>
+
+                      <Button
+                        // onClick={() => dispatch(handleShowProductModal())}
+                        type="button"
+                        color="primary"
+                        variant="contained"
+                        className="text-caption mt-[1.5rem]"
+                      >
+                        Створіть свій власний
+                      </Button>
                     </div>
                   </div>
                 </SwiperSlide>
               );
             })}
           </Slider>
+          <button className="swiper-button-next">NEXT</button>
         </div>
       </Container>
     </div>

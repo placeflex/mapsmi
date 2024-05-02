@@ -31,7 +31,6 @@ import {
   materials,
   frames,
   MATERIAL_PRICES,
-  FRAMES_PRICES,
 } from "@/layouts/wallartAttributes";
 import { fontsList } from "@/layouts/wallartSettings/wallartFonts";
 import { mapColors } from "@/layouts/wallartSettings/mapColors";
@@ -177,6 +176,8 @@ export default function Editor() {
   const handleSelectSize = (id: number) => {
     const currentMaterialId = layout.selectedAttributes.material.id;
 
+    console.log("currentMaterialId", currentMaterialId);
+
     const size = materials[currentMaterialId].sizes[id];
 
     dispatch(handleChangeAttributes({ attr: "size", value: size }));
@@ -196,9 +197,10 @@ export default function Editor() {
   };
 
   const handleSelectFrame = (id: number) => {
-    const currentFrame = frames[id];
+    const currentSizeId = layout.selectedAttributes.size.id;
+    const { icon, ...frame } = frames[currentSizeId][id];
 
-    dispatch(handleChangeFrame(currentFrame));
+    dispatch(handleChangeFrame(frame));
   };
 
   const handleAddToCart = async () => {
@@ -545,14 +547,16 @@ export default function Editor() {
     ),
   };
 
-  const RESULT_PRICE =
-    layout?.selectedAttributes?.frame?.id !== 0
-      ? MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
-          layout.selectedAttributes.size.id
-        ].price + FRAMES_PRICES[layout?.selectedAttributes?.frame?.id]?.price
-      : MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
-          layout.selectedAttributes.size.id
-        ].price;
+  const RESULT_PRICE = layout?.selectedAttributes?.frame?.type
+    ? MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
+        layout.selectedAttributes.size.id
+      ].price +
+      frames[layout?.selectedAttributes?.size?.id]?.[
+        layout?.selectedAttributes?.frame?.id
+      ]?.price
+    : MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
+        layout.selectedAttributes.size.id
+      ].price;
 
   return (
     <>
@@ -584,10 +588,10 @@ export default function Editor() {
                   onClick={handleAddWallartToCart}
                 >
                   <span className="h-full flex items-center justify-center text-caption gap-[1rem]">
-                    <span className="line-through opacity-50">
-                      {RESULT_PRICE}$
-                    </span>
-                    <span className="font-bold">{RESULT_PRICE / 2}$</span>
+                    {/* <span className="line-through opacity-50">
+                      {RESULT_PRICE} UAH
+                    </span> */}
+                    <span className="font-bold">{RESULT_PRICE} UAH</span>
                   </span>
                   <span className="font-bold text-bodySmall">Add To Cart</span>
                 </Button>

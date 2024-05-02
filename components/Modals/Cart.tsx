@@ -5,9 +5,12 @@ import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
 import { handleDeleteItem } from "@/redux/cart";
 
+// components
+import { Button } from "@/components/Button";
+
 // constatns
 import { productNames } from "@/constants/constants";
-import { MATERIAL_PRICES, FRAMES_PRICES } from "@/layouts/wallartAttributes";
+import { MATERIAL_PRICES, frames } from "@/layouts/wallartAttributes";
 
 // icons
 import Delete from "@/public/icons/close.svg";
@@ -16,23 +19,41 @@ export const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useTypedSelector(({ cart }) => cart?.cart);
 
+  const RESULT_PRICE = cartItems?.reduce((acc, item: any) => {
+    const RESULT_PRICE = item?.selectedAttributes?.frame?.type
+      ? MATERIAL_PRICES[item?.selectedAttributes?.material?.id]?.prices[
+          item.selectedAttributes.size.id
+        ].price +
+        frames[item?.selectedAttributes?.size?.id]?.[
+          item?.selectedAttributes?.frame?.id
+        ]?.price
+      : MATERIAL_PRICES[item?.selectedAttributes?.material?.id]?.prices[
+          item.selectedAttributes.size.id
+        ].price;
+
+    const itemPrice = RESULT_PRICE;
+    const itemQuantity = item.quantity || 1; // ураховуємо поле quantity
+
+    return acc + itemPrice * itemQuantity; // додаємо ціну кожного товару до загальної суми, помножену на його кількість
+  }, 0);
   return (
-    <div className="w-full h-full">
-      <h3 className="text-h3 mb-[5rem]">Basket</h3>
+    <div className="w-full h-full flex flex-col">
+      <h3 className="text-body mb-[2rem]">Basket</h3>
 
       <div className="flex flex-col">
         {cartItems.map((item: any, index: number) => {
           const { selectedAttributes } = item;
 
-          const price =
-            item?.selectedAttributes?.frame?.id !== 0
-              ? MATERIAL_PRICES[item?.selectedAttributes?.material?.id]?.prices[
-                  item.selectedAttributes.size.id
-                ].price +
-                FRAMES_PRICES[item?.selectedAttributes?.frame?.id]?.price
-              : MATERIAL_PRICES[item?.selectedAttributes?.material?.id]?.prices[
-                  item.selectedAttributes.size.id
-                ].price;
+          const RESULT_PRICE = item?.selectedAttributes?.frame?.type
+            ? MATERIAL_PRICES[item?.selectedAttributes?.material?.id]?.prices[
+                item.selectedAttributes.size.id
+              ].price +
+              frames[item?.selectedAttributes?.size?.id]?.[
+                item?.selectedAttributes?.frame?.id
+              ]?.price
+            : MATERIAL_PRICES[item?.selectedAttributes?.material?.id]?.prices[
+                item.selectedAttributes.size.id
+              ].price;
 
           return (
             <div key={index} className="mb-[2rem]">
@@ -56,11 +77,14 @@ export const Cart = () => {
                     </h4>
 
                     <p className="text-captionSmall font-bold">
-                      Price : {price} $
+                      Price: {RESULT_PRICE} $
                     </p>
                   </div>
                 </div>
-                <button onClick={() => dispatch(handleDeleteItem(item))} className="ml-auto">
+                <button
+                  onClick={() => dispatch(handleDeleteItem(item))}
+                  className="ml-auto"
+                >
                   <Delete width={24} stroke="#000" fill="#000" />
                 </button>
               </div>
@@ -68,6 +92,11 @@ export const Cart = () => {
           );
         })}
       </div>
+
+      <div className="mt-auto text-bodySmall">Total Price: {RESULT_PRICE}</div>
+      <Button href="/cart" className="mt-[2rem] text-bodySmall text-center">
+        Checkout
+      </Button>
     </div>
   );
 };

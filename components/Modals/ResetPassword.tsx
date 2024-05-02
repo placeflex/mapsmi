@@ -104,7 +104,7 @@ export const ResetPassword = () => {
                 )}
               </div>
 
-              <Button classNames="mt-2 flex mx-auto" type="submit">
+              <Button className="mt-2 flex mx-auto" type="submit">
                 Update
               </Button>
             </Form>

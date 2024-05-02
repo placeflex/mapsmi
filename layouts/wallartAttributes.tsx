@@ -4,8 +4,14 @@ import frame2 from "@/public/frames/icons/frame2.png";
 import frame3 from "@/public/frames/icons/frame3.png";
 import frame4 from "@/public/frames/icons/frame4.png";
 import frame5 from "@/public/frames/icons/frame5.png";
+import frame6 from "@/public/frames/icons/frame6.png";
+import frame7 from "@/public/frames/icons/frame6.png";
 import empty from "@/public/frames/icons/empty.png";
 import Empty from "@/public/frames/icons/empty.svg";
+
+// orientations
+import Landscape from "@/public/orientations/landscape.svg";
+import Portrain from "@/public/orientations/portrait.svg";
 
 export interface SizeInterface {
   name: string;
@@ -21,11 +27,11 @@ const replaceDemenssionss = size => {
   };
 };
 
-const RENDER_SIZES = [
-  { id: 0, ...replaceDemenssionss("30x40cm") },
-  { id: 1, ...replaceDemenssionss("50x70cm") },
-  { id: 2, ...replaceDemenssionss("70x100cm") },
-];
+// const RENDER_SIZES = [
+//   { id: 0, ...replaceDemenssionss("30x40cm") },
+//   { id: 1, ...replaceDemenssionss("50x70cm") },
+//   { id: 2, ...replaceDemenssionss("60x90cm") },
+// ];
 
 export const ROUTE_TYPES = {
   0: {
@@ -48,34 +54,34 @@ export const ROUTE_TYPES = {
 export const sizes = [
   { name: "30x40cm", id: 0, ...replaceDemenssionss("30x40cm") },
   { name: "50x70cm", id: 1, ...replaceDemenssionss("50x70cm") },
-  { name: "70x100cm", id: 2, ...replaceDemenssionss("70x100cm") },
+  { name: "60x90cm", id: 2, ...replaceDemenssionss("60x90cm") },
 ];
 
 export const MATERIAL_PRICES = [
   {
     id: 0,
     prices: [
-      { id: 0, price: 400 },
-      { id: 1, price: 500 },
-      { id: 2, price: 600 },
+      { id: 0, price: 600 },
+      { id: 1, price: 900 },
+      { id: 2, price: 1200 },
     ],
   },
   {
     id: 1,
     prices: [
-      { id: 0, price: 680 },
-      { id: 1, price: 1200 },
-      { id: 2, price: 1500 },
+      { id: 0, price: 1199 },
+      { id: 1, price: 1599 },
+      { id: 2, price: 1899 },
     ],
   },
-  {
-    id: 2,
-    prices: [
-      { id: 0, price: 1300 },
-      { id: 1, price: 1800 },
-      { id: 2, price: 3200 },
-    ],
-  },
+  // {
+  //   id: 2,
+  //   prices: [
+  //     { id: 0, price: 1300 },
+  //     { id: 1, price: 1800 },
+  //     { id: 2, price: 3200 },
+  //   ],
+  // },
 ];
 
 export const materials = [
@@ -88,18 +94,18 @@ export const materials = [
       { ...sizes[2], id: 2 },
     ],
   },
-  {
-    name: "Plastik",
-    id: 1,
-    sizes: [
-      { ...sizes[0], id: 0 },
-      { ...sizes[1], id: 1 },
-      { ...sizes[2], id: 2 },
-    ],
-  },
+  // {
+  //   name: "Plastik",
+  //   id: 1,
+  //   sizes: [
+  //     { ...sizes[0], id: 0 },
+  //     { ...sizes[1], id: 1 },
+  //     { ...sizes[2], id: 2 },
+  //   ],
+  // },
   {
     name: "Holst",
-    id: 2,
+    id: 1,
     sizes: [
       { ...sizes[0], id: 0 },
       { ...sizes[1], id: 1 },
@@ -114,8 +120,8 @@ export interface OrientationsInterface {
 }
 
 export const orientations = [
-  { name: "Portrait", id: 0 },
-  { name: "Landscape", id: 1 },
+  { name: "Portrait", id: 0, icon: <Portrain /> },
+  { name: "Landscape", id: 1, icon: <Landscape /> },
 ];
 
 export const FRAMES_PRICES = [
@@ -129,110 +135,121 @@ export const FRAMES_PRICES = [
   { id: 7, price: 73.99, oldPrice: 59.99 },
 ];
 
-export const frames = [
-  {
-    id: 0,
-    name: "none",
-    color: "",
-    material: "",
-    icon: <Empty width={20} height={20} />,
-  },
-  {
-    id: 1,
-    name: "type-hanger",
-    color: "color-natural",
-    material: "material-wood",
-    icon: (
-      <Image
-        src={frame1}
-        alt="frame"
-        objectFit="cover"
-        className="w-full block"
-      />
-    ),
-  },
-  {
-    id: 2,
-    name: "type-hanger",
-    color: "color-white",
-    material: "material-wood",
-    icon: (
-      <Image
-        src={frame2}
-        alt="frame"
-        objectFit="cover"
-        className="w-full block"
-      />
-    ),
-  },
-  {
-    id: 3,
-    name: "type-hanger",
-    color: "color-black",
-    material: "material-wood",
-    icon: (
-      <Image
-        src={frame3}
-        alt="frame"
-        objectFit="cover"
-        className="w-full block"
-      />
-    ),
-  },
-  {
-    id: 4,
-    name: "type-frame",
-    color: "color-natural",
-    material: "material-wood",
-    icon: (
-      <Image
-        src={frame4}
-        alt="frame"
-        objectFit="cover"
-        className="w-full block"
-      />
-    ),
-  },
-  {
-    id: 5,
-    name: "type-frame",
-    color: "color-white",
-    material: "material-wood",
-    icon: (
-      <Image
-        src={frame5}
-        alt="frame"
-        objectFit="cover"
-        className="w-full block"
-      />
-    ),
-  },
-  {
-    id: 6,
-    name: "type-frame",
-    color: "color-black",
-    material: "material-metal",
-    icon: (
-      <Image
-        src={frame5}
-        alt="frame"
-        objectFit="cover"
-        className="w-full block"
-      />
-    ),
-  },
-  {
-    id: 7,
-    name: "type-frame",
-    color: "color-black",
-    material: "material-wood",
-    icon: (
-      <Image
-        src={frame5}
-        alt="frame"
-        objectFit="cover"
-        className="w-full block"
-      />
-    ),
-  },
-];
+export const FRAMES_TYPES = {
+  0: "small",
+  1: "medium",
+  2: "big",
+};
+
+const emptyFrame = {
+  id: 0,
+  name: "none",
+  color: "",
+  material: "",
+  price: 0,
+  icon: <Empty width={20} height={20} />,
+};
+
+export const frames = {
+  0: [
+    emptyFrame,
+    {
+      id: 1,
+      name: "type-frame",
+      color: "color-natural",
+      material: "material-wood",
+      price: 598,
+      oldPrice: 698,
+      type: FRAMES_TYPES[0],
+      icon: <Image src={frame4} layout="fill" alt="frame" objectFit="cover" />,
+    },
+    {
+      id: 2,
+      name: "type-frame",
+      color: "color-white",
+      material: "material-wood",
+      price: 598,
+      oldPrice: 698,
+
+      type: FRAMES_TYPES[0],
+      icon: <Image src={frame5} layout="fill" alt="frame" objectFit="cover" />,
+    },
+    {
+      id: 3,
+      name: "type-frame",
+      color: "color-black",
+      material: "material-wood",
+      type: FRAMES_TYPES[0],
+      price: 598,
+      oldPrice: 698,
+
+      icon: <Image src={frame6} layout="fill" alt="frame" objectFit="cover" />,
+    },
+  ],
+  1: [
+    emptyFrame,
+    {
+      id: 1,
+      name: "type-frame",
+      color: "color-natural",
+      material: "material-wood",
+      price: 1299,
+      oldPrice: 1399,
+      type: FRAMES_TYPES[1],
+      icon: <Image src={frame4} layout="fill" alt="frame" objectFit="cover" />,
+    },
+    {
+      id: 2,
+      name: "type-frame",
+      color: "color-white",
+      material: "material-wood",
+      price: 1299,
+      oldPrice: 1399,
+      type: FRAMES_TYPES[1],
+      icon: <Image src={frame5} layout="fill" alt="frame" objectFit="cover" />,
+    },
+    {
+      id: 3,
+      name: "type-frame",
+      color: "color-black",
+      material: "material-wood",
+      price: 1299,
+      oldPrice: 1399,
+      type: FRAMES_TYPES[1],
+      icon: <Image src={frame6} layout="fill" alt="frame" objectFit="cover" />,
+    },
+  ],
+  2: [
+    emptyFrame,
+    {
+      id: 1,
+      name: "type-frame",
+      color: "color-natural",
+      material: "material-wood",
+      price: 2198,
+      oldPrice: 2299,
+      type: FRAMES_TYPES[2],
+      icon: <Image src={frame4} layout="fill" alt="frame" objectFit="cover" />,
+    },
+    {
+      id: 2,
+      name: "type-frame",
+      color: "color-white",
+      material: "material-wood",
+      price: 2198,
+      oldPrice: 2299,
+      type: FRAMES_TYPES[2],
+      icon: <Image src={frame5} layout="fill" alt="frame" objectFit="cover" />,
+    },
+    {
+      id: 3,
+      name: "type-frame",
+      color: "color-black",
+      material: "material-wood",
+      price: 2198,
+      oldPrice: 2299,
+      type: FRAMES_TYPES[2],
+      icon: <Image src={frame6} layout="fill" alt="frame" objectFit="cover" />,
+    },
+  ],
+};

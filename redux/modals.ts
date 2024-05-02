@@ -8,6 +8,7 @@ interface IModals {
   resetPassword: boolean;
   isOpenProjectAdminSettings: boolean;
   isOpenCartPanel: boolean;
+  liqpay: boolean;
   markersPanel: {
     state: boolean;
     id: number;
@@ -23,6 +24,7 @@ const initialState: IModals = {
   resetPassword: false,
   isOpenProjectAdminSettings: false,
   isOpenCartPanel: false,
+  liqpay: false,
   markersPanel: {
     state: false,
     id: 0,
@@ -60,12 +62,17 @@ const modals = createSlice({
       };
     },
 
+    handleShowLiqaPayModal(state) {
+      state.liqpay = true;
+    },
+
     handleOpenCartPanel(state) {
       state.isOpenCartPanel = true;
     },
 
     handleCloseModals(state) {
       state.productModal = false;
+      state.liqpay = false;
       state.registerModal = false;
       state.loginModal = false;
       state.forgotPassword = false;
@@ -91,6 +98,7 @@ export const {
   handleShowProjectSettingsModal,
   handleSetCurrentIDForMarkersPanel,
   handleOpenCartPanel,
+  handleShowLiqaPayModal,
 } = modals.actions;
 
 export default modals.reducer;

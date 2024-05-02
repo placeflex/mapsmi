@@ -10,11 +10,9 @@ import "swiper/css/pagination";
 export const Slider = ({ children, ...props }) => {
   return (
     <Swiper
-      slidesPerView={2}
-      pagination={{ clickable: true }}
       onSwiper={swiper => console.log(swiper)}
       onSlideChange={() => console.log("slide change")}
-      spaceBetween={20}
+      // spaceBetween={20}
       modules={[Navigation, Autoplay]}
       navigation={{
         nextEl: ".swiper-button-next",

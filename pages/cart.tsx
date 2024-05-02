@@ -18,6 +18,7 @@ import { Container } from "@/components/Container";
 import { Input } from "@/components/Input";
 import { AutoComplete } from "@/components/AutoComplete";
 import { Button } from "@/components/Button";
+import { LiqPayModal } from "@/components/Modals/LiqPayModal";
 
 const countries = [
   { value: "Ukraine", label: "Ukraine" },
@@ -232,57 +233,89 @@ const countries = [
   //   { value: "t7z3-PM", label: "Saint Pierre and Miquelon" },
 ];
 
+import Image from "next/image";
+
+// stores
+import { useDispatch } from "react-redux";
+import { useTypedSelector, AppDispatch } from "@/redux/store";
+import { handleDeleteItem } from "@/redux/cart";
+import { handleShowLiqaPayModal } from "@/redux/modals";
+
+// constatns
+import { productNames } from "@/constants/constants";
+import { MATERIAL_PRICES, frames } from "@/layouts/wallartAttributes";
+
+// icons
+import Delete from "@/public/icons/close.svg";
+
 const Cart = () => {
-  const [form, setForm] = useState<any>(null);
+  const dispatch = useDispatch();
+  const [payMethod, setPayMethod] = useState("liqpay");
+  const cartItems = useTypedSelector(({ cart }) => cart?.cart);
 
-  const handlePayment = async () => {
-    // console.log("Liqpay", Liqpay);
-    const liqpay = new Liqpay(
-      "sandbox_i20692662440",
-      "sandbox_j8X4A0WdvWW3oj2YtbHC9iGkWRjHtSUzhapudLr1"
-    );
+  const RESULT_PRICE = cartItems?.reduce((acc, item: any) => {
+    const RESULT_PRICE = item?.selectedAttributes?.frame?.type
+      ? MATERIAL_PRICES[item?.selectedAttributes?.material?.id]?.prices[
+          item.selectedAttributes.size.id
+        ].price +
+        frames[item?.selectedAttributes?.size?.id]?.[
+          item?.selectedAttributes?.frame?.id
+        ]?.price
+      : MATERIAL_PRICES[item?.selectedAttributes?.material?.id]?.prices[
+          item.selectedAttributes.size.id
+        ].price;
 
-    // const formObj = await liqpay.cnb_object({
-    //   action: "pay",
-    //   amount: "100",
-    //   currency: "USD",
-    //   description: "description text",
-    //   order_value: "order_value_1",
-    //   version: "3",
-    //   language: "uk",
-    // });
+    const itemPrice = RESULT_PRICE;
+    const itemQuantity = item.quantity || 1; // ураховуємо поле quantity
 
-    // const formHtml = `
-    //   <form method="POST" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
-    //     <input type="hvalueden" label="data" value=${formObj.data} />
-    //     <input type="hvalueden" label="signature" value=${formObj.signature} />
-    //     <button type="submit">Pay</button>
-    //   </form>
-    // `;
+    return acc + itemPrice * itemQuantity; // додаємо ціну кожного товару до загальної суми, помножену на його кількість
+  }, 0);
 
-    // setForm(formHtml);
+  const handlePaymentEmbed = async () => {
+    if (RESULT_PRICE) {
+      const liqpay = new Liqpay(
+        "sandbox_i20692662440",
+        "sandbox_j8X4A0WdvWW3oj2YtbHC9iGkWRjHtSUzhapudLr1"
+      );
+
+      const names = cartItems.map((item: any) => productNames[item.productId]);
+
+      dispatch(handleShowLiqaPayModal());
+
+      const formObj = liqpay.cnb_object({
+        action: "pay",
+        amount: RESULT_PRICE,
+        currency: "UAH",
+        description: names.length
+          ? `${names.join(", ")} Posters`
+          : `${names.join(", ")} Poster`,
+        order_value: "order_value_1",
+        version: "3",
+        language: "uk",
+      });
+
+      setTimeout(() => {
+        window?.LiqPayCheckout.init({
+          data: formObj.data,
+          signature: formObj.signature,
+          embedTo: "#liqpay_checkout",
+          mode: "embed", // embed || popup,
+        })
+          .on("liqpay.callback", function (data) {
+            console.log(data.status);
+            console.log(data);
+          })
+          .on("liqpay.ready", function (data) {
+            // ready
+          })
+          .on("liqpay.close", function (data) {
+            // close
+          });
+      }, 500);
+    } else {
+      alert("SHOW ERROR");
+    }
   };
-
-  //   useEffect(() => {
-  //     if (typeof window !== "undefined" && window.LiqPayCheckout) {
-  //       window?.LiqPayCheckout.init({
-  //         data: "eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiI1IiwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6ItCc0ZbQuSDRgtC+0LLQsNGAIiwicHVibGljX2tleSI6InNhbmRib3hfaTIwNjkyNjYyNDQwIiwibGFuZ3VhZ2UiOiJ1ayJ9",
-  //         signature: "jn9c1IJCNYUq1oH+81ZZI7+c6RE=",
-  //         embedTo: "#liqpay_checkout",
-  //         mode: "embed", // embed || popup,
-  //       })
-  //         .on("liqpay.callback", function (data) {
-  //           console.log(data.status);
-  //           console.log(data);
-  //         })
-  //         .on("liqpay.ready", function (data) {
-  //           // ready
-  //         })
-  //         .on("liqpay.close", function (data) {
-  //           // close
-  //         });
-  //     }
-  //   }, []);
 
   const initialValues = {
     email: "",
@@ -314,10 +347,14 @@ const Cart = () => {
     try {
       setFormErrors(initialValues);
       await validationSchema.validate(values, { abortEarly: false });
+      console.log("COLL");
 
       // Если валидация прошла успешно, данные можно отправить
+      handlePaymentEmbed();
     } catch (errors: any) {
       // Если есть ошибки валидации, обновите состояния ошибок
+      console.log("ERRORs", errors);
+
       const errorMessages: any = {};
       errors.inner.forEach((error: any) => {
         errorMessages[error.path] = error.message;
@@ -335,146 +372,276 @@ const Cart = () => {
       <Layout className="bg-bg">
         <Container>
           <div className="py-[4rem]">
-            <h1 className="text-h3 mb-[4rem]">Your billing details </h1>
+            <div className="flex gap-[2rem]">
+              <div className="flex flex-wrap gap-[1rem] w-[70%]">
+                <h1 className="text-body mb-[2rem]">Your billing details</h1>
 
-            <div className="flex flex-wrap gap-[1rem]">
-              <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                <Form className="w-full flex flex-wrap gap-[10px]">
-                  <div className="w-full">
-                    <Field
-                      type="email"
-                      name="email"
-                      label="E-MAIL TO RECIPIENT"
-                      required
-                      as={Input}
-                      labelClasses="w-full"
-                      className="w-full"
-                    />
+                <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+                  <Form className="w-full flex flex-wrap gap-[10px]">
+                    <div className="w-full">
+                      <Field
+                        type="email"
+                        name="email"
+                        label="E-MAIL TO RECIPIENT"
+                        required
+                        as={Input}
+                        labelClasses="w-full"
+                        className="w-full"
+                      />
 
-                    {formErrors.email && (
-                      <div className="text-error">{formErrors.email}</div>
-                    )}
-                  </div>
+                      {formErrors.email && (
+                        <div className="text-error">{formErrors.email}</div>
+                      )}
+                    </div>
 
-                  <div className="w-[calc(50%-0.5rem)] mb-0">
-                    <Field
-                      type="text"
-                      name="firstName"
-                      label="FIRST NAME"
-                      // required
-                      labelClasses="w-full"
-                      as={Input}
-                    />
+                    <div className="w-[calc(50%-0.5rem)] mb-0">
+                      <Field
+                        type="text"
+                        name="firstName"
+                        label="FIRST NAME"
+                        // required
+                        labelClasses="w-full"
+                        as={Input}
+                      />
 
-                    {formErrors.firstName && (
-                      <div className="text-error">{formErrors.firstName}</div>
-                    )}
-                  </div>
+                      {formErrors.firstName && (
+                        <div className="text-error">{formErrors.firstName}</div>
+                      )}
+                    </div>
 
-                  <div className="w-[calc(50%-0.5rem)] mb-0">
-                    <Field
-                      type="text"
-                      name="lastName"
-                      label="LAST NAME"
-                      labelClasses="w-full"
-                      as={Input}
-                    />
+                    <div className="w-[calc(50%-0.5rem)] mb-0">
+                      <Field
+                        type="text"
+                        name="lastName"
+                        label="LAST NAME"
+                        labelClasses="w-full"
+                        as={Input}
+                      />
 
-                    {formErrors.lastName && (
-                      <div className="text-error">{formErrors.lastName}</div>
-                    )}
-                  </div>
+                      {formErrors.lastName && (
+                        <div className="text-error">{formErrors.lastName}</div>
+                      )}
+                    </div>
 
-                  <Field
-                    type="text"
-                    name="country"
-                    label="COUNTRY/REGION"
-                    labelClasses="w-full"
-                    className="w-full"
-                    options={countries}
-                    as={AutoComplete}
-                  />
+                    <div className="w-full">
+                      <Field
+                        type="text"
+                        name="country"
+                        label="COUNTRY/REGION"
+                        labelClasses="w-full"
+                        className="w-full"
+                        options={countries}
+                        as={AutoComplete}
+                      />
+                    </div>
 
-                  <Field
-                    type="text"
-                    name="address"
-                    label="STREET ADDRESS"
-                    placeholder="House number and street name"
-                    labelClasses="w-full  mb-0"
-                    as={Input}
-                  />
+                    <div className="w-full">
+                      <Field
+                        type="text"
+                        name="address"
+                        label="STREET ADDRESS"
+                        placeholder="House number and street name"
+                        labelClasses="w-full  mb-0"
+                        as={Input}
+                      />
 
-                  <Field
-                    type="text"
-                    name="apartment"
-                    label="Apartment, suite, unit, etc. (optional)"
-                    labelClasses="w-full  mb-0"
-                    as={Input}
-                  />
+                      {formErrors.address && (
+                        <div className="text-error">{formErrors.address}</div>
+                      )}
+                    </div>
 
-                  <Field
-                    type="text"
-                    name="city"
-                    label="Town / City"
-                    labelClasses="w-full  mb-0"
-                    as={Input}
-                  />
+                    <div className="w-full">
+                      <Field
+                        type="text"
+                        name="apartment"
+                        label="Apartment, suite, unit, etc. (optional)"
+                        labelClasses="w-full  mb-0"
+                        as={Input}
+                      />
 
-                  <Field
-                    type="text"
-                    name="phone"
-                    label="PHONE (FOR SHIPPING PURPOSES)"
-                    labelClasses="w-full  mb-0"
-                    as={Input}
-                  />
+                      {formErrors.apartment && (
+                        <div className="text-error">{formErrors.apartment}</div>
+                      )}
+                    </div>
 
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    className="text-buttonSmall font-bold w-full mt-[2rem]"
-                  >
-                    Pay
-                  </Button>
-                </Form>
-              </Formik>
+                    <div className="w-full">
+                      <Field
+                        type="text"
+                        name="city"
+                        label="Town / City"
+                        labelClasses="w-full  mb-0"
+                        as={Input}
+                      />
+                      {formErrors.city && (
+                        <div className="text-error">{formErrors.city}</div>
+                      )}
+                    </div>
 
-              {/* <AutoComplete
+                    <div className="w-full">
+                      <Field
+                        type="text"
+                        name="phone"
+                        label="PHONE (FOR SHIPPING PURPOSES)"
+                        labelClasses="w-full  mb-0"
+                        as={Input}
+                      />
+
+                      {formErrors.phone && (
+                        <div className="text-error">{formErrors.phone}</div>
+                      )}
+                    </div>
+
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      className="text-buttonSmall font-bold w-full mt-[2rem]"
+                    >
+                      Pay
+                    </Button>
+
+                    <div onClick={handlePaymentEmbed}>CLOCK</div>
+                  </Form>
+                </Formik>
+
+                {/* <AutoComplete
                 label="COUNTRY/REGION"
                 required
                 labelClasses="w-full"
                 options={countries}
                 className="w-full"
               /> */}
-              {/* <Input
+                {/* <Input
                 label="STREET ADDRESS"
                 required
                 placeholder="House number and street name"
                 labelClasses="w-full  mb-0"
               /> */}
-              {/* <Input
+                {/* <Input
                 required
                 label="Apartment, suite, unit, etc. (optional)"
                 labelClasses="w-full  mb-0"
               /> */}
-              {/* <Input label="Town / City" labelClasses="w-full  mb-0" /> */}
-              {/* <Input
+                {/* <Input label="Town / City" labelClasses="w-full  mb-0" /> */}
+                {/* <Input
                 required
                 label="PHONE (FOR SHIPPING PURPOSES)"
                 labelClasses="w-full  mb-0"
               /> */}
+              </div>
+
+              <div className="w-[30%] ml-auto">
+                <div className="w-full h-full flex flex-col">
+                  <h3 className="text-body mb-[2rem]">Your order</h3>
+
+                  <div className="flex flex-col ">
+                    {cartItems.map((item: any, index: number) => {
+                      const { selectedAttributes } = item;
+
+                      const RESULT_PRICE = item?.selectedAttributes?.frame?.type
+                        ? MATERIAL_PRICES[
+                            item?.selectedAttributes?.material?.id
+                          ]?.prices[item.selectedAttributes.size.id].price +
+                          frames[item?.selectedAttributes?.size?.id]?.[
+                            item?.selectedAttributes?.frame?.id
+                          ]?.price
+                        : MATERIAL_PRICES[
+                            item?.selectedAttributes?.material?.id
+                          ]?.prices[item.selectedAttributes.size.id].price;
+
+                      return (
+                        <div key={index} className="mb-[2rem]">
+                          <div className="flex flex-col">
+                            <div className="relative">
+                              <div className="flex items-center">
+                                <Image
+                                  src={item.path}
+                                  alt={"cart item"}
+                                  width={150}
+                                  height={100}
+                                  quality={100}
+                                  className="object-cover"
+                                />
+
+                                <div className="ml-[2rem]">
+                                  <h3 className="text-captionSmall mb-[.5rem]">
+                                    {productNames[item.productId]} poster -{" "}
+                                    {selectedAttributes.orientation.name} -{" "}
+                                    {selectedAttributes.size.name}
+                                  </h3>
+
+                                  <h5 className="text-captionSmall font-semibold">
+                                    1 x{" "}
+                                    {
+                                      MATERIAL_PRICES[
+                                        item?.selectedAttributes?.material?.id
+                                      ]?.prices[item.selectedAttributes.size.id]
+                                        .price
+                                    }{" "}
+                                    UAH
+                                  </h5>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => dispatch(handleDeleteItem(item))}
+                                className="absolute top-0 right-0"
+                              >
+                                <Delete width={24} stroke="#000" fill="#000" />
+                              </button>
+                            </div>
+
+                            {item?.selectedAttributes?.frame?.id && (
+                              <div className="flex items-center mt-[1rem]">
+                                <div className="relative w-[150px] aspect-square">
+                                  {
+                                    frames[
+                                      item?.selectedAttributes?.size?.id
+                                    ]?.[item?.selectedAttributes?.frame?.id]
+                                      .icon
+                                  }
+                                </div>
+
+                                <div className="ml-[2rem]">
+                                  <h3 className="text-captionSmall capitalize mb-[.5rem]">
+                                    Frame:{" "}
+                                    {
+                                      frames[
+                                        item?.selectedAttributes?.size?.id
+                                      ]?.[item?.selectedAttributes?.frame?.id]
+                                        ?.material
+                                    }
+                                  </h3>
+                                  <h3 className="text-captionSmall font-semibold">
+                                    1 x{" "}
+                                    {
+                                      frames[
+                                        item?.selectedAttributes?.size?.id
+                                      ]?.[item?.selectedAttributes?.frame?.id]
+                                        ?.price
+                                    }{" "}
+                                    UAH
+                                  </h3>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-auto text-bodySmall">
+                    Total: {RESULT_PRICE}
+                  </div>
+                </div>
+              </div>
             </div>
-
-            {/* 
-            <h1 className="text-h1">Payment details</h1>
-
-            <Input label="CARD NUMBER *" />
-            <Input label="EXPIRY DATE" />
-            <Input label="CARD CODE (CVC)" /> */}
           </div>
         </Container>
       </Layout>
-      <div onClick={handlePayment}>CLOCK</div>
-      {/* <div value="liqpay_checkout"></div> */}
+
+      <LiqPayModal>
+        <div id="liqpay_checkout"></div>
+      </LiqPayModal>
       {/* {form && <div dangerouslySetInnerHTML={{ __html: form }}></div>} */}
     </>
   );

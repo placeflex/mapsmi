@@ -2,6 +2,8 @@ import puppeteer from "puppeteer";
 import Jimp from "jimp";
 import { handleGetPosterGap } from "@/components/LayoutPreviewWrapper";
 
+import { productsVariations } from "@/constants/constants";
+
 function vminToPixels(vminValue, screenWidth, screenHeight) {
   const vminInPixels = Math.min(screenWidth, screenHeight) * (vminValue / 100);
   return vminInPixels;
@@ -33,17 +35,23 @@ export const generateScreenForCart = async (project: any) => {
       { waitUntil: "networkidle2" }
     );
 
-    await page.evaluate(project => {
-      localStorage.setItem("map-storage", JSON.stringify(project));
-    }, project);
+    const storage = productsVariations[project.productId];
+
+    await page.evaluate(
+      (project, storage) => {
+        localStorage.setItem(storage, JSON.stringify(project));
+      },
+      project,
+      storage
+    );
 
     console.log("FILL MAP STORAGE");
 
     await page.waitForFunction(
-      () => localStorage.getItem("map-storage") !== null
+      storage => localStorage.getItem(storage) !== null,
+      {},
+      storage
     );
-
-    // return;
 
     console.log("SCREEN START", 4);
 
@@ -92,14 +100,27 @@ export const generateScreenForCart = async (project: any) => {
       console.log("GOT");
 
       const extendedBoundingBox = {
-        x: boundingBox.x - 20,
-        y: boundingBox.y - 20,
-        width: boundingBox.width + 40, // Добавляем 20 пикселей с каждой стороны
-        height: boundingBox.height + 40,
+        x:
+          project.selectedAttributes.frame.id != 0
+            ? boundingBox.x - 20
+            : boundingBox.x,
+        y:
+          project.selectedAttributes.frame.id != 0
+            ? boundingBox.y - 20
+            : boundingBox.y,
+        width:
+          project.selectedAttributes.frame.id != 0
+            ? boundingBox.width + 40
+            : boundingBox.width,
+        height:
+          project.selectedAttributes.frame.id != 0
+            ? boundingBox.height + 40
+            : boundingBox.height,
       };
 
       await elementHandle.screenshot({
         path: "screenshotFORCARTFULLDSLDALDLSALD.png",
+        clip: extendedBoundingBox,
       });
 
       //   console.log("SCREEN START END");

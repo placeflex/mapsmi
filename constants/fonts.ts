@@ -3,12 +3,15 @@ import {
   Dancing_Script,
   Sofia_Sans,
   Montserrat,
+  Alice,
+  Montserrat_Alternates,
 } from "next/font/google";
 
-export const main_font = Montserrat({
+export const main_font = Montserrat_Alternates({
   subsets: ["latin"],
   variable: "--font-main",
-  weight: ["300", "400", "600", "800"],
+  // weight: ["300", "400", "600", "800"],
+  weight: ["400"],
   display: "swap",
 });
 

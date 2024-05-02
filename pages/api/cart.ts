@@ -11,6 +11,8 @@ import B2 from "backblaze-b2";
 import { generateScreen } from "@/pages/api/helpers/generateScreen";
 import { generateScreenForCart } from "@/pages/api/helpers/generateScreenForCart";
 
+import { generatePDF } from "@/pages/api/helpers/generatePDF";
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -30,7 +32,11 @@ export default async function handler(
       bucketId: "e4622d010a503bd483d80013",
     });
 
-    const screen = await generateScreenForCart(projectPayload);
+    // const screen = await generateScreenForCart(projectPayload);
+
+    generateScreen(projectPayload);
+    return;
+    // return await generatePDF(projectPayload);
 
     const date = new Date().toISOString();
 

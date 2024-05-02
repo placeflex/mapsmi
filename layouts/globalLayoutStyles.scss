@@ -73,10 +73,13 @@ $frameWidth: var(--frame-scale);
   font-size: calc(var(--render-scale) * 20px) !important;
 
   &.poster-30x40 {
-    font-size: calc(var(--render-scale) * 10px) !important;
+    font-size: calc(var(--render-scale) * 8px) !important;
   }
   &.poster-50x70 {
     font-size: calc(var(--render-scale) * 15px) !important;
+  }
+  &.poster-60x90 {
+    font-size: calc(var(--render-scale) * 17px) !important;
   }
   &.poster-70x100 {
     font-size: calc(var(--render-scale) * 20px) !important;
@@ -202,8 +205,22 @@ $frameWidth: var(--frame-scale);
       }
 
       .labels {
-        padding: 3em 0;
+        padding: 2.2em 2em;
         background: #fff;
+        gap: 0.4em;
+
+        h1 {
+          font-size: 4em;
+        }
+
+        h2 {
+          font-size: 2em;
+        }
+
+        h3,
+        span {
+          font-size: 1.4em;
+        }
 
         * {
           color: #000;
@@ -264,7 +281,7 @@ $frameWidth: var(--frame-scale);
       }
 
       span {
-        margin-top: 1em;
+        margin-top: 0.5em;
         font-size: 1.2em;
         opacity: 0.7;
       }
@@ -325,22 +342,23 @@ $frameWidth: var(--frame-scale);
         letter-spacing: 0.2em;
         left: auto;
         bottom: 0;
+        margin-bottom: 2em;
 
         * {
           color: $bg;
         }
 
         h1 {
-          font-size: 1.6em;
+          font-size: 2em;
         }
 
         h2,
         h3 {
-          font-size: 0.8em;
+          font-size: 1.1em;
         }
 
         span {
-          font-size: 0.7em;
+          font-size: 1em;
           opacity: 0.5;
         }
       }

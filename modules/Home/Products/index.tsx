@@ -38,7 +38,7 @@ export const Products = () => {
 
           <Button
             type="button"
-            classNames="mt-5 flex"
+            className="mt-5 flex"
             onClick={() => handleGoToEditor(0)}
           >
             Design your own
@@ -62,7 +62,7 @@ export const Products = () => {
 
           <Button
             type="button"
-            classNames="mt-5 flex"
+            className="mt-5 flex"
             onClick={() => handleGoToEditor(1)}
           >
             Design your own
@@ -86,7 +86,7 @@ export const Products = () => {
 
           <Button
             type="button"
-            classNames="mt-5 flex"
+            className="mt-5 flex"
             onClick={() => handleGoToEditor(2)}
           >
             Design your own
