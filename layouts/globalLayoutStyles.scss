@@ -1,32 +1,31 @@
 @import "../styles/mixins.scss";
+@import "../styles/layoutConstants.scss";
+
+// map styles
+@import "../layouts/Map/layoutStyles/bold.scss";
+@import "../layouts/Map/layoutStyles/minimal.scss";
+@import "../layouts/Map/layoutStyles/brush.scss";
+@import "../layouts/Map/layoutStyles/crispi.scss";
+@import "../layouts/Map/layoutStyles/lopster.scss";
+@import "../layouts/Map/layoutStyles/noir.scss";
+@import "../layouts/Map/layoutStyles/script.scss";
+// zodiac styles
+@import "../layouts/Zodiac/layoutStyles/bold.scss";
+@import "../layouts/Zodiac/layoutStyles/lopster.scss";
+@import "../layouts/Zodiac/layoutStyles/minimal.scss";
+@import "../layouts/Zodiac/layoutStyles/noir.scss";
+@import "../layouts/Zodiac/layoutStyles/spectrum.scss";
+// skymap styles
+@import "../layouts/SkyMap/layoutStyles/minimal.scss";
+@import "../layouts/SkyMap/layoutStyles/bold.scss";
+@import "../layouts/SkyMap/layoutStyles/lopster.scss";
+@import "../layouts/SkyMap/layoutStyles/noir.scss";
+@import "../layouts/SkyMap/layoutStyles/spectrum.scss";
+// lineart styles
+@import "../layouts/LineArt/layoutStyles/terra-tone.scss";
+@import "../layouts/LineArt/layoutStyles/urban-vista.scss";
 
 // margin ( paddings )
-$marginXs: 1em;
-$marginSmall: 1.2em;
-$marginLarge: 1.4em;
-$marginXLarge: 1.6em;
-$marginXXLarge: 1.8em;
-$marginXXXLarge: 2em;
-
-// text sizes
-$textLarge: 3.4em;
-$textMedium: 3em;
-$textSmall: 2.5em;
-
-// border size
-$borderLine: 0.2em;
-$borderXs: 0.4em;
-$borderSmall: 0.8em;
-$borderMedium: 1em;
-
-// poster settings
-$illustrationColor: var(--illustration-color);
-$font: var(--font-poster);
-$bg: var(--bg-color);
-$textColor: var(--text-color);
-$gradientColor: var(--gradientColor);
-
-$frameWidth: var(--frame-scale);
 
 .mask {
   position: absolute;
@@ -35,7 +34,7 @@ $frameWidth: var(--frame-scale);
   z-index: 1;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%) scale(1.12);
+  transform: translate(-50%, -50%) scale(1);
   z-index: 0;
 }
 
@@ -87,33 +86,32 @@ $frameWidth: var(--frame-scale);
 }
 
 .artwork {
+  position: relative;
   .border-holder {
     margin: 2em;
   }
 
   .custom-line {
     position: absolute;
-    width: calc(100% + 0.5em);
-    height: calc(100% + 0.5em);
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    margin-left: -0.25em;
-    margin-top: -0.25em;
     // border: $borderXs solid $illustrationColor;
     border: $borderXs solid #000;
-    z-index: 3;
     pointer-events: none;
+    z-index: 2;
 
     &.second {
-      width: calc(100% + 1.2em);
-      height: calc(100% + 1.2em);
-      margin-left: -0.6em;
-      margin-top: -0.6em;
-      // border: $borderLine solid $illustrationColor;
+      position: absolute;
+      width: calc(100% + 20px);
+      height: calc(100% + 20px);
+      top: 50%;
+      left: 50%;
       border: $borderLine solid #000;
-      // transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -186,80 +184,11 @@ $frameWidth: var(--frame-scale);
   // PRODUCTS
 
   &.lineart {
-    &.urban-vista {
-      .custom-line {
-        display: none;
-      }
-
-      .artworkFigure {
-        padding: 0;
-        gap: 0;
-      }
-
-      svg {
-        padding: 3em;
-      }
-
-      .border-holder {
-        margin: 0;
-      }
-
-      .labels {
-        padding: 2.2em 2em;
-        background: #fff;
-        gap: 0.4em;
-
-        h1 {
-          font-size: 4em;
-        }
-
-        h2 {
-          font-size: 2em;
-        }
-
-        h3,
-        span {
-          font-size: 1.4em;
-        }
-
-        * {
-          color: #000;
-        }
-      }
-    }
-
-    &.terra-tone {
-      .custom-line {
-        display: none;
-      }
-      .border-holder {
-        margin: 0;
-      }
-
-      .artworkFigure {
-        padding: 4em;
-      }
-
-      svg {
-        opacity: 0.3;
-      }
-
-      .labels {
-        padding: 0 2em;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-    }
+    @include LineArtTerraToneLayout();
+    @include LineArtUrbanVistaLayout();
   }
 
   &.skymap {
-    &.overlayApply {
-      #map-holder {
-        transform: scale(0.87);
-      }
-    }
-
     .artworkFigure {
       overflow: hidden;
       justify-content: flex-start;
@@ -287,636 +216,86 @@ $frameWidth: var(--frame-scale);
       }
     }
 
-    &.minimal {
-      .labels {
-        gap: 0.4em;
-        h1 {
-          font-size: 2.7em;
-        }
-
-        h2 {
-          @include subline-decoration-center($textColor);
-        }
-
-        h2,
-        h3 {
-          font-size: 2em;
-        }
-
-        span {
-          margin-top: 1em;
-          font-size: 1.2em;
-          opacity: 0.7;
-        }
-      }
-    }
-
-    &.spectrum {
-      .custom-line {
-        display: none;
-      }
-      .border-holder {
-        margin: 0;
-      }
-      .labels {
-        h2 {
-          @include subline-decoration-center($textColor);
-        }
-      }
-    }
-
-    &.bold-full,
-    &.bold {
-      .artworkFigure {
-        gap: 2em;
-      }
-
-      .labels {
-        background: $illustrationColor;
-        padding: 1em 1.5em;
-        text-transform: uppercase;
-        white-space: pre-wrap;
-        width: auto;
-        gap: 0.5em;
-        min-width: 50%;
-        letter-spacing: 0.2em;
-        left: auto;
-        bottom: 0;
-        margin-bottom: 2em;
-
-        * {
-          color: $bg;
-        }
-
-        h1 {
-          font-size: 2em;
-        }
-
-        h2,
-        h3 {
-          font-size: 1.1em;
-        }
-
-        span {
-          font-size: 1em;
-          opacity: 0.5;
-        }
-      }
-
-      // @include police-color-bold-layout;
-    }
-
-    &.bold-full {
-      .custom-line {
-        display: none;
-      }
-      .border-holder {
-        margin: 0;
-      }
-
-      &.landscape {
-        .labels {
-          margin-bottom: 0;
-        }
-      }
-    }
-
-    &.lopster {
-      .custom-line {
-        display: none;
-      }
-
-      .border-holder {
-        margin: 0;
-        padding: 2em;
-        position: relative;
-        background: $bg;
-      }
-
-      .artworkFigure {
-        position: relative;
-        overflow: hidden;
-        padding: 0;
-      }
-
-      &.landscape {
-        .labels {
-          gap: 0.4em;
-        }
-      }
-
-      #map-holder {
-        flex-grow: 1;
-        margin: auto auto;
-
-        #map {
-          margin: auto;
-        }
-      }
-
-      .labels {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        background: transparent;
-        padding: 1em;
-        border: 0.2em solid $textColor;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-        padding-bottom: 1em;
-        pointer-events: none;
-        top: auto;
-        bottom: auto;
-        left: auto;
-        right: auto;
-
-        * {
-          color: $textColor;
-        }
-
-        h1 {
-          font-size: 3em;
-          padding: 0 0.2em;
-          text-transform: uppercase;
-        }
-
-        h2,
-        h3,
-        span {
-          display: block;
-          font-size: 1.8em;
-        }
-
-        h3 {
-          @include subline-decoration-center($textColor);
-          font-size: 1.4em;
-        }
-
-        span {
-          font-size: 1.2em;
-          margin: 0;
-        }
-      }
-    }
-
-    &.noir {
-      .custom-line {
-        display: none;
-      }
-      .border-holder {
-        margin: 0;
-      }
-
-      .artworkFigure {
-        padding: 2em;
-      }
-
-      .labels {
-        background: transparent;
-        text-align: right;
-        justify-content: flex-end;
-        align-items: flex-end;
-
-        * {
-          color: $textColor;
-        }
-
-        h1 {
-          font-size: 2em;
-        }
-
-        h2,
-        h3 {
-          font-size: 1.8em;
-        }
-
-        span {
-          display: block;
-          margin-top: 0.2em;
-          font-size: 1.2em;
-        }
-      }
-    }
+    @include SkymapBoldLayout();
+    @include SkymapLopsterLayout();
+    @include SkymapMinimalLayout();
+    @include SkymapNoirLayout();
+    @include SkymapSpectrumLayout();
   }
 
   &.map {
-    // .border-holder {
-    //   margin: 3em;
-    // }
-
-    .artworkFigure {
-      background: transparent;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      gap: 0;
-    }
-
-    .labels {
-      position: absolute;
-      z-index: 1;
-      padding: 2em 1.5em;
-      width: calc(100% + 2px);
-      bottom: -1px;
-      left: -1px;
-      background: var(--gradientColor);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1em;
-      overflow: hidden;
-
-      *:last-child {
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
-
-      h1 {
-        font-weight: bold;
-      }
-    }
-
-    &.minimal-full,
-    &.minimal {
-      .labels {
-        h1 {
-          font-size: 3em;
-        }
-
-        h3,
-        h2 {
-          font-size: 2em;
-        }
-
-        span {
-          font-size: 1.5em;
-        }
-      }
-    }
-
-    &.minimal-full {
-      .border-holder {
-        margin: 0;
-      }
-      .custom-line {
-        display: none;
-      }
-
-      h2 {
-        @include subline-decoration-center($textColor);
-      }
-    }
-
-    &.bold-full,
-    &.bold {
-      .labels {
-        background: $bg;
-        margin: 2em;
-        padding: 1em 1.5em;
-        text-transform: uppercase;
-        white-space: pre-wrap;
-        width: auto;
-        position: absolute;
-        gap: 0.5em;
-        min-width: 50%;
-        letter-spacing: 0.2em;
-        left: auto;
-        bottom: 0;
-
-        h1 {
-          font-size: 1.6em;
-        }
-
-        h2,
-        h3 {
-          font-size: 0.8em;
-        }
-
-        span {
-          font-size: 0.7em;
-          opacity: 0.5;
-        }
-      }
-
-      // @include police-color-bold-layout;
-    }
-
-    &.bold-full {
-      .custom-line {
-        display: none;
-      }
-      .border-holder {
-        margin: 0;
-      }
-    }
-
-    &.script {
-      .labels {
-        position: static;
-        text-align: left;
-        align-items: flex-start;
-        background: transparent;
-        border-top: 0.3em solid $textColor;
-        gap: 0.8em;
-        padding: 1.6em;
-        width: 100%;
-
-        h1 {
-          font-size: 2em;
-        }
-
-        h2,
-        h3 {
-          font-size: 1.2em;
-        }
-
-        span {
-          font-size: 1em;
-          opacity: 0.5;
-        }
-      }
-
-      .border-holder {
-        margin: 0;
-      }
-
-      .custom-line {
-        display: none;
-      }
-    }
-
-    &.brush {
-      .custom-line {
-        display: none;
-      }
-
-      .border-holder {
-        margin: 0;
-      }
-
-      .labels {
-        position: static;
-        padding: 3em 1em 3.2em 1em;
-        gap: 1em;
-        overflow: hidden;
-        background: transparent;
-
-        h1 {
-          font-size: 2.3em;
-        }
-
-        h2 {
-          @include subline-decoration-center($textColor);
-          font-size: 1.7em;
-        }
-
-        h3,
-        span {
-          font-size: 1.2em;
-        }
-
-        span {
-          opacity: 0.6;
-        }
-      }
-
-      // @include police-color-brush-layout;
-    }
-
-    &.crispi {
-      .custom-line {
-        display: none;
-      }
+    &.maskApply {
+      background: var(--bg-color);
 
       .artworkFigure {
-        flex-direction: column-reverse;
+        justify-content: flex-end;
       }
 
-      .border-holder {
-        margin: 0;
+      .overlay-wrapper {
+        padding: 1em;
+
+        #map {
+          mask: var(--mask);
+          mask-image: var(--mask);
+          mask-repeat: no-repeat;
+          mask-position: center;
+          mask-size: contain;
+          transform: scale(1) translateZ(0);
+          -webkit-mask-size: contain;
+          -webkit-transform: scale(1) translateZ(0) !important;
+        }
       }
 
       .labels {
-        position: static;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        gap: 0.8em;
-        padding: 2em;
-        background: transparent;
-
-        h1 {
-          font-size: 1.8em;
-          line-height: 1.2;
-          text-align: left;
-          width: 52%;
-          text-transform: uppercase;
-        }
-
-        .right-content {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-          justify-content: flex-end;
-          width: 48%;
-          text-align: right;
-          gap: 0.7em;
-        }
-
-        span,
-        h3,
-        h2 {
-          display: block;
-          font-size: 1.7em;
-        }
-
-        h3 {
-          font-size: 1em;
-          opacity: 0.5;
-        }
-      }
-    }
-
-    &.lopster {
-      .custom-line {
-        display: none;
-      }
-
-      .border-holder {
-        margin: 0;
-        padding: 3em;
-        position: relative;
-        background: transparent;
-      }
-
-      #map {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-      }
-
-      .artworkFigure {
-        // position: relative;
-        overflow: hidden;
-      }
-
-      .labels {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        background: transparent;
+        position: static !important;
         padding: 0;
-        border: 0.2em solid $textColor;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-        padding: 2em 1em 2em 1em;
-        pointer-events: none;
-        gap: 0.8em;
-        top: auto;
-        bottom: auto;
-        left: auto;
-        right: auto;
-
-        * {
-          color: $textColor;
-          text-transform: uppercase;
-        }
-
-        h1 {
-          // position: absolute;
-          // top: 0.5em;
-          margin-bottom: auto;
-          font-size: 3.4em;
-        }
-
-        h2,
-        h3,
-        span {
-          display: block;
-          font-size: 1.6em;
-        }
-
-        h3 {
-          @include subline-decoration-center($textColor);
-          font-size: 1.2em;
-        }
-
-        span {
-          font-size: 1em;
-        }
+        overflow: visible;
+        gap: 0;
       }
+
+      @include BoldLayoutWithMask();
+      @include MinimalLayoutWithMask();
+      @include ScriptLayoutWithMask();
+      @include CrispiLayoutWithMask();
+      @include BrushLayoutWithMask();
+      @include LopsterLayoutWithMask();
+
+      // &.landscape {
+      //   .overlay-wrapper {
+      //     padding: 2em;
+
+      //     #map {
+      //       transform: scale(1.3);
+      //     }
+      //   }
+      // }
+
+      // &.lopster {
+      //   .border-holder {
+      //     padding: 0;
+      //   }
+      //   .labels {
+      //     height: auto;
+      //     padding: 0;
+      //     // gap: 0;
+      //     border: 0 !important;
+      //     overflow: visible !important;
+      //   }
+      // }
     }
 
-    &.noir {
-      .custom-line {
-        display: none;
-      }
-      .border-holder {
-        margin: 0;
-      }
-
-      .labels {
-        background: transparent;
-        text-align: right;
-        justify-content: flex-end;
-        align-items: flex-end;
-        padding: 2em;
-        gap: 1em;
-
-        * {
-          color: $textColor;
-        }
-
-        h1 {
-          font-size: 2.6em;
-        }
-
-        h2,
-        h3 {
-          font-size: 2em;
-        }
-
-        span {
-          display: block;
-          margin-top: 0.2em;
-          font-size: 1.9em;
-        }
-      }
-    }
+    @include MinimalLayout();
+    @include BoldLayout();
+    @include NoriLayout();
+    @include BrushLayout();
+    @include CrispiLayout();
+    @include LopsterLayout();
+    @include ScriptLayout();
   }
 
   &.zodiac {
-    &.overlayApply {
-      .zodiac-wrp {
-        transform: scale(0.87);
-      }
-    }
-
-    &.portrait {
-      .zodiac-bg {
-        height: auto !important;
-        width: 100% !important;
-        aspect-ratio: 1/1;
-      }
-    }
-
-    &.landscape {
-      .zodiac-bg {
-        width: auto !important;
-        height: 100% !important;
-        aspect-ratio: 1/1;
-      }
-    }
-
     .artworkFigure {
       padding: $marginXXXLarge;
-    }
-
-    .zodiac-bg {
-      padding: $marginSmall;
-      border-radius: 9999px;
-      background: $illustrationColor;
-
-      & > svg {
-        opacity: 0.4;
-        fill: $bg;
-        z-index: 3;
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .zodiac-figure {
-      position: absolute;
-      width: 65%;
-      height: 65%;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-
-      circle,
-      path {
-        fill: $bg;
-      }
-    }
-
-    .sky-bg {
-      padding: 10px;
-
-      svg {
-        width: inherit;
-        height: inherit;
-      }
     }
 
     .labels {
@@ -937,213 +316,12 @@ $frameWidth: var(--frame-scale);
       }
     }
 
-    &.minimal {
-      .labels {
-        gap: 0.4em;
-        h1 {
-          font-size: 2.7em;
-        }
-
-        h2 {
-          @include subline-decoration-center($textColor);
-        }
-
-        h2,
-        h3 {
-          font-size: 2em;
-        }
-
-        span {
-          margin-top: 1em;
-          font-size: 1.2em;
-          opacity: 0.7;
-        }
-      }
-    }
-
-    &.spectrum {
-      .custom-line {
-        display: none;
-      }
-      .border-holder {
-        margin: 0;
-      }
-      .labels {
-        h2 {
-          @include subline-decoration-center($textColor);
-        }
-      }
-    }
-
-    &.bold-full,
-    &.bold {
-      .artworkFigure {
-        gap: 2em;
-      }
-
-      .labels {
-        background: $illustrationColor;
-        padding: 1em 1.5em;
-        text-transform: uppercase;
-        white-space: pre-wrap;
-        width: auto;
-        gap: 0.5em;
-        min-width: 50%;
-        letter-spacing: 0.2em;
-        left: auto;
-        bottom: 0;
-
-        * {
-          color: $bg;
-        }
-
-        h1 {
-          font-size: 1.6em;
-        }
-
-        h2,
-        h3 {
-          font-size: 0.8em;
-        }
-
-        span {
-          font-size: 0.7em;
-          opacity: 0.5;
-        }
-      }
-
-      // @include police-color-bold-layout;
-    }
-
-    &.bold-full {
-      .custom-line {
-        display: none;
-      }
-      .border-holder {
-        margin: 0;
-      }
-
-      &.landscape {
-        .labels {
-          margin-bottom: 0;
-        }
-      }
-    }
-
-    &.lopster {
-      .custom-line {
-        display: none;
-      }
-
-      .border-holder {
-        margin: 0;
-        padding: 2em;
-        position: relative;
-        background: $bg;
-      }
-
-      .artworkFigure {
-        position: relative;
-        overflow: hidden;
-        padding: 0;
-      }
-
-      &.landscape {
-        .labels {
-          gap: 0.4em;
-        }
-      }
-
-      .zodiac-wrp {
-        flex-grow: 1;
-        margin: auto auto;
-      }
-
-      .labels {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        background: transparent;
-        padding: 1em;
-        border: 0.2em solid $textColor;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-        padding-bottom: 1em;
-        pointer-events: none;
-        top: auto;
-        bottom: auto;
-        left: auto;
-        right: auto;
-
-        * {
-          color: $textColor;
-        }
-
-        h1 {
-          font-size: 3em;
-          padding: 0 0.2em;
-          text-transform: uppercase;
-        }
-
-        h2,
-        h3,
-        span {
-          display: block;
-          font-size: 1.8em;
-        }
-
-        h3 {
-          @include subline-decoration-center($textColor);
-          font-size: 1.4em;
-        }
-
-        span {
-          font-size: 1.2em;
-          margin: 0;
-        }
-      }
-    }
-
-    &.noir {
-      .custom-line {
-        display: none;
-      }
-      .border-holder {
-        margin: 0;
-      }
-
-      .artworkFigure {
-        padding: 2em;
-      }
-
-      .labels {
-        background: transparent;
-        text-align: right;
-        justify-content: flex-end;
-        align-items: flex-end;
-
-        * {
-          color: $textColor;
-        }
-
-        h1 {
-          font-size: 2em;
-        }
-
-        h2,
-        h3 {
-          font-size: 1.8em;
-        }
-
-        span {
-          display: block;
-          margin-top: 0.2em;
-          font-size: 1.2em;
-        }
-      }
-    }
+    @include ZodiacNoirLayout();
+    @include ZodiacLopsterLayout();
+    @include ZodiacBoldLayout();
+    @include ZodiacSpectrumLayout();
+    @include ZodiacMinimalLayout();
+    @include ZodiacLopsterLayout();
   }
 }
 

@@ -1,0 +1,59 @@
+@import "../../../styles/mixins.scss";
+
+@mixin ZodiacBoldLayout() {
+  &.bold-full,
+  &.bold {
+    .artworkFigure {
+      gap: 2em;
+    }
+
+    .labels {
+      background: $illustrationColor;
+      padding: 1em 1.5em;
+      text-transform: uppercase;
+      white-space: pre-wrap;
+      width: auto;
+      gap: 0.5em;
+      min-width: 50%;
+      letter-spacing: 0.2em;
+      left: auto;
+      bottom: 0;
+      max-width: 50%;
+
+      * {
+        color: $bg;
+      }
+
+      h1 {
+        font-size: 1.6em;
+      }
+
+      h2,
+      h3 {
+        font-size: 0.8em;
+      }
+
+      span {
+        font-size: 0.7em;
+        opacity: 0.5;
+      }
+    }
+
+    // @include police-color-bold-layout;
+  }
+
+  &.bold-full {
+    .custom-line {
+      display: none;
+    }
+    .border-holder {
+      margin: 0;
+    }
+
+    &.landscape {
+      .labels {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

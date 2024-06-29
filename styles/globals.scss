@@ -121,5 +121,17 @@ body {
   height: 100%;
   z-index: 1;
   pointer-events: none;
-  opacity: .5;
+  opacity: 0.5;
+}
+
+.overlay-gradient {
+  background: linear-gradient(
+    180deg,
+    rgba(217, 217, 217, 0) 0%,
+    rgba(31, 31, 31, 0.3) 100%
+  );
+}
+
+.swiper-slide {
+  height: auto !important;
 }

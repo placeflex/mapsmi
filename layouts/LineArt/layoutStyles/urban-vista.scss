@@ -1,0 +1,47 @@
+@mixin LineArtUrbanVistaLayout() {
+  &.urban-vista {
+    .custom-line {
+      display: none;
+    }
+
+    .artworkFigure {
+      padding: 0;
+      gap: 0;
+    }
+
+    svg {
+      padding: 3em;
+    }
+
+    .border-holder {
+      margin: 0;
+    }
+
+    .labels {
+      padding: 2.2em 2em;
+      background: #fff;
+      gap: 0.7em;
+
+      h1 {
+        font-size: 3em;
+      }
+
+      h2 {
+        font-size: 1.7em;
+      }
+
+      h3,
+      span {
+        font-size: 1.4em;
+      }
+
+      span {
+        margin-top: 1em;
+      }
+
+      * {
+        color: #000;
+      }
+    }
+  }
+}

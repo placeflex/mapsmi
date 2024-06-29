@@ -1,0 +1,65 @@
+@mixin BoldLayout() {
+  &.bold-full,
+  &.bold {
+    .labels {
+      background: $bg;
+      margin: 2em;
+      padding: 1em 1.5em;
+      text-transform: uppercase;
+      white-space: pre-wrap;
+      width: auto;
+      position: absolute;
+      gap: 0.5em;
+      min-width: 50%;
+      letter-spacing: 0.2em;
+      left: auto;
+      bottom: 0;
+
+      h1 {
+        font-size: 1.7em;
+      }
+
+      h2 {
+        font-size: 1em;
+      }
+
+      h3 {
+        font-size: 0.7em;
+      }
+
+      span {
+        font-size: 0.7em;
+        opacity: 0.5;
+        margin-top: 1em;
+      }
+    }
+
+    // @include police-color-bold-layout;
+  }
+
+  &.bold-full {
+    .custom-line {
+      display: none;
+    }
+    .border-holder {
+      margin: 0;
+    }
+  }
+}
+
+@mixin BoldLayoutWithMask() {
+  &.bold-full,
+  &.bold {
+    .custom-line {
+      border-color: $gradientColor;
+    }
+    .labels {
+      background: #fff !important;
+      position: static !important;
+      padding: 2em !important;
+      margin: 2em !important;
+      margin-top: 0 !important;
+      overflow: visible !important;
+    }
+  }
+}

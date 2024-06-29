@@ -1,20 +1,5 @@
 .tab-panel {
-  .ant-tabs-nav-list,
-  .ant-tabs-nav-wrap {
-    width: 100% !important;
-  }
-
-  .ant-tabs-nav {
-    &::before {
-      display: none;
-      // border-color: var(--button);
-    }
-  }
-
   .ant-tabs-tab {
-    flex-grow: 1 !important;
-    justify-content: center;
-    margin: 0 !important;
     color: var(--secondaryBg);
 
     &:hover {

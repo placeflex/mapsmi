@@ -78,7 +78,10 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     labelsTextColor,
     routeType,
     labelsStyle,
+    poster,
   } = useTypedSelector(({ layout }) => layout.layout);
+
+  const maskEnabled = poster?.styles?.isMask;
 
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
@@ -776,5 +779,11 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     };
   }, [posterStyles.color]);
 
-  return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
+  return maskEnabled ? (
+    <div className="w-full h-full overlay-wrapper relative">
+      <div id="map" style={{ width: "100%", height: "100%" }}></div>
+    </div>
+  ) : (
+    <div id="map" style={{ width: "100%", height: "100%" }}></div>
+  );
 };

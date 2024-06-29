@@ -1,0 +1,39 @@
+@mixin LineArtTerraToneLayout() {
+  &.terra-tone {
+    .custom-line {
+      display: none;
+    }
+    .border-holder {
+      margin: 0;
+    }
+
+    .artworkFigure {
+      padding: 4em;
+    }
+
+    svg {
+      opacity: 0.25;
+    }
+
+    .labels {
+      padding: 0 2em;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      gap: 0.7em;
+
+      h1 {
+        font-size: 2.6em;
+      }
+
+      h2 {
+        font-size: 1.6em;
+      }
+
+      span {
+        margin-top: 1em;
+        font-size: 1.4em;
+      }
+    }
+  }
+}

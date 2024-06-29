@@ -9,6 +9,7 @@ import { Layout } from "@/components/Layout/";
 import { Banner } from "@/modules/Home/Banner";
 import { OurBrand } from "@/modules/Home/OurBrand";
 import { OurPosters } from "@/modules/Home/OurPosters";
+import { NewProduct } from "@/modules/Home/NewProduct";
 // import { Products } from "@/modules/Home/Products";
 
 // stores
@@ -48,7 +49,8 @@ export default function Home() {
       <Banner />
       {/* <Products /> */}
       <OurPosters />
-      <OurBrand />
+      {/* <OurBrand /> */}
+      <NewProduct />
     </Layout>
   );
 }

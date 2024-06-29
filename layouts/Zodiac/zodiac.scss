@@ -1,3 +1,5 @@
+@import "../../styles/layoutConstants.scss";
+
 .zodiac {
   .artworkFigure {
     justify-content: flex-end;
@@ -6,25 +8,47 @@
   }
 
   .zodiac-wrp {
-    // position: relative;
-    // max-height: 60%;
     width: 100%;
     margin: auto;
     flex-grow: 1;
+    position: absolute;
   }
 
-  // &.landscape {
-  //   .zodiac-wrp {
-  //     max-height: 75%;
-  //   }
-  // }
-
   .zodiac-bg {
-    display: block;
-    height: 100% !important;
+    border-radius: 9999px;
+    background: $illustrationColor;
+
+    & > svg {
+      opacity: 0.4;
+      fill: $bg;
+      z-index: 3;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .zodiac-figure {
     position: absolute;
+    width: 55%;
+    aspect-ratio: 1/1;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
+
+    circle,
+    path {
+      fill: $bg;
+    }
+  }
+
+  .sky-bg {
+    padding: 10px;
+
+    svg {
+      width: inherit;
+      height: inherit;
+    }
   }
 
   .zodiac-icon {
@@ -33,5 +57,39 @@
     position: absolute;
     right: 0;
     top: 0;
+  }
+
+  &.portrait {
+    .zodiac-bg-wrapper {
+      height: auto !important;
+      width: 100% !important;
+      aspect-ratio: 1/1;
+    }
+  }
+
+  &.landscape {
+    .zodiac-bg-wrapper {
+      width: auto !important;
+      height: 100% !important;
+      aspect-ratio: 1/1;
+    }
+
+    .zodiac-figure {
+      width: 55%;
+      height: 55%;
+    }
+  }
+
+  &.overlayApply {
+    .zodiac-bg-wrapper {
+      padding: 2em;
+      position: relative;
+    }
+
+    // &.landscape {
+    //   .zodiac-bg-wrapper {
+    //     padding: 2em;
+    //   }
+    // }
   }
 }

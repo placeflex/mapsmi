@@ -1,0 +1,41 @@
+@mixin NoriLayout() {
+  &.noir {
+    .custom-line {
+      display: none;
+    }
+    .border-holder {
+      margin: 0;
+    }
+
+    .labels {
+      background: transparent;
+      text-align: right;
+      justify-content: flex-end;
+      align-items: flex-end;
+      padding: 2em;
+      gap: 1em;
+
+      * {
+        color: $textColor;
+      }
+
+      h1 {
+        font-size: 2.2em;
+      }
+
+      h2 {
+        font-size: 1.4em;
+      }
+
+      h3 {
+        font-size: 1em;
+      }
+
+      span {
+        display: block;
+        margin-top: 0.2em;
+        font-size: 1em;
+      }
+    }
+  }
+}

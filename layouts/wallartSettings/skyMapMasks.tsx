@@ -46,4 +46,20 @@ export const masks = [
     id: 2,
     src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/crash-heart-from-png-900.svg",
   },
+  {
+    id: 3,
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/splash.svg",
+  },
+  {
+    id: 4,
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/circle.svg",
+  },
+  {
+    id: 5,
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/sq.svg",
+  },
+  {
+    id: 6,
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/star.svg",
+  },
 ];

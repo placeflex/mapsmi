@@ -27,7 +27,7 @@ export const generatePDF = async (project: any) => {
   });
 
   try {
-    console.log("SCREEN START", 2);
+    console.log("PDF START", 2);
 
     const page = await browser.newPage();
 
@@ -36,13 +36,13 @@ export const generatePDF = async (project: any) => {
       { waitUntil: "networkidle2" }
     );
 
-    console.log("SCREEN START", 4);
+    console.log("PDF START", 4);
 
     await page.evaluate(project => {
       localStorage.setItem("render-storage", JSON.stringify(project));
     }, project);
 
-    console.log("SCREEN START", 5);
+    console.log("PDF START", 5);
 
     await page.waitForFunction(
       () => localStorage.getItem("render-storage") !== null
@@ -50,13 +50,13 @@ export const generatePDF = async (project: any) => {
 
     await page.reload({ waitUntil: "networkidle2", timeout: 0 });
 
-    console.log("SCREEN START", 6);
+    console.log("PDF START", 6);
 
-    console.log("SCREEN START", 7);
+    console.log("PDF START", 7);
 
-    console.log("SCREEN START", 8);
+    console.log("PDF START", 8);
 
-    console.log("SCREEN START", 9);
+    console.log("PDF START", 9);
 
     if (project.productId == 2) {
       console.log("START WAIT TILES");
@@ -74,16 +74,16 @@ export const generatePDF = async (project: any) => {
 
     await page.waitForSelector(".art");
 
-    console.log("SCREEN START", 11);
+    console.log("PDF START", 11);
 
     const elementHandle: any = await page.$(".art");
 
-    console.log("SCREEN START", 12);
+    console.log("PDF START", 12);
 
     if (elementHandle) {
       console.log("GOT");
 
-      await page.pdf({
+      return await page.pdf({
         preferCSSPageSize: false,
         printBackground: true,
         ...sizes,
@@ -91,8 +91,6 @@ export const generatePDF = async (project: any) => {
         // scale: 1,
         pageRanges: "1",
       });
-
-      console.log("SCREEN START END");
 
       // const screenshotBuffer = await elementHandle.screenshot({
       //   encoding: "binary",

@@ -7,6 +7,7 @@ declare global {
 
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
+import { v4 as uuidv4 } from "uuid";
 
 import { useState, useEffect } from "react";
 import Head from "next/head";
@@ -248,10 +249,13 @@ import { MATERIAL_PRICES, frames } from "@/layouts/wallartAttributes";
 // icons
 import Delete from "@/public/icons/close.svg";
 
+import { api } from "@/axios";
+
 const Cart = () => {
   const dispatch = useDispatch();
   const [payMethod, setPayMethod] = useState("liqpay");
   const cartItems = useTypedSelector(({ cart }) => cart?.cart);
+  const liqpayModal = useTypedSelector(({ modals }) => modals.liqpay);
 
   const RESULT_PRICE = cartItems?.reduce((acc, item: any) => {
     const RESULT_PRICE = item?.selectedAttributes?.frame?.type
@@ -271,12 +275,24 @@ const Cart = () => {
     return acc + itemPrice * itemQuantity; // додаємо ціну кожного товару до загальної суми, помножену на його кількість
   }, 0);
 
-  const handlePaymentEmbed = async () => {
+  const PRODUCTS_LINKS = cartItems?.map(item => JSON.stringify(item));
+
+  // PRODUCTS_LINKS.map(link => {
+  //   console.log("link", link);
+
+  //   // const prj = JSON.parse(link);
+  //   // const prjid = prj.productId;
+
+  //   console.log(`http://localhost:3000/editor?product_id=0&fields=${link}`);
+  // });
+
+  const handlePaymentEmbed = async values => {
     if (RESULT_PRICE) {
       const liqpay = new Liqpay(
         "sandbox_i20692662440",
         "sandbox_j8X4A0WdvWW3oj2YtbHC9iGkWRjHtSUzhapudLr1"
       );
+      const orderId = uuidv4();
 
       const names = cartItems.map((item: any) => productNames[item.productId]);
 
@@ -287,12 +303,21 @@ const Cart = () => {
         amount: RESULT_PRICE,
         currency: "UAH",
         description: names.length
-          ? `${names.join(", ")} Posters`
-          : `${names.join(", ")} Poster`,
-        order_value: "order_value_1",
+          ? `${names.join(", ")} Posters, ID: ${orderId}`
+          : `${names.join(", ")} Poster, ID: ${orderId}`,
+        order_value: orderId,
         version: "3",
         language: "uk",
       });
+
+      const PRODUCTS_PREVIEWS_LINKS = cartItems?.map(
+        ({ path, ...project }: { path: any; project: any }): any => ({
+          path: path,
+          data: project,
+        })
+      );
+
+      console.log("PRODUCTS_PREVIEWS_LINKS,", PRODUCTS_PREVIEWS_LINKS);
 
       setTimeout(() => {
         window?.LiqPayCheckout.init({
@@ -304,6 +329,28 @@ const Cart = () => {
           .on("liqpay.callback", function (data) {
             console.log(data.status);
             console.log(data);
+            api
+              .post("summary", {
+                orderId,
+                name: names.length
+                  ? `${names.join(", ")} Posters`
+                  : `${names.join(", ")} Poster`,
+                price: `${RESULT_PRICE} UAH`,
+                links: PRODUCTS_PREVIEWS_LINKS,
+
+                email: values.email,
+                userName: values.firstName,
+                userLastName: values.lastName,
+                country: values.country,
+                address: values.address,
+                apartment: values.apartment,
+                city: values.city,
+                phone: values.phone,
+              })
+              .then(() => {
+              
+                window.location.reload();
+              });
           })
           .on("liqpay.ready", function (data) {
             // ready
@@ -350,7 +397,7 @@ const Cart = () => {
       console.log("COLL");
 
       // Если валидация прошла успешно, данные можно отправить
-      handlePaymentEmbed();
+      handlePaymentEmbed(values);
     } catch (errors: any) {
       // Если есть ошибки валидации, обновите состояния ошибок
       console.log("ERRORs", errors);
@@ -369,10 +416,10 @@ const Cart = () => {
         <script src="//static.liqpay.ua/libjs/checkout.js" async></script>
       </Head>
 
-      <Layout className="bg-bg">
+      <Layout className="bg-bg" scroll={true}>
         <Container>
           <div className="py-[4rem]">
-            <div className="flex gap-[2rem]">
+            <div className="flex items-start gap-[2rem]">
               <div className="flex flex-wrap gap-[1rem] w-[70%]">
                 <h1 className="text-body mb-[2rem]">Your billing details</h1>
 
@@ -589,7 +636,7 @@ const Cart = () => {
                               </button>
                             </div>
 
-                            {item?.selectedAttributes?.frame?.id && (
+                            {item?.selectedAttributes?.frame?.id ? (
                               <div className="flex items-center mt-[1rem]">
                                 <div className="relative w-[150px] aspect-square">
                                   {
@@ -622,7 +669,7 @@ const Cart = () => {
                                   </h3>
                                 </div>
                               </div>
-                            )}
+                            ): null}
                           </div>
                         </div>
                       );
@@ -639,7 +686,7 @@ const Cart = () => {
         </Container>
       </Layout>
 
-      <LiqPayModal>
+      <LiqPayModal key={JSON.stringify(liqpayModal)}>
         <div id="liqpay_checkout"></div>
       </LiqPayModal>
       {/* {form && <div dangerouslySetInnerHTML={{ __html: form }}></div>} */}

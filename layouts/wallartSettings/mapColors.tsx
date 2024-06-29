@@ -24,6 +24,37 @@ const VINTAGE_GRADIENT =
 const TEXT_WHITE = "#fff";
 const TEXT_BLACK = "#000";
 const VINTAGE_COLOR = "#ECC698";
+const GOLD_COLOR = "#D4B356";
+const DEEP_BLACK = "#2E2E2E";
+const SILVER_COLOR = "#F6F6F6";
+
+const maskOverridesBgs = {
+  0: "#F1F1F1",
+  1: "#3358AC",
+  2: "#EC352D",
+  3: "#2E2E2E",
+};
+
+const applyMaskOverridesStyles = styles => {
+  const styleNames = [
+    "minimal",
+    "minimal-full",
+    "bold",
+    "bold-full",
+    "script",
+    "brush",
+    "crispi",
+    "lopster",
+    "noir",
+  ];
+
+  const styl = styleNames.reduce((acc, name) => {
+    acc[name] = styles;
+    return acc;
+  }, {});
+
+  return styl;
+};
 
 export const mapColors = [
   {
@@ -42,21 +73,21 @@ export const mapColors = [
     applyName: "Terra",
     textColor: TEXT_BLACK,
     gradientColor: WHITE_GRADIENT,
-    bgColor: "#fff",
-
-    layoutOverrides: {
-      bold: {
+    bgColor: TEXT_WHITE,
+    layoutOverrides: {},
+    maskOverrides: {
+      ...applyMaskOverridesStyles({
         textColor: TEXT_BLACK,
-        gradientColor: WHITE_GRADIENT,
-        bgColor: "#fff",
-      },
+        gradientColor: "",
+        bgColor: maskOverridesBgs[0],
+      }),
     },
   },
   {
     icon: (
       <Image
         src={metropolis}
-        alt="street map"
+        alt="Metropolis"
         layout="fill"
         priority={false}
         objectFit="cover"
@@ -68,7 +99,7 @@ export const mapColors = [
     applyName: "Metropolis",
     textColor: TEXT_WHITE,
     gradientColor: BLACK_GRADIENT,
-    bgColor: "#fff",
+    bgColor: TEXT_WHITE,
 
     layoutOverrides: {
       bold: {
@@ -82,6 +113,49 @@ export const mapColors = [
         textColor: TEXT_WHITE,
         gradientColor: "transparent",
         bgColor: "transparent",
+      },
+    },
+
+    maskOverrides: {
+      ...applyMaskOverridesStyles({
+        textColor: TEXT_BLACK,
+        gradientColor: "",
+        bgColor: maskOverridesBgs[1],
+      }),
+
+      ["minimal"]: {
+        textColor: TEXT_WHITE,
+        gradientColor: maskOverridesBgs[2],
+        bgColor: maskOverridesBgs[1],
+      },
+
+      ["minimal-full"]: {
+        textColor: TEXT_WHITE,
+        gradientColor: maskOverridesBgs[2],
+        bgColor: maskOverridesBgs[1],
+      },
+
+      ["bold"]: {
+        textColor: TEXT_BLACK,
+        gradientColor: maskOverridesBgs[2],
+        bgColor: maskOverridesBgs[1],
+      },
+
+      ["script"]: {
+        textColor: TEXT_BLACK,
+        bgColor: maskOverridesBgs[1],
+        gradientColor: maskOverridesBgs[2],
+      },
+
+      ["lopster"]: {
+        textColor: TEXT_WHITE,
+        bgColor: maskOverridesBgs[1],
+        gradientColor: maskOverridesBgs[2],
+      },
+
+      ["noir"]: {
+        textColor: TEXT_WHITE,
+        bgColor: maskOverridesBgs[1],
       },
     },
   },
@@ -99,22 +173,94 @@ export const mapColors = [
     id: 2,
     name: "horizon",
     applyName: "Horizon",
-    textColor: TEXT_WHITE,
-    gradientColor: BLACK_GRADIENT,
-    bgColor: "#fff",
+    textColor: TEXT_BLACK,
+    gradientColor: WHITE_GRADIENT,
+    bgColor: TEXT_WHITE,
 
     layoutOverrides: {
       bold: {
         textColor: TEXT_BLACK,
+        bgColor: TEXT_WHITE,
       },
-      ["bold-full"]: { textColor: TEXT_BLACK },
-      script: { textColor: TEXT_BLACK },
-      brush: { textColor: TEXT_BLACK },
-      crispi: { textColor: TEXT_BLACK },
+
+      ["bold-full"]: {
+        textColor: TEXT_BLACK,
+        bgColor: TEXT_WHITE,
+      },
+
+      ["brush"]: {
+        textColor: TEXT_BLACK,
+        bgColor: TEXT_WHITE,
+        gradientColor: GOLD_COLOR,
+      },
+
+      ["script"]: {
+        textColor: TEXT_BLACK,
+        bgColor: TEXT_WHITE,
+        gradientColor: GOLD_COLOR,
+      },
+
+      ["minimal-full"]: {
+        textColor: TEXT_WHITE,
+        gradientColor: BLACK_GRADIENT,
+      },
+
+      ["minimal"]: {
+        textColor: TEXT_WHITE,
+        gradientColor: BLACK_GRADIENT,
+      },
+
+      lopster: {
+        textColor: TEXT_WHITE,
+        bgColor: TEXT_WHITE,
+      },
+
       noir: {
         textColor: TEXT_WHITE,
         gradientColor: "transparent",
         bgColor: "transparent",
+      },
+    },
+    maskOverrides: {
+      ...applyMaskOverridesStyles({
+        textColor: GOLD_COLOR,
+        gradientColor: GOLD_COLOR,
+        bgColor: DEEP_BLACK,
+      }),
+
+      bold: {
+        textColor: TEXT_BLACK,
+        bgColor: DEEP_BLACK,
+        gradientColor: GOLD_COLOR,
+      },
+
+      ["bold-full"]: {
+        textColor: TEXT_BLACK,
+        bgColor: DEEP_BLACK,
+        gradientColor: GOLD_COLOR,
+      },
+
+      ["script"]: {
+        textColor: TEXT_BLACK,
+        bgColor: DEEP_BLACK,
+        gradientColor: GOLD_COLOR,
+      },
+
+      ["brush"]: {
+        textColor: TEXT_BLACK,
+        bgColor: DEEP_BLACK,
+        gradientColor: GOLD_COLOR,
+      },
+
+      ["crispi"]: {
+        textColor: TEXT_BLACK,
+        bgColor: DEEP_BLACK,
+        gradientColor: GOLD_COLOR,
+      },
+
+      ["nori"]: {
+        textColor: DEEP_BLACK,
+        bgColor: DEEP_BLACK,
       },
     },
   },
@@ -134,61 +280,44 @@ export const mapColors = [
     applyName: "Volcano",
     textColor: TEXT_WHITE,
     gradientColor: BLACK_GRADIENT,
-    bgColor: "#fff",
+    bgColor: TEXT_BLACK,
 
     layoutOverrides: {
       bold: {
         textColor: TEXT_BLACK,
+        bgColor: TEXT_WHITE,
       },
-      ["bold-full"]: { textColor: TEXT_BLACK },
-      script: { textColor: TEXT_BLACK },
-      brush: { textColor: TEXT_BLACK },
-      crispi: { textColor: TEXT_BLACK },
+      ["bold-full"]: {
+        textColor: TEXT_BLACK,
+        bgColor: TEXT_WHITE,
+      },
+      script: {
+        textColor: TEXT_BLACK,
+        bgColor: TEXT_WHITE,
+      },
+      brush: {
+        textColor: TEXT_BLACK,
+        bgColor: TEXT_WHITE,
+      },
+      crispi: {
+        textColor: TEXT_BLACK,
+        bgColor: TEXT_WHITE,
+      },
       noir: {
         textColor: TEXT_WHITE,
         gradientColor: "transparent",
         bgColor: "transparent",
       },
     },
-  },
-  {
-    icon: (
-      <Image
-        src={magma}
-        alt="street map"
-        layout="fill"
-        priority={false}
-        objectFit="cover"
-        quality={100}
-      />
-    ),
-    id: 4,
-    name: "magma",
-    applyName: "Magma",
-    textColor: TEXT_WHITE,
-    gradientColor: BLACK_GRADIENT,
-    bgColor: TEXT_WHITE,
-
-    layoutOverrides: {
-      bold: {
+    maskOverrides: {
+      ...applyMaskOverridesStyles({
         textColor: TEXT_BLACK,
-      },
-      ["bold-full"]: { textColor: TEXT_BLACK },
-      script: { textColor: TEXT_BLACK },
-      brush: { textColor: TEXT_BLACK },
-      crispi: { textColor: TEXT_BLACK },
-      noir: {
-        textColor: TEXT_BLACK,
-        gradientColor: "transparent",
-        bgColor: "transparent",
-      },
-      lopster: {
-        textColor: TEXT_BLACK,
-        gradientColor: BLACK_GRADIENT,
-        bgColor: TEXT_BLACK,
-      },
+        gradientColor: TEXT_BLACK,
+        bgColor: SILVER_COLOR,
+      }),
     },
   },
+
   {
     icon: (
       <Image
@@ -200,9 +329,9 @@ export const mapColors = [
         quality={100}
       />
     ),
-    id: 5,
-    name: "magmanew",
-    applyName: "Magma New",
+    id: 4,
+    name: "cosmos",
+    applyName: "Cosmos",
     textColor: TEXT_WHITE,
     gradientColor: BLACK_GRADIENT,
     bgColor: TEXT_BLACK,
@@ -217,6 +346,8 @@ export const mapColors = [
         bgColor: "transparent",
       },
     },
+
+    maskOverrides: {},
   },
   {
     icon: (
@@ -229,7 +360,7 @@ export const mapColors = [
         quality={100}
       />
     ),
-    id: 6,
+    id: 5,
     name: "road_trip",
     applyName: "Road Trip",
     textColor: TEXT_BLACK,
@@ -245,6 +376,38 @@ export const mapColors = [
         bgColor: "transparent",
       },
     },
+
+    maskOverrides: {},
+  },
+  {
+    icon: (
+      <Image
+        src={road}
+        alt="street map"
+        layout="fill"
+        priority={false}
+        objectFit="cover"
+        quality={100}
+      />
+    ),
+    id: 6,
+    name: "spectrum",
+    applyName: "Spectrum",
+    textColor: TEXT_BLACK,
+    gradientColor: WHITE_GRADIENT,
+    bgColor: TEXT_WHITE,
+
+    layoutOverrides: {
+      bold: {},
+      brush: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
+      noir: {
+        textColor: TEXT_BLACK,
+        gradientColor: "transparent",
+        bgColor: "transparent",
+      },
+    },
+
+    maskOverrides: {},
   },
   {
     icon: (
@@ -258,8 +421,8 @@ export const mapColors = [
       />
     ),
     id: 7,
-    name: "tokyo",
-    applyName: "Tokyo",
+    name: "cityscape",
+    applyName: "Cityscape",
     textColor: TEXT_BLACK,
     gradientColor: WHITE_GRADIENT,
     bgColor: TEXT_WHITE,
@@ -273,33 +436,7 @@ export const mapColors = [
         bgColor: "transparent",
       },
     },
-  },
-  {
-    icon: (
-      <Image
-        src={road}
-        alt="street map"
-        layout="fill"
-        priority={false}
-        objectFit="cover"
-        quality={100}
-      />
-    ),
-    id: 8,
-    name: "taragona",
-    applyName: "Taragona",
-    textColor: TEXT_BLACK,
-    gradientColor: WHITE_GRADIENT,
-    bgColor: TEXT_WHITE,
 
-    layoutOverrides: {
-      bold: {},
-      brush: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
-      noir: {
-        textColor: TEXT_BLACK,
-        gradientColor: "transparent",
-        bgColor: "transparent",
-      },
-    },
+    maskOverrides: {},
   },
 ];

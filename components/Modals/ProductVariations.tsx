@@ -52,7 +52,7 @@ export const ProductVariations = () => {
 
           <Button
             type="button"
-            classNames="mt-auto flex"
+            className="mt-auto flex"
             onClick={() => handleGoToEditor(2)}
           >
             Design your own
@@ -105,7 +105,7 @@ export const ProductVariations = () => {
           </p>
           <Button
             type="button"
-            classNames="mt-auto flex"
+            className="mt-auto flex"
             onClick={() => handleGoToEditor(1)}
           >
             Design your own
@@ -129,7 +129,7 @@ export const ProductVariations = () => {
           <p className="w-[200px] text-center text-[0.6em] mb-2 mt-2">ZODIAC</p>
           <Button
             type="button"
-            classNames="mt-auto flex"
+            className="mt-auto flex"
             onClick={() => handleGoToEditor(3)}
           >
             Design your own

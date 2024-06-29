@@ -170,7 +170,6 @@ export const frames = {
       material: "material-wood",
       price: 598,
       oldPrice: 698,
-
       type: FRAMES_TYPES[0],
       icon: <Image src={frame5} layout="fill" alt="frame" objectFit="cover" />,
     },
@@ -182,7 +181,6 @@ export const frames = {
       type: FRAMES_TYPES[0],
       price: 598,
       oldPrice: 698,
-
       icon: <Image src={frame6} layout="fill" alt="frame" objectFit="cover" />,
     },
   ],
@@ -205,6 +203,7 @@ export const frames = {
       material: "material-wood",
       price: 1299,
       oldPrice: 1399,
+
       type: FRAMES_TYPES[1],
       icon: <Image src={frame5} layout="fill" alt="frame" objectFit="cover" />,
     },
@@ -215,6 +214,7 @@ export const frames = {
       material: "material-wood",
       price: 1299,
       oldPrice: 1399,
+
       type: FRAMES_TYPES[1],
       icon: <Image src={frame6} layout="fill" alt="frame" objectFit="cover" />,
     },
@@ -228,6 +228,7 @@ export const frames = {
       material: "material-wood",
       price: 2198,
       oldPrice: 2299,
+
       type: FRAMES_TYPES[2],
       icon: <Image src={frame4} layout="fill" alt="frame" objectFit="cover" />,
     },
@@ -238,6 +239,7 @@ export const frames = {
       material: "material-wood",
       price: 2198,
       oldPrice: 2299,
+
       type: FRAMES_TYPES[2],
       icon: <Image src={frame5} layout="fill" alt="frame" objectFit="cover" />,
     },
@@ -248,8 +250,34 @@ export const frames = {
       material: "material-wood",
       price: 2198,
       oldPrice: 2299,
+
       type: FRAMES_TYPES[2],
       icon: <Image src={frame6} layout="fill" alt="frame" objectFit="cover" />,
     },
+
+    // {
+    //   id: 4,
+    //   name: "type-hanger",
+    //   color: "color-natural",
+    //   material: "material-wood",
+    //   price: 0,
+    //   oldPrice: 0,
+    //   type: FRAMES_TYPES[2],
+    //   icon: <Image src={frame1} layout="fill" alt="frame" objectFit="cover" />,
+    // },
+    // {
+    //   id: 5,
+    //   name: "type-hanger",
+    //   color: "color-white",
+    //   material: "material-wood",
+    //   icon: <Image src={frame2} layout="fill" alt="frame" objectFit="cover" />,
+    // },
+    // {
+    //   id: 6,
+    //   name: "type-hanger",
+    //   color: "color-black",
+    //   material: "material-wood",
+    //   icon: <Image src={frame3} layout="fill" alt="frame" objectFit="cover" />,
+    // },
   ],
 };

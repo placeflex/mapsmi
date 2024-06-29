@@ -1,0 +1,99 @@
+@mixin LopsterLayout() {
+  &.lopster {
+    .custom-line {
+      display: none;
+    }
+
+    .border-holder {
+      margin: 0;
+      padding: 3em;
+      position: relative;
+      background: transparent;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .artworkFigure {
+      // position: relative;
+      overflow: hidden;
+    }
+
+    .labels {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      background: transparent;
+      padding: 0;
+      border: 0.2em solid $textColor;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 2em 1em 2em 1em;
+      pointer-events: none;
+      gap: 0.8em;
+      top: auto;
+      bottom: auto;
+      left: auto;
+      right: auto;
+
+      * {
+        color: $textColor;
+      }
+
+      h1 {
+        // position: absolute;
+        // top: 0.5em;
+        margin-bottom: auto;
+        font-size: 3.4em;
+        text-transform: uppercase;
+      }
+
+      h2,
+      h3,
+      span {
+        display: block;
+        font-size: 1.6em;
+      }
+
+      h3 {
+        @include subline-decoration-center($textColor);
+        font-size: 1.2em;
+      }
+
+      span {
+        font-size: 1em;
+      }
+    }
+  }
+}
+
+@mixin LopsterLayoutWithMask() {
+  &.lopster {
+    .labels {
+      height: auto;
+      max-width: calc(100% - 5em);
+      width: auto;
+      padding: 1em 4em;
+      border-color: $gradientColor;
+      min-width: 60%;
+      gap: 0.7em;
+      margin-top: 1.5em;
+      margin-bottom: 1em;
+
+      h3 {
+        @include subline-decoration-center($gradientColor);
+      }
+    }
+
+    .artwork-wrapper {
+      padding: 1.5em;
+    }
+  }
+}

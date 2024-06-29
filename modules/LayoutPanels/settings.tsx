@@ -601,7 +601,7 @@ export const LocationAccrodion = () => {
                   >
                     <div
                       className={classNames(
-                        "border-2",
+                        "border",
                         type.id == routeType && "border-black"
                       )}
                     >
@@ -826,7 +826,7 @@ export const LocationAccrodion = () => {
             label="PICK YOUR SPECIAL MOMENT"
             onChange={onChangeDatePicker}
             className="w-full"
-            value={dayjs(date).format("YYYY-MM-DD HH:mm")}
+            value={dayjs(date)}
           />
         </div>
       )}
@@ -1079,6 +1079,12 @@ export const LayoutsMapAccordion = ({ handleChange }: any) => {
     ({ layout }) => layout.layout?.poster?.styles
   );
 
+  const dispatch: AppDispatch = useDispatch();
+
+  const isMask = useTypedSelector(
+    ({ layout }) => layout.layout?.poster?.styles?.isMask
+  );
+
   return (
     <>
       <h2 className="font-bold">Layouts</h2>
@@ -1103,6 +1109,46 @@ export const LayoutsMapAccordion = ({ handleChange }: any) => {
             </button>
           );
         })}
+      </div>
+
+      <div className="mt-5 w-full">
+        <div className="flex justify-between mt-4">
+          <h5 className="font-bold">Mask</h5>
+          <Switcher
+            checked={isMask}
+            onChange={() => {
+              dispatch(
+                handleStylesController({ field: "isOverlay", value: false })
+              );
+              dispatch(
+                handleStylesController({ field: "isMask", value: !isMask })
+              );
+            }}
+          />
+        </div>
+
+        {isMask && (
+          <div className="icons max-h-[300px] overflow-y-auto grid grid-cols-4 gap-2 pr-4 mt-2">
+            {masks.map(({ id, src }) => {
+              return (
+                <div
+                  key={id}
+                  className={classNames(
+                    "h-[80px] border p-4 cursor-pointer flex justify-center items-center relative",
+                    id === Number(posterStyles?.maskId) ? "border-black" : ""
+                  )}
+                  onClick={() =>
+                    dispatch(
+                      handleStylesController({ field: "maskId", value: id })
+                    )
+                  }
+                >
+                  <Image src={src} priority={true} alt="name" layout="fill" />
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );
@@ -1195,7 +1241,7 @@ export const SizeAccordion = ({
         <h5 className="font-bold  mb-[2rem]">Select poster size</h5>
         <div className="flex flex-wrap gap-[1rem]">
           <TabsPanel
-            defaultActiveKey={posterAttributes?.material?.id}
+            // defaultActiveKey={posterAttributes?.material?.id}
             items={materialItems}
             onChange={onChange}
           />

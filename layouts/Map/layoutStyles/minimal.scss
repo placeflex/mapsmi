@@ -1,0 +1,101 @@
+@import "../../../styles/mixins.scss";
+
+@mixin MinimalLayout() {
+  .artworkFigure {
+    background: transparent;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    gap: 0;
+  }
+
+  .labels {
+    position: absolute;
+    z-index: 1;
+    padding: 2em 1.5em;
+    width: calc(100% + 2px);
+    bottom: -1px;
+    left: -1px;
+    background: var(--gradientColor);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7em;
+    overflow: hidden;
+
+    *:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    h1 {
+      font-weight: bold;
+    }
+  }
+
+  &.minimal-full,
+  &.minimal {
+    .labels {
+      h1 {
+        font-size: 3em;
+      }
+
+      h2 {
+        font-size: 1.7em;
+      }
+
+      h3 {
+        font-size: 1.1em;
+      }
+
+      h2 {
+        @include subline-decoration-center($textColor);
+      }
+
+      span {
+        margin-top: 0.5em;
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  &.minimal-full {
+    .border-holder {
+      margin: 0;
+    }
+    .custom-line {
+      display: none;
+    }
+
+    h2 {
+      @include subline-decoration-center($textColor);
+    }
+  }
+}
+
+@mixin MinimalLayoutWithMask() {
+  &.minimal,
+  &.minimal-full {
+    .custom-line {
+      border-color: $gradientColor;
+    }
+
+    .labels {
+      padding: 2em;
+      padding-top: 0;
+      background: transparent;
+      gap: 0.7em;
+
+      span {
+        opacity: 0.5;
+      }
+    }
+
+    &.landscape {
+      .labels {
+        padding-top: 0;
+      }
+    }
+  }
+}

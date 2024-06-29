@@ -47,11 +47,12 @@ export const SkyMap = () => {
     disableAnimations: false,
     zoomlevel: null,
     zoomextend: 1,
+    // projection: "orthographic", //orthographic dafault
     projection: "orthographic", //orthographic dafault
     transform: "equatorial",
     follow: "zenith",
-    width: 900,
-    height: 900,
+    width: 1100,
+    height: 1100,
     orientationfixed: false,
     projectionRatio: null,
     background: {
@@ -130,8 +131,8 @@ export const SkyMap = () => {
       // Отображение звезд ярче этой звездной величины
       colors: false, // Отображение звезд в цвете (или только белые)
 
-      size: 7,
-      limit: 7,
+      size: 11,
+      limit: 6,
       exponent: -0.28,
       designation: false,
       style: {
@@ -203,14 +204,16 @@ export const SkyMap = () => {
   }, [currentPosterLocation, posterDate]);
 
   return (
-    <div className="relative" id="map-holder">
-      {posterStyles.isOverlay && (
-        <div className="mask">
-          {maskOverlays[posterStyles.overlayId]?.figure}
-        </div>
-      )}
+    <div className="h-full w-full">
+      <div className="relative h-full w-full" id="map-holder">
+        {posterStyles.isOverlay && (
+          <div className="mask">
+            {maskOverlays[posterStyles.overlayId]?.figure}
+          </div>
+        )}
 
-      <div className="map-wrapper" id="map"></div>
+        <div className="map-wrapper" id="map"></div>
+      </div>
     </div>
   );
 };

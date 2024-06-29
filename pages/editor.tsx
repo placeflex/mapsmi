@@ -324,10 +324,11 @@ export default function Editor() {
 
     if (product_id) {
       if (fields) {
-        const productDataFromPupularWallarts = JSON.parse(fields as string);
+        const fields = router.asPath.split("fields=");
+
         storagePoster({
           productId: product_id,
-          layout: productDataFromPupularWallarts,
+          layout: JSON.parse(decodeURIComponent(fields[1])),
         });
         dispatch(initLayout(product_id));
       } else {
@@ -335,6 +336,18 @@ export default function Editor() {
       }
     }
   }, [product_id, from]);
+
+  // useEffect(() => {
+  //   if (product_id && fields?.length) {
+  //     console.log("TRIGGER");
+
+  //     storagePoster({
+  //       productId: product_id,
+  //       layout: fields,
+  //     });
+  //     dispatch(initLayout(product_id));
+  //   }
+  // }, [fields]);
 
   useEffect(() => {
     if (product_id && !renderScreenForCart) {
@@ -362,21 +375,31 @@ export default function Editor() {
     "--frame-scale": FRAME_SCALE,
   };
 
-  const MAP_TEXT_COLOR =
-    mapColors[Number(layout?.poster?.styles?.color)]?.layoutOverrides[
-      mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
-    ]?.textColor ?? mapColors[Number(layout?.poster?.styles?.color)]?.textColor;
+  const MAP_TEXT_COLOR = layout.poster?.styles?.isMask
+    ? mapColors[Number(layout?.poster?.styles?.color)]?.maskOverrides[
+        mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+      ]?.textColor
+    : mapColors[Number(layout?.poster?.styles?.color)]?.layoutOverrides[
+        mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+      ]?.textColor ??
+      mapColors[Number(layout?.poster?.styles?.color)]?.textColor;
 
-  const MAP_GRADIENT_COLOR =
-    mapColors[Number(layout?.poster?.styles?.color)]?.layoutOverrides[
-      mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
-    ]?.gradientColor ??
-    mapColors[Number(layout?.poster?.styles?.color)]?.gradientColor;
+  const MAP_GRADIENT_COLOR = layout.poster?.styles?.isMask
+    ? mapColors[Number(layout?.poster?.styles?.color)]?.maskOverrides[
+        mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+      ]?.gradientColor
+    : mapColors[Number(layout?.poster?.styles?.color)]?.layoutOverrides[
+        mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+      ]?.gradientColor ??
+      mapColors[Number(layout?.poster?.styles?.color)]?.gradientColor;
 
-  const MAP_BG_COLOR =
-    mapColors[Number(layout?.poster?.styles?.color)]?.layoutOverrides[
-      mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
-    ]?.bgColor ?? mapColors[Number(layout?.poster?.styles?.color)]?.bgColor;
+  const MAP_BG_COLOR = layout.poster?.styles?.isMask
+    ? mapColors[Number(layout?.poster?.styles?.color)]?.maskOverrides[
+        mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+      ]?.bgColor
+    : mapColors[Number(layout?.poster?.styles?.color)]?.layoutOverrides[
+        mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
+      ]?.bgColor ?? mapColors[Number(layout?.poster?.styles?.color)]?.bgColor;
 
   const mapStyles = {
     "--font": fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
@@ -385,6 +408,8 @@ export default function Editor() {
     "--text-color": MAP_TEXT_COLOR,
     "--gradientColor": MAP_GRADIENT_COLOR,
     "--bg-color": MAP_BG_COLOR,
+    //
+    "--mask": `url(${masks[Number(layout.poster?.styles?.maskId)]?.src})`,
   };
 
   const editorUI = {
@@ -447,7 +472,7 @@ export default function Editor() {
         layoutStyle={
           mapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]?.applyName
         }
-        figure={<MapContainer />}
+        figure={<MapContainer key={layout.poster?.styles?.isMask} />}
         styles={mapStyles}
         texts={{
           heading: layout.poster?.labels?.heading,
@@ -461,6 +486,9 @@ export default function Editor() {
               "cm",
               ""
             )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          {
+            ["maskApply"]: layout.poster?.styles?.isMask,
           },
           layout?.selectedAttributes?.orientation?.name.toLowerCase(),
           mapColors[Number(layout.poster?.styles?.color)]?.name,

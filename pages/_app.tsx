@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import type { Metadata } from "next";
+import Head from "next/head";
 
 // apis
 import { api } from "@/axios";
@@ -89,6 +90,13 @@ function CustomApp({ Component, pageProps }: AppProps) {
           font-family: ${main_font.style.fontFamily};
         }
       `}</style>
+      <Head>
+        <title>🥇 MapsMingle: Design Your Own Custom Maps and Posters</title>
+        <meta
+          name="description"
+          content="Design a personal Custom Map Poster, Star Map Poster and more, with our easy to use design tools ✔︎ Printed to order ✔︎ Free worldwide shipping"
+        ></meta>
+      </Head>
       <div
         className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans`}
       >
@@ -105,7 +113,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <SidePanelLayout isOpen={markersPanel.state} bgClose={true}>
           <Markers />
         </SidePanelLayout>
-        <SidePanelLayout isOpen={cartPanel} bgClose={true} className="w-[55rem]">
+        <SidePanelLayout
+          isOpen={cartPanel}
+          bgClose={true}
+          className="w-[55rem]"
+        >
           <Cart />
         </SidePanelLayout>
 

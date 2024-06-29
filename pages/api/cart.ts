@@ -32,10 +32,10 @@ export default async function handler(
       bucketId: "e4622d010a503bd483d80013",
     });
 
-    // const screen = await generateScreenForCart(projectPayload);
+    const screen = await generateScreenForCart(projectPayload);
 
-    generateScreen(projectPayload);
-    return;
+    // generateScreen(projectPayload);
+    // return;
     // return await generatePDF(projectPayload);
 
     const date = new Date().toISOString();
