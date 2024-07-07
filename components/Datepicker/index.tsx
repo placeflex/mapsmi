@@ -39,10 +39,10 @@ export const DatePickerComponent = forwardRef<DatePickerInterface, any>(
           format="YYYY-MM-DD HH:mm"
           onChange={props.onChange}
           className={classNames(
-            "datepicker-input font-sans  h-[40px]",
+            "datepicker-input font-sans h-[40px]",
             className
           )}
-          value={dayjs(value, "YYYY-MM-DD HH:mm")}
+          value={value ? dayjs(value, "YYYY-MM-DD HH:mm") : null}
           popupClassName="datepicker-dropdown"
           {...props}
         />

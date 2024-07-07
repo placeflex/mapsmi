@@ -79,7 +79,7 @@ const UserProjects = () => {
                         key={index}
                         className="w-full p-2 rounded sm:w-1/2 xl:w-1/3"
                       >
-                        <div className="flex bg-white">
+                        <div className="flex bg-primary">
                           <div
                             className="min-w-[180px] h-[180px] flex items-center justify-center bg-light"
                             onClick={() => {

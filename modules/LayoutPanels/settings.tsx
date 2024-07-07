@@ -99,7 +99,7 @@ export const IllustrationAccordion = ({ handleChange, className }: any) => {
         return (
           <div
             key={id}
-            className={`h-[120px] bg-white p-4 cursor-pointer border ${
+            className={`h-[120px] bg-primary p-4 cursor-pointer border ${
               id === Number(posterStyles?.artwork) ? "border-black" : ""
             }`}
             onClick={() => handleChange(id)}
@@ -123,7 +123,7 @@ export const ColorsAccordion = ({ handleChange }: any) => {
         return (
           <div
             key={id}
-            className={`flex items-center justify-center h-[50px] bg-white cursor-pointer border ${
+            className={`flex items-center justify-center h-[50px] bg-primary cursor-pointer border ${
               id === Number(posterStyles?.color) ? "border-black" : ""
             }`}
             onClick={() => handleChange(id)}
@@ -155,9 +155,9 @@ export const LayoutsAccordion = ({ handleChange }: any) => {
           return (
             <button
               key={id}
-              className={`cursor-pointer flex items-center justify-center px-[1rem] py-[.5rem] w-[calc(100%/3-1rem)] hover:bg-black hover:text-white border grow ${
+              className={`cursor-pointer flex items-center justify-center px-[1rem] py-[.5rem] w-[calc(100%/3-1rem)] hover:bg-secondaryBg hover:opacity-50 hover:text-primary border grow ${
                 id === Number(posterStyles?.layoutStyle)
-                  ? "border-black bg-black text-white"
+                  ? "border-secondaryBg bg-secondaryBg text-primary"
                   : ""
               }`}
               onClick={() => handleChange(id)}
@@ -307,8 +307,6 @@ export const LocationAccrodion = () => {
 
     const spltName = name.split(",");
 
-    console.log("coord", coord);
-
     if (productId == 1) {
       if (spltName.length > 1) {
         dispatch(
@@ -355,23 +353,23 @@ export const LocationAccrodion = () => {
         })
       );
 
-      if (spltName[1]) {
-        dispatch(
-          handleChangeLables({
-            label: "subline",
-            value: removeNumbersFromString(spltName[1]),
-          })
-        );
-      }
+      // if (spltName[1]) {
+      //   dispatch(
+      //     handleChangeLables({
+      //       label: "subline",
+      //       value: removeNumbersFromString(spltName[1]),
+      //     })
+      //   );
+      // }
 
-      if (spltName[2]) {
-        dispatch(
-          handleChangeLables({
-            label: "tagline",
-            value: removeNumbersFromString(spltName[2]),
-          })
-        );
-      }
+      // if (spltName[2]) {
+      //   dispatch(
+      //     handleChangeLables({
+      //       label: "tagline",
+      //       value: removeNumbersFromString(spltName[2]),
+      //     })
+      //   );
+      // }
 
       dispatch(
         handleChangeLables({
@@ -418,8 +416,6 @@ export const LocationAccrodion = () => {
 
   const handleSelectLocation = async (location: any, opt: any) => {
     const response: any = await api.get(`/locations?placeId=${opt.place_id}`);
-
-    console.log("response", response);
 
     const b = getLatLngData(
       response.geometry.coordinates[1],
@@ -495,7 +491,7 @@ export const LocationAccrodion = () => {
   return (
     <>
       <h2 className="font-bold mb-2">Location</h2>
-      <p className="mb-4  opacity-[0.4]">
+      <p className="mb-4 opacity-[0.4]">
         You can search, drag/drop and zoom on the map to get the exact position
         you want on your poster.
       </p>
@@ -576,10 +572,7 @@ export const LocationAccrodion = () => {
           <div className="mt-[2rem] flex items-center justify-between">
             <span className="flex items-center gap-[1rem] font-bold">
               Connect Locations{" "}
-              <CustomTooltip
-                placement="right"
-                text="Добавляет соединительную линию между двумя или более местами на плакате с картой улиц, которая подчеркивает ваше путешествие с места на место."
-              />
+              <CustomTooltip text="Добавляет соединительную линию между двумя или более местами на плакате с картой улиц, которая подчеркивает ваше путешествие с места на место." />
             </span>
             <Switcher
               checked={connectLocations}
@@ -826,7 +819,7 @@ export const LocationAccrodion = () => {
             label="PICK YOUR SPECIAL MOMENT"
             onChange={onChangeDatePicker}
             className="w-full"
-            value={dayjs(date)}
+            value={date}
           />
         </div>
       )}
@@ -839,7 +832,7 @@ export const ColorsForMapAccordion = ({ handleChange }: any) => {
 
   return (
     <>
-      <div className="icons overflow-y-auto content-start items-start flex flex-wrap gap-[0.3rem] h-[300px]">
+      <div className="icons overflow-y-auto content-start items-start flex flex-wrap gap-[0.3rem] lg:h-[300px]">
         {mapColors.map(({ icon, id, name, applyName }): React.ReactNode => {
           return (
             <div
@@ -898,9 +891,9 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
           return (
             <button
               key={id}
-              className={`cursor-pointer flex items-center justify-center px-[1rem] py-[.5rem] w-[calc(100%/3-1rem)] hover:bg-black hover:text-white border grow ${
+              className={`cursor-pointer flex items-center justify-center px-[1rem] py-[.5rem] w-[calc(100%/3-1rem)] hover:bg-secondaryBg hover:opacity-50 hover:text-primary border grow ${
                 id === Number(posterStyles?.layoutStyle)
-                  ? "border-black bg-black text-white"
+                  ? "border-secondaryBg bg-secondaryBg text-primary"
                   : ""
               }`}
               onClick={() => handleChange(id)}
@@ -1098,9 +1091,9 @@ export const LayoutsMapAccordion = ({ handleChange }: any) => {
           return (
             <button
               key={id}
-              className={`cursor-pointer flex items-center justify-center px-[1rem] py-[.5rem] w-[calc(100%/3-1rem)] hover:bg-black hover:text-white border grow ${
+              className={`cursor-pointer flex items-center justify-center px-[1rem] py-[.5rem] w-[calc(100%/3-1rem)] hover:bg-secondaryBg hover:opacity-50 hover:text-primary border grow ${
                 id === Number(posterStyles?.layoutStyle)
-                  ? "border-black bg-black text-white"
+                  ? "border-secondaryBg bg-secondaryBg text-primary"
                   : ""
               }`}
               onClick={() => handleChange(id)}
@@ -1128,14 +1121,16 @@ export const LayoutsMapAccordion = ({ handleChange }: any) => {
         </div>
 
         {isMask && (
-          <div className="icons max-h-[300px] overflow-y-auto grid grid-cols-4 gap-2 pr-4 mt-2">
+          <div className="icons max-h-[300px] overflow-y-auto grid grid-cols-4 gap-2  mt-[2rem]">
             {masks.map(({ id, src }) => {
               return (
                 <div
                   key={id}
                   className={classNames(
-                    "h-[80px] border p-4 cursor-pointer flex justify-center items-center relative",
-                    id === Number(posterStyles?.maskId) ? "border-black" : ""
+                    "h-[80px] border p-[4rem] cursor-pointer flex justify-center items-center relative",
+                    id === Number(posterStyles?.maskId)
+                      ? "border-secondaryBg"
+                      : ""
                   )}
                   onClick={() =>
                     dispatch(
@@ -1168,9 +1163,9 @@ export const FontsAccordion = ({ handleChange }: any) => {
           return (
             <button
               key={id}
-              className={`cursor-pointer flex items-center justify-center px-[1rem] py-[.5rem] w-[calc(100%/3-1rem)] hover:bg-black hover:text-white border grow ${
+              className={`cursor-pointer flex items-center justify-center px-[1rem] py-[.5rem] w-[calc(100%/3-1rem)] hover:bg-secondaryBg hover:opacity-50 hover:text-primary border grow ${
                 id === Number(currentFontId)
-                  ? "border-black bg-black text-white"
+                  ? "border-secondaryBg bg-secondaryBg text-primary"
                   : ""
               }`}
               onClick={() => handleChange(id)}
@@ -1213,9 +1208,9 @@ export const SizeAccordion = ({
             {material?.sizes?.map((size, idx) => {
               return (
                 <button
-                  className={`cursor-pointer flex flex-col items-center justify-center py-[1rem] grow hover:bg-black hover:text-white border  ${
+                  className={`cursor-pointer flex flex-col items-center justify-center py-[1rem] grow hover:bg-secondaryBg hover:text-primary border  ${
                     Number(posterAttributes?.size?.id) == size.id
-                      ? "border-black bg-black text-white"
+                      ? "border-secondaryBg bg-secondaryBg text-primary"
                       : ""
                   }`}
                   key={size.id}
@@ -1254,9 +1249,9 @@ export const SizeAccordion = ({
           {orientations.map(({ id, icon }): React.ReactNode => {
             return (
               <button
-                className={`border cursor-pointer flex items-center justify-center py-[1rem] grow hover:text-white ${
+                className={`border cursor-pointer flex items-center justify-center py-[1rem] grow hover:text-primary ${
                   id === Number(posterAttributes?.orientation?.id)
-                    ? "border-black text-white"
+                    ? "border-secondaryBg text-primary"
                     : ""
                 }`}
                 key={id}
@@ -1283,9 +1278,9 @@ export const SizeAccordion = ({
                   {frame.icon && (
                     <div
                       className={classNames(
-                        "border p-[.5rem] h-[10rem] relative flex items-center justify-center",
+                        "border p-[.5rem] h-[5rem] relative flex items-center justify-center",
                         Number(posterAttributes?.frame?.id) == frame.id &&
-                          "border-black"
+                          "border-secondaryBg"
                       )}
                     >
                       {frame.icon}

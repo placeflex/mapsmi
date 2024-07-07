@@ -54,7 +54,7 @@ export const generateScreen = async (project: any) => {
 
     await page.goto(
       `${process.env.NEXT_PUBLIC_BASE_URL_FRONTEND}/render?product_id=${project.productId}&preview=true`,
-      { waitUntil: "networkidle2" }
+      { waitUntil: "networkidle0" }
     );
 
     console.log("SCREEN START", 4);
@@ -69,7 +69,7 @@ export const generateScreen = async (project: any) => {
       () => localStorage.getItem("render-storage") !== null
     );
 
-    await page.reload({ waitUntil: "networkidle2", timeout: 0 });
+    await page.reload({ waitUntil: "networkidle0", timeout: 0 });
 
     console.log("SCREEN START", 6);
 

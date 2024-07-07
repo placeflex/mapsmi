@@ -10,6 +10,7 @@ import { Banner } from "@/modules/Home/Banner";
 import { OurBrand } from "@/modules/Home/OurBrand";
 import { OurPosters } from "@/modules/Home/OurPosters";
 import { NewProduct } from "@/modules/Home/NewProduct";
+import { TopSellCategories } from "@/modules/Home/TopSellCategories";
 // import { Products } from "@/modules/Home/Products";
 
 // stores
@@ -48,9 +49,14 @@ export default function Home() {
     <Layout fixed={true} scroll={true}>
       <Banner />
       {/* <Products /> */}
-      <OurPosters />
+
+      <div className="sticky top-0 bg-primary">
+        <OurPosters />
+        <TopSellCategories />
+      </div>
+
       {/* <OurBrand /> */}
-      <NewProduct />
+      {/* <NewProduct /> */}
     </Layout>
   );
 }

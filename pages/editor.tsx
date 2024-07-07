@@ -326,10 +326,16 @@ export default function Editor() {
       if (fields) {
         const fields = router.asPath.split("fields=");
 
+        // const decodedString = decodeURIComponent(
+        //   fields[1].replace(/\+/g, " ")
+        // );
+        const decodedString = decodeURIComponent(fields[1]);
+
         storagePoster({
           productId: product_id,
-          layout: JSON.parse(decodeURIComponent(fields[1])),
+          layout: JSON.parse(decodedString),
         });
+
         dispatch(initLayout(product_id));
       } else {
         dispatch(initLayout(product_id));
@@ -338,16 +344,32 @@ export default function Editor() {
   }, [product_id, from]);
 
   // useEffect(() => {
-  //   if (product_id && fields?.length) {
-  //     console.log("TRIGGER");
+  //   if (router.isReady) {
+  //     if (layout.productId == 1) {
+  //       window.devicePixelRatio = 2;
+  //     }
 
-  //     storagePoster({
-  //       productId: product_id,
-  //       layout: fields,
-  //     });
-  //     dispatch(initLayout(product_id));
+  //     if (product_id) {
+  //       if (fields) {
+  //         const fields = router.asPath.split("fields=");
+
+  //         // const decodedString = decodeURIComponent(
+  //         //   fields[1].replace(/\+/g, " ")
+  //         // );
+  //         const decodedString = decodeURIComponent(fields[1]);
+
+  //         storagePoster({
+  //           productId: product_id,
+  //           layout: JSON.parse(decodedString),
+  //         });
+
+  //         dispatch(initLayout(product_id));
+  //       } else {
+  //         dispatch(initLayout(product_id));
+  //       }
+  //     }
   //   }
-  // }, [fields]);
+  // }, [product_id, from, router.isReady]);
 
   useEffect(() => {
     if (product_id && !renderScreenForCart) {
@@ -600,15 +622,15 @@ export default function Editor() {
                 editorUI[layout.productId as keyof typeof editorUI]}
             </LayoutPreviewWrapper>
 
-            <div className="flex flex-col  border-r-[.2rem]">
-              <div className="editor-panel min-w-[480px] max-w-[480px] w-full overflow-y-auto flex flex-col relative p-[2rem]">
-                <div className="h-full overflow-y-auto">
+            <div className="flex flex-col border-r-[.2rem] fixed lg:relative right-0 bottom-0 left-0 z-20 lg:min-w-[480px] lg:max-w-[480px]">
+              <div className="editor-panel w-full overflow-y-auto flex flex-col relative ">
+                <div className="h-full overflow-y-auto p-[2rem]">
                   {layout.productId == Number(product_id) &&
                     panelUI[layout.productId as keyof typeof panelUI]}
                 </div>
               </div>
 
-              <div className="mt-auto">
+              <div className="mt-auto editor-wrapper__buttons">
                 <Button
                   className="w-full text-button relative h-[8rem] flex items-center justify-between uppercase"
                   type="button"

@@ -94,7 +94,7 @@ const slides = [
 
 export const OurPosters = () => {
   return (
-    <div>
+    <div className="bg-primary">
       <Container>
         <div className="py-[5rem]">
           <div className="flex">
@@ -116,7 +116,7 @@ export const OurPosters = () => {
 
           <Slider
             className="mt-[2rem]"
-            loop={true}
+            loop={false}
             slidesPerView={4}
             spaceBetween={20}
             pagination={{ clickable: false }}
@@ -157,7 +157,7 @@ export const OurPosters = () => {
                       image={image}
                       imageAlt={imageAlt}
                       disabled={disabled}
-                      className="h-full"
+                      className="h-full shadow-md"
                     />
                   </SwiperSlide>
                 );

@@ -43,36 +43,41 @@ export const MapPanelContent = ({
         items={[
           {
             title: "Location",
-            icon: <Location stroke="#000" width={20} height={20} />,
+            shortTitle: "Moment",
             content: <LocationAccrodion />,
+            icon: <Location stroke="#000" width={20} height={20} />,
           },
           {
             title: "Customize the colors",
-            icon: <Styles stroke="#000" width={20} height={20} />,
+            shortTitle: "Colors",
             content: (
               <ColorsForMapAccordion handleChange={handleChangeLayoutColor} />
             ),
+            icon: <Styles stroke="#000" width={20} height={20} />,
           },
           {
             title: "Customize the text",
+            shortTitle: "Texts",
             icon: <Labels stroke="#000" width={20} height={20} />,
             content: <TextsAccordion />,
           },
           {
             title: "Customize the font",
-            icon: <Labels stroke="#000" width={20} height={20} />,
+            shortTitle: "Fonts",
             content: <FontsAccordion handleChange={handleChangeFont} />,
+            icon: <Labels stroke="#000" width={20} height={20} />,
           },
           {
             title: "Customize the style",
-            icon: <Styles stroke="#000" width={20} height={20} />,
+            shortTitle: "Styles",
             content: (
               <LayoutsMapAccordion handleChange={handleChangeLayoutStyle} />
             ),
+            icon: <Styles stroke="#000" width={20} height={20} />,
           },
           {
             title: "Change the size",
-            icon: <Size stroke="#000" width={20} height={20} />,
+            shortTitle: "Materials",
             content: (
               <SizeAccordion
                 handleSelectSize={handleSelectSize}
@@ -81,6 +86,7 @@ export const MapPanelContent = ({
                 handleSelectFrame={handleSelectFrame}
               />
             ),
+            icon: <Size stroke="#000" width={20} height={20} />,
           },
         ]}
       />

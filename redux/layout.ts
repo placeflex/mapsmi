@@ -230,6 +230,19 @@ const layout = createSlice({
     },
 
     handleChangeRouteTypeForStreetMap(state, action) {
+      if (action.payload == 0) {
+        state.layout = {
+          ...state.layout,
+          poster: {
+            ...state.layout.poster,
+            labels: {
+              ...state.layout.poster.labels,
+              tagline: "",
+            },
+          },
+        };
+      }
+
       state.layout = {
         ...state.layout,
         routeType: action.payload,

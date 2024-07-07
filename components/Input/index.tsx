@@ -49,7 +49,7 @@ export const Input = ({
             placeholder={placeholder}
             id={label}
             className={classNames(
-              "w-full rounded-none  font-sans h-[40px]",
+              "w-full rounded-none font-sans h-[40px]",
               className
             )}
             {...props}
@@ -61,7 +61,7 @@ export const Input = ({
           placeholder={placeholder}
           id={label}
           className={classNames(
-            "w-full rounded-none  font-sans h-[40px]",
+            "w-full rounded-none font-sans h-[40px]",
             className
           )}
           {...props}

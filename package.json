@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@react-hook/media-query": "^1.1.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@svgr/webpack": "^8.1.0",
     "@turf/turf": "^6.5.0",

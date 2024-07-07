@@ -40,28 +40,34 @@ export const ZodiacPanelContent = ({
         items={[
           {
             title: "Moment",
+            shortTitle: "Moment",
             content: <ZodiacSelect handleChange={handleSelectFigure} />,
           },
           {
             title: "Customize the colors",
+            shortTitle: "Colors",
             content: <ColorsAccordion handleChange={handleChangeLayoutColor} />,
           },
           {
             title: "Customize the text",
+            shortTitle: "Texts",
             content: <TextsAccordion />,
           },
           {
             title: "Customize the font",
+            shortTitle: "Fonts",
             content: <FontsAccordion handleChange={handleChangeFont} />,
           },
           {
             title: "Customize the style",
+            shortTitle: "Styles",
             content: (
               <LayoutsSkyMapAccordion handleChange={handleChangeLayoutStyle} />
             ),
           },
           {
             title: "Change the size",
+            shortTitle: "Materials",
             content: (
               <SizeAccordion
                 handleSelectSize={handleSelectSize}

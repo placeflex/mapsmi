@@ -1,4 +1,5 @@
 import Link from "next/link";
+import classNames from "classnames";
 
 interface Props {
   href?: string;
@@ -8,6 +9,7 @@ interface Props {
   type?: "button" | "reset" | "submit";
   variant?: "outlined" | "contained";
   color?: "primary" | "secondary";
+  rounede?: string;
 }
 
 // import styles from "./Button.module.scss";
@@ -20,11 +22,26 @@ export const Button = ({
   type = "button",
   variant = "contained",
   color = "secondary",
+  rounede,
   ...props
 }: Props) => {
-  let classes = `inline-block py-7 px-14 rounded-sm font-normal ${
-    color === "secondary" ? "bg-secondButton text-text" : "bg-button text-white"
-  } ${variant === "outlined" && "bg-transparent border-[0.2rem]"} ${className}`;
+  const colorLocal =
+    color === "secondary"
+      ? "bg-secondButton text-text"
+      : "bg-button text-primary";
+
+  const variantLocal =
+    variant === "outlined" && "bg-transparent border-[0.2rem]";
+
+  const borderRadius = rounede && "rounded-md";
+
+  let classes = classNames(
+    `inline-block py-7 px-14 font-normal font-semibold`,
+    colorLocal,
+    variantLocal,
+    borderRadius,
+    className
+  );
 
   return href ? (
     <Link href={href} className={classes} {...props}>

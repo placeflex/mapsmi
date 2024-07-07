@@ -446,6 +446,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         );
 
         setGeo(prevState => [...prevState, lineFeature]);
+
         dispatch(
           handleChangeLables({
             label: "tagline",
@@ -650,6 +651,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
         projection: "EPSG:3857",
         center: customCoordinates?.center,
         zoom: customCoordinates?.zoom,
+        rotation: customCoordinates?.rotation,
         minZoom: MIN_ZOOM,
         ...renderPosition,
       });
@@ -668,14 +670,18 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
     const tileGrid = createXYZ({
       tileSize: tileSize,
     });
+
+    const laptop = "http://localhost:8080";
+    const mobile = "http://192.168.0.100:8080";
+
     const source = render
       ? {
-          url: `http://localhost:8080/styles/${
+          url: `${laptop}/styles/${
             mapColors[posterStyles.color].name
           }/{z}/{x}/{y}${scale}.png`,
         }
       : {
-          url: `http://localhost:8080/styles/${
+          url: `${laptop}/styles/${
             mapColors[posterStyles.color].name
           }/{z}/{x}/{y}@2x.png`,
         };

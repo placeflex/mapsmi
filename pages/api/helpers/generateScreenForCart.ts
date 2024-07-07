@@ -32,7 +32,7 @@ export const generateScreenForCart = async (project: any) => {
 
     await page.goto(
       `${process.env.NEXT_PUBLIC_BASE_URL_FRONTEND}/editor?product_id=${project.productId}&renderScreenForCart=true`,
-      { waitUntil: "networkidle2" }
+      { waitUntil: "networkidle0" }
     );
 
     const storage = productsVariations[project.productId];
@@ -55,7 +55,7 @@ export const generateScreenForCart = async (project: any) => {
 
     console.log("SCREEN START", 4);
 
-    await page.reload({ waitUntil: "networkidle2", timeout: 0 });
+    await page.reload({ waitUntil: "networkidle0", timeout: 0 });
 
     // await page.evaluate(project => {
     //   localStorage.setItem("render-storage", JSON.stringify(project));

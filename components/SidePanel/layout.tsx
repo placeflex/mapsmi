@@ -26,7 +26,7 @@ export const SidePanelLayout = ({
   return (
     <Transition show={isOpen}>
       <div className="fixed inset-0 z-[100] w-screen">
-        <div className="flex flex-col min-h-[100vh]  items-end">
+        <div className="flex flex-col min-h-[100svh] h-[100svh] items-end">
           {bgClose && (
             <Transition.Child
               as={Fragment}
@@ -46,35 +46,35 @@ export const SidePanelLayout = ({
             </Transition.Child>
           )}
 
-          <div className="relative">
-            <button
-              type="button"
-              className="absolute left-[-5rem] top-[2rem] leading-none text-white text-h4"
-              onClick={() => {
-                dispatch(handleCloseModals());
-              }}
+          {/* <div className="relative w-full h-full"> */}
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 translate-y-4"
+            enterTo="opacity-100 translate-y-0"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0 "
+          >
+            <div
+              className={classNames(
+                "relative bg-bg text-left shadow-xl transition-all h-full flex-1 p-[2rem] ml-auto",
+                className
+              )}
             >
-              X
-            </button>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4"
-              enterTo="opacity-100 translate-y-0"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0 "
-            >
-              <div
-                className={classNames(
-                  "relative bg-bg text-left shadow-xl transition-all h-[100vh] w-[70rem] min-h-[100vh] flex-1 p-[2rem]",
-                  className
-                )}
+              <button
+                type="button"
+                className="absolute right-[2rem] lg:left-[-5rem] lg:right-[auto] lg:top-[2rem] leading-none lg:text-primary text-h4"
+                onClick={() => {
+                  dispatch(handleCloseModals());
+                }}
               >
-                <div className="h-full overflow-y-auto">{children}</div>
-              </div>
-            </Transition.Child>
-          </div>
+                X
+              </button>
+              <div className="h-full overflow-y-auto">{children}</div>
+            </div>
+          </Transition.Child>
+          {/* </div> */}
         </div>
       </div>
     </Transition>

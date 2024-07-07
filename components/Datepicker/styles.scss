@@ -2,7 +2,7 @@
   font-size: 0.7rem !important;
   color: inherit !important;
   font-family: inherit !important;
-  background: var(--white) !important;
+  background: var(--primary) !important;
   border-radius: 8px !important;
 
   * {
@@ -43,7 +43,7 @@
   .ant-picker-cell-selected {
     .ant-picker-cell-inner {
       background: var(--cream) !important;
-      color: var(--white) !important;
+      color: var(--primary) !important;
     }
   }
   .ant-picker-cell-today {

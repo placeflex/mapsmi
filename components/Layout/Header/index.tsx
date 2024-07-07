@@ -14,12 +14,12 @@ import Basket from "@/public/icons/basket.svg";
 import Login from "@/public/icons/login.svg";
 
 //
-import terra from "@/public/mapColors/terra.png";
-import metropolis from "@/public/mapColors/metropolis.png";
-import horizon from "@/public/mapColors/horizon.png";
-import example from "@/public/example.png";
-import exampleTest from "@/public/example-test.png";
-import LineArt from "@/public/lineart-example.png";
+// import terra from "@/public/mapColors/terra.png";
+// import metropolis from "@/public/mapColors/metropolis.png";
+// import horizon from "@/public/mapColors/horizon.png";
+// import example from "@/public/example.png";
+// import exampleTest from "@/public/example-test.png";
+// import LineArt from "@/public/lineart-example.png";
 
 // stores
 import { handleShowLoginModal, handleOpenCartPanel } from "@/redux/modals";
@@ -28,221 +28,10 @@ import { handleGetCart } from "@/redux/cart";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "@/redux/store";
 
+import { PRODUCTS, DESIGNS } from "@/constants/wallart-categories";
+
 // routes
-import { popularWallartsRoot } from "@/constants/routers";
-
-const products = [
-  {
-    name: "Street Map",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    image: example,
-  },
-  {
-    name: "Star Map",
-    description: "Speak directly to your customers",
-    href: "#",
-    image: LineArt,
-  },
-  {
-    name: "LineArt",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    image: example,
-  },
-  {
-    name: "Zodiac",
-    description: "Connect with third-party tools",
-    href: "#",
-    image: LineArt,
-  },
-  {
-    name: "Coordinates",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    image: example,
-  },
-];
-
-const designs = [
-  {
-    title: "Featured",
-    links: [
-      {
-        title: "On Sale Posters",
-        link: `${popularWallartsRoot}?featured=on_sale`,
-      },
-      {
-        title: "New Arrivals",
-        link: `${popularWallartsRoot}?featured=new_arrivals`,
-      },
-      {
-        title: "Staff Picks",
-        link: `${popularWallartsRoot}?featured=staff_picks`,
-      },
-      {
-        title: "Bundles",
-        link: `${popularWallartsRoot}?featured=bundles`,
-      },
-    ],
-  },
-  {
-    title: "Product Type",
-    links: [
-      {
-        title: "Star Maps",
-        link: `${popularWallartsRoot}?product_type=star_maps`,
-      },
-      {
-        title: "Street Maps",
-        link: `${popularWallartsRoot}?product_type=street_maps`,
-      },
-      {
-        title: "Custom Maps",
-        link: `${popularWallartsRoot}?product_type=custom_maps`,
-      },
-      {
-        title: "Line Art",
-        link: `${popularWallartsRoot}?product_type=line_art`,
-      },
-      {
-        title: "Cat Art",
-        link: `${popularWallartsRoot}?product_type=cat_art`,
-      },
-      {
-        title: "Flowers Art",
-        link: `${popularWallartsRoot}?product_type=flowers_art`,
-      },
-    ],
-  },
-  {
-    title: "Orientation",
-    links: [
-      {
-        title: "Landscape Posters",
-        link: `${popularWallartsRoot}?orientation=landscape`,
-      },
-      {
-        title: "Portrait Posters",
-        link: `${popularWallartsRoot}?orientation=portrait`,
-      },
-    ],
-  },
-  {
-    title: "Categories",
-    links: [
-      {
-        title: "Family",
-        link: `${popularWallartsRoot}?design_category=family`,
-      },
-      {
-        title: "Travel",
-        link: `${popularWallartsRoot}?design_category=travel`,
-      },
-      {
-        title: "Astrology",
-        link: `${popularWallartsRoot}?design_category=astrology`,
-      },
-      {
-        title: "Life Events",
-        link: `${popularWallartsRoot}?design_category=life_events`,
-      },
-      {
-        title: "Sports",
-        link: `${popularWallartsRoot}?design_category=sports`,
-      },
-      {
-        title: "Couples",
-        link: `${popularWallartsRoot}?design_category=couples`,
-      },
-      {
-        title: "Places",
-        link: `${popularWallartsRoot}?design_category=places`,
-      },
-      {
-        title: "History",
-        link: `${popularWallartsRoot}?design_category=history`,
-      },
-      {
-        title: "Landmarks",
-        link: `${popularWallartsRoot}?design_category=landmarks`,
-      },
-      {
-        title: "Nature",
-        link: `${popularWallartsRoot}?design_category=nature`,
-      },
-      {
-        title: "Design Ideas",
-        link: `${popularWallartsRoot}?design_category=design_ideas`,
-      },
-    ],
-  },
-  {
-    title: "Cities",
-    links: [
-      {
-        title: "Ukraine Posters",
-        link: `${popularWallartsRoot}?cities=ukraine_posters`,
-      },
-      {
-        title: "Kiev Posters",
-        link: `${popularWallartsRoot}?cities=kiev_posters`,
-      },
-      {
-        title: "Lviv Posters",
-        link: `${popularWallartsRoot}?cities=lviv_posters`,
-      },
-      {
-        title: "Amsterdam Posters",
-        link: `${popularWallartsRoot}?cities=amsterdam_posters`,
-      },
-      {
-        title: "Barcelona Posters",
-        link: `${popularWallartsRoot}?cities=barcelona_posters`,
-      },
-      {
-        title: "Boston Posters",
-        link: `${popularWallartsRoot}?cities=boston_posters`,
-      },
-      {
-        title: "Chicago Posters",
-        link: `${popularWallartsRoot}?cities=chicago_posters`,
-      },
-      {
-        title: "Dubai Posters",
-        link: `${popularWallartsRoot}?cities=dubai_posters`,
-      },
-      {
-        title: "Las Vegas Posters",
-        link: `${popularWallartsRoot}?cities=las_vegas_posters`,
-      },
-      {
-        title: "London Posters",
-        link: `${popularWallartsRoot}?cities=london_posters`,
-      },
-      {
-        title: "New York City Posters",
-        link: `${popularWallartsRoot}?cities=new_york_city_posters`,
-      },
-      {
-        title: "Rome Posters",
-        link: `${popularWallartsRoot}?cities=rome_posters`,
-      },
-      {
-        title: "Tokyo Posters",
-        link: `${popularWallartsRoot}?cities=tokyo_posters`,
-      },
-      {
-        title: "Venice Posters",
-        link: `${popularWallartsRoot}?cities=venice_posters`,
-      },
-      {
-        title: "Washington DC Posters",
-        link: `${popularWallartsRoot}?cities=washington_dc_posters`,
-      },
-    ],
-  },
-];
+// import { popularWallartsRoot } from "@/constants/routers";
 
 export const Header = ({ isFixed }: any) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -262,7 +51,7 @@ export const Header = ({ isFixed }: any) => {
   return (
     <header
       className={classNames(
-        "flex px-[2rem] py-[1.5rem] w-full z-10 bg-primary/[.9]",
+        "flex px-[2rem] py-[1.5rem] w-full bg-primary/[.9] z-50",
         isFixed ? "sticky top-0" : "relative"
       )}
     >
@@ -284,7 +73,7 @@ export const Header = ({ isFixed }: any) => {
               )}
 
               <Popover>
-                <Popover.Button className="flex items-center gap-x-1 text-caption text-text">
+                <Popover.Button className="flex items-center gap-x-1 text-caption text-text font-semibold">
                   Wall Art
                 </Popover.Button>
 
@@ -301,11 +90,11 @@ export const Header = ({ isFixed }: any) => {
                     <div className="py-[2rem] px-[2rem]">
                       <Container>
                         <div className="flex gap-[2rem]">
-                          {products.map(
+                          {PRODUCTS.map(
                             ({ name, image, description, href }) => (
                               <div
                                 key={name}
-                                className="group w-[15%] group relative flex flex-col rounded-lg  bg-white"
+                                className="group w-[15%] group relative flex flex-col rounded-lg  bg-primary"
                               >
                                 <div className="flex transition relative aspect-square group-hover:blur-sm">
                                   <Image
@@ -343,7 +132,7 @@ export const Header = ({ isFixed }: any) => {
 
             <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-12">
               <Popover className="">
-                <Popover.Button className="flex items-center gap-x-1 text-caption text-text">
+                <Popover.Button className="flex items-center gap-x-1 text-caption text-text font-semibold">
                   Designs
                 </Popover.Button>
 
@@ -360,7 +149,7 @@ export const Header = ({ isFixed }: any) => {
                     <div className="py-[2rem] px-[2rem]">
                       <Container>
                         <div className="flex gap-[2rem]">
-                          {designs.map(({ title, links }, idx) => {
+                          {DESIGNS.map(({ title, links }, idx) => {
                             return (
                               <div key={idx} className="w-[15%]">
                                 <h5 className="text-bodySmall font-semibold mb-[1rem]">
@@ -388,7 +177,7 @@ export const Header = ({ isFixed }: any) => {
                       {/* {products.map(({ name, image, description, href }) => (
                         <div
                           key={name}
-                          className="group w-[15%] group relative flex flex-col rounded-lg  bg-white"
+                          className="group w-[15%] group relative flex flex-col rounded-lg  bg-primary"
                         >
                           <div className="flex transition relative aspect-square group-hover:blur-sm">
                             <Image
@@ -429,16 +218,11 @@ export const Header = ({ isFixed }: any) => {
               onClose={setMobileMenuOpen}
             >
               <div className="fixed inset-0 z-10" />
-              <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+              <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-primary px-6 py-6 sm:max-w-[40rem] sm:ring-1 sm:ring-gray-900/10">
                 <div className="flex items-center justify-between">
-                  <a href="#" className="-m-1.5 p-1.5">
-                    <span className="sr-only">Your Company</span>
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                      alt=""
-                    />
-                  </a>
+                  {/* <a href="#" className="-m-1.5 p-1.5"> */}
+                  <Logo />
+                  {/* </a> */}
                   <button
                     type="button"
                     className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -456,14 +240,25 @@ export const Header = ({ isFixed }: any) => {
                             <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
                               Product
                             </Disclosure.Button>
-                            <Disclosure.Panel className="mt-2 space-y-2">
-                              {[...products].map(item => (
+                            <Disclosure.Panel className="mt-2">
+                              {[...PRODUCTS].map(item => (
                                 <Disclosure.Button
                                   key={item.name}
                                   as="a"
                                   href={item.href}
-                                  className="block rounded-lg py-2 pl-6 pr-3 text-body font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                  className="flex items-center rounded-lg py-2 pl-3 pr-3 text-captionSmall gap-[1rem] hover:bg-gray-50"
                                 >
+                                  <div className="w-[50px] h-[50px] relative">
+                                    <Image
+                                      src={item.image}
+                                      alt="terra"
+                                      layout="fill"
+                                      objectFit="cover"
+                                      objectPosition="center"
+                                      quality={100}
+                                      priority={true}
+                                    />
+                                  </div>{" "}
                                   {item.name}
                                 </Disclosure.Button>
                               ))}
@@ -472,13 +267,52 @@ export const Header = ({ isFixed }: any) => {
                         )}
                       </Disclosure>
                     </div>
-                    <div className="py-6">
-                      <a
-                        href="#"
-                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      >
-                        Log in
-                      </a>
+                    <div className="space-y-2 py-6">
+                      <Disclosure as="div" className="-mx-3">
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-captionSmall font-semibold text-gray-900 hover:bg-gray-50">
+                              Designs
+                            </Disclosure.Button>
+                            <Disclosure.Panel className="mt-2 pl-[1rem]">
+                              {[...DESIGNS].map(item => (
+                                <div
+                                  key={item.title}
+                                  className="flex text-left flex-col w-full items-start rounded-lg py-2 pl-3 pr-3 text-captionSmall gap-[1rem"
+                                >
+                                  <Disclosure as="div" className="-mx-3 w-full">
+                                    {({ open }) => (
+                                      <>
+                                        <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-captionSmall font-semibold text-gray-900 hover:bg-gray-50">
+                                          {item.title}
+                                        </Disclosure.Button>
+
+                                        <Disclosure.Panel className="mt-2">
+                                          {item.links.length > 0 && (
+                                            <div className="w-full pl-[1rem]">
+                                              {item.links.map(
+                                                ({ title, link }, idx) => {
+                                                  return (
+                                                    <Link href={link} key={idx}>
+                                                      <span className="block text-captionSmall text-text p-[1rem] hover:bg-gray-50">
+                                                        {title}
+                                                      </span>
+                                                    </Link>
+                                                  );
+                                                }
+                                              )}
+                                            </div>
+                                          )}
+                                        </Disclosure.Panel>
+                                      </>
+                                    )}
+                                  </Disclosure>
+                                </div>
+                              ))}
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
                     </div>
                   </div>
                 </div>

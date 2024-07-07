@@ -24,6 +24,7 @@
 // lineart styles
 @import "../layouts/LineArt/layoutStyles/terra-tone.scss";
 @import "../layouts/LineArt/layoutStyles/urban-vista.scss";
+@import "../layouts/LineArt/layoutStyles/full.scss";
 
 // margin ( paddings )
 
@@ -74,6 +75,11 @@
   &.poster-30x40 {
     font-size: calc(var(--render-scale) * 8px) !important;
   }
+
+  &.poster-40x50 {
+    font-size: calc(var(--render-scale) * 9px) !important;
+  }
+
   &.poster-50x70 {
     font-size: calc(var(--render-scale) * 15px) !important;
   }
@@ -87,6 +93,7 @@
 
 .artwork {
   position: relative;
+
   .border-holder {
     margin: 2em;
   }
@@ -106,8 +113,8 @@
 
     &.second {
       position: absolute;
-      width: calc(100% + 20px);
-      height: calc(100% + 20px);
+      width: calc(100% + 1.5em);
+      height: calc(100% + 1.5em);
       top: 50%;
       left: 50%;
       border: $borderLine solid #000;
@@ -186,6 +193,7 @@
   &.lineart {
     @include LineArtTerraToneLayout();
     @include LineArtUrbanVistaLayout();
+    @include LineArtFullLayout();
   }
 
   &.skymap {

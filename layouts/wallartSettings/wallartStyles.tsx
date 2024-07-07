@@ -26,6 +26,11 @@ export const basicLayoutStyles: ArtworkStyleInterface[] = [
     name: "TerraTone",
     applyName: "terra-tone",
   },
+  {
+    id: 3,
+    name: "Full",
+    applyName: "full",
+  },
 ];
 
 export const skyMapLayoutStyles: ArtworkStyleInterface[] = [

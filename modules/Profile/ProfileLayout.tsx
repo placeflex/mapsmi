@@ -103,7 +103,7 @@ export const ProfileLayout = ({ children }: any) => {
             <Link href={route} key={index} legacyBehavior>
               <a
                 className={`${
-                  router.pathname === route ? "text-wine" : ""
+                  router.pathname === route ? "text-secondary" : ""
                 } mb-2 `}
               >
                 {title}

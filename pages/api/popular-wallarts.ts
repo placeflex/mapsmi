@@ -36,9 +36,10 @@ export default async function handler(
           const id = uuidv4();
 
           const screen = await generateScreen(projectPayload);
-
           // return;
-          // await generatePDF(projectPayload);
+          await generatePDF(projectPayload);
+
+          return;
 
           await b2.authorize();
 

@@ -9,14 +9,24 @@ export const generatePDF = async (project: any) => {
 
   const gap = handleGetPosterGap(project.selectedAttributes.size.id);
 
+  const frameIsEnabled = project.selectedAttributes.frame.id !== 0;
+
+  const w = Math.round(project.selectedAttributes.size.width);
+  const h = Math.round(project.selectedAttributes.size.height);
+
   let sizes = {
-    width: orientationPortraint
-      ? Math.round(project.selectedAttributes.size.width - gap)
-      : Math.round(project.selectedAttributes.size.height - gap),
-    height: orientationPortraint
-      ? Math.round(project.selectedAttributes.size.height - gap)
-      : Math.round(project.selectedAttributes.size.width - gap),
+    width: orientationPortraint ? Math.round(w) : Math.round(h),
+    height: orientationPortraint ? Math.round(h) : Math.round(w),
   };
+
+  // let sizes = {
+  //   width: orientationPortraint
+  //     ? Math.round(project.selectedAttributes.size.width - gap)
+  //     : Math.round(project.selectedAttributes.size.height - gap),
+  //   height: orientationPortraint
+  //     ? Math.round(project.selectedAttributes.size.height - gap)
+  //     : Math.round(project.selectedAttributes.size.width - gap),
+  // };
 
   const browser = await puppeteer.launch({
     headless: "new",
@@ -26,14 +36,16 @@ export const generatePDF = async (project: any) => {
     args: ["--no-sandbox"],
   });
 
+  const page = await browser.newPage();
+
   try {
     console.log("PDF START", 2);
 
-    const page = await browser.newPage();
+    console.log("PDF START", 3);
 
     await page.goto(
       `${process.env.NEXT_PUBLIC_BASE_URL_FRONTEND}/render?product_id=${project.productId}`,
-      { waitUntil: "networkidle2" }
+      { waitUntil: "networkidle0" }
     );
 
     console.log("PDF START", 4);
@@ -48,7 +60,7 @@ export const generatePDF = async (project: any) => {
       () => localStorage.getItem("render-storage") !== null
     );
 
-    await page.reload({ waitUntil: "networkidle2", timeout: 0 });
+    await page.reload({ waitUntil: "networkidle0", timeout: 0 });
 
     console.log("PDF START", 6);
 
@@ -84,12 +96,12 @@ export const generatePDF = async (project: any) => {
       console.log("GOT");
 
       return await page.pdf({
-        preferCSSPageSize: false,
-        printBackground: true,
-        ...sizes,
         path: `pdf-project-${project.uuid}-test.pdf`,
-        // scale: 1,
+        scale: 1,
         pageRanges: "1",
+        tagged: false,
+        timeout: 0,
+        ...sizes,
       });
 
       // const screenshotBuffer = await elementHandle.screenshot({

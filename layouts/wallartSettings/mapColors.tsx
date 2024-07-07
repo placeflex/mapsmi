@@ -332,9 +332,9 @@ export const mapColors = [
     id: 4,
     name: "cosmos",
     applyName: "Cosmos",
-    textColor: TEXT_WHITE,
-    gradientColor: BLACK_GRADIENT,
-    bgColor: TEXT_BLACK,
+    textColor: TEXT_BLACK,
+    gradientColor: TEXT_WHITE,
+    bgColor: TEXT_WHITE,
 
     layoutOverrides: {
       bold: {},
@@ -345,9 +345,20 @@ export const mapColors = [
         gradientColor: "transparent",
         bgColor: "transparent",
       },
+      lopster: {
+        textColor: TEXT_WHITE,
+        gradientColor: TEXT_WHITE,
+        bgColor: "transparent",
+      },
     },
 
-    maskOverrides: {},
+    maskOverrides: {
+      ...applyMaskOverridesStyles({
+        textColor: TEXT_BLACK,
+        gradientColor: "",
+        bgColor: maskOverridesBgs[0],
+      }),
+    },
   },
   {
     icon: (
@@ -377,7 +388,13 @@ export const mapColors = [
       },
     },
 
-    maskOverrides: {},
+    maskOverrides: {
+      ...applyMaskOverridesStyles({
+        textColor: TEXT_BLACK,
+        gradientColor: "",
+        bgColor: maskOverridesBgs[0],
+      }),
+    },
   },
   {
     icon: (
@@ -407,7 +424,13 @@ export const mapColors = [
       },
     },
 
-    maskOverrides: {},
+    maskOverrides: {
+      ...applyMaskOverridesStyles({
+        textColor: TEXT_BLACK,
+        gradientColor: "",
+        bgColor: maskOverridesBgs[0],
+      }),
+    },
   },
   {
     icon: (
@@ -437,6 +460,12 @@ export const mapColors = [
       },
     },
 
-    maskOverrides: {},
+    maskOverrides: {
+      ...applyMaskOverridesStyles({
+        textColor: TEXT_BLACK,
+        gradientColor: "",
+        bgColor: maskOverridesBgs[0],
+      }),
+    },
   },
 ];

@@ -48,7 +48,11 @@ export const SkyMap = () => {
     zoomlevel: null,
     zoomextend: 1,
     // projection: "orthographic", //orthographic dafault
-    projection: "orthographic", //orthographic dafault
+    // projection: "airy", //orthographic dafault
+    // projection: "azimuthalEqualArea", //orthographic dafault
+    // projection: "orthographic", //orthographic dafault
+    projection: "stereographic", //orthographic dafault
+    // projection: "wiechel", //orthographic dafault
     transform: "equatorial",
     follow: "zenith",
     width: 1100,
@@ -57,16 +61,17 @@ export const SkyMap = () => {
     projectionRatio: null,
     background: {
       fill: styles.ilstr,
+      // fill: "transparent",
       stroke: styles.stroke,
       opacity: 1,
-      width: 1,
+      width: 0.5,
     },
     lines: {
       graticule: {
         show: posterStyles?.grid,
         stroke: styles.bg,
         strokeWidth: 0.1,
-        opacity: 0.3,
+        opacity: 1,
       },
       equatorial: { show: false },
       ecliptic: { show: false },
@@ -105,7 +110,8 @@ export const SkyMap = () => {
         font: "14px Helvetica, Arial, sans-serif",
       },
       lines: posterStyles?.lines,
-      lineStyle: { stroke: styles.bg, width: 1, opacity: 0.5 },
+      lineStyle: { stroke: styles.bg, width: 1.6, opacity: 1 },
+      // lineStyle: { stroke: styles.stroke, width: 1.6, opacity: 1 },
       bounds: false,
       boundStyle: { stroke: "#cccc00", width: 0.5, opacity: 0.8, dash: [2, 4] },
     },
@@ -131,13 +137,14 @@ export const SkyMap = () => {
       // Отображение звезд ярче этой звездной величины
       colors: false, // Отображение звезд в цвете (или только белые)
 
-      size: 11,
+      size: 10,
       limit: 6,
       exponent: -0.28,
       designation: false,
       style: {
         // Стиль отображения звезд
         fill: styles.bg, // Цвет
+        // fill: styles.stroke, // Цвет
         opacity: 1, // Прозрачность
       },
       propername: false,
@@ -204,7 +211,7 @@ export const SkyMap = () => {
   }, [currentPosterLocation, posterDate]);
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full skymap-wrapper">
       <div className="relative h-full w-full" id="map-holder">
         {posterStyles.isOverlay && (
           <div className="mask">

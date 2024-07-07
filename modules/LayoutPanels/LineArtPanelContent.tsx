@@ -42,31 +42,37 @@ export const LineArtPanelContent = ({
       items={[
         {
           title: "Select illustration",
+          shortTitle: "Illustrations",
           icon: <Location stroke="#000" width={20} height={20} />,
           content: <IllustrationAccordion handleChange={handleSelectFigure} />,
         },
         {
           title: "Customize the colors",
+          shortTitle: "Colors",
           icon: <Styles stroke="#000" width={20} height={20} />,
           content: <ColorsAccordion handleChange={handleChangeLayoutColor} />,
         },
         {
           title: "Customize the style",
+          shortTitle: "Styles",
           icon: <Labels stroke="#000" width={20} height={20} />,
           content: <LayoutsAccordion handleChange={handleChangeLayoutStyle} />,
         },
         {
           title: "Customize the font",
+          shortTitle: "Fonts",
           icon: <Size stroke="#000" width={20} height={20} />,
           content: <FontsAccordion handleChange={handleChangeFont} />,
         },
         {
           title: "Customize the text",
+          shortTitle: "Texts",
           icon: <Styles stroke="#000" width={20} height={20} />,
           content: <TextsAccordion />,
         },
         {
           title: "Change the size",
+          shortTitle: "Materials",
           icon: <Location stroke="#000" width={20} height={20} />,
           content: (
             <SizeAccordion

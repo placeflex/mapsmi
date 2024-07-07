@@ -96,6 +96,14 @@ function CustomApp({ Component, pageProps }: AppProps) {
           name="description"
           content="Design a personal Custom Map Poster, Star Map Poster and more, with our easy to use design tools ✔︎ Printed to order ✔︎ Free worldwide shipping"
         ></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <link
+          href="https://unpkg.com/mapbox-gl@2.5.0/dist/mapbox-gl.css"
+          rel="stylesheet"
+        />
       </Head>
       <div
         className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans`}
@@ -107,16 +115,24 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <ForgotPassword />
         <ResetPassword />
 
-        <SidePanelLayout isOpen={isOpenProjectSettings} bgClose={true}>
+        <SidePanelLayout
+          isOpen={isOpenProjectSettings}
+          bgClose={true}
+          className="w-full lg:w-[55rem]"
+        >
           <ProjectAdminSettings />
         </SidePanelLayout>
-        <SidePanelLayout isOpen={markersPanel.state} bgClose={true}>
+        <SidePanelLayout
+          isOpen={markersPanel.state}
+          bgClose={true}
+          className="w-full lg:w-[55rem]"
+        >
           <Markers />
         </SidePanelLayout>
         <SidePanelLayout
           isOpen={cartPanel}
           bgClose={true}
-          className="w-[55rem]"
+          className="w-full lg:w-[55rem]"
         >
           <Cart />
         </SidePanelLayout>

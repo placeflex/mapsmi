@@ -25,14 +25,14 @@ export const PreviewWallartCard = ({
   return (
     <div
       className={classNames(
-        "relative flex flex-col bg-primary shadow-md",
+        "relative flex flex-col bg-primary",
         className
       )}
     >
       <div className="w-full relative aspect-square">
         {disabled && (
           <div className="absolute bg-black/[0.5] z-20 w-full h-full top-0 flex items-center justify-center">
-            <h3 className="text-body text-white">Cooming Soon</h3>
+            <h3 className="text-body text-primary">Cooming Soon</h3>
           </div>
         )}
         <Image

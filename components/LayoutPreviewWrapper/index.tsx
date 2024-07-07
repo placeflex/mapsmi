@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { useMediaQuery } from "@react-hook/media-query";
 
 // stores
 import { useTypedSelector } from "@/redux/store";
@@ -48,6 +49,9 @@ export const LayoutPreviewWrapper = ({
 }: LayoutPreviewWrapperProps) => {
   const refLayoutWrapper = useRef<HTMLDivElement>(null);
   const refArtworkWrapper = useRef<HTMLDivElement>(null);
+
+  const MQmedium = useMediaQuery(`(max-width: 1024px)`);
+
   const posterSizeId = useTypedSelector(
     ({ layout }) => layout.layout?.selectedAttributes?.size?.id
   );
@@ -65,7 +69,7 @@ export const LayoutPreviewWrapper = ({
   const handleChangeScale = () => {
     if (refLayoutWrapper.current && refArtworkWrapper.current) {
       // let gap = render ? 0 : handleGetPosterGap(Number(posterSizeId));
-      let gap = handleGetPosterGap(Number(posterSizeId));
+      let gap = MQmedium ? 50 : handleGetPosterGap(Number(posterSizeId));
 
       if (artworkStyles.width && artworkStyles.height) {
         const parentWidth = refLayoutWrapper.current.offsetWidth - gap;
