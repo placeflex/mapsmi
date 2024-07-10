@@ -9,6 +9,7 @@
 
     .artworkFigure {
       padding: 2em;
+      gap: 1em;
     }
 
     .labels {
@@ -16,6 +17,7 @@
       text-align: right;
       justify-content: flex-end;
       align-items: flex-end;
+      gap: 0.4em;
 
       * {
         color: $textColor;
@@ -25,9 +27,12 @@
         font-size: 2em;
       }
 
-      h2,
+      h2 {
+        font-size: 1.2em;
+      }
+
       h3 {
-        font-size: 1.8em;
+        font-size: 1em;
       }
 
       span {

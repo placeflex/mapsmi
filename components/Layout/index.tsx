@@ -1,5 +1,5 @@
 import React from "react";
-import classNames from "classnames";
+import clsx from 'clsx';
 
 // components
 import { Header } from "@/components/Layout/Header";

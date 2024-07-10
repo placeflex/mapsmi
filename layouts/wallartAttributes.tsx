@@ -53,9 +53,9 @@ export const ROUTE_TYPES = {
 
 export const sizes = [
   { name: "30x40cm", id: 0, ...replaceDemenssionss("30x40cm") },
-  { name: "50x70cm", id: 2, ...replaceDemenssionss("50x70cm") },
-  { name: "60x90cm", id: 3, ...replaceDemenssionss("60x90cm") },
-  // { name: "40x50cm", id: 1, ...replaceDemenssionss("40x50cm") },
+  { name: "50x70cm", id: 1, ...replaceDemenssionss("50x70cm") },
+  { name: "60x90cm", id: 2, ...replaceDemenssionss("60x90cm") },
+  { name: "40x50cm", id: 3, ...replaceDemenssionss("40x50cm") },
 ];
 
 export const MATERIAL_PRICES = [
@@ -66,7 +66,7 @@ export const MATERIAL_PRICES = [
       { id: 1, price: 900 },
       { id: 2, price: 1200 },
       //
-      // { id: 3, price: 1800 },
+      { id: 3, price: 1800 },
     ],
   },
   {
@@ -76,17 +76,17 @@ export const MATERIAL_PRICES = [
       { id: 1, price: 1599 },
       { id: 2, price: 1899 },
       //
-      // { id: 3, price: 2400 },
+      { id: 3, price: 2400 },
     ],
   },
-  // {
-  //   id: 2,
-  //   prices: [
-  //     { id: 0, price: 1300 },
-  //     { id: 1, price: 1800 },
-  //     { id: 2, price: 3200 },
-  //   ],
-  // },
+  {
+    id: 2,
+    prices: [
+      { id: 0, price: 1300 },
+      { id: 1, price: 1800 },
+      { id: 2, price: 3200 },
+    ],
+  },
 ];
 
 export const materials = [
@@ -98,7 +98,7 @@ export const materials = [
       { ...sizes[1], id: 1 },
       { ...sizes[2], id: 2 },
       //
-      // { ...sizes[3], id: 3 },
+      { ...sizes[3], id: 3 },
     ],
   },
   // {
@@ -291,40 +291,40 @@ export const frames = {
 
     ,
   ],
-  // 3: [
-  //   emptyFrame,
-  //   {
-  //     id: 1,
-  //     name: "type-frame",
-  //     color: "color-natural",
-  //     material: "material-wood",
-  //     price: 2198,
-  //     oldPrice: 2299,
+  3: [
+    emptyFrame,
+    {
+      id: 1,
+      name: "type-frame",
+      color: "color-natural",
+      material: "material-wood",
+      price: 2198,
+      oldPrice: 2299,
 
-  //     type: FRAMES_TYPES[3],
-  //     icon: <Image src={frame4} layout="fill" alt="frame" objectFit="cover" />,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "type-frame",
-  //     color: "color-white",
-  //     material: "material-wood",
-  //     price: 2198,
-  //     oldPrice: 2299,
+      type: FRAMES_TYPES[3],
+      icon: <Image src={frame4} layout="fill" alt="frame" objectFit="cover" />,
+    },
+    {
+      id: 2,
+      name: "type-frame",
+      color: "color-white",
+      material: "material-wood",
+      price: 2198,
+      oldPrice: 2299,
 
-  //     type: FRAMES_TYPES[3],
-  //     icon: <Image src={frame5} layout="fill" alt="frame" objectFit="cover" />,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "type-frame",
-  //     color: "color-black",
-  //     material: "material-wood",
-  //     price: 2198,
-  //     oldPrice: 2299,
+      type: FRAMES_TYPES[3],
+      icon: <Image src={frame5} layout="fill" alt="frame" objectFit="cover" />,
+    },
+    {
+      id: 3,
+      name: "type-frame",
+      color: "color-black",
+      material: "material-wood",
+      price: 2198,
+      oldPrice: 2299,
 
-  //     type: FRAMES_TYPES[3],
-  //     icon: <Image src={frame6} layout="fill" alt="frame" objectFit="cover" />,
-  //   },
-  // ],
+      type: FRAMES_TYPES[3],
+      icon: <Image src={frame6} layout="fill" alt="frame" objectFit="cover" />,
+    },
+  ],
 };

@@ -113,12 +113,16 @@
 
     &.second {
       position: absolute;
-      width: calc(100% + 1.5em);
-      height: calc(100% + 1.5em);
-      top: 50%;
-      left: 50%;
+      width: calc(100% + 1.2em);
+      height: calc(100% + 1.2em);
+      margin-left: -0.6em;
+      margin-top: -0.6em;
+      // top: 50%;
+      // left: 50%;
+      right: auto;
+      bottom: auto;
       border: $borderLine solid #000;
-      transform: translate(-50%, -50%);
+      // transform: translate(-50%, -50%);
     }
   }
 
@@ -136,6 +140,7 @@
     flex-grow: 1;
     padding: 2em;
     gap: 2em;
+    // position: relative;
 
     path {
       fill: $illustrationColor;
@@ -294,7 +299,7 @@
 
     @include MinimalLayout();
     @include BoldLayout();
-    @include NoriLayout();
+    @include NoirLayout();
     @include BrushLayout();
     @include CrispiLayout();
     @include LopsterLayout();

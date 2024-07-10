@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 import { DatePicker } from "antd";
 import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
-import classNames from "classnames";
+import clsx from 'clsx';
 
 // styles
 
@@ -38,7 +38,7 @@ export const DatePickerComponent = forwardRef<DatePickerInterface, any>(
           }}
           format="YYYY-MM-DD HH:mm"
           onChange={props.onChange}
-          className={classNames(
+          className={clsx(
             "datepicker-input font-sans h-[40px]",
             className
           )}

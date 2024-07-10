@@ -1,7 +1,7 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-import classNames from "classnames";
+import clsx from 'clsx';
 
 // stores
 import { useDispatch } from "react-redux";
@@ -57,7 +57,7 @@ export const SidePanelLayout = ({
             leaveTo="opacity-0 "
           >
             <div
-              className={classNames(
+              className={clsx(
                 "relative bg-bg text-left shadow-xl transition-all h-full flex-1 p-[2rem] ml-auto",
                 className
               )}

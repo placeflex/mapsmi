@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import classNames from "classnames";
+import clsx from 'clsx';
 
 // components
 import { Container } from "@/components/Container";
@@ -19,11 +19,11 @@ export const Banner = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className={classNames("poster", styles.poster)}>
+    <div className={clsx("poster", styles.poster)}>
       <Container>
         <div className="mx-[-4rem]">
           <div
-            className={classNames(
+            className={clsx(
               `flex flex-col items-start justify-center w-full p-[4rem]`,
               styles.posterInner
             )}

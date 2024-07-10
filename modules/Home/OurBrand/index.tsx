@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from 'clsx';
 
 // components
 import { Container } from "@/components/Container";
@@ -8,7 +8,7 @@ import styles from "./Brand.module.scss";
 
 export const OurBrand = () => {
   return (
-    <div className={classNames(styles.ourBrand)}>
+    <div className={clsx(styles.ourBrand)}>
       <Container>
         <div className="flex flex-col justify-center items-end h-[80rem]">
           <h2 className="text-h2 text-primary mb-[1rem]">On sale right now!</h2>

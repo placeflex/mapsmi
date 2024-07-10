@@ -1,5 +1,7 @@
 /* disable eslint errors if any */
-const defaultTheme = require("tailwindcss/defaultTheme");
+
+import defaultTheme from "tailwindcss/defaultTheme";
+// const defaultTheme = require("tailwindcss/defaultTheme");
 import type { Config } from "tailwindcss";
 
 const basicFontSettings = {

@@ -1,5 +1,5 @@
 import { AutoComplete as AntdAutoComplete } from "antd";
-import classNames from "classnames";
+import clsx from 'clsx';
 
 import Delete from "@/public/icons/close.svg";
 interface AutoCompleteProps {
@@ -33,7 +33,7 @@ export const AutoComplete = ({
       {label ? (
         <label
           htmlFor={label}
-          className={classNames(
+          className={clsx(
             "flex flex-col mb-2 text-caption",
             labelClasses
           )}
@@ -52,7 +52,7 @@ export const AutoComplete = ({
 
           <AntdAutoComplete
             options={options}
-            className={classNames("autocomplete h-[40px] w-full", className)}
+            className={clsx("autocomplete h-[40px] w-full", className)}
             popupClassName="autocomplete-popup"
             onSelect={onSelect}
             onSearch={onChange}
@@ -65,7 +65,7 @@ export const AutoComplete = ({
       ) : (
         <AntdAutoComplete
           options={options}
-          className={classNames("autocomplete h-[40px]", className)}
+          className={clsx("autocomplete h-[40px]", className)}
           popupClassName="autocomplete-popup"
           onSelect={onSelect}
           onSearch={onChange}

@@ -41,6 +41,8 @@ export const zodiacIcons = [
     id: 0,
     name: "Capricorn",
     date: "Dec 22 - Jan 19",
+    tagline: "RESPONSIBLE • AMBITIOUS • WISE",
+    subline: "THE SEA-GOAT",
   },
   {
     figure: <Aquarius />,
@@ -48,6 +50,8 @@ export const zodiacIcons = [
     id: 1,
     name: "Aquarius",
     date: "Jan 20 - Feb 18",
+    tagline: "PROGRESSIVE • IMAGINATIVE • INDEPENDENT",
+    subline: "THE PITCHER",
   },
   {
     figure: <Pisces />,
@@ -55,6 +59,8 @@ export const zodiacIcons = [
     id: 2,
     name: "Pisces",
     date: "Feb 19 - Mar 20",
+    tagline: "COMPASSIONATE • INTUITIVE • ARTISTIC",
+    subline: "THE FISH",
   },
   {
     figure: <Aries />,
@@ -62,6 +68,8 @@ export const zodiacIcons = [
     id: 3,
     name: "Aries",
     date: "Mar 21 - Apr 19",
+    tagline: "ENTHUSIASTIC • DYNAMIC • HONEST",
+    subline: "THE RAM",
   },
   {
     figure: <Taurus />,
@@ -69,6 +77,8 @@ export const zodiacIcons = [
     id: 4,
     name: "Taurus",
     date: "Apr 20 - May 20",
+    tagline: "PATIENT • DEPENDABLE • DEVOTED",
+    subline: "THE BULL",
   },
   {
     figure: <Gemini />,
@@ -76,6 +86,8 @@ export const zodiacIcons = [
     id: 5,
     name: "Gemini",
     date: "May 21 - Jun 21",
+    tagline: "EXPRESSIVE • CURIOUS • WITTY",
+    subline: "THE TWINS",
   },
   {
     figure: <Cancer />,
@@ -83,6 +95,8 @@ export const zodiacIcons = [
     id: 6,
     name: "Cancer",
     date: "Jun 22 - Jul 22",
+    tagline: "LOYAL • SENTIMENTAL • COMPASSIONATE",
+    subline: "THE CRAB",
   },
 
   {
@@ -91,6 +105,8 @@ export const zodiacIcons = [
     id: 7,
     name: "Leo",
     date: "Jul 23 - Aug 22",
+    tagline: "ENERGETIC • OUTGOING • SELF-ASSURED",
+    subline: "THE LION",
   },
   {
     figure: <Virgo />,
@@ -98,6 +114,8 @@ export const zodiacIcons = [
     id: 8,
     name: "Virgo",
     date: "Aug 23 - Sep 22",
+    tagline: "HARDWORKING • LOYAL • TRUSTWORTHY",
+    subline: "THE VIRGIN",
   },
   {
     figure: <Libra />,
@@ -105,6 +123,8 @@ export const zodiacIcons = [
     id: 9,
     name: "Libra",
     date: "Sep 23 - Oct 23",
+    tagline: "CHARMING • DIPLOMATIC • GRACIOUS",
+    subline: "THE SCALE",
   },
   {
     figure: <Scorpio />,
@@ -112,6 +132,8 @@ export const zodiacIcons = [
     id: 10,
     name: "Scorpio",
     date: "Oct 24 - Nov 21",
+    tagline: "PASSIONATE • RESOURCEFUL • BRAVE",
+    subline: "THE SCORPION",
   },
   {
     figure: <Sagittarius />,
@@ -119,5 +141,7 @@ export const zodiacIcons = [
     id: 11,
     name: "Sagittarius",
     date: "Nov 22 - Dec 21",
+    tagline: "OPTIMISTIC • FUNNY • GENEROUS",
+    subline: "THE CENTAUR",
   },
 ];

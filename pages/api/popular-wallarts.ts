@@ -37,7 +37,7 @@ export default async function handler(
 
           const screen = await generateScreen(projectPayload);
           // return;
-          await generatePDF(projectPayload);
+          // await generatePDF(projectPayload);
 
           return;
 

@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from 'clsx';
 import { useRouter } from "next/router";
 interface Texts {
   heading?: string;
@@ -99,7 +99,7 @@ export const WallartContent = ({
       {frame.id !== 0 && (!render || preview) && (
         <div
           id="poster-mount"
-          className={classNames(frame.name, frame.color, frame.material)}
+          className={clsx(frame.name, frame.color, frame.material)}
         ></div>
       )}
     </div>

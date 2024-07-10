@@ -1,6 +1,6 @@
 import { Select } from "antd";
 
-import classNames from "classnames";
+import clsx from 'clsx';
 
 interface SearchSelectProps {
   label?: string;
@@ -35,7 +35,7 @@ export const SearchSelect = ({
 
       <Select
         // showSearch
-        className={classNames(
+        className={clsx(
           "search-select font-sans min-h-[4rem]",
           className
         )}

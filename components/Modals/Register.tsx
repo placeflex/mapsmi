@@ -140,7 +140,7 @@ export const Register = () => {
                 )}
               </div>
 
-              <Button classNames="mt-2 flex mx-auto" type="submit">
+              <Button clsx="mt-2 flex mx-auto" type="submit">
                 Register
               </Button>
             </Form>

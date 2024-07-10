@@ -35,7 +35,7 @@ export const generateScreen = async (project: any) => {
     defaultViewport: {
       ...sizes,
     },
-    args: ["--no-sandbox"],
+    args: ["--no-sandbox", "--disable-gpu"],
   });
 
   const page = await browser.newPage();
@@ -54,7 +54,7 @@ export const generateScreen = async (project: any) => {
 
     await page.goto(
       `${process.env.NEXT_PUBLIC_BASE_URL_FRONTEND}/render?product_id=${project.productId}&preview=true`,
-      { waitUntil: "networkidle0" }
+      { waitUntil: "networkidle2" }
     );
 
     console.log("SCREEN START", 4);
@@ -63,13 +63,13 @@ export const generateScreen = async (project: any) => {
       localStorage.setItem("render-storage", JSON.stringify(project));
     }, project);
 
+    await page.reload({ waitUntil: "networkidle2", timeout: 0 });
+
     console.log("SCREEN START", 5);
 
     await page.waitForFunction(
       () => localStorage.getItem("render-storage") !== null
     );
-
-    await page.reload({ waitUntil: "networkidle0", timeout: 0 });
 
     console.log("SCREEN START", 6);
 
@@ -79,6 +79,14 @@ export const generateScreen = async (project: any) => {
 
     console.log("SCREEN START", 9);
 
+    if (project.productId == 1) {
+      await page.waitForTimeout(16000);
+    }
+
+    if (project.productId == 0) {
+      await page.waitForTimeout(16000);
+    }
+
     if (project.productId == 2) {
       console.log("START WAIT TILES");
 
@@ -86,7 +94,7 @@ export const generateScreen = async (project: any) => {
 
       console.log("END WAIT TILES");
 
-      await page.waitForTimeout(4000);
+      // await page.waitForTimeout(8000);
     }
 
     await page.waitForSelector(".art");

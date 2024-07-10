@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import classNames from "classnames";
+import clsx from "clsx";
 
 // components
 import { Input } from "@/components/Input";
@@ -18,6 +18,7 @@ import { basicColors } from "@/layouts/wallartSettings/colorsList";
 import { mapColors } from "@/layouts/wallartSettings/mapColors";
 import { mapMarkers } from "@/layouts/wallartSettings/mapMarkers";
 import { maskOverlays, masks } from "@/layouts/wallartSettings/skyMapMasks";
+import { zodiacAttrs } from "@/layouts/wallartSettings/zodiacAttrs";
 import {
   basicLayoutStyles,
   mapLayoutStyles,
@@ -590,10 +591,10 @@ export const LocationAccrodion = () => {
                   <div
                     key={idx}
                     onClick={() => handleChangeRouteType(Number(type.id))}
-                    className={classNames("text-center cursor-pointer")}
+                    className={clsx("text-center cursor-pointer")}
                   >
                     <div
-                      className={classNames(
+                      className={clsx(
                         "border",
                         type.id == routeType && "border-black"
                       )}
@@ -658,7 +659,7 @@ export const LocationAccrodion = () => {
                       onClick={() => dispatch(handleChangeLabelsStyle("fill"))}
                     >
                       <div
-                        className={classNames(
+                        className={clsx(
                           "p-[1rem] border",
                           labelsStyle == "fill" && "border-black"
                         )}
@@ -674,7 +675,7 @@ export const LocationAccrodion = () => {
                       }
                     >
                       <div
-                        className={classNames(
+                        className={clsx(
                           "p-[1rem] border",
                           labelsStyle == "outline" && "border-black"
                         )}
@@ -841,14 +842,12 @@ export const ColorsForMapAccordion = ({ handleChange }: any) => {
               onClick={() => handleChange(id)}
             >
               <div
-                className={classNames(
+                className={clsx(
                   "block border p-[.5rem] w-full aspect-square relative",
                   poster.styles.color == id && "border-black"
                 )}
               >
-                <div className={classNames("w-full h-full relative")}>
-                  {icon}
-                </div>
+                <div className={clsx("w-full h-full relative")}>{icon}</div>
               </div>
               <span className="text-center mt-[0.5rem] text-captionSmall">
                 {applyName.charAt(0).toUpperCase() + applyName.slice(1)}
@@ -929,7 +928,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
               return (
                 <div
                   key={id}
-                  className={classNames(
+                  className={clsx(
                     "h-[80px] border p-4 cursor-pointer",
                     id === Number(posterStyles?.overlayId) ? "border-black" : ""
                   )}
@@ -968,7 +967,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
                 return (
                   <div
                     key={id}
-                    className={classNames(
+                    className={clsx(
                       "h-[80px] border p-4 cursor-pointer flex justify-center items-center relative",
                       id === Number(posterStyles?.maskId) ? "border-black" : ""
                     )}
@@ -1126,7 +1125,7 @@ export const LayoutsMapAccordion = ({ handleChange }: any) => {
               return (
                 <div
                   key={id}
-                  className={classNames(
+                  className={clsx(
                     "h-[80px] border p-[4rem] cursor-pointer flex justify-center items-center relative",
                     id === Number(posterStyles?.maskId)
                       ? "border-secondaryBg"
@@ -1268,7 +1267,7 @@ export const SizeAccordion = ({
         <div className="flex flex-col mt-[2rem]">
           <h5 className="font-bold  mb-[1rem]">Material Options</h5>
           <div className="flex flex-wrap gap-[1rem]">
-            {frames[posterAttributes?.size?.id].map(frame => {
+            {frames[posterAttributes?.size?.id]?.map(frame => {
               return (
                 <div
                   key={frame.id}
@@ -1277,7 +1276,7 @@ export const SizeAccordion = ({
                 >
                   {frame.icon && (
                     <div
-                      className={classNames(
+                      className={clsx(
                         "border p-[.5rem] h-[5rem] relative flex items-center justify-center",
                         Number(posterAttributes?.frame?.id) == frame.id &&
                           "border-secondaryBg"
@@ -1327,10 +1326,8 @@ export const ZodiacSelect = ({ handleChange }: any) => {
   const handleUpdate = id => {
     const title = zodiacIcons[id].name;
     const date = zodiacIcons[id].date;
-
-    console.log("title", title);
-
-    console.log("date", date);
+    const tagline = zodiacIcons[id].tagline;
+    const subline = zodiacIcons[id].subline;
 
     dispatch(
       handleChangeLables({
@@ -1341,7 +1338,21 @@ export const ZodiacSelect = ({ handleChange }: any) => {
 
     dispatch(
       handleChangeLables({
+        label: "tagline",
+        value: tagline,
+      })
+    );
+
+    dispatch(
+      handleChangeLables({
         label: "subline",
+        value: subline,
+      })
+    );
+
+    dispatch(
+      handleChangeLables({
+        label: "divider",
         value: date,
       })
     );

@@ -126,7 +126,7 @@ const UserProfile = () => {
                     )}
                   </div>
 
-                  <Button classNames="mt-4 flex" type="submit">
+                  <Button clsx="mt-4 flex" type="submit">
                     Update
                   </Button>
                 </Form>

@@ -8,37 +8,89 @@
     padding: 0;
     gap: 0;
   }
+  // .artworkFigure {
+  //   background: transparent;
+  //   align-items: center;
+  //   justify-content: center;
+  //   padding: 0;
+  //   gap: 0;
+  // }
 
-  .labels {
-    position: absolute;
-    z-index: 1;
-    padding: 2em 1.5em;
-    width: calc(100% + 2px);
-    bottom: -1px;
-    left: -1px;
-    background: var(--gradientColor);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.7em;
-    overflow: hidden;
+  // .labels {
+  //   position: absolute;
+  //   z-index: 1;
+  //   padding: 2em 1.5em;
+  //   width: calc(100% + 2px);
+  //   bottom: -1px;
+  //   left: -1px;
+  //   background: var(--gradientColor);
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: center;
+  //   gap: 0.7em;
+  //   overflow: hidden;
 
-    *:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
+  //   *:last-child {
+  //     margin-bottom: 0;
+  //     padding-bottom: 0;
+  //   }
 
-    h1 {
-      font-weight: bold;
-    }
-  }
+  //   h1 {
+  //     font-weight: bold;
+  //   }
+  // }
 
   &.minimal-full,
   &.minimal {
     .labels {
+      position: absolute;
+      z-index: 1;
+      padding: 2em 1.5em;
+      width: calc(100% + 2px);
+      bottom: -1px;
+      left: -1px;
+      background: var(--gradientColor);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7em;
+      // overflow: hidden;
+
+      *:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      h1 {
+        font-weight: bold;
+      }
+    }
+
+    .labels {
+      position: absolute;
+      z-index: 1;
+      padding: 2em 1.5em;
+      width: calc(100% + 2px);
+      bottom: -1px;
+      left: -1px;
+      background: var(--gradientColor);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      // gap: 0.7em;
+      // overflow: hidden;
+
+      *:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
       h1 {
         font-size: 3em;
+        font-weight: bold;
       }
 
       h2 {

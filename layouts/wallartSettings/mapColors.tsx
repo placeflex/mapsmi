@@ -332,12 +332,14 @@ export const mapColors = [
     id: 4,
     name: "cosmos",
     applyName: "Cosmos",
-    textColor: TEXT_BLACK,
-    gradientColor: TEXT_WHITE,
+    textColor: TEXT_WHITE,
+    gradientColor: BLACK_GRADIENT,
     bgColor: TEXT_WHITE,
 
     layoutOverrides: {
-      bold: {},
+      bold: { textColor: TEXT_BLACK },
+      ["bold-full"]: { textColor: TEXT_BLACK },
+      script: { textColor: TEXT_BLACK },
       brush: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
       crispi: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
       noir: {

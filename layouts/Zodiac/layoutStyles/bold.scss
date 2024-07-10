@@ -13,8 +13,7 @@
       text-transform: uppercase;
       white-space: pre-wrap;
       width: auto;
-      gap: 0.5em;
-      min-width: 50%;
+      min-width: 60%;
       letter-spacing: 0.2em;
       left: auto;
       bottom: 0;
@@ -28,14 +27,22 @@
         font-size: 1.6em;
       }
 
-      h2,
+      h2 {
+        opacity: 0.5;
+        font-size: 1em;
+        margin: 0.4em 0;
+      }
+
       h3 {
         font-size: 0.8em;
+        opacity: 0.5;
       }
 
       span {
-        font-size: 0.7em;
+        font-size: 0.5em;
+        white-space: nowrap;
         opacity: 0.5;
+        margin: 0;
       }
     }
 

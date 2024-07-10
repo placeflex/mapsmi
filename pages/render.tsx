@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-import classNames from "classnames";
+import clsx from 'clsx';
 
 // components
 import { LayoutPreviewWrapper } from "@/components/LayoutPreviewWrapper";
@@ -125,7 +125,7 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames(
+        className={clsx(
           {
             [`render lineart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
@@ -151,7 +151,7 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames(
+        className={clsx(
           {
             [`render skymap poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
@@ -182,7 +182,7 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames(
+        className={clsx(
           {
             [`render map poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
@@ -212,7 +212,7 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames(
+        className={clsx(
           {
             [`render zodiac poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
@@ -241,7 +241,7 @@ export default function Editor() {
   return (
     <>
       <div
-        className={classNames("h-full w-fit", preview && "screen-wrapper")}
+        className={clsx("h-full w-fit", preview && "screen-wrapper")}
         style={isPreview}
       >
         <LayoutPreviewWrapper

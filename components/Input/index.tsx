@@ -1,5 +1,5 @@
 import { Input as InputComponent } from "antd";
-import classNames from "classnames";
+import clsx from 'clsx';
 
 interface InputProps {
   label?: string;
@@ -27,7 +27,7 @@ export const Input = ({
       {label ? (
         <label
           htmlFor={label}
-          className={classNames(
+          className={clsx(
             "flex flex-col mb-2 text-caption",
             labelClasses
           )}
@@ -48,7 +48,7 @@ export const Input = ({
             required={required}
             placeholder={placeholder}
             id={label}
-            className={classNames(
+            className={clsx(
               "w-full rounded-none font-sans h-[40px]",
               className
             )}
@@ -60,7 +60,7 @@ export const Input = ({
           required={required}
           placeholder={placeholder}
           id={label}
-          className={classNames(
+          className={clsx(
             "w-full rounded-none font-sans h-[40px]",
             className
           )}

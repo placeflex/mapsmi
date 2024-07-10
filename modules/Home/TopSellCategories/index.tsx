@@ -42,6 +42,11 @@ export const TopSellCategories: FC = (): React.ReactNode => {
               <h3 className="text-bodySmall">
                 Shop our curated collection of 2023&apos;s hottest posters.
               </h3>
+
+              <div className="flex relative w-[10rem] ml-auto">
+                <button className="swiper-button-prev"></button>
+                <button className="swiper-button-next"></button>
+              </div>
             </div>
 
             {/* <div className="flex relative w-[10rem] ml-auto">
@@ -53,7 +58,6 @@ export const TopSellCategories: FC = (): React.ReactNode => {
           <div className="mt-[2rem]">
             <Slider
               loop={false}
-              spaceBetween={20}
               pagination={{ clickable: false }}
               // navigation={false}
               // autoplay={{
@@ -77,15 +81,19 @@ export const TopSellCategories: FC = (): React.ReactNode => {
                 },
 
                 1620: {
-                  slidesPerView: 5.5,
-                  spaceBetween: 15,
+                  slidesPerView: 5,
+                  spaceBetween: 10,
                 },
               }}
             >
               {slides.map(({ src }, idx) => {
                 return (
                   <SwiperSlide key={idx}>
-                    <TopSellCategoriesCard title="Chicago Posters" src={src} />
+                    <TopSellCategoriesCard
+                      title="Chicago Posters"
+                      src={src}
+                      className="w-full"
+                    />
                   </SwiperSlide>
                 );
               })}

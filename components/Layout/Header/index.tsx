@@ -2,7 +2,7 @@ import { useState, Fragment, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import classNames from "classnames";
+import clsx from 'clsx';
 import { Popover, Transition, Disclosure, Dialog } from "@headlessui/react";
 
 // components
@@ -50,7 +50,7 @@ export const Header = ({ isFixed }: any) => {
 
   return (
     <header
-      className={classNames(
+      className={clsx(
         "flex px-[2rem] py-[1.5rem] w-full bg-primary/[.9] z-50",
         isFixed ? "sticky top-0" : "relative"
       )}

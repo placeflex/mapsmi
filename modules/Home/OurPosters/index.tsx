@@ -12,14 +12,22 @@ import terra from "@/public/mapColors/terra.png";
 import metropolis from "@/public/mapColors/metropolis.png";
 import horizon from "@/public/mapColors/horizon.png";
 
-import streetmap from "@/public/wallart-preview/streetmap.png";
-import streetmapAlt from "@/public/wallart-preview/streetmap-alt.png";
+// import streetmap from "@/public/wallart-preview/streetmap.png";
+import streetmapAlt from "@/public/wallart-preview/streetmap-preview-second-landscape.jpg";
+// import streetmapAlt from "@/public/wallart-preview/streetmap-preview-one.jpg";
+// import streetmapAlt from "@/public/wallart-preview/streetmap-alt.png";
+// import streetmap from "@/public/wallart-preview/streetmap-preview-second.jpg";
+import streetmap from "@/public/wallart-preview/streetmap-preview-second.jpg";
 
-import lineart from "@/public/wallart-preview/lineart.png";
-import lineartAlt from "@/public/wallart-preview/lineart-alt.png";
+// import lineart from "@/public/wallart-preview/lineart.png";
+// import lineartAlt from "@/public/wallart-preview/lineart-alt.png";
+import lineart from "@/public/wallart-preview/lineart-preview-second.jpg";
+import lineartAlt from "@/public/wallart-preview/lineart-preview-second-landscape.jpg";
 
-import starmap from "@/public/wallart-preview/starmap.png";
-import starmapAlt from "@/public/wallart-preview/starmap-alt.png";
+import starmap from "@/public/wallart-preview/starmap-preview-second.jpg";
+import starmapAlt from "@/public/wallart-preview/starmap-preview-second-landscape.jpg";
+// import starmap from "@/public/wallart-preview/starmap.png";
+// import starmapAlt from "@/public/wallart-preview/starmap-alt.png";
 
 import zodiac from "@/public/wallart-preview/zodiac.png";
 import zodiacAlt from "@/public/wallart-preview/zodiac-alt.png";
@@ -109,8 +117,8 @@ export const OurPosters = () => {
             </div>
 
             <div className="flex relative w-[10rem] ml-auto">
-              <button className="swiper-button-prev"></button>
-              <button className="swiper-button-next"></button>
+              <button className="swiper-button-prev-shop">PREV</button>
+              <button className="swiper-button-next-shop">NEXT</button>
             </div>
           </div>
 
@@ -125,6 +133,10 @@ export const OurPosters = () => {
             //   delay: 3500,
             //   pauseOnMouseEnter: true,
             // }}
+            navigation={{
+              nextEl: ".swiper-button-next-shop",
+              prevEl: ".swiper-button-prev-shop",
+            }}
             breakpoints={{
               0: {
                 slidesPerView: 1,

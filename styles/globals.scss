@@ -87,7 +87,8 @@ body {
 }
 
 .swiper {
-  padding: 1rem 0.5rem !important;
+  padding: 1rem 0 !important;
+  // overflow: visible !important;
 }
 
 .lineName {
@@ -163,12 +164,12 @@ body {
   opacity: 0.5;
 }
 
-.labels {
-  * {
-    background: red;
-  }
-}
+// .labels {
+//   * {
+//     background: red;
+//   }
+// }
 
-.art {
-  background: red !important;
-}
+// .art {
+//   background: red !important;
+// }

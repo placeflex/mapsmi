@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import classNames from "classnames";
+import clsx from 'clsx';
 
 // components
 import { Layout as PageLayout } from "@/components/Layout";
@@ -317,59 +317,59 @@ export default function Editor() {
     handleAddToCart();
   };
 
-  useEffect(() => {
-    if (layout.productId == 1) {
-      window.devicePixelRatio = 2;
-    }
-
-    if (product_id) {
-      if (fields) {
-        const fields = router.asPath.split("fields=");
-
-        // const decodedString = decodeURIComponent(
-        //   fields[1].replace(/\+/g, " ")
-        // );
-        const decodedString = decodeURIComponent(fields[1]);
-
-        storagePoster({
-          productId: product_id,
-          layout: JSON.parse(decodedString),
-        });
-
-        dispatch(initLayout(product_id));
-      } else {
-        dispatch(initLayout(product_id));
-      }
-    }
-  }, [product_id, from]);
-
   // useEffect(() => {
-  //   if (router.isReady) {
-  //     if (layout.productId == 1) {
-  //       window.devicePixelRatio = 2;
-  //     }
+  //   if (layout.productId == 1) {
+  //     window.devicePixelRatio = 2;
+  //   }
 
-  //     if (product_id) {
-  //       if (fields) {
-  //         const fields = router.asPath.split("fields=");
+  //   if (product_id) {
+  //     if (fields) {
+  //       const fields = router.asPath.split("fields=");
 
-  //         // const decodedString = decodeURIComponent(
-  //         //   fields[1].replace(/\+/g, " ")
-  //         // );
-  //         const decodedString = decodeURIComponent(fields[1]);
+  //       // const decodedString = decodeURIComponent(
+  //       //   fields[1].replace(/\+/g, " ")
+  //       // );
+  //       const decodedString = decodeURIComponent(fields[1]);
 
-  //         storagePoster({
-  //           productId: product_id,
-  //           layout: JSON.parse(decodedString),
-  //         });
+  //       storagePoster({
+  //         productId: product_id,
+  //         layout: JSON.parse(decodedString),
+  //       });
 
-  //         dispatch(initLayout(product_id));
-  //       } else {
-  //         dispatch(initLayout(product_id));
-  //       }
+  //       dispatch(initLayout(product_id));
+  //     } else {
+  //       dispatch(initLayout(product_id));
   //     }
   //   }
-  // }, [product_id, from, router.isReady]);
+  // }, [product_id, from]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      if (layout.productId == 1) {
+        window.devicePixelRatio = 2;
+      }
+
+      if (product_id) {
+        if (fields) {
+          const fields = router.asPath.split("fields=");
+
+          const decodedString = decodeURIComponent(
+            fields[1].replace(/\+/g, " ")
+          );
+          // const decodedString = decodeURIComponent(fields[1]);
+
+          storagePoster({
+            productId: product_id,
+            layout: JSON.parse(decodedString),
+          });
+
+          dispatch(initLayout(product_id));
+        } else {
+          dispatch(initLayout(product_id));
+        }
+      }
+    }
+  }, [product_id, from, router.isReady]);
 
   useEffect(() => {
     if (product_id && !renderScreenForCart) {
@@ -449,7 +449,7 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames(
+        className={clsx(
           {
             [`lineart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
@@ -474,7 +474,7 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames(
+        className={clsx(
           {
             [`skymap poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
@@ -502,7 +502,7 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames(
+        className={clsx(
           {
             [`map poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
@@ -532,7 +532,7 @@ export default function Editor() {
           tagline: layout.poster?.labels?.tagline,
           divider: layout.poster?.labels?.divider,
         }}
-        className={classNames(
+        className={clsx(
           {
             [`zodiac poster-${layout?.selectedAttributes?.size?.name.replaceAll(
               "cm",
@@ -606,7 +606,7 @@ export default function Editor() {
       ]?.price
     : MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
         layout.selectedAttributes.size.id
-      ].price;
+      ]?.price;
 
   return (
     <>
@@ -614,7 +614,7 @@ export default function Editor() {
         <PageLayout>
           <div className="flex flex-row-reverse editor-wrapper">
             <LayoutPreviewWrapper
-              className={classNames(
+              className={clsx(
                 fontsList[Number(layout.poster?.styles?.font)]?.font.variable
               )}
             >
@@ -624,7 +624,7 @@ export default function Editor() {
 
             <div className="flex flex-col border-r-[.2rem] fixed lg:relative right-0 bottom-0 left-0 z-20 lg:min-w-[480px] lg:max-w-[480px]">
               <div className="editor-panel w-full overflow-y-auto flex flex-col relative ">
-                <div className="h-full overflow-y-auto p-[2rem]">
+                <div className="h-full overflow-y-auto lg:p-[2rem]">
                   {layout.productId == Number(product_id) &&
                     panelUI[layout.productId as keyof typeof panelUI]}
                 </div>
@@ -662,7 +662,7 @@ export default function Editor() {
       ) : (
         <div className="flex flex-row-reverse editor-wrapper render-cart-screen-wrapper">
           <LayoutPreviewWrapper
-            className={classNames(
+            className={clsx(
               fontsList[Number(layout.poster?.styles?.font)]?.font.variable
             )}
           >

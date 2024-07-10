@@ -1,3 +1,5 @@
+import React from "react";
+
 import Svg1 from "@/public/icons/linearts/SVG-1.svg";
 import Svg2 from "@/public/icons/linearts/SVG-2.svg";
 import Svg3 from "@/public/icons/linearts/SVG-3.svg";

@@ -63,13 +63,21 @@ export const LayoutPreviewWrapper = ({
   );
   const layout = useTypedSelector(({ layout }) => layout.layout);
 
+  const router = useRouter();
+
   const [artworkStyles, setArtworkStyles] =
     useState<PropsScale>(initArtworkStyles);
 
   const handleChangeScale = () => {
     if (refLayoutWrapper.current && refArtworkWrapper.current) {
       // let gap = render ? 0 : handleGetPosterGap(Number(posterSizeId));
-      let gap = MQmedium ? 50 : handleGetPosterGap(Number(posterSizeId));
+
+      console.log(router.pathname);
+
+      let gap =
+        MQmedium && !router.pathname.includes("render")
+          ? 50
+          : handleGetPosterGap(Number(posterSizeId));
 
       if (artworkStyles.width && artworkStyles.height) {
         const parentWidth = refLayoutWrapper.current.offsetWidth - gap;
@@ -119,7 +127,7 @@ export const LayoutPreviewWrapper = ({
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (router.isReady) {
       handleResize();
       handleChangeScale();
       window.addEventListener("resize", handleChangeScale);
@@ -134,6 +142,7 @@ export const LayoutPreviewWrapper = ({
     posterOrientationId,
     layout.productId,
     layout.selectedAttributes,
+    router.isReady,
   ]);
 
   return (

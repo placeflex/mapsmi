@@ -1,5 +1,5 @@
 import Link from "next/link";
-import classNames from "classnames";
+import clsx from 'clsx';
 
 interface Props {
   href?: string;
@@ -35,7 +35,7 @@ export const Button = ({
 
   const borderRadius = rounede && "rounded-md";
 
-  let classes = classNames(
+  let classes = clsx(
     `inline-block py-7 px-14 font-normal font-semibold`,
     colorLocal,
     variantLocal,

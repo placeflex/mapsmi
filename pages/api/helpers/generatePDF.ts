@@ -11,8 +11,8 @@ export const generatePDF = async (project: any) => {
 
   const frameIsEnabled = project.selectedAttributes.frame.id !== 0;
 
-  const w = Math.round(project.selectedAttributes.size.width);
-  const h = Math.round(project.selectedAttributes.size.height);
+  const w = Math.round(project.selectedAttributes.size.width - gap);
+  const h = Math.round(project.selectedAttributes.size.height - gap);
 
   let sizes = {
     width: orientationPortraint ? Math.round(w) : Math.round(h),
@@ -33,7 +33,7 @@ export const generatePDF = async (project: any) => {
     defaultViewport: {
       ...sizes,
     },
-    args: ["--no-sandbox"],
+    args: ["--no-sandbox", "--disable-gpu"],
   });
 
   const page = await browser.newPage();
@@ -96,8 +96,10 @@ export const generatePDF = async (project: any) => {
       console.log("GOT");
 
       return await page.pdf({
+        preferCSSPageSize: false,
+        printBackground: true,
         path: `pdf-project-${project.uuid}-test.pdf`,
-        scale: 1,
+        // scale: 1,
         pageRanges: "1",
         tagged: false,
         timeout: 0,

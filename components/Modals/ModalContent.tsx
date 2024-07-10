@@ -1,7 +1,7 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-import classNames from "classnames";
+import clsx from 'clsx';
 
 // stores
 import { useDispatch } from "react-redux";

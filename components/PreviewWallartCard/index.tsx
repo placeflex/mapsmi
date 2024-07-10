@@ -1,5 +1,5 @@
 import Image from "next/image";
-import classNames from "classnames";
+import clsx from 'clsx';
 
 // components
 import { Button } from "@/components/Button";
@@ -24,7 +24,7 @@ export const PreviewWallartCard = ({
 }: Props) => {
   return (
     <div
-      className={classNames(
+      className={clsx(
         "relative flex flex-col bg-primary",
         className
       )}

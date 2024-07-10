@@ -113,7 +113,7 @@ export const SkyMap = () => {
       lineStyle: { stroke: styles.bg, width: 1.6, opacity: 1 },
       // lineStyle: { stroke: styles.stroke, width: 1.6, opacity: 1 },
       bounds: false,
-      boundStyle: { stroke: "#cccc00", width: 0.5, opacity: 0.8, dash: [2, 4] },
+      // boundStyle: { stroke: "red", width: 0.5, opacity: 0.8, dash: [2, 4] },
     },
     horizon: {
       //Show horizon marker, if location is set and map projection is all-sky
@@ -136,10 +136,9 @@ export const SkyMap = () => {
       designationType: "desig", // Which kind of name is displayed as designation (fieldname in starnames.json)
       // Отображение звезд ярче этой звездной величины
       colors: false, // Отображение звезд в цвете (или только белые)
-
-      size: 10,
+      size: 13,
       limit: 6,
-      exponent: -0.28,
+      exponent: -0.35,
       designation: false,
       style: {
         // Стиль отображения звезд
@@ -211,7 +210,7 @@ export const SkyMap = () => {
   }, [currentPosterLocation, posterDate]);
 
   return (
-    <div className="h-full w-full skymap-wrapper">
+    <div className="h-full w-full flex flex-col skymap-wrapper">
       <div className="relative h-full w-full" id="map-holder">
         {posterStyles.isOverlay && (
           <div className="mask">

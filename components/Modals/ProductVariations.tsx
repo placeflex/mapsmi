@@ -79,7 +79,7 @@ export const ProductVariations = () => {
 
           <Button
             type="button"
-            classNames="mt-auto flex"
+            clsx="mt-auto flex"
             onClick={() => handleGoToEditor(0)}
           >
             Design your own
