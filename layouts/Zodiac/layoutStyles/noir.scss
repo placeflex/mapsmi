@@ -27,15 +27,19 @@
         font-size: 2em;
       }
 
-      h2,
+      h2 {
+        font-size: 1.3em;
+        margin: 0.4em 0;
+      }
+
       h3 {
-        font-size: 1.8em;
+        font-size: 1.2em;
       }
 
       span {
         display: block;
         margin-top: 0.2em;
-        font-size: 1.2em;
+        font-size: 1em;
       }
     }
   }

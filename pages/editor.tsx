@@ -632,7 +632,7 @@ export default function Editor() {
 
               <div className="mt-auto editor-wrapper__buttons">
                 <Button
-                  className="w-full text-button relative h-[8rem] flex items-center justify-between uppercase"
+                  className="w-full text-link relative h-[8rem] flex items-center justify-between uppercase"
                   type="button"
                   color="primary"
                   onClick={handleAddWallartToCart}

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
+import clsx from "clsx";
 
 import { useState } from "react";
 
@@ -98,7 +99,7 @@ export const Login = () => {
                 )}
               </div>
 
-              <Button clsx="mt-2 flex mx-auto" type="submit">
+              <Button className={clsx("mt-2 flex mx-auto")} type="submit">
                 Login
               </Button>
             </Form>
@@ -106,7 +107,7 @@ export const Login = () => {
 
           <div className="flex items-center justify-between mt-4">
             <span
-              className=" text-button underline cursor-pointer hover:no-underline"
+              className=" text-link underline cursor-pointer hover:no-underline"
               onClick={() => {
                 dispatch(handleCloseModals());
                 dispatch(handleShowForgorPasswordModal());
@@ -118,7 +119,7 @@ export const Login = () => {
             <span className="">
               Don't have an account?{" "}
               <span
-                className="text-button underline cursor-pointer hover:no-underline"
+                className="text-link underline cursor-pointer hover:no-underline"
                 onClick={() => {
                   dispatch(handleCloseModals());
                   dispatch(handleShowRegisterModal());

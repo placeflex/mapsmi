@@ -2,7 +2,7 @@ import { useState, Fragment, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import clsx from 'clsx';
+import clsx from "clsx";
 import { Popover, Transition, Disclosure, Dialog } from "@headlessui/react";
 
 // components
@@ -161,7 +161,7 @@ export const Header = ({ isFixed }: any) => {
                                     {links.map(({ title, link }, idx) => {
                                       return (
                                         <Link href={link} key={idx}>
-                                          <span className="block text-captionSmall text-text mb-[1rem]">
+                                          <span className="block text-captionSmall text-text mb-[1rem] hover:text-link">
                                             {title}
                                           </span>
                                         </Link>

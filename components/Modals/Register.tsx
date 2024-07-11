@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
+import clsx from "clsx";
 
 import { useState } from "react";
 
@@ -120,9 +121,7 @@ export const Register = () => {
                   as={Input}
                 />
                 {formErrors.password && (
-                  <div className="text-error">
-                    {formErrors.password}
-                  </div>
+                  <div className="text-error">{formErrors.password}</div>
                 )}
               </div>
 
@@ -134,13 +133,11 @@ export const Register = () => {
                   as={Input}
                 />
                 {formErrors.confirmPassword && (
-                  <div className="text-error">
-                    {formErrors.confirmPassword}
-                  </div>
+                  <div className="text-error">{formErrors.confirmPassword}</div>
                 )}
               </div>
 
-              <Button clsx="mt-2 flex mx-auto" type="submit">
+              <Button className={clsx("mt-2 flex mx-auto")} type="submit">
                 Register
               </Button>
             </Form>
@@ -149,7 +146,7 @@ export const Register = () => {
           <span className="text-right block mt-4">
             Already have an account?{" "}
             <span
-              className="text-button underline cursor-pointer hover:no-underline"
+              className="text-link underline cursor-pointer hover:no-underline"
               onClick={() => {
                 dispatch(handleCloseModals());
                 dispatch(handleShowLoginModal());

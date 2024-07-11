@@ -288,7 +288,7 @@ export const ProjectAdminSettings = () => {
 
       <div className="mt-[2rem] flex gap-[2rem]">
         <Button
-          className="w-full text-button font-semibold"
+          className="w-full text-link font-semibold"
           type="button"
           onClick={handleAddPupularProject}
           variant="contained"
@@ -299,7 +299,7 @@ export const ProjectAdminSettings = () => {
 
         {from == "pupular-wallarts" && (
           <Button
-            className="w-full text-button font-semibold"
+            className="w-full text-link font-semibold"
             type="button"
             onClick={handleUpdateProject}
             variant="contained"
@@ -311,7 +311,7 @@ export const ProjectAdminSettings = () => {
 
         {from == "pupular-wallarts" && (
           <Button
-            className="w-full text-button font-semibold"
+            className="w-full text-link font-semibold"
             type="button"
             onClick={handleDeleteFromPupularProject}
           >

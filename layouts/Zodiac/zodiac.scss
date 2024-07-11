@@ -64,21 +64,19 @@
       height: auto !important;
       width: 100% !important;
       aspect-ratio: 1/1;
+      margin: 1em;
     }
     .zodiac-bg-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
-      // height: auto !important;
-      // width: 100% !important;
-      // aspect-ratio: 1/1;
     }
   }
 
   &.landscape {
-    .zodiac-bg {
-      margin: 1.5em;
-    }
+    // .zodiac-bg {
+    //   margin: 1.5em;
+    // }
 
     .zodiac-bg-wrapper {
       width: auto !important;
@@ -94,24 +92,17 @@
 
   &.overlayApply {
     .zodiac-bg {
-      margin: 1.5em;
+      margin: 7%;
     }
 
     &.landscape {
       .zodiac-bg {
-        margin: 1.5em;
+        margin: 7%;
       }
     }
 
     .zodiac-bg-wrapper {
-      // padding: 2em;
       position: relative;
     }
-
-    // &.landscape {
-    //   .zodiac-bg-wrapper {
-    //     padding: 2em;
-    //   }
-    // }
   }
 }

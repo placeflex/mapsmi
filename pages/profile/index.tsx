@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import clsx from "clsx";
 
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
@@ -106,9 +107,7 @@ const UserProfile = () => {
                       as={Input}
                     />
                     {formErrors.name && (
-                      <div className="text-error ">
-                        {formErrors.name}
-                      </div>
+                      <div className="text-error ">{formErrors.name}</div>
                     )}
                   </div>
 
@@ -120,13 +119,11 @@ const UserProfile = () => {
                       as={Input}
                     />
                     {formErrors.surname && (
-                      <div className="text-error ">
-                        {formErrors.surname}
-                      </div>
+                      <div className="text-error ">{formErrors.surname}</div>
                     )}
                   </div>
 
-                  <Button clsx="mt-4 flex" type="submit">
+                  <Button className={clsx("mt-4 flex")} type="submit">
                     Update
                   </Button>
                 </Form>

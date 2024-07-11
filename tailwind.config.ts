@@ -47,6 +47,7 @@ const config: Config = {
         cream: "#bd998d",
         // button: "rgba(12, 41, 171, 1)",
         button: "rgb(118, 125, 106)",
+        link: "rgb(118, 125, 106)",
         secondButton: "#fff",
       },
 

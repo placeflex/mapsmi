@@ -1288,7 +1288,7 @@ export const SizeAccordion = ({
                   <span className="text-center flex flex-col mt-[0.5rem]">
                     {frame.price > 0 ? (
                       <>
-                        <span className="line-through text-button text-captionXs">
+                        <span className="line-through text-link text-captionXs">
                           {frame.oldPrice} UAH
                         </span>
                         <span className="text-captionXs font-semibold text-error">

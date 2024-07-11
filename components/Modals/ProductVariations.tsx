@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import clsx from "clsx";
 
 import Map from "@/public/productsPreview/Map.png";
 import SkyMap from "@/public/productsPreview/SkyMap.png";
@@ -79,7 +80,7 @@ export const ProductVariations = () => {
 
           <Button
             type="button"
-            clsx="mt-auto flex"
+            className={clsx("mt-auto flex")}
             onClick={() => handleGoToEditor(0)}
           >
             Design your own

@@ -4,28 +4,52 @@ import { Slider } from "@/components/Slider";
 import { Container } from "@/components/Container";
 import { SwiperSlide } from "swiper/react";
 import { TopSellCategoriesCard } from "@/components/TopSellCategoriesCard";
+import Sports from "@/public/top-selling-categories/sports.png";
+import Landmark from "@/public/top-selling-categories/landmark.png";
+import Travel from "@/public/top-selling-categories/travel.png";
+import Couples from "@/public/top-selling-categories/couples.png";
+import Nature from "@/public/top-selling-categories/nature.png";
+import Family from "@/public/top-selling-categories/family.png";
+import Places from "@/public/top-selling-categories/places.png";
+import Astrology from "@/public/top-selling-categories/astrology.png";
+import History from "@/public/top-selling-categories/history.png";
 
 const slides = [
   {
-    src: "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/term_square_fallback/public/fields/media.image.field_media_image/2023-02/chicagojpg.jpg?itok=yRNGI2RE",
+    src: Travel.src,
+    title: "Travel Posters",
   },
   {
-    src: "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/term_square_fallback/public/fields/media.image.field_media_image/2023-02/new-yorkjpg.jpg?itok=nlMcXZLe",
+    src: Sports.src,
+    title: "Sports Posters",
   },
   {
-    src: "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/term_square_fallback/public/fields/mediaimagefieldmediaimage/2023-03/miamijpg.jpg?itok=u2WUlGUq",
+    src: Landmark.src,
+    title: "Landmark Posters",
   },
   {
-    src: "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/term_square_fallback/public/fields/media.image.field_media_image/2023-02/las-vegasjpg.jpg?itok=GYsIPhzi",
+    src: Couples.src,
+    title: "Couples Posters",
   },
   {
-    src: "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/term_square_fallback/public/fields/media.image.field_media_image/2023-02/parisjpg.jpg?itok=wdjUkpiw",
+    src: Nature.src,
+    title: "Nature Posters",
   },
   {
-    src: "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/term_square_fallback/public/fields/media.image.field_media_image/2023-02/romejpg.jpg?itok=ceu_S6wZ",
+    src: Family.src,
+    title: "Family Posters",
   },
   {
-    src: "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/term_square_fallback/public/fields/media.image.field_media_image/2023-02/londonjpg.jpg?itok=DtxisB4O",
+    src: Places.src,
+    title: "Places Posters",
+  },
+  {
+    src: Astrology.src,
+    title: "Astrology Posters",
+  },
+  {
+    src: History.src,
+    title: "History Posters",
   },
 ];
 
@@ -74,11 +98,11 @@ export const Gifts: FC = (): React.ReactNode => {
                 },
               }}
             >
-              {slides.map(({ src }, idx) => {
+              {slides.map(({ src, title }, idx) => {
                 return (
                   <SwiperSlide key={idx}>
                     <TopSellCategoriesCard
-                      title="Chicago Posters"
+                      title={title}
                       src={src}
                       className="w-full bg-secondary"
                     />
