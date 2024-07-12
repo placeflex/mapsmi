@@ -35,9 +35,9 @@ export default async function handler(
           const projectPayload = req.body;
           const id = uuidv4();
 
-          const screen = await generateScreen(projectPayload);
+          // const screen = await generateScreen(projectPayload);
           // return;
-          // await generatePDF(projectPayload);
+          await generatePDF(projectPayload);
 
           return;
 

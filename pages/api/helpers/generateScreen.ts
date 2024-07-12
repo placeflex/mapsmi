@@ -79,7 +79,7 @@ export const generateScreen = async (project: any) => {
 
     console.log("SCREEN START", 9);
 
-    if (project.productId == 1) {
+    if (project.productId == 1 || project.productId == 3) {
       await page.waitForTimeout(16000);
     }
 

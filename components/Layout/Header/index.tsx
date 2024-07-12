@@ -107,10 +107,10 @@ export const Header = ({ isFixed }: any) => {
                                     priority={true}
                                   />
                                 </div>
-                                <div className="flex-auto p-[2rem]">
+                                <div className="flex-auto p-[1rem]">
                                   <a
                                     href={href}
-                                    className="block text-bodySmall font-bold text-text mb-[.5rem] 2xl:text-body"
+                                    className="block text-bodySmall font-bold text-text mb-[.5rem] 2xl:text-caption"
                                   >
                                     {name}
                                     <span className="absolute inset-0" />

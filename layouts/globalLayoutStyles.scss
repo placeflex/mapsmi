@@ -21,6 +21,8 @@
 @import "../layouts/SkyMap/layoutStyles/lopster.scss";
 @import "../layouts/SkyMap/layoutStyles/noir.scss";
 @import "../layouts/SkyMap/layoutStyles/spectrum.scss";
+@import "../layouts/SkyMap/layoutStyles/stars.scss";
+
 // lineart styles
 @import "../layouts/LineArt/layoutStyles/terra-tone.scss";
 @import "../layouts/LineArt/layoutStyles/urban-vista.scss";
@@ -234,6 +236,7 @@
     @include SkymapMinimalLayout();
     @include SkymapNoirLayout();
     @include SkymapSpectrumLayout();
+    @include SkymapStarsLayout();
   }
 
   &.map {

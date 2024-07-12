@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import clsx from 'clsx';
+import clsx from "clsx";
 
 // components
 import { Layout as PageLayout } from "@/components/Layout";
@@ -632,7 +632,7 @@ export default function Editor() {
 
               <div className="mt-auto editor-wrapper__buttons">
                 <Button
-                  className="w-full text-link relative h-[8rem] flex items-center justify-between uppercase"
+                  className="w-full text-link relative h-[8rem] flex items-center justify-between uppercase pulse"
                   type="button"
                   color="primary"
                   onClick={handleAddWallartToCart}

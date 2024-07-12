@@ -1,0 +1,94 @@
+@mixin SkymapStarsLayout() {
+  &.stars {
+    .border-holder {
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      margin: 0;
+      .custom-line {
+        display: none;
+      }
+    }
+
+    &.night-city {
+      .border-holder {
+        background-image: url("../../../public/skymap/bg-city.webp");
+      }
+    }
+
+    &.stars-sea {
+      .border-holder {
+        background-image: url("../../../public/skymap/bg-sea.webp");
+      }
+    }
+
+    &.stars-winter {
+      .border-holder {
+        background-image: url("../../../public/skymap/bg-winter.webp");
+      }
+    }
+
+    &.stars-forest {
+      .border-holder {
+        background-image: url("../../../public/skymap/bg-forest.webp");
+      }
+    }
+
+    #map-holder {
+      height: 69%;
+      flex-grow: 0;
+      margin: 0 !important;
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      mask-image: -webkit-gradient(
+        linear,
+        left 80%,
+        left bottom,
+        from(#000),
+        to(transparent)
+      );
+      -webkit-mask-image: -webkit-gradient(
+        linear,
+        left 80%,
+        left bottom,
+        from(#000),
+        to(transparent)
+      );
+
+      .map-wrapper {
+        transform: scale(1.8) translateY(-20%);
+        opacity: 0.5;
+      }
+    }
+
+    .labels {
+      background: transparent;
+      text-align: center;
+
+      * {
+        color: #fff !important;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      h2 {
+        font-size: 1.3em;
+        margin: 0.4em 0;
+      }
+
+      h3 {
+        font-size: 1.2em;
+      }
+
+      span {
+        display: block;
+        margin-top: 0.2em;
+        font-size: 1em;
+      }
+    }
+  }
+}

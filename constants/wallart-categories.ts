@@ -9,37 +9,42 @@ import example from "@/public/example.png";
 import exampleTest from "@/public/example-test.png";
 import LineArt from "@/public/lineart-example.png";
 
+import streetmap from "@/public/wallart-preview/streetmap-preview-second.jpg";
+import lineart from "@/public/wallart-preview/lineart-preview-second.jpg";
+import starmap from "@/public/wallart-preview/starmap-preview-second.jpg";
+import zodiac from "@/public/wallart-preview/zodiac-preview-second.jpg";
+
 export const PRODUCTS = [
   {
     name: "Street Map",
     description: "Get a better understanding of your traffic",
     href: "#",
-    image: example,
+    image: streetmap,
   },
   {
     name: "Star Map",
     description: "Speak directly to your customers",
     href: "#",
-    image: LineArt,
+    image: starmap,
   },
   {
     name: "LineArt",
     description: "Your customers’ data will be safe and secure",
     href: "#",
-    image: example,
+    image: lineart,
   },
   {
     name: "Zodiac",
     description: "Connect with third-party tools",
     href: "#",
-    image: LineArt,
+    image: zodiac,
   },
-  {
-    name: "Coordinates",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    image: example,
-  },
+  // {
+  //   name: "Coordinates",
+  //   description: "Build strategic funnels that will convert",
+  //   href: "#",
+  //   image: example,
+  // },
 ];
 
 export const FEATUREDS = [

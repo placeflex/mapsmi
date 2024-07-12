@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @import "./variables.scss";
+@import "./keyframes.scss";
+
+.pulse {
+  animation: pulse 1s infinite alternate;
+}
 
 ::-webkit-scrollbar {
   width: 4px;

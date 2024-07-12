@@ -23,6 +23,9 @@ export const SkyMap = () => {
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
+
+  console.log("posterStyles", posterStyles);
+
   const posterDate = useTypedSelector(({ layout }) => layout.layout?.date);
   const currentPosterLocation: any = useTypedSelector(
     ({ layout }) => layout.layout?.locations
@@ -36,6 +39,12 @@ export const SkyMap = () => {
     ilstr: basicColors[Number(posterStyles?.color)]?.illustrationColor,
   };
 
+  const isImageLayout =
+    posterStyles.layoutStyle == 6 ||
+    posterStyles.layoutStyle == 7 ||
+    posterStyles.layoutStyle == 8 ||
+    posterStyles.layoutStyle == 9;
+
   const config = {
     date: new Date(posterDate),
     container: "map",
@@ -47,10 +56,8 @@ export const SkyMap = () => {
     disableAnimations: false,
     zoomlevel: null,
     zoomextend: 1,
-    // projection: "orthographic", //orthographic dafault
     // projection: "airy", //orthographic dafault
     // projection: "azimuthalEqualArea", //orthographic dafault
-    // projection: "orthographic", //orthographic dafault
     projection: "stereographic", //orthographic dafault
     // projection: "wiechel", //orthographic dafault
     transform: "equatorial",
@@ -60,11 +67,11 @@ export const SkyMap = () => {
     orientationfixed: false,
     projectionRatio: null,
     background: {
-      fill: styles.ilstr,
+      fill: isImageLayout ? "transparent" : styles.ilstr,
       // fill: "transparent",
       stroke: styles.stroke,
       opacity: 1,
-      width: 0.5,
+      width: isImageLayout ? 0.3 : 0.6,
     },
     lines: {
       graticule: {
@@ -110,7 +117,11 @@ export const SkyMap = () => {
         font: "14px Helvetica, Arial, sans-serif",
       },
       lines: posterStyles?.lines,
-      lineStyle: { stroke: styles.bg, width: 1.6, opacity: 1 },
+      lineStyle: {
+        stroke: styles.bg,
+        width: isImageLayout ? 0.7 : 0.9,
+        opacity: 1,
+      },
       // lineStyle: { stroke: styles.stroke, width: 1.6, opacity: 1 },
       bounds: false,
       // boundStyle: { stroke: "red", width: 0.5, opacity: 0.8, dash: [2, 4] },
@@ -136,7 +147,7 @@ export const SkyMap = () => {
       designationType: "desig", // Which kind of name is displayed as designation (fieldname in starnames.json)
       // Отображение звезд ярче этой звездной величины
       colors: false, // Отображение звезд в цвете (или только белые)
-      size: 13,
+      size: isImageLayout ? 9 : 16,
       limit: 6,
       exponent: -0.35,
       designation: false,

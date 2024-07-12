@@ -29,12 +29,10 @@ import starmapAlt from "@/public/wallart-preview/starmap-preview-second-landscap
 // import starmap from "@/public/wallart-preview/starmap.png";
 // import starmapAlt from "@/public/wallart-preview/starmap-alt.png";
 
-import zodiac from "@/public/wallart-preview/zodiac.png";
-import zodiacAlt from "@/public/wallart-preview/zodiac-alt.png";
-
-import example from "@/public/frame-full.png";
-import exampleTest from "@/public/frame-full-second.png";
-import LineArt from "@/public/lineart-example.png";
+import zodiac from "@/public/wallart-preview/zodiac-preview-second-landscape.jpg";
+import zodiacAlt from "@/public/wallart-preview/zodiac-preview-second.jpg";
+// import zodiac from "@/public/wallart-preview/zodiac.png";
+// import zodiacAlt from "@/public/wallart-preview/zodiac-alt.png";
 
 const slides = [
   {
@@ -128,11 +126,6 @@ export const OurPosters = () => {
             slidesPerView={4}
             spaceBetween={20}
             pagination={{ clickable: false }}
-            // navigation={false}
-            // autoplay={{
-            //   delay: 3500,
-            //   pauseOnMouseEnter: true,
-            // }}
             navigation={{
               nextEl: ".swiper-button-next-shop",
               prevEl: ".swiper-button-prev-shop",

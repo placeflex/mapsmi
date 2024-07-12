@@ -64,6 +64,26 @@ export const skyMapLayoutStyles: ArtworkStyleInterface[] = [
     name: "Noir",
     applyName: "noir",
   },
+  {
+    id: 6,
+    name: "Sea",
+    applyName: "stars stars-sea",
+  },
+  {
+    id: 7,
+    name: "Winter",
+    applyName: "stars stars-winter",
+  },
+  {
+    id: 8,
+    name: "Forest",
+    applyName: "stars stars-forest",
+  },
+  {
+    id: 9,
+    name: "Night City",
+    applyName: "stars night-city",
+  },
 ];
 
 export const mapLayoutStyles: ArtworkStyleInterface[] = [
