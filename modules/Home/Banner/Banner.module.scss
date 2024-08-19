@@ -1,12 +1,12 @@
 // $poster: url("../../../public/home/poster.jpg");
-$poster: url("https://www.mapiful.com/cdn-cgi/image/format=auto/content/themes/mapiful_v2/classes/campaigns/assets/2023-september/secondary.webp");
+$poster: url("https://www.mapiful.com/cdn-cgi/image/format=auto/content/uploads/2024/07/sydney.jpg");
 // $poster: url("../../../public/home/poster-sec.png");
 // $poster: url("../../../public/home/poster-sec.png");
 
 .poster {
   background: $poster;
   background-size: cover;
-  background-position: center;
+  background-position: bottom;
 
   position: relative;
   // position: sticky;
@@ -21,13 +21,15 @@ $poster: url("https://www.mapiful.com/cdn-cgi/image/format=auto/content/themes/m
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     // z-index: -1;
   }
 }
 
 .posterInner {
-  height: 800px;
+  height: 60vh;
+  min-height: 600px;
+  max-height: 600px;
   // min-height: 800px;
 
   margin: 0 auto;
@@ -39,14 +41,14 @@ $poster: url("https://www.mapiful.com/cdn-cgi/image/format=auto/content/themes/m
   //   min-height: 100vh;
   // }
 
-  h1 {
-    em {
-      font-style: normal;
-      background: #423024;
-      background-size: 400% 400%;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-  }
+  // h1 {
+  //   em {
+  //     font-style: normal;
+  //     background: #423024;
+  //     background-size: 400% 400%;
+  //     background-clip: text;
+  //     -webkit-background-clip: text;
+  //     -webkit-text-fill-color: transparent;
+  //   }
+  // }
 }

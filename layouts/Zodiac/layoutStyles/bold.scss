@@ -18,6 +18,8 @@
       left: auto;
       bottom: 0;
       max-width: 50%;
+      box-sizing: content-box !important;
+
 
       * {
         color: $bg;

@@ -1,0 +1,29 @@
+.star-map-details {
+  .swiper {
+    padding: 0.5rem !important;
+
+    &.swiper-thumbs-main {
+      height: calc(100% - 150px);
+    }
+
+    &.swiper-thumbs-second {
+      height: 150px;
+    }
+
+    .swiper-slide {
+      position: relative;
+    }
+  }
+
+  .product-preview-slider {
+    position: relative;
+    top: 0;
+
+    position: sticky;
+    top: 10rem;
+    // @media screen and (min-height: 770px) {
+    //   position: sticky;
+    //   top: 10rem;
+    // }
+  }
+}

@@ -1,8 +1,9 @@
 import Image from "next/image";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 // components
 import { Button } from "@/components/Button";
+import { useRouter } from "next/router";
 
 interface Props {
   image?: any;
@@ -11,6 +12,7 @@ interface Props {
   description?: React.ReactElement;
   disabled?: boolean;
   className?: String;
+  href?: string;
 }
 
 export const PreviewWallartCard = ({
@@ -20,15 +22,12 @@ export const PreviewWallartCard = ({
   description,
   disabled,
   className,
+  href,
   ...props
 }: Props) => {
+  const router = useRouter();
   return (
-    <div
-      className={clsx(
-        "relative flex flex-col bg-primary",
-        className
-      )}
-    >
+    <div className={clsx("relative flex flex-col bg-primary", className)}>
       <div className="w-full relative aspect-square">
         {disabled && (
           <div className="absolute bg-black/[0.5] z-20 w-full h-full top-0 flex items-center justify-center">
@@ -59,13 +58,13 @@ export const PreviewWallartCard = ({
 
             <div className="h-full absolute overlay-gradient bottom-[0] flex p-[1rem] items-end left-[50%] translate-x-[-50%] w-full z-10">
               <Button
-                // onClick={() => dispatch(handleShowProductModal())}
+                href={href}
                 type="button"
                 color="primary"
                 variant="contained"
-                className="text-caption w-full absolute translate-y-[65%] left-0"
+                className="text-caption w-full absolute translate-y-[65%] left-0 text-center"
               >
-                Створіть свій власний
+                Design your own
               </Button>
             </div>
           </div>

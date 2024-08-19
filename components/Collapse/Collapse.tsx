@@ -3,12 +3,14 @@ import { Collapse } from "antd";
 const { Panel } = Collapse;
 
 import "./styles.scss";
+import clsx from "clsx";
 
 interface AccordionItem {
-  title: string;
+  title: string | React.ReactNode;
   content: React.ReactNode;
   icon?: React.ReactNode | String;
-  shortTitle: string;
+  shortTitle?: string;
+  classNames?: string;
 }
 
 interface AccordionProps {
@@ -35,7 +37,7 @@ export const Accordion: FC<AccordionProps> = ({
       className="flex flex-col gap-[1rem] bg-transparent"
       {...props}
     >
-      {items.map(({ icon, content, title, shortTitle }, index) => (
+      {items.map(({ icon, content, title, shortTitle, classNames }, index) => (
         <Panel
           header={
             <span className="text-bodySmall flex items-center gap-[0.5rem] lg:gap-[1rem] collapse-custom-header">
@@ -51,7 +53,7 @@ export const Accordion: FC<AccordionProps> = ({
             </span>
           }
           key={index}
-          className="bg-primary border-0"
+          className={clsx("bg-primary border-0", classNames)}
         >
           <div className="bg-primary collapse-custom-content">{content}</div>
         </Panel>

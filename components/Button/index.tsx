@@ -1,5 +1,5 @@
 import Link from "next/link";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 interface Props {
   href?: string;
@@ -28,7 +28,7 @@ export const Button = ({
   const colorLocal =
     color === "secondary"
       ? "bg-secondButton text-text"
-      : "bg-button text-primary";
+      : "bg-[rgba(118,125,106,1)] hover:bg-[rgba(118,125,106,0.8)] text-primary";
 
   const variantLocal =
     variant === "outlined" && "bg-transparent border-[0.2rem]";
@@ -36,7 +36,7 @@ export const Button = ({
   const borderRadius = rounede && "rounded-md";
 
   let classes = clsx(
-    `inline-block py-7 px-14 font-normal font-semibold`,
+    `inline-block py-[1rem] px-[4rem] font-normal font-semibold`,
     colorLocal,
     variantLocal,
     borderRadius,

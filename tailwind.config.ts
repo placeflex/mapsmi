@@ -5,7 +5,7 @@ import defaultTheme from "tailwindcss/defaultTheme";
 import type { Config } from "tailwindcss";
 
 const basicFontSettings = {
-  lineHeight: "1.2",
+  // lineHeight: "1.5",
 };
 
 const config: Config = {
@@ -25,9 +25,10 @@ const config: Config = {
       body: ["2.4rem", { ...basicFontSettings }],
       bodyBold: ["2.4rem", { ...basicFontSettings }],
       bodySmall: ["1.6rem", { ...basicFontSettings }],
-      bodySmallBold: ["1.6rem", { ...basicFontSettings }],
+      bodySmallBold: ["1.6rem", { ...basicFontSettings, fontWeight: 600 }],
       caption: ["1.4rem", { ...basicFontSettings }],
       captionSmall: ["1.2rem", { ...basicFontSettings }],
+      captionSmallBold: ["1.2rem", { ...basicFontSettings, fontWeight: 600 }],
       captionXs: ["1rem", { ...basicFontSettings }],
       button: ["1.6rem", { ...basicFontSettings }],
       buttonSmall: ["1.4rem", { ...basicFontSettings }],
@@ -54,7 +55,6 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-main)", ...defaultTheme.fontFamily.sans],
         second: ["var(--font-dancing)", ...defaultTheme.fontFamily.sans],
-        alexbrush: ["var(--font-brush)", ...defaultTheme.fontFamily.sans],
       },
 
       // screens: {

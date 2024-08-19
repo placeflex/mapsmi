@@ -12,7 +12,7 @@ $frameWidth: var(--frame-scale);
       // right: 0;
       // left: 0;
       // bottom: 0;
-      display: none;
+      // display: none;
     }
 
     @media screen and (min-width: 1024px) {
@@ -76,11 +76,11 @@ $frameWidth: var(--frame-scale);
 
         .ant-collapse-content {
           position: fixed;
-          bottom: 90px;
+          bottom: 150px;
           left: 0;
           right: 0;
           z-index: 11;
-          // height: 50%;
+          height: 50%;
           // overflow-y: auto;
           max-height: 50%;
           height: fit-content;
@@ -93,6 +93,7 @@ $frameWidth: var(--frame-scale);
 
         .collapse-custom-content {
           padding: 2rem 1.6rem;
+          // background: rgba(255, 255, 255, 0.95);
         }
       }
     }

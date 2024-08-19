@@ -7,7 +7,10 @@ export const Container = ({
   className?: string;
 }) => {
   return (
-    <div className={`container w-full mx-auto px-4 ${className}`} {...props}>
+    <div
+      className={`container w-full mx-auto px-[1.5rem] lg:px-[2rem] ${className}`}
+      {...props}
+    >
       {children}
     </div>
   );

@@ -19,6 +19,8 @@ const TelegramBot = require("node-telegram-bot-api");
 
 import B2 from "backblaze-b2";
 
+const CHAT_ID = -1002220985207;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -28,7 +30,7 @@ export default async function handler(
     const orderId = req.body.orderId;
 
     const bot = new TelegramBot(
-      "6178421555:AAH90yAAS7y-BLvTjo-JItdUxrvyhAE2mzI"
+      "7439761409:AAHPuXYoPObrKqB50lZHhEPlsHFyyjRYbZo"
     );
 
     bot.on("error", error => {
@@ -55,7 +57,7 @@ export default async function handler(
     // console.log("previews", previews);
 
     const ITEMS_COUNT = body.links?.reduce((acc, { data }) => {
-      const itemQuantity = data.quantity || 1; // ураховуємо поле quantity
+      const itemQuantity = data.quantity || 1;
 
       return acc + itemQuantity;
     }, 0);
@@ -77,7 +79,7 @@ export default async function handler(
 <i>Телефон:</i> ${body.phone}
 `;
 
-    await bot.sendMessage(-1001973466616, messageText, {
+    await bot.sendMessage(CHAT_ID, messageText, {
       parse_mode: "HTML",
     });
 
@@ -124,13 +126,16 @@ export default async function handler(
           data?.selectedAttributes?.frame?.id
         ]?.oldPrice ?? "";
 
+      const wallartSize = data?.selectedAttributes?.size?.name;
+
       const messageProduct = `
       <b>order ID</b>: <b>${orderId}</b>\n
-      <b>Цена</b>: <b>${RESULT_PRICE} ГРН</b>\n
-      <b>Рамка ( Цена )</b>: <b>${framePrice}</b>\n
+      <b>Цена</b>: <b>${RESULT_PRICE} €</b>\n
+      <b>Размер</b>: <b>${wallartSize}</b>\n
+      <b>Рамка ( Цена )</b>: <b>${framePrice} €</b>\n
       <i>Рамка ( Цвет ):</i> <b>${frameColor}</b>\n
       <i>Рамка ( Материал ):</i> <b>${frameMaterial}</b>\n
-      <i>Рамка ( Старая Цена ):</i> <b>${frameOldPrice}</b>\n
+      <i>Рамка ( Старая Цена ):</i> <b>${frameOldPrice} €</b>\n
       \n\n
       <b>Preview</b>: <b>${previewLink}</b>\n
       <b>PREVIEW LINK TO SITE</b>: <b>${previewSRC}</b>\n
@@ -138,11 +143,11 @@ export default async function handler(
 
       await generatePDF(data).then(async buffer => {
         await bot
-          .sendDocument(-1001973466616, buffer, options, {
+          .sendDocument(CHAT_ID, buffer, options, {
             filename: `PDF-${orderId}.pdf`,
           })
           .then(async message => {
-            bot.sendMessage(-1001973466616, messageProduct, {
+            bot.sendMessage(CHAT_ID, messageProduct, {
               parse_mode: "HTML",
             });
             console.log("PDF-файл успешно отправлен:", message.document);

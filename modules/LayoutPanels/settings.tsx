@@ -23,6 +23,7 @@ import {
   basicLayoutStyles,
   mapLayoutStyles,
   skyMapLayoutStyles,
+  zodiacLayoutStyles,
 } from "@/layouts/wallartSettings/wallartStyles";
 
 import { fontsList } from "@/layouts/wallartSettings/wallartFonts";
@@ -573,7 +574,7 @@ export const LocationAccrodion = () => {
           <div className="mt-[2rem] flex items-center justify-between">
             <span className="flex items-center gap-[1rem] font-bold">
               Connect Locations{" "}
-              <CustomTooltip text="Добавляет соединительную линию между двумя или более местами на плакате с картой улиц, которая подчеркивает ваше путешествие с места на место." />
+              <CustomTooltip text="Adds a connective line between two or more locations on a street map poster that highlights your journey from place to place. " />
             </span>
             <Switcher
               checked={connectLocations}
@@ -623,7 +624,7 @@ export const LocationAccrodion = () => {
                   Markers{" "}
                   <CustomTooltip
                     placement="right"
-                    text="Добавляет точечные маркеры на карте для обозначения одного или нескольких конкретных мест на карте, доступные в нескольких различных стилях значков."
+                    text="Adds pinpoint map markers to identify one or more specific locations on your map, available in several different icon styles."
                   />
                 </span>
                 <Switcher
@@ -638,10 +639,10 @@ export const LocationAccrodion = () => {
               <div className="flex flex-col">
                 <div className="mt-[2rem] flex items-center justify-between">
                   <span className="flex items-center gap-[1rem] font-bold">
-                    Labels{" "}
+                    Marker Labels{" "}
                     <CustomTooltip
                       placement="right"
-                      text="Добавляет настраиваемую метку к маркерам на карте."
+                      text="Adds a customizable label to your map marker(s)."
                     />
                   </span>
                   <Switcher
@@ -696,7 +697,7 @@ export const LocationAccrodion = () => {
                       Marker & Label Color
                       <CustomTooltip
                         placement="right"
-                        text="Изменяет цвет маркеров, меток маркеров."
+                        text="Changes the color of your markers, marker labels, and compass."
                       />
                     </span>
                     <div className="relative flex">
@@ -754,7 +755,7 @@ export const LocationAccrodion = () => {
                       Labels Text Color
                       <CustomTooltip
                         placement="right"
-                        text="Изменяет цвет текста меток."
+                        text="Changes the color of your markers label text. "
                       />
                     </span>
                     <div className="relative flex">
@@ -860,7 +861,10 @@ export const ColorsForMapAccordion = ({ handleChange }: any) => {
   );
 };
 
-export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
+export const LayoutsSkyMapAccordion = ({
+  handleChange,
+  handleSelectOrientations,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
 
   const isMask = useTypedSelector(
@@ -877,16 +881,27 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
     ({ layout }) => layout.layout?.poster?.styles
   );
 
+  const isImageLayout =
+    posterStyles.layoutStyle == 6 ||
+    posterStyles.layoutStyle == 7 ||
+    posterStyles.layoutStyle == 8 ||
+    posterStyles.layoutStyle == 9;
+
+  const isZodiacWallart = productId == 3;
+  const isSkyMapWallart = productId == 1;
+
+  const layouts = isZodiacWallart ? zodiacLayoutStyles : skyMapLayoutStyles;
+
   return (
     <>
       <h2 className="font-bold">Layouts</h2>
-      <p className="mb-4  opacity-[0.4]">
+      <p className="mb-4 opacity-[0.4]">
         We are all for freedom of choice, if you want to try different
         combinations than our favorites - go ahead and click customize and roll
         your own.
       </p>
       <div className="icons overflow-y-auto flex flex-wrap gap-[1rem]">
-        {skyMapLayoutStyles.map(({ name, id }) => {
+        {layouts.map(({ name, id }) => {
           return (
             <button
               key={id}
@@ -895,7 +910,25 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
                   ? "border-secondaryBg bg-secondaryBg text-primary"
                   : ""
               }`}
-              onClick={() => handleChange(id)}
+              onClick={() => {
+                const isImageLayout = id == 6 || id == 7 || id == 8 || id == 9;
+
+                if (isImageLayout) {
+                  dispatch(
+                    handleStylesController({
+                      field: "isOverlay",
+                      value: false,
+                    })
+                  );
+                  dispatch(
+                    handleStylesController({ field: "isMask", value: false })
+                  );
+
+                  handleSelectOrientations(0);
+                }
+
+                handleChange(id);
+              }}
             >
               {name}
             </button>
@@ -908,6 +941,7 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
           <h5 className=" font-bold">Overlay</h5>
           <Switcher
             checked={isOverlay}
+            disabled={isImageLayout}
             onChange={() => {
               dispatch(
                 handleStylesController({
@@ -946,20 +980,23 @@ export const LayoutsSkyMapAccordion = ({ handleChange }: any) => {
         )}
 
         <>
-          <div className="flex justify-between mt-4">
-            <h5 className=" font-bold">Mask</h5>
-            <Switcher
-              checked={isMask}
-              onChange={() => {
-                dispatch(
-                  handleStylesController({ field: "isOverlay", value: false })
-                );
-                dispatch(
-                  handleStylesController({ field: "isMask", value: !isMask })
-                );
-              }}
-            />
-          </div>
+          {isSkyMapWallart && (
+            <div className="flex justify-between mt-4">
+              <h5 className=" font-bold">Mask</h5>
+              <Switcher
+                checked={isMask}
+                disabled={isImageLayout}
+                onChange={() => {
+                  dispatch(
+                    handleStylesController({ field: "isOverlay", value: false })
+                  );
+                  dispatch(
+                    handleStylesController({ field: "isMask", value: !isMask })
+                  );
+                }}
+              />
+            </div>
+          )}
 
           {isMask && (
             <div className="icons max-h-[300px] overflow-y-auto grid grid-cols-4 gap-2 pr-4 mt-2">
@@ -1187,6 +1224,11 @@ export const SizeAccordion = ({
   const posterAttributes = useTypedSelector(
     ({ layout }) => layout.layout?.selectedAttributes
   );
+  const productId = useTypedSelector(({ layout }) => layout.layout?.productId);
+
+  const currentLayoutId = useTypedSelector(
+    ({ layout }) => layout.layout?.poster.styles.layoutStyle
+  );
 
   const onChange = (id: string) => {
     if (Number(id) != 0) {
@@ -1219,7 +1261,7 @@ export const SizeAccordion = ({
                     {size.name}
                   </span>
                   <span className="block text-caption font-semibold">
-                    {MATERIAL_PRICES[material.id].prices[size.id]?.price} грн
+                    {MATERIAL_PRICES[material.id].prices[size.id]?.price} €
                   </span>
                 </button>
               );
@@ -1228,6 +1270,15 @@ export const SizeAccordion = ({
         ),
       };
     });
+
+  const isImageLayout =
+    productId == 1 &&
+    (currentLayoutId == 6 ||
+      currentLayoutId == 7 ||
+      currentLayoutId == 8 ||
+      currentLayoutId == 9);
+
+  const orientationList = isImageLayout ? [orientations[0]] : orientations;
 
   return (
     <>
@@ -1245,7 +1296,7 @@ export const SizeAccordion = ({
       <div className="flex flex-col">
         <h5 className="font-bold  mb-[1rem]">Select orientation</h5>
         <div className="flex flex-wrap gap-[1rem]">
-          {orientations.map(({ id, icon }): React.ReactNode => {
+          {orientationList.map(({ id, icon }): React.ReactNode => {
             return (
               <button
                 className={`border cursor-pointer flex items-center justify-center py-[1rem] grow hover:text-primary ${
@@ -1286,17 +1337,15 @@ export const SizeAccordion = ({
                     </div>
                   )}
                   <span className="text-center flex flex-col mt-[0.5rem]">
-                    {frame.price > 0 ? (
+                    {frame.price > 0 && (
                       <>
                         <span className="line-through text-link text-captionXs">
-                          {frame.oldPrice} UAH
+                          {frame.oldPrice} €
                         </span>
                         <span className="text-captionXs font-semibold text-error">
-                          +{frame.price} UAH
+                          +{frame.price} €
                         </span>
                       </>
-                    ) : (
-                      <span className="text-caption">none</span>
                     )}
                   </span>
                 </div>

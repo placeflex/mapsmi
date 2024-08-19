@@ -35,7 +35,7 @@ export const NewProduct = () => {
               variant="contained"
               className="text-caption"
             >
-              Створіть свій власний
+              Design your own
             </Button>
           </div>
         </div>

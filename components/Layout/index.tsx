@@ -1,5 +1,5 @@
 import React from "react";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 // components
 import { Header } from "@/components/Layout/Header";
@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   fixed?: boolean;
   scroll?: boolean;
+  headerProps?: any;
 };
 
 export const Layout = ({
@@ -17,12 +18,13 @@ export const Layout = ({
   fixed = false,
   className,
   scroll,
+  headerProps,
 }: Props) => {
   return (
     <>
       {scroll ? (
         <div className="scroll overflow-y-auto overflow-x-hidden h-[100vh]">
-          <Header isFixed={fixed} />
+          <Header isFixed={fixed} {...headerProps} />
           <main className={className}>{children}</main>
           <Footer />
         </div>

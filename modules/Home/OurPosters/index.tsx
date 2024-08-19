@@ -34,68 +34,76 @@ import zodiacAlt from "@/public/wallart-preview/zodiac-preview-second.jpg";
 // import zodiac from "@/public/wallart-preview/zodiac.png";
 // import zodiacAlt from "@/public/wallart-preview/zodiac-alt.png";
 
+import { SliderArrows } from "@/components/Slider/SliderArrows";
+
+import { productRoutes } from "@/constants/routers";
+
 const slides = [
   {
     id: 1,
     title: "Street Map",
     description: (
-      <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
+      <p className="text-captionSmall mt-[.5rem] leading-[2rem] line-clamp-2">
         Map your special moments with custom-made art made to last a lifetime.
       </p>
     ),
     image: streetmap,
     imageAlt: streetmapAlt,
+    href: productRoutes.STREETMAP,
   },
   {
     id: 2,
     title: "LineArt",
     description: (
-      <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
+      <p className="text-captionSmall mt-[.5rem] leading-[2rem] line-clamp-2">
         Elevate your space with our customizable Line Art prints. Choose from a
-        variety of sleek illustrations, personalize with text, colors, and size
+        variety of sleek illustrations personalize with text, colors, and size
         with ease.
       </p>
     ),
     image: lineart,
     imageAlt: lineartAlt,
+    href: productRoutes.LINEART,
   },
   {
     id: 3,
     title: "Star Map",
     description: (
-      <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
+      <p className="text-captionSmall mt-[.5rem] leading-[2rem] line-clamp-2">
         Create a personalized star map capturing the celestial arrangement on
         your most cherished moments.
       </p>
     ),
     image: starmap,
     imageAlt: starmapAlt,
+    href: productRoutes.STARMAP,
   },
   {
     id: 4,
     title: "Zodiac",
     description: (
-      <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
+      <p className="text-captionSmall mt-[.5rem] leading-[2rem] line-clamp-2">
         Forever remember your special moonlit nights with custom art made to
         last.
       </p>
     ),
     image: zodiacAlt,
     imageAlt: zodiac,
+    href: productRoutes.ZODIAC,
   },
-  {
-    id: 5,
-    title: "Coordinates",
-    description: (
-      <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
-        Artistically mark the latitude and longitude of your most special
-        places.
-      </p>
-    ),
-    image: zodiacAlt,
-    imageAlt: zodiac,
-    disabled: true,
-  },
+  // {
+  //   id: 5,
+  //   title: "Coordinates",
+  //   description: (
+  //     <p className="text-captionSmall mt-[.5rem] leading-[2rem]">
+  //       Artistically mark the latitude and longitude of your most special
+  //       places.
+  //     </p>
+  //   ),
+  //   image: zodiacAlt,
+  //   imageAlt: zodiac,
+  //   disabled: true,
+  // },
 ];
 
 export const OurPosters = () => {
@@ -103,7 +111,7 @@ export const OurPosters = () => {
     <div className="bg-primary">
       <Container>
         <div className="py-[5rem]">
-          <div className="flex">
+          <div className="flex items-center justify-between">
             <div>
               <h2 className="text-h4 font-semibold mb-[.5rem]">
                 Shop our posters
@@ -113,62 +121,66 @@ export const OurPosters = () => {
                 your best moments in life.
               </h3>
             </div>
-
-            <div className="flex relative w-[10rem] ml-auto">
-              <button className="swiper-button-prev-shop">PREV</button>
-              <button className="swiper-button-next-shop">NEXT</button>
-            </div>
           </div>
 
-          <Slider
-            className="mt-[2rem]"
-            loop={false}
-            slidesPerView={4}
-            spaceBetween={20}
-            pagination={{ clickable: false }}
-            navigation={{
-              nextEl: ".swiper-button-next-shop",
-              prevEl: ".swiper-button-prev-shop",
-            }}
-            breakpoints={{
-              0: {
-                slidesPerView: 1,
-                spaceBetween: 5,
-              },
+          <div className="relative">
+            <SliderArrows
+              nextArrowClasses="swiper-next-shop top-[50%] right-[-20px] z-10 translate-y-[-200%]"
+              prevArrowClasses="swiper-prev-shop top-[50%] left-[-20px] z-10 translate-y-[-200%]"
+              wrapperClasses="gap-[1rem]"
+              wrapper={false}
+            />
+            <Slider
+              className="mt-[2rem]"
+              loop={false}
+              slidesPerView={4}
+              spaceBetween={20}
+              pagination={{ clickable: false }}
+              navigation={{
+                nextEl: ".swiper-next-shop",
+                prevEl: ".swiper-prev-shop",
+              }}
+              breakpoints={{
+                0: {
+                  slidesPerView: 1,
+                  spaceBetween: 5,
+                },
 
-              530: {
-                slidesPerView: 2,
-                spaceBetween: 5,
-              },
+                530: {
+                  slidesPerView: 2,
+                  spaceBetween: 5,
+                },
 
-              980: {
-                slidesPerView: 3,
-                spaceBetween: 10,
-              },
+                980: {
+                  slidesPerView: 3,
+                  spaceBetween: 10,
+                },
 
-              1620: {
-                slidesPerView: 4,
-                spaceBetween: 15,
-              },
-            }}
-          >
-            {slides.map(
-              ({ image, imageAlt, id, title, description, disabled }) => {
-                return (
-                  <SwiperSlide key={id}>
-                    <PreviewWallartCard
-                      title={title}
-                      description={description}
-                      image={image}
-                      imageAlt={imageAlt}
-                      disabled={disabled}
-                      className="h-full shadow-md"
-                    />
-                  </SwiperSlide>
-                );
-              }
-            )}
-          </Slider>
+                1620: {
+                  slidesPerView: 4,
+                  spaceBetween: 15,
+                },
+              }}
+            >
+              {slides.map(
+                ({ image, imageAlt, id, title, description, href }) => {
+                  return (
+                    <SwiperSlide key={id}>
+                      <PreviewWallartCard
+                        title={title}
+                        description={description}
+                        image={image}
+                        imageAlt={imageAlt}
+                        // disabled={disabled}
+                        href={href}
+                        className="h-full shadow-md"
+                      />
+                    </SwiperSlide>
+                  );
+                }
+              )}
+            </Slider>
+          </div>
         </div>
       </Container>
     </div>

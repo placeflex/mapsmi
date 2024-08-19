@@ -539,6 +539,7 @@ export default function Editor() {
               ""
             )}`]: layout?.selectedAttributes?.size?.name,
           },
+          { ["maskApply"]: layout.poster?.styles?.isMask },
           {
             ["overlayApply"]: layout.poster?.styles?.isOverlay,
           },
@@ -632,7 +633,7 @@ export default function Editor() {
 
               <div className="mt-auto editor-wrapper__buttons">
                 <Button
-                  className="w-full text-link relative h-[8rem] flex items-center justify-between uppercase pulse"
+                  className="w-full text-link relative h-[6rem] lg:h-[8rem] flex items-center justify-between uppercase pulse"
                   type="button"
                   color="primary"
                   onClick={handleAddWallartToCart}
@@ -641,7 +642,9 @@ export default function Editor() {
                     {/* <span className="line-through opacity-50">
                       {RESULT_PRICE} UAH
                     </span> */}
-                    <span className="font-bold">{RESULT_PRICE} UAH</span>
+                    <span className="font-bold">
+                      {Number(RESULT_PRICE).toFixed(2)} €
+                    </span>
                   </span>
                   <span className="font-bold text-bodySmall">Add To Cart</span>
                 </Button>

@@ -16,7 +16,7 @@ import { handleShowLoginModal } from "@/redux/modals";
 import { useTypedSelector } from "@/redux/store";
 
 // fonts
-import { main_font, dancing, alexbrush } from "@/constants/fonts";
+import { main_font, dancing, alexbrush, edu } from "@/constants/fonts";
 
 // helpers
 import { ToastContainer, toast } from "react-toastify";
@@ -106,7 +106,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <div
-        className={`root ${alexbrush.variable} ${dancing.variable} ${main_font.variable} font-sans`}
+        className={`root ${dancing.variable} ${main_font.variable} font-sans`}
       >
         <Component {...pageProps} />
         <ProductVariations />

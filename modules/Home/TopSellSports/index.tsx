@@ -15,6 +15,8 @@ import Places from "@/public/top-selling-categories/places.png";
 import Astrology from "@/public/top-selling-categories/astrology.png";
 import History from "@/public/top-selling-categories/history.png";
 
+import { SliderArrows } from "@/components/Slider/SliderArrows";
+
 const slides = [
   {
     src: Travel.src,
@@ -70,11 +72,20 @@ export const TopSellSports: FC = (): React.ReactNode => {
             </div>
           </div>
 
-          <div className="mt-[2rem]">
+          <div className="mt-[2rem] relative">
+            <SliderArrows
+              nextArrowClasses="swiper-next-top-sell-sport top-[50%] right-[-20px] z-10 translate-y-[-50%]"
+              prevArrowClasses="swiper-prev-top-sell-sport top-[50%] left-[-20px] z-10 translate-y-[-50%]"
+              wrapperClasses="gap-[1rem]"
+              wrapper={false}
+            />
             <Slider
               loop={false}
               pagination={{ clickable: false }}
-              // navigation={false}
+              navigation={{
+                nextEl: ".swiper-next-top-sell-sport",
+                prevEl: ".swiper-prev-top-sell-sport",
+              }}
               // autoplay={{
               //   delay: 3500,
               //   pauseOnMouseEnter: true,

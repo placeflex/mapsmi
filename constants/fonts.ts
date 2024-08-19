@@ -5,6 +5,7 @@ import {
   Montserrat,
   Alice,
   Montserrat_Alternates,
+  Edu_VIC_WA_NT_Beginner,
 } from "next/font/google";
 
 export const main_font = Montserrat_Alternates({
@@ -24,6 +25,13 @@ export const dancing = Dancing_Script({
 export const alexbrush = Alex_Brush({
   subsets: ["latin"],
   variable: "--font-brush",
+  weight: ["400"],
+  display: "swap",
+});
+
+export const edu = Edu_VIC_WA_NT_Beginner({
+  subsets: ["latin"],
+  variable: "--font-edu",
   weight: ["400"],
   display: "swap",
 });

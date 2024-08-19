@@ -69,7 +69,10 @@ export const SkyMapPanelContent = ({
             title: "Customize the style",
             shortTitle: "Styles",
             content: (
-              <LayoutsSkyMapAccordion handleChange={handleChangeLayoutStyle} />
+              <LayoutsSkyMapAccordion
+                handleChange={handleChangeLayoutStyle}
+                handleSelectOrientations={handleSelectOrientations}
+              />
             ),
             icon: <Styles stroke="#000" width={20} height={20} />,
           },

@@ -41,7 +41,7 @@ export const WallartContent = ({
   );
 
   const isZodiacOrSkyMapAndLopsterTheme =
-    product_id === "3" && posterStyleId == 4;
+    (product_id === "3" || product_id === "1") && posterStyleId == 4;
 
   let withoutText =
     !texts?.heading && !texts?.subline && !texts?.divider && !texts?.tagline;

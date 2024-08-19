@@ -17,6 +17,8 @@ import Places from "@/public/top-selling-categories/places.png";
 import Astrology from "@/public/top-selling-categories/astrology.png";
 import History from "@/public/top-selling-categories/history.png";
 
+import { SliderArrows } from "@/components/Slider/SliderArrows";
+
 const slides = [
   {
     src: Travel.src,
@@ -61,32 +63,40 @@ export const TopSellCategories: FC = (): React.ReactNode => {
     <div className="bg-secondary">
       <Container>
         <div className="py-[5rem]">
-          <div className="flex">
-            <div>
-              <h2 className="text-h4 font-semibold mb-[.5rem]">
-                Top Selling Categories
-              </h2>
-              <h3 className="text-bodySmall">
-                Shop our curated collection of 2023&apos;s hottest posters.
-              </h3>
-
-              <div className="flex relative w-[10rem] ml-auto">
-                <button className="swiper-button-prev"></button>
-                <button className="swiper-button-next"></button>
+          <div className="flex items-center">
+            <div className="flex relative w-full items-center">
+              <div>
+                <h2 className="text-h4 font-semibold mb-[.5rem]">
+                  Top Selling Categories
+                </h2>
+                <h3 className="text-bodySmall">
+                  Shop our curated collection of 2023&apos;s hottest posters.
+                </h3>
               </div>
             </div>
 
-            {/* <div className="flex relative w-[10rem] ml-auto">
-              <button className="swiper-button-prev"></button>
-              <button className="swiper-button-next"></button>
-            </div> */}
+            {/* <SliderArrows
+              nextArrowClasses="swiper-next-top-sell"
+              prevArrowClasses="swiper-prev-top-sell"
+              wrapperClasses="gap-[1rem]"
+              wrapper={false}
+            /> */}
           </div>
 
-          <div className="mt-[2rem]">
+          <div className="mt-[2rem] relative">
+            <SliderArrows
+              nextArrowClasses="swiper-next-top-sell top-[50%] right-[-20px] z-10 translate-y-[-50%]"
+              prevArrowClasses="swiper-prev-top-sell top-[50%] left-[-20px] z-10 translate-y-[-50%]"
+              wrapperClasses="gap-[1rem]"
+              wrapper={false}
+            />
             <Slider
               loop={false}
               pagination={{ clickable: false }}
-              // navigation={false}
+              navigation={{
+                nextEl: ".swiper-next-top-sell",
+                prevEl: ".swiper-prev-top-sell",
+              }}
               // autoplay={{
               //   delay: 3500,
               //   pauseOnMouseEnter: true,

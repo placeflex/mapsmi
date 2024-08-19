@@ -33,7 +33,7 @@ import { PRODUCTS, DESIGNS } from "@/constants/wallart-categories";
 // routes
 // import { popularWallartsRoot } from "@/constants/routers";
 
-export const Header = ({ isFixed }: any) => {
+export const Header = ({ isFixed, classNames }: any) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isUserLogged = useTypedSelector(({ user }) => user.isAdmin);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,24 +48,39 @@ export const Header = ({ isFixed }: any) => {
     dispatch(handleOpenCartPanel());
   };
 
+  const ControllButton = ({ state }) => {
+    return (
+      <button
+        type="button"
+        className="w-[50px] h-[50px] text-text bg-black"
+        onClick={() => setMobileMenuOpen(state)}
+      >
+        <span className="sr-only">Open main menu</span>
+      </button>
+    );
+  };
+
   return (
     <header
       className={clsx(
-        "flex px-[2rem] py-[1.5rem] w-full bg-primary/[.9] z-50",
-        isFixed ? "sticky top-0" : "relative"
+        "flex  px-[2rem] py-[1.5rem] w-full bg-primary z-50",
+        isFixed ? "sticky top-0" : "relative",
+        classNames
       )}
     >
-      <Container>
-        <div className="flex">
+      <Container className="px-0">
+        <div className="flex items-center">
           <nav className="flex flex-1 gap-[2rem]">
             <div className="flex lg:hidden">
-              <button
+              {/* <button
                 type="button"
-                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-text"
+                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-text bg-black"
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <span className="sr-only">Open main menu</span>
-              </button>
+              </button> */}
+
+              <ControllButton state={true} />
             </div>
             <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-12">
               {isMenuOpen && (
@@ -210,6 +225,15 @@ export const Header = ({ isFixed }: any) => {
               </Popover>
             </Popover.Group>
 
+            <div>
+              <a
+                href="/"
+                className="flex items-center gap-x-1 text-caption text-text font-semibold"
+              >
+                About
+              </a>
+            </div>
+
             {/* MOBILE VERSION */}
             <Dialog
               as="div"
@@ -218,10 +242,12 @@ export const Header = ({ isFixed }: any) => {
               onClose={setMobileMenuOpen}
             >
               <div className="fixed inset-0 z-10" />
-              <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-primary px-6 py-6 sm:max-w-[40rem] sm:ring-1 sm:ring-gray-900/10">
+              <Dialog.Panel className="fixed inset-y-0 right-0 z-[999] w-full overflow-y-auto bg-primary px-6 py-6 sm:max-w-[40rem] sm:ring-1 sm:ring-gray-900/10 ">
                 <div className="flex items-center justify-between">
                   {/* <a href="#" className="-m-1.5 p-1.5"> */}
-                  <Logo />
+
+                  <ControllButton state={false} />
+                  {/* <Logo /> */}
                   {/* </a> */}
                   <button
                     type="button"
@@ -232,12 +258,12 @@ export const Header = ({ isFixed }: any) => {
                   </button>
                 </div>
                 <div className="mt-6 flow-root">
-                  <div className="-my-6 divide-y divide-gray-500/10">
-                    <div className="space-y-2 py-6">
+                  <div className="">
+                    <div className="">
                       <Disclosure as="div" className="-mx-3">
                         {({ open }) => (
                           <>
-                            <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                            <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-[2rem] pl-[1.5rem] pr-[1.5rem] text-captionSmall font-semibold text-gray-900 hover:bg-gray-50">
                               Product
                             </Disclosure.Button>
                             <Disclosure.Panel className="mt-2">
@@ -267,11 +293,11 @@ export const Header = ({ isFixed }: any) => {
                         )}
                       </Disclosure>
                     </div>
-                    <div className="space-y-2 py-6">
+                    <div className="">
                       <Disclosure as="div" className="-mx-3">
                         {({ open }) => (
                           <>
-                            <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-captionSmall font-semibold text-gray-900 hover:bg-gray-50">
+                            <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-[2rem] pl-[1.5rem] pr-[1.5rem] text-captionSmall font-semibold text-gray-900 hover:bg-gray-50">
                               Designs
                             </Disclosure.Button>
                             <Disclosure.Panel className="mt-2 pl-[1rem]">
@@ -313,6 +339,12 @@ export const Header = ({ isFixed }: any) => {
                           </>
                         )}
                       </Disclosure>
+                    </div>
+
+                    <div>
+                      <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-[2rem] pl-[1.5rem] pr-[1.5rem] text-captionSmall font-semibold text-gray-900 hover:bg-gray-50">
+                        About
+                      </Disclosure.Button>
                     </div>
                   </div>
                 </div>
@@ -364,12 +396,14 @@ export const Header = ({ isFixed }: any) => {
 
             <button
               type="button"
-              className="flex items-center justify-end"
+              className="flex items-center justify-end relative"
               onClick={() => openCartPanel()}
             >
               <Basket width={25} fill="#000" />
 
-              <span className="text-text ml-2">{cartItems.length}</span>
+              <span className="text-text ml-2 absolute top-[-2px] right-[-5px] bg-button w-[1.5rem] h-[1.5rem] rounded-[9999rem] text-white">
+                {cartItems.length}
+              </span>
             </button>
           </div>
         </div>

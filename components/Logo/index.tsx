@@ -6,14 +6,25 @@ interface Props {
   fill?: string;
   className?: string;
   textColor?: string;
+  width?: number;
 }
 
-export const Logo = ({ className = "", fill, textColor, ...props }: Props) => {
+export const Logo = ({
+  className = "",
+  fill,
+  textColor,
+  width = 30,
+  ...props
+}: Props) => {
   return (
     <Link href="/" className={`flex items-center ${className}`} {...props}>
-      <LogoIcon width={30} fill={fill} />
+      <LogoIcon width={width} fill={fill} />
 
-      <span className={`ml-3 text-bodySmall ${textColor}`}>MapMemoria</span>
+      <span
+        className={`ml-3 text-bodySmall font-bold tracking-[0.4rem] uppercase ${textColor}`}
+      >
+        MapsMingle
+      </span>
     </Link>
   );
 };

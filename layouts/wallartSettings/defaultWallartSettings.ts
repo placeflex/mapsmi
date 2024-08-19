@@ -32,6 +32,9 @@ export const defaultWallartSettings = {
       color: basicColors[0].id,
       layoutStyle: basicLayoutStyles[0].id,
       font: fontsList[0].id,
+      isMask: false,
+      maskId: 0,
+      overlayId: 0,
     },
   },
   selectedAttributes: {

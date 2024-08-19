@@ -301,13 +301,13 @@ const Cart = () => {
       const formObj = liqpay.cnb_object({
         action: "pay",
         amount: RESULT_PRICE,
-        currency: "UAH",
+        currency: "USD",
         description: names.length
           ? `${names.join(", ")} Posters, ID: ${orderId}`
           : `${names.join(", ")} Poster, ID: ${orderId}`,
         order_value: orderId,
         version: "3",
-        language: "uk",
+        language: "en",
       });
 
       const PRODUCTS_PREVIEWS_LINKS = cartItems?.map(
@@ -317,14 +317,13 @@ const Cart = () => {
         })
       );
 
-      console.log("PRODUCTS_PREVIEWS_LINKS,", PRODUCTS_PREVIEWS_LINKS);
-
       setTimeout(() => {
         window?.LiqPayCheckout.init({
           data: formObj.data,
           signature: formObj.signature,
           embedTo: "#liqpay_checkout",
           mode: "embed", // embed || popup,
+          language: "en",
         })
           .on("liqpay.callback", function (data) {
             console.log(data.status);
@@ -335,7 +334,7 @@ const Cart = () => {
                 name: names.length
                   ? `${names.join(", ")} Posters`
                   : `${names.join(", ")} Poster`,
-                price: `${RESULT_PRICE} UAH`,
+                price: `${RESULT_PRICE} €`,
                 links: PRODUCTS_PREVIEWS_LINKS,
 
                 email: values.email,
@@ -348,7 +347,6 @@ const Cart = () => {
                 phone: values.phone,
               })
               .then(() => {
-              
                 window.location.reload();
               });
           })
@@ -624,7 +622,7 @@ const Cart = () => {
                                       ]?.prices[item.selectedAttributes.size.id]
                                         .price
                                     }{" "}
-                                    UAH
+                                    €
                                   </h5>
                                 </div>
                               </div>
@@ -665,11 +663,11 @@ const Cart = () => {
                                       ]?.[item?.selectedAttributes?.frame?.id]
                                         ?.price
                                     }{" "}
-                                    UAH
+                                    €
                                   </h3>
                                 </div>
                               </div>
-                            ): null}
+                            ) : null}
                           </div>
                         </div>
                       );

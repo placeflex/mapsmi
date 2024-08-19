@@ -135,3 +135,36 @@ export const mapLayoutStyles: ArtworkStyleInterface[] = [
     applyName: "noir",
   },
 ];
+
+export const zodiacLayoutStyles: ArtworkStyleInterface[] = [
+  {
+    id: 0,
+    name: "Minimal",
+    applyName: "minimal",
+  },
+  {
+    id: 1,
+    name: "Spectrum",
+    applyName: "spectrum",
+  },
+  {
+    id: 2,
+    name: "Bold",
+    applyName: "bold",
+  },
+  {
+    id: 3,
+    name: "Bold-full",
+    applyName: "bold-full",
+  },
+  {
+    id: 4,
+    name: "Lopster",
+    applyName: "lopster",
+  },
+  {
+    id: 5,
+    name: "Noir",
+    applyName: "noir",
+  },
+];

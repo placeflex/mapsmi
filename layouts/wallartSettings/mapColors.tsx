@@ -33,6 +33,7 @@ const maskOverridesBgs = {
   1: "#3358AC",
   2: "#EC352D",
   3: "#2E2E2E",
+  4: "#FFF",
 };
 
 const applyMaskOverridesStyles = styles => {
@@ -448,6 +449,42 @@ export const mapColors = [
     id: 7,
     name: "cityscape",
     applyName: "Cityscape",
+    textColor: TEXT_BLACK,
+    gradientColor: WHITE_GRADIENT,
+    bgColor: TEXT_WHITE,
+
+    layoutOverrides: {
+      bold: {},
+      brush: { textColor: TEXT_BLACK, bgColor: TEXT_WHITE },
+      noir: {
+        textColor: TEXT_BLACK,
+        gradientColor: "transparent",
+        bgColor: "transparent",
+      },
+    },
+
+    maskOverrides: {
+      ...applyMaskOverridesStyles({
+        textColor: TEXT_BLACK,
+        gradientColor: "",
+        bgColor: maskOverridesBgs[0],
+      }),
+    },
+  },
+  {
+    icon: (
+      <Image
+        src={road}
+        alt="street map"
+        layout="fill"
+        priority={false}
+        objectFit="cover"
+        quality={100}
+      />
+    ),
+    id: 8,
+    name: "black_river",
+    applyName: "Black River",
     textColor: TEXT_BLACK,
     gradientColor: WHITE_GRADIENT,
     bgColor: TEXT_WHITE,

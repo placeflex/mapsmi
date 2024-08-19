@@ -56,9 +56,9 @@ export const SkyMap = () => {
     disableAnimations: false,
     zoomlevel: null,
     zoomextend: 1,
-    // projection: "airy", //orthographic dafault
+    projection: "airy", //orthographic dafault
     // projection: "azimuthalEqualArea", //orthographic dafault
-    projection: "stereographic", //orthographic dafault
+    // projection: "stereographic", //orthographic dafault
     // projection: "wiechel", //orthographic dafault
     transform: "equatorial",
     follow: "zenith",

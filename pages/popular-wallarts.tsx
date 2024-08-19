@@ -96,7 +96,9 @@ export default function PopularWallarts() {
                         localStorage.removeItem("map-storage");
                         storagePoster({
                           productId: props.productId,
-                          layout: props,
+                          layout: {
+                            ...props,
+                          },
                         });
                         dispatch(initLayout(props.productId));
                         router.push({
@@ -128,7 +130,7 @@ export default function PopularWallarts() {
                           <h2 className="text-center mx-auto text-captionSmall mt-[1rem] text-nowrap">
                             As Designed{" "}
                             <span className="font-bold text-blueGrey">
-                              {price} UAH
+                              {price} €
                             </span>
                           </h2>
                         )}

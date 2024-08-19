@@ -314,6 +314,20 @@
       padding: $marginXXXLarge;
     }
 
+    // TODO: APPLY MASK IF NEED FOR ZODIAC
+    // &.maskApply {
+    //   .zodiac-bg {
+    //     mask: var(--mask);
+    //     mask-image: var(--mask);
+    //     mask-repeat: no-repeat;
+    //     mask-position: center;
+    //     mask-size: contain;
+    //     transform: scale(1) translateZ(0);
+    //     -webkit-mask-size: contain;
+    //     -webkit-transform: scale(1) translateZ(0) !important;
+    //   }
+    // }
+
     .labels {
       gap: 0.4em;
       h1 {
