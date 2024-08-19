@@ -226,12 +226,12 @@ export const Header = ({ isFixed, classNames }: any) => {
             </Popover.Group>
 
             <div>
-              <a
+              <Link
                 href="/"
                 className="flex items-center gap-x-1 text-caption text-text font-semibold"
               >
                 About
-              </a>
+              </Link>
             </div>
 
             {/* MOBILE VERSION */}
