@@ -5,7 +5,7 @@ import { Layout } from "@/components/Layout/";
 import { Container } from "@/components/Container";
 import { Accordion } from "@/components/Collapse/Collapse";
 
-import { ProductLayout } from "./layout";
+import { ProductLayout } from "../../modules/Product/ProductLayout";
 // stores
 
 import Arrow from "@/public/icons/arrow.svg";

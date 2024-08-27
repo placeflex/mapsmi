@@ -15,13 +15,14 @@ export const OUT_MORE_LINKS = [
     title: "About",
     link: publicRoutes.about,
   },
-  {
-    title: "Why Us?",
-    link: publicRoutes.whyus,
-  },
+  // {
+  //   title: "Why Us?",
+  //   link: publicRoutes.whyus,
+  // },
   {
     title: "Reviews",
-    link: publicRoutes.reviews,
+    link: "https://uk.trustpilot.com/",
+    target: true,
   },
   {
     title: "Contact Us",
@@ -39,7 +40,7 @@ export const OUT_MORE_LINKS = [
 
 export const OUT_MORE = [
   {
-    title: "FIND OUT MORE",
+    title: "find out more",
     links: OUT_MORE_LINKS,
   },
 ];
@@ -69,25 +70,38 @@ export const Footer = () => {
               {FOOTER_CAT.map(({ title, links }, idx) => {
                 return (
                   <div key={idx} className="w-[15%]">
-                    <h5 className="text-bodySmall text-white font-semibold mb-[1rem]">
+                    <h5 className="text-bodySmall text-white font-semibold mb-[1rem] capitalize">
                       {title}
                     </h5>
 
                     {links.length > 0 && (
                       <div className="flex flex-col items-start gap-[1rem]">
-                        {links.map(({ title, link }, idx) => {
-                          return (
-                            <Link
-                              href={link}
-                              key={idx}
-                              className="inline-block"
-                            >
-                              <span className="block text-captionSmall text-white hover:text-link">
-                                {title}
-                              </span>
-                            </Link>
-                          );
-                        })}
+                        {links.map(
+                          (
+                            {
+                              title,
+                              link,
+                              target,
+                            }: { target: any; title: string; link: string },
+                            idx
+                          ) => {
+                            const isTargetBlank = target
+                              ? { target: "_blank" }
+                              : {};
+                            return (
+                              <Link
+                                href={link}
+                                key={idx}
+                                className="inline-block"
+                                {...isTargetBlank}
+                              >
+                                <span className="block text-captionSmall text-white hover:text-link">
+                                  {title}
+                                </span>
+                              </Link>
+                            );
+                          }
+                        )}
                       </div>
                     )}
                   </div>
@@ -95,7 +109,7 @@ export const Footer = () => {
               })}
 
               <div className="w-[15%]">
-                <h5 className="text-bodySmall text-white font-semibold mb-[1rem]">
+                <h5 className="text-bodySmall text-white font-semibold mb-[1rem] capitalize">
                   Follow Us
                 </h5>
 

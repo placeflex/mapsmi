@@ -11,6 +11,7 @@ import { api } from "@/axios";
 
 const initialState = {
   wallarts: [],
+  isLoading: true,
 };
 
 const popularWallarts = createSlice({

@@ -23,7 +23,7 @@ const config: Config = {
       h4: ["3.2rem", { ...basicFontSettings }],
       h5: ["2.4rem", { ...basicFontSettings }],
       body: ["2.4rem", { ...basicFontSettings }],
-      bodyBold: ["2.4rem", { ...basicFontSettings }],
+      bodyBold: ["2.4rem", { ...basicFontSettings, fontWeight: 600 }],
       bodySmall: ["1.6rem", { ...basicFontSettings }],
       bodySmallBold: ["1.6rem", { ...basicFontSettings, fontWeight: 600 }],
       caption: ["1.4rem", { ...basicFontSettings }],

@@ -4,7 +4,7 @@ import React, { FC, useState, useEffect } from "react";
 import { Layout } from "@/components/Layout/";
 import { Container } from "@/components/Container";
 import { Accordion } from "@/components/Collapse/Collapse";
-import { ProductLayout } from "./layout";
+import { ProductLayout } from "../../modules/Product/ProductLayout";
 
 import Arrow from "@/public/icons/arrow.svg";
 

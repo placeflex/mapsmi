@@ -2,6 +2,8 @@ import puppeteer from "puppeteer";
 import Jimp from "jimp";
 import { handleGetPosterGap } from "@/components/LayoutPreviewWrapper";
 
+import { RENDER_SCALE_RENDER_PAGE } from "@/layouts/wallartSettings/defaultWallartSettings";
+
 function vminToPixels(vminValue, screenWidth, screenHeight) {
   const vminInPixels = Math.min(screenWidth, screenHeight) * (vminValue / 100);
   return vminInPixels;
@@ -20,7 +22,7 @@ export const generateScreen = async (project: any) => {
   const w = Math.round(project.selectedAttributes.size.width - gap);
   const h = Math.round(project.selectedAttributes.size.height - gap);
 
-  const pxw = vminToPixels(5, w, h) * 2;
+  const pxw = vminToPixels((RENDER_SCALE_RENDER_PAGE * 0.5) / 2, w, h) * 2;
 
   const wToUse = frameIsEnabled ? w + pxw : w;
   const hToUse = frameIsEnabled ? h + pxw : h;

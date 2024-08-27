@@ -9,7 +9,7 @@ import { Button } from "@/components/Button";
 import { Accordion } from "@/components/Collapse/Collapse";
 import { SliderThumbs } from "@/components/SliderThumbs";
 import { SwiperSlide } from "swiper/react";
-import { ProductLayout } from "./layout";
+import { ProductLayout } from "../../modules/Product/ProductLayout";
 // stores
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";

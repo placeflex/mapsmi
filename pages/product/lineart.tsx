@@ -4,7 +4,7 @@ import React, { FC, useState, useEffect } from "react";
 import { Layout } from "@/components/Layout/";
 import { Container } from "@/components/Container";
 
-import { ProductLayout } from "./layout";
+import { ProductLayout } from "../../modules/Product/ProductLayout";
 // stores
 
 import { Accordion } from "@/components/Collapse/Collapse";

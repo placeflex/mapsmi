@@ -30,6 +30,8 @@ import { useTypedSelector } from "@/redux/store";
 
 import { PRODUCTS, DESIGNS } from "@/constants/wallart-categories";
 
+import { publicRoutes } from "@/constants/routers";
+
 // routes
 // import { popularWallartsRoot } from "@/constants/routers";
 
@@ -101,7 +103,7 @@ export const Header = ({ isFixed, classNames }: any) => {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute left-0 top-[6.2rem] z-10 w-screen overflow-hidden bg-bg">
+                  <Popover.Panel className="absolute left-0 top-[6.2rem] z-10 w-screen overflow-hidden bg-secondary">
                     <div className="py-[2rem] px-[2rem]">
                       <Container>
                         <div className="flex gap-[2rem]">
@@ -130,7 +132,7 @@ export const Header = ({ isFixed, classNames }: any) => {
                                     {name}
                                     <span className="absolute inset-0" />
                                   </a>
-                                  <p className="mt-1 text-text text-captionSmall 2xl:text-caption">
+                                  <p className="mt-1 text-text text-captionSmall 2xl:text-caption line-clamp-2">
                                     {description}
                                   </p>
                                 </div>
@@ -160,7 +162,7 @@ export const Header = ({ isFixed, classNames }: any) => {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute left-0 top-[6.2rem] z-10 w-screen overflow-hidden bg-bg">
+                  <Popover.Panel className="absolute left-0 top-[6.2rem] z-10 w-screen overflow-hidden bg-secondary">
                     <div className="py-[2rem] px-[2rem]">
                       <Container>
                         <div className="flex gap-[2rem]">
@@ -227,7 +229,7 @@ export const Header = ({ isFixed, classNames }: any) => {
 
             <div>
               <Link
-                href="/"
+                href={publicRoutes.about}
                 className="flex items-center gap-x-1 text-caption text-text font-semibold"
               >
                 About

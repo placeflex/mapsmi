@@ -43,7 +43,7 @@ export default function Editor() {
 
   const dispatch: AppDispatch = useDispatch();
 
-  const FRAME_SCALE = preview ? `${RENDER_SCALE_RENDER_PAGE * 0.5}vmin` : 0;
+  const FRAME_SCALE = preview ? `${RENDER_SCALE_RENDER_PAGE * 0.5 / 2}vmin` : 0;
 
   useEffect(() => {
     const project = localStorage.getItem("render-storage");

@@ -9,6 +9,7 @@ import { api } from "@/axios";
 
 // components
 import { Container } from "@/components/Container";
+import { Loader } from "@/components/Loader";
 
 // stores
 import { useDispatch } from "react-redux";
@@ -35,8 +36,10 @@ export default function PopularWallarts() {
   const wallarts = useTypedSelector(
     ({ popularWallarts }) => popularWallarts.wallarts
   );
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setIsLoading(true);
     const key = Object.keys(router.query);
     const value = Object.values(router.query);
     titleFormatted();
@@ -46,8 +49,11 @@ export default function PopularWallarts() {
         .get(`/popular-wallarts?${key}=${value}`)
         .then((data: any) => {
           dispatch(handleGetPopularProjects(data.data));
+          setIsLoading(false);
         })
-        .catch(({ response }) => {});
+        .catch(({ response }) => {
+          setIsLoading(false);
+        });
     }
   }, [router.query]);
 
@@ -65,7 +71,11 @@ export default function PopularWallarts() {
   };
 
   return (
-    <Layout className="bg-secondary" fixed={true} scroll={true}>
+    <Layout
+      headerProps={{ classNames: "bg-secondary" }}
+      fixed={true}
+      scroll={true}
+    >
       <Container>
         <div className="py-[10rem]">
           <h1 className="text-h3 font-bold mb-[1rem]">{pageTitle}</h1>
@@ -73,7 +83,18 @@ export default function PopularWallarts() {
             Custom prints and stunning {pageTitle} for your home or office.
           </h2>
 
-          <div className="flex flex-wrap mx-[-1rem]">
+          <div className="flex flex-wrap mx-[-2rem]">
+            {isLoading ? (
+              <div className="w-full text-center flex justify-center align-center">
+                {isLoading ? <Loader width={50} height={50} /> : null}
+              </div>
+            ) : null}
+            {!wallarts.length && !isLoading ? (
+              <div className="text-center w-full">
+                <h3 className="text-bodyBold font-bold">Empty</h3>
+                <p className="text-caption">message =(</p>
+              </div>
+            ) : null}
             {wallarts?.map(
               ({
                 type,
@@ -85,13 +106,10 @@ export default function PopularWallarts() {
                 ...props
               }: any) => {
                 return (
-                  <div
-                    key={props.id}
-                    className="w-[calc(100%/4-4rem)] h-[50rem] m-[2rem]"
-                  >
+                  <div key={props.id} className="w-[20%]">
                     <div
                       key={props.id}
-                      className="flex flex-col jusify-center items-center w-full relative cursor-pointer h-full"
+                      className="flex flex-col m-[1rem] cursor-pointer"
                       onClick={() => {
                         localStorage.removeItem("map-storage");
                         storagePoster({
@@ -111,14 +129,20 @@ export default function PopularWallarts() {
                         });
                       }}
                     >
-                      <div className="relative grow w-full">
-                        <Image
-                          src={props.path}
-                          alt={props.name}
-                          objectFit="contain"
-                          quality={50}
-                          layout="fill"
-                        />
+                      <div className="w-full pt-[120%] relative bg-secondary">
+                        <div className="absolute top-0 left-0 h-full w-full">
+                          <div className="w-full h-full p-[10%] group">
+                            <div className="w-full h-full relative scale-[0.9] group-hover:scale-[1] transition-all">
+                              <Image
+                                src={props.path}
+                                alt={props.name}
+                                objectFit="contain"
+                                quality={100}
+                                layout="fill"
+                              />
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
                       <div className="mt-[2rem] px-[2rem] w-full">
@@ -130,7 +154,7 @@ export default function PopularWallarts() {
                           <h2 className="text-center mx-auto text-captionSmall mt-[1rem] text-nowrap">
                             As Designed{" "}
                             <span className="font-bold text-blueGrey">
-                              {price} €
+                              {Number(price).toFixed(2)} €
                             </span>
                           </h2>
                         )}

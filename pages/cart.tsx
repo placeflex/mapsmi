@@ -675,7 +675,7 @@ const Cart = () => {
                   </div>
 
                   <div className="mt-auto text-bodySmall">
-                    Total: {RESULT_PRICE}
+                    Total: {Number(RESULT_PRICE).toFixed(2)}
                   </div>
                 </div>
               </div>
@@ -687,7 +687,6 @@ const Cart = () => {
       <LiqPayModal key={JSON.stringify(liqpayModal)}>
         <div id="liqpay_checkout"></div>
       </LiqPayModal>
-      {/* {form && <div dangerouslySetInnerHTML={{ __html: form }}></div>} */}
     </>
   );
 };

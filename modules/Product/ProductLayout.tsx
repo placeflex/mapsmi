@@ -29,7 +29,7 @@ import {
   MATERIAL_PRICES,
 } from "@/layouts/wallartAttributes";
 
-import "./styles/starmap.scss";
+// import "./styles/starmap.scss";
 
 interface IProductLayout {
   sliderProps?: any;

@@ -41,6 +41,18 @@ export const Cart = () => {
       <h3 className="text-body mb-[2rem]">Basket</h3>
 
       <div className="flex flex-col">
+        {!cartItems.length ? (
+          <div className="text-center mt-[12rem]">
+            <h3 className="text-bodyBold">
+              There&apos;s nothing in your <br /> shopping cart yet.
+            </h3>
+            <p className="text-bodySmall mt-[1rem]">
+              Don&apos;t know where to start? Here are some of our <br /> most
+              popular products:
+            </p>
+          </div>
+        ) : null}
+
         {cartItems.map((item: any, index: number) => {
           const { selectedAttributes } = item;
 
@@ -93,10 +105,14 @@ export const Cart = () => {
         })}
       </div>
 
-      <div className="mt-auto text-bodySmall">Total Price: {RESULT_PRICE}</div>
-      <Button href="/cart" className="mt-[2rem] text-bodySmall text-center">
-        Checkout
-      </Button>
+      {cartItems.length ? (
+        <>
+          <div className="mt-auto text-bodySmall">Total: {RESULT_PRICE}</div>
+          <Button href="/cart" className="mt-[2rem] text-bodySmall text-center">
+            Checkout
+          </Button>
+        </>
+      ) : null}
     </div>
   );
 };
