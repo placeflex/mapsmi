@@ -345,9 +345,9 @@ export default function Editor() {
 
   useEffect(() => {
     if (router.isReady) {
-      if (layout.productId == 1) {
-        window.devicePixelRatio = 2;
-      }
+      // if (layout.productId == 1) {
+      //   window.devicePixelRatio = 1;
+      // }
 
       if (product_id) {
         if (fields) {

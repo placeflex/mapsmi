@@ -24,14 +24,10 @@ export const SkyMap = () => {
     ({ layout }) => layout.layout?.poster?.styles
   );
 
-  console.log("posterStyles", posterStyles);
-
   const posterDate = useTypedSelector(({ layout }) => layout.layout?.date);
   const currentPosterLocation: any = useTypedSelector(
     ({ layout }) => layout.layout?.locations
   );
-
-  const FONT = "var(--font-main)";
 
   const styles = {
     stroke: basicColors[Number(posterStyles?.color)]?.textColor,
@@ -62,8 +58,8 @@ export const SkyMap = () => {
     // projection: "wiechel", //orthographic dafault
     transform: "equatorial",
     follow: "zenith",
-    width: 1100,
-    height: 1100,
+    width: 1500,
+    height: 1500,
     orientationfixed: false,
     projectionRatio: null,
     background: {
@@ -114,7 +110,9 @@ export const SkyMap = () => {
         fill: `${styles.bg}`,
         align: "center",
         baseline: "middle",
-        font: "14px Helvetica, Arial, sans-serif",
+        font: isImageLayout
+          ? "10px Helvetica, Arial, sans-serif"
+          : "11px Helvetica, Arial, sans-serif",
       },
       lines: posterStyles?.lines,
       lineStyle: {
