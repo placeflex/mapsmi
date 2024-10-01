@@ -1,12 +1,12 @@
 // $poster: url("../../../public/home/poster.jpg");
-$poster: url("https://www.mapiful.com/cdn-cgi/image/format=auto/content/uploads/2024/07/sydney.jpg");
+$poster: url("https://www.mapiful.com/cdn-cgi/image/format=auto/content/themes/mapiful_v2/classes/campaigns/assets/2024-february/hero2.webp");
 // $poster: url("../../../public/home/poster-sec.png");
 // $poster: url("../../../public/home/poster-sec.png");
 
 .poster {
   background: $poster;
   background-size: cover;
-  background-position: bottom;
+  background-position: center;
 
   position: relative;
   // position: sticky;
@@ -27,10 +27,14 @@ $poster: url("https://www.mapiful.com/cdn-cgi/image/format=auto/content/uploads/
 }
 
 .posterInner {
-  height: 60vh;
+  height: 70vh;
   min-height: 600px;
-  max-height: 600px;
+  // max-height: 600px;
   // min-height: 800px;
+
+  @media screen and (max-width: 992px) {
+    height: 50vh;
+  }
 
   margin: 0 auto;
   position: relative;

@@ -7,19 +7,19 @@ export const AboutUs = () => {
   return (
     <>
       <div className="flex flex-col relative">
-        <Container>
-          <div>
-            <div className="w-[50%] py-[12rem]">
+        <Container className="px-[0rem]">
+          <div className="flex flex-col-reverse lg:flex lg:flex-row">
+            <div className="w-full py-[2rem] lg:w-[50%] lg:py-[12rem] lg:px-[0rem]">
               <h1 className="text-h1">About us</h1>
-              <p className="text-bodySmall">
+              <p className="text-bodySmall font-semibold">
                 We exist to inspire you to celebrate how far you have come in
                 life, and for you to be excited for the future. We believe
                 memories to be part of an overall journey that should be
                 celebrated everyday.
               </p>
 
-              <ul className="mt-[4rem]">
-                <li className="mb-[4rem]">
+              <ul className="mt-[2rem] lg:mt-[4rem]">
+                <li className="mb-[2rem] lg:mb-[4rem]">
                   <h5 className="text-bodySmallBold mb-[0.5rem]">
                     Our mission
                   </h5>
@@ -44,7 +44,7 @@ export const AboutUs = () => {
               </ul>
             </div>
 
-            <div className="w-[48%] h-full right-0 top-0  absolute">
+            <div className="w-full  h-[500px] mt-[1.5rem] top-0 relative lg:mt-0 lg:absolute lg:h-full lg:w-[48%] lg:right-0">
               <Image
                 src={
                   "https://www.mapiful.com/content/uploads/2021/03/misssouphi-1-970x1024-2.jpg"
@@ -52,7 +52,7 @@ export const AboutUs = () => {
                 alt="alt"
                 layout="fill"
                 objectFit="cover"
-                objectPosition="bottom"
+                objectPosition="center"
               />
             </div>
           </div>
@@ -60,9 +60,10 @@ export const AboutUs = () => {
       </div>
 
       <div className="flex flex-col relative bg-secondary">
-        <Container>
-          <div className="">
-            <div className="w-[43%] py-[12rem] ml-auto">
+        <Container className="px-[0rem]">
+          <div className="flex flex-col-reverse lg:flex lg:flex-row">
+            {/* <div className="w-full py-[4rem] lg:w-[50%] lg:py-[12rem]"> */}
+            <div className="w-full py-[2rem] lg:w-[43%] lg:py-[12rem] lg:ml-auto lg:px-[0rem]">
               <h1 className="text-h1">Our Story</h1>
 
               <ul>
@@ -107,8 +108,8 @@ export const AboutUs = () => {
                 </div>
               </div>
             </div>
-
-            <div className="w-[52%] h-full left-0 top-0  absolute">
+            {/* <div className="w-full  h-[500px] mt-[1.5rem] top-0 relative lg:absolute lg:h-full lg:w-[48%] lg:right-0"> */}
+            <div className="w-full  h-[500px] top-0 relative lg:w-[52%] lg:h-full lg:left-0 lg:top-0 lg:absolute">
               <Image
                 src={
                   "https://www.mapiful.com/content/uploads/2021/03/gelicca-819x1024-1.jpg"
@@ -116,7 +117,7 @@ export const AboutUs = () => {
                 alt="alt"
                 layout="fill"
                 objectFit="cover"
-                objectPosition="bottom"
+                objectPosition="center center"
               />
             </div>
           </div>

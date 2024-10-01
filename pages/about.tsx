@@ -8,7 +8,7 @@ const About = () => {
     <Layout headerProps={{ classNames: "bg-secondary" }} scroll={true}>
       <AboutUs />
 
-      <div className="mt-[12rem]">
+      <div className="mt-[6rem] lg:mt-[12rem]">
         <AboutSteps />
       </div>
     </Layout>

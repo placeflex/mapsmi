@@ -27,12 +27,12 @@ export const Banner = () => {
             styles.posterInner
           )}
         >
-          <h1 className="text-h3 text-primary mb-[2rem] font-semibold">
+          <h1 className="text-h4 lg:text-h2 text-primary mb-[1.5rem] font-semibold leading-[1.3]">
             Your Memories,
             <br />
             Mapped Masterfully
           </h1>
-          <p className="text-primary text-bodySmall mb-[2rem] font-semibold">
+          <p className="text-primary text-bodySmall lg:text-body mb-[2rem] font-semibold">
             Cherish your most treasured memories with our three distinct types
             of maps.
           </p>
@@ -40,7 +40,8 @@ export const Banner = () => {
             onClick={() => dispatch(handleShowProductModal())}
             type="button"
             color="primary"
-            className="text-caption"
+            className="text-bodySmall"
+            rounded={true}
           >
             Get Started
           </Button>

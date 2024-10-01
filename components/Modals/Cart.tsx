@@ -38,7 +38,7 @@ export const Cart = () => {
   }, 0);
   return (
     <div className="w-full h-full flex flex-col">
-      <h3 className="text-body mb-[2rem]">Basket</h3>
+      <h3 className="text-body pb-[2rem] mb-[2rem] border-b border-secondaryBg leading-[1]">Basket</h3>
 
       <div className="flex flex-col">
         {!cartItems.length ? (

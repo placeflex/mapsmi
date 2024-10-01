@@ -1,18 +1,22 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-import clsx from 'clsx';
+import clsx from "clsx";
 
 // stores
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 
 import { handleCloseModals } from "@/redux/modals";
+
+// icons
+import Close from "@/public/icons/close.svg";
 interface ModalProps {
   isModalOpen: boolean;
   bgClose: boolean;
   className?: string;
   children: React.ReactNode;
+  bgColor?: string;
 }
 
 export const ModalContent = ({
@@ -20,13 +24,14 @@ export const ModalContent = ({
   className,
   bgClose = false,
   children,
+  bgColor = "bg-bg",
 }: ModalProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   return (
     <Transition show={isModalOpen}>
       <div className="fixed inset-0 z-[100] w-screen overflow-y-auto">
-        <div className="flex min-h-full items-center justify-center px-[2rem] py-[4rem]">
+        <div className="flex min-h-full items-center justify-center">
           {bgClose && (
             <Transition.Child
               as={Fragment}
@@ -54,15 +59,17 @@ export const ModalContent = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0 "
           >
-            <div className="relative bg-bg transform overflow-hidden overflow-y-auto rounded-lg text-left shadow-xl transition-all">
+            <div
+              className={`relative ${bgColor} transform overflow-hidden overflow-y-auto rounded-lg text-left shadow-xl transition-all m-[2rem] `}
+            >
               <button
                 type="button"
-                className="absolute right-2 top-2 leading-none"
+                className="absolute right-[1rem] top-[1rem] leading-none"
                 onClick={() => {
                   dispatch(handleCloseModals());
                 }}
               >
-                X
+                <Close width={20} height={20} />
               </button>
 
               {children}

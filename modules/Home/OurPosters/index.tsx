@@ -125,8 +125,8 @@ export const OurPosters = () => {
 
           <div className="relative">
             <SliderArrows
-              nextArrowClasses="swiper-next-shop top-[50%] right-[-20px] z-10 translate-y-[-200%]"
-              prevArrowClasses="swiper-prev-shop top-[50%] left-[-20px] z-10 translate-y-[-200%]"
+              nextArrowClasses="swiper-next-shop top-[50%] right-[-10px] lg:right-[-20px] z-10 translate-y-[-200%]"
+              prevArrowClasses="swiper-prev-shop top-[50%] left-[-10px] lg:left-[-20px] z-10 translate-y-[-200%]"
               wrapperClasses="gap-[1rem]"
               wrapper={false}
             />

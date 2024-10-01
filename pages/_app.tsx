@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import type { Metadata } from "next";
 import Head from "next/head";
-
+import { Logo } from "@/components/Logo";
 // apis
 import { api } from "@/axios";
 
@@ -103,6 +103,10 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <link
           href="https://unpkg.com/mapbox-gl@2.5.0/dist/mapbox-gl.css"
           rel="stylesheet"
+        />
+        <link
+          rel="shortcut icon"
+          href="https://www.mapiful.com/content/themes/mapiful_v2/assets/dist/img/favicon.ico"
         />
       </Head>
       <div

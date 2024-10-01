@@ -106,7 +106,7 @@ const ProductDetails = () => {
 
       <div className="flex flex-col gap-[1rem] mt-[2rem]">
         <div>
-          <h5 className="flex items-center gap-[0.4rem] text-captionSmallBold mb-[0.4rem]">
+          <h5 className="flex items-center gap-[0.4rem] text-caption font-semibold mb-[0.4rem]">
             <Arrow
               style={{ width: "1rem", height: "1rem" }}
               className="rotate-90"
@@ -120,7 +120,7 @@ const ProductDetails = () => {
           </p>
         </div>
         <div>
-          <h5 className="flex items-center gap-[0.4rem] text-captionSmallBold mb-[0.4rem]">
+          <h5 className="flex items-center gap-[0.4rem] text-caption font-semibold mb-[0.4rem]">
             <Arrow
               style={{ width: "1rem", height: "1rem" }}
               className="rotate-90"
@@ -133,7 +133,7 @@ const ProductDetails = () => {
           </p>
         </div>
         <div>
-          <h5 className="flex items-center gap-[0.4rem] text-captionSmallBold mb-[0.4rem]">
+          <h5 className="flex items-center gap-[0.4rem] text-caption font-semibold mb-[0.4rem]">
             <Arrow
               style={{ width: "1rem", height: "1rem" }}
               className="rotate-90"

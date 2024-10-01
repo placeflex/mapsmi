@@ -71,8 +71,8 @@ export const Gifts: FC = (): React.ReactNode => {
 
           <div className="mt-[2rem] relative">
             <SliderArrows
-              nextArrowClasses="swiper-next-top-sell-gift top-[50%] right-[-20px] z-10 translate-y-[-50%]"
-              prevArrowClasses="swiper-prev-top-sell-gift top-[50%] left-[-20px] z-10 translate-y-[-50%]"
+              nextArrowClasses="swiper-next-top-sell-gift top-[50%] right-[-10px] lg:right-[-20px] z-10 translate-y-[-50%]"
+              prevArrowClasses="swiper-prev-top-sell-gift top-[50%] left-[-10px] lg:left-[-20px] z-10 translate-y-[-50%]"
               wrapperClasses="gap-[1rem]"
               wrapper={false}
             />

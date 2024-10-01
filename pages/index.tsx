@@ -14,6 +14,7 @@ import { TopSellCategories } from "@/modules/Home/TopSellCategories";
 import { TopSellLocations } from "@/modules/Home/TopSellLocations";
 import { TopSellSports } from "@/modules/Home/TopSellSports";
 import { Gifts } from "@/modules/Home/Gifts";
+import { Discount } from "@/modules/Home/Discount";
 // import { Products } from "@/modules/Home/Products";
 
 // stores
@@ -55,6 +56,7 @@ export default function Home() {
 
       <div className="sticky top-0 bg-primary">
         <OurPosters />
+        <Discount />
         <TopSellCategories />
         <TopSellLocations />
         <TopSellSports />

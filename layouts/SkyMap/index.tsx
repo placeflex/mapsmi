@@ -20,10 +20,13 @@ declare global {
 
 export const SkyMap = () => {
   const [cls, setCls] = useState<any>();
+
   const posterStyles = useTypedSelector(
     ({ layout }) => layout.layout?.poster?.styles
   );
-
+  const posterattrs = useTypedSelector(
+    ({ layout }) => layout.layout?.selectedAttributes
+  );
   const posterDate = useTypedSelector(({ layout }) => layout.layout?.date);
   const currentPosterLocation: any = useTypedSelector(
     ({ layout }) => layout.layout?.locations
@@ -35,11 +38,7 @@ export const SkyMap = () => {
     ilstr: basicColors[Number(posterStyles?.color)]?.illustrationColor,
   };
 
-  const isImageLayout =
-    posterStyles.layoutStyle == 6 ||
-    posterStyles.layoutStyle == 7 ||
-    posterStyles.layoutStyle == 8 ||
-    posterStyles.layoutStyle == 9;
+  const isImageLayout = [6, 7, 8, 9].includes(posterStyles.layoutStyle);
 
   const config = {
     date: new Date(posterDate),
@@ -67,7 +66,7 @@ export const SkyMap = () => {
       // fill: "transparent",
       stroke: styles.stroke,
       opacity: 1,
-      width: isImageLayout ? 0.3 : 0.6,
+      width: isImageLayout ? 0.5 : 0.6,
     },
     lines: {
       graticule: {
@@ -111,13 +110,13 @@ export const SkyMap = () => {
         align: "center",
         baseline: "middle",
         font: isImageLayout
-          ? "10px Helvetica, Arial, sans-serif"
+          ? "9px Helvetica, Arial, sans-serif"
           : "11px Helvetica, Arial, sans-serif",
       },
       lines: posterStyles?.lines,
       lineStyle: {
         stroke: styles.bg,
-        width: isImageLayout ? 0.7 : 0.9,
+        width: isImageLayout ? 0.5 : 0.9,
         opacity: 1,
       },
       // lineStyle: { stroke: styles.stroke, width: 1.6, opacity: 1 },
@@ -145,7 +144,7 @@ export const SkyMap = () => {
       designationType: "desig", // Which kind of name is displayed as designation (fieldname in starnames.json)
       // Отображение звезд ярче этой звездной величины
       colors: false, // Отображение звезд в цвете (или только белые)
-      size: isImageLayout ? 9 : 16,
+      size: isImageLayout ? 8 : 12,
       limit: 6,
       exponent: -0.35,
       designation: false,
@@ -175,48 +174,47 @@ export const SkyMap = () => {
   }, []);
 
   useEffect(() => {
-    if (cls) {
-      if (JSON.stringify(currentPosterLocation) !== "{}") {
-        cls.skyview({
-          location: [
-            currentPosterLocation[0]?.center[1],
-            currentPosterLocation[0]?.center[0],
-          ],
-        });
-      }
-
+    if (cls && posterDate && currentPosterLocation[0]?.center[1]) {
       cls.skyview({
         date: new Date(posterDate),
+        location: [
+          currentPosterLocation[0]?.center[1],
+          currentPosterLocation[0]?.center[0],
+        ],
       });
-
-      cls.rotate();
     }
-  }, [cls]);
+  }, [cls, currentPosterLocation, posterDate]);
 
   useEffect(() => {
     if (cls) {
       cls?.apply(config);
     }
-  }, [posterStyles, posterDate]);
+  }, [posterStyles]);
+
+  // useEffect(() => {
+  //   if (cls) {
+  //     if (JSON.stringify(currentPosterLocation) !== "{}") {
+  //       cls.skyview({
+  //         location: [
+  //           currentPosterLocation[0]?.center[1],
+  //           currentPosterLocation[0]?.center[0],
+  //         ],
+  //       });
+  //     }
+
+  //     cls.skyview({
+  //       date: new Date(posterDate),
+  //     });
+
+  //     cls.rotate();
+  //   }
+  // }, [currentPosterLocation, posterDate]);
 
   useEffect(() => {
     if (cls) {
-      if (JSON.stringify(currentPosterLocation) !== "{}") {
-        cls.skyview({
-          location: [
-            currentPosterLocation[0]?.center[1],
-            currentPosterLocation[0]?.center[0],
-          ],
-        });
-      }
-
-      cls.skyview({
-        date: new Date(posterDate),
-      });
-
-      cls.rotate();
+      cls?.reload();
     }
-  }, [currentPosterLocation, posterDate]);
+  }, [posterattrs.size.id]);
 
   return (
     <div className="h-full w-full flex flex-col skymap-wrapper">

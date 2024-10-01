@@ -7,6 +7,7 @@ export const publicRoutes = {
   privacy: `/privacy`,
   reviews: `/reviews`,
   terms: `/terms`,
+  gifts: "/gifts",
 };
 
 export const routes = [

@@ -75,6 +75,7 @@ export default function PopularWallarts() {
       headerProps={{ classNames: "bg-secondary" }}
       fixed={true}
       scroll={true}
+      col={true}
     >
       <Container>
         <div className="py-[10rem]">

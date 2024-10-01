@@ -1,5 +1,6 @@
 import { FC } from "react";
 
+
 import { Slider } from "@/components/Slider";
 import { Container } from "@/components/Container";
 import { SwiperSlide } from "swiper/react";
@@ -85,8 +86,8 @@ export const TopSellCategories: FC = (): React.ReactNode => {
 
           <div className="mt-[2rem] relative">
             <SliderArrows
-              nextArrowClasses="swiper-next-top-sell top-[50%] right-[-20px] z-10 translate-y-[-50%]"
-              prevArrowClasses="swiper-prev-top-sell top-[50%] left-[-20px] z-10 translate-y-[-50%]"
+              nextArrowClasses="swiper-next-top-sell top-[50%] right-[-10px] lg:right-[-20px] z-10 translate-y-[-50%]"
+              prevArrowClasses="swiper-prev-top-sell top-[50%] left-[-10px] lg:left-[-20px] z-10 translate-y-[-50%]"
               wrapperClasses="gap-[1rem]"
               wrapper={false}
             />

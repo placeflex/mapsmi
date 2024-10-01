@@ -69,7 +69,7 @@ export const ProductLayout: FC<IProductLayout> = ({
   return (
     <>
       {isRendered && (
-        <div className="flex flex-col lg:flex-row gap-[2rem] justify-between py-[6rem] star-map-details">
+        <div className="flex flex-col lg:flex-row gap-[2rem] justify-between py-[1.5rem] lg:py-[6rem] star-map-details">
           <div className="w-full lg:w-[50%]">
             <div className="product-preview-slider">
               <div className="w-full h-[400px] md:h-[50vh] xl:h-[50vh] max-h-[650px] bg-secondary">
@@ -160,7 +160,7 @@ export const ProductLayout: FC<IProductLayout> = ({
             )}
 
             <Button
-              className="text-caption flex items-center gap-[0.8rem] rounded-lg mt-[4rem] font-semibold"
+              className="w-full justify-center text-caption flex items-center gap-[0.8rem] rounded-lg mt-[4rem] font-semibold lg:w-auto"
               type="button"
               variant="contained"
               color="primary"

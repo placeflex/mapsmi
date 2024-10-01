@@ -12,6 +12,8 @@ import { Container } from "@/components/Container";
 import { Logo } from "@/components/Logo";
 import Basket from "@/public/icons/basket.svg";
 import Login from "@/public/icons/login.svg";
+import DragIcon from "@/public/icons/drag-icon.svg";
+import Close from "@/public/icons/close.svg";
 
 //
 // import terra from "@/public/mapColors/terra.png";
@@ -50,14 +52,16 @@ export const Header = ({ isFixed, classNames }: any) => {
     dispatch(handleOpenCartPanel());
   };
 
-  const ControllButton = ({ state }) => {
+  const ControllButton = ({ children, state }) => {
     return (
       <button
         type="button"
-        className="w-[50px] h-[50px] text-text bg-black"
+        className="w-[20px] h-[20px] text-text"
         onClick={() => setMobileMenuOpen(state)}
       >
-        <span className="sr-only">Open main menu</span>
+        {children}
+
+        {/* <span className="sr-only">Open main menu</span> */}
       </button>
     );
   };
@@ -82,7 +86,9 @@ export const Header = ({ isFixed, classNames }: any) => {
                 <span className="sr-only">Open main menu</span>
               </button> */}
 
-              <ControllButton state={true} />
+              <ControllButton state={true}>
+                <DragIcon width={20} height={20} />
+              </ControllButton>
             </div>
             <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-12">
               {isMenuOpen && (
@@ -90,7 +96,7 @@ export const Header = ({ isFixed, classNames }: any) => {
               )}
 
               <Popover>
-                <Popover.Button className="flex items-center gap-x-1 text-caption text-text font-semibold">
+                <Popover.Button className="flex items-center gap-x-1 text-caption text-text hover:text-link font-semibold">
                   Wall Art
                 </Popover.Button>
 
@@ -149,7 +155,7 @@ export const Header = ({ isFixed, classNames }: any) => {
 
             <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-12">
               <Popover className="">
-                <Popover.Button className="flex items-center gap-x-1 text-caption text-text font-semibold">
+                <Popover.Button className="flex items-center gap-x-1 text-caption text-text hover:text-link font-semibold">
                   Designs
                 </Popover.Button>
 
@@ -227,12 +233,20 @@ export const Header = ({ isFixed, classNames }: any) => {
               </Popover>
             </Popover.Group>
 
-            <div>
+            <div className="hidden lg:block">
               <Link
                 href={publicRoutes.about}
-                className="flex items-center gap-x-1 text-caption text-text font-semibold"
+                className="flex items-center gap-x-1 text-caption text-text hover:text-link font-semibold"
               >
                 About
+              </Link>
+            </div>
+            <div className="hidden lg:block">
+              <Link
+                href={publicRoutes.gifts}
+                className="flex items-center gap-x-1 text-caption text-text hover:text-link font-semibold"
+              >
+                Gifts
               </Link>
             </div>
 
@@ -243,21 +257,17 @@ export const Header = ({ isFixed, classNames }: any) => {
               open={mobileMenuOpen}
               onClose={setMobileMenuOpen}
             >
-              <div className="fixed inset-0 z-10" />
-              <Dialog.Panel className="fixed inset-y-0 right-0 z-[999] w-full overflow-y-auto bg-primary px-6 py-6 sm:max-w-[40rem] sm:ring-1 sm:ring-gray-900/10 ">
-                <div className="flex items-center justify-between">
-                  {/* <a href="#" className="-m-1.5 p-1.5"> */}
+              <Dialog.Panel className="fixed inset-y-0 left-[0] z-[999] w-full overflow-y-auto bg-primary px-6 py-6 sm:max-w-[40rem] sm:ring-1 sm:ring-gray-900/10 transition-all">
+                <div className="flex items-center">
+                  <div className="mr-[2rem]">
+                    <Logo />
+                  </div>
 
-                  <ControllButton state={false} />
-                  {/* <Logo /> */}
-                  {/* </a> */}
-                  <button
-                    type="button"
-                    className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span className="sr-only">Close menu</span>
-                  </button>
+                  <div className="ml-auto text-[0px]">
+                    <ControllButton state={true}>
+                      <Close width={20} height={20} />
+                    </ControllButton>
+                  </div>
                 </div>
                 <div className="mt-6 flow-root">
                   <div className="">
@@ -344,9 +354,18 @@ export const Header = ({ isFixed, classNames }: any) => {
                     </div>
 
                     <div>
-                      <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-[2rem] pl-[1.5rem] pr-[1.5rem] text-captionSmall font-semibold text-gray-900 hover:bg-gray-50">
-                        About
-                      </Disclosure.Button>
+                      <Disclosure as="div" className="-mx-3">
+                        <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-[2rem] pl-[1.5rem] pr-[1.5rem] text-captionSmall font-semibold text-gray-900 hover:bg-gray-50">
+                          <Link href={publicRoutes.about}>About</Link>
+                        </Disclosure.Button>
+                      </Disclosure>
+                    </div>
+                    <div>
+                      <Disclosure as="div" className="-mx-3">
+                        <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-[2rem] pl-[1.5rem] pr-[1.5rem] text-captionSmall font-semibold text-gray-900 hover:bg-gray-50">
+                          <Link href={publicRoutes.gifts}>Gifts</Link>
+                        </Disclosure.Button>
+                      </Disclosure>
                     </div>
                   </div>
                 </div>
@@ -394,6 +413,10 @@ export const Header = ({ isFixed, classNames }: any) => {
               >
                 LOGOUT
               </button>
+            )}
+
+            {mobileMenuOpen && (
+              <div className="fixed top-0 inset-0 z-10 bg-[rgba(0,0,0,0.5)]" />
             )}
 
             <button

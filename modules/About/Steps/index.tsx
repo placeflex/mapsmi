@@ -6,17 +6,17 @@ export const AboutSteps = () => {
       {/* <Container> */}
       <div>
         <div className="text-center">
-          <h3 className="text-h3">
+          <h3 className="text-h5 font-semibold lg:text-h3">
             Lifelong Memories Made in <br />
             Four Simple Steps
           </h3>
-          <p className="text-body">
+          <p className="text-bodySmall lg:text-body mt-[2rem]">
             We can show you how to create something magical in minutes.
           </p>
         </div>
-        <div className="mt-[12rem]">
-          <div className="s-block flex items-center">
-            <div className="relative w-[50%] h-[72rem]">
+        <div className="mt-[6rem] lg:mt-[12rem]">
+          <div className="flex flex-col lg:flex lg:flex-row items-center">
+            <div className="relative h-[40rem] w-full lg:w-[50%] lg:h-[72rem]">
               <Image
                 src={
                   "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/imagetext_desktop_fallback/public/fields/media.image.field_media_image/2023-01/look-data-points.png?itok=xfH0R9Jj"
@@ -27,8 +27,8 @@ export const AboutSteps = () => {
               />
             </div>
 
-            <div className="w-[50%] p-[4rem]">
-              <span className="font-second mb-[2rem] inline-block text-h3 text-blueGrey">
+            <div className="w-full lg:w-[50%] p-[4rem]">
+              <span className="font-second mb-[2rem] inline-block text-h3 text-blueGrey leading-[1]">
                 1
               </span>
               <h5 className="text-bodyBold mb-[0.5rem]">
@@ -46,8 +46,8 @@ export const AboutSteps = () => {
             </div>
           </div>
 
-          <div className="s-block flex flex-row-reverse items-center  bg-secondary">
-            <div className="relative w-[50%] h-[72rem]">
+          <div className="flex flex-col lg:flex lg:flex-row-reverse items-center bg-secondary">
+            <div className="relative h-[40rem] w-full lg:w-[50%] lg:h-[72rem]">
               <Image
                 src={
                   "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/imagetext_desktop_fallback/public/fields/mediaimagefieldmediaimage/2023-05/enchance-your-memories.jpg?itok=lm2hGWNN"
@@ -58,18 +58,18 @@ export const AboutSteps = () => {
               />
             </div>
 
-            <div className="w-[50%] p-[4rem]">
-              <span className="font-second mb-[2rem] inline-block text-h3 text-blueGrey">
+            <div className="w-full lg:w-[50%] p-[4rem]">
+              <span className="font-second mb-[2rem] inline-block text-h3 text-blueGrey leading-[1]">
                 2
               </span>
               <h5 className="text-bodyBold mb-[0.5rem]">
                 Enhance Your Memories
               </h5>
               <p className="text-caption">
-                Even with a photograph, its difficult to recall the
-                location of that restaurant where you all met in Florence. But a
-                picture never forgets. MixPlaces safely and securely processes
-                your data, using it to find geospatial information, elevation,
+                Even with a photograph, its difficult to recall the location of
+                that restaurant where you all met in Florence. But a picture
+                never forgets. MixPlaces safely and securely processes your
+                data, using it to find geospatial information, elevation,
                 historical moon phases, celestial information, past weather
                 patterns, and so much more. We enhance your memories so you can
                 travel through time — right back to that restaurant in Florence.
@@ -77,8 +77,8 @@ export const AboutSteps = () => {
             </div>
           </div>
 
-          <div className="s-block flex items-center">
-            <div className="relative w-[50%] h-[72rem]">
+          <div className="flex flex-col lg:flex lg:flex-row items-center">
+            <div className="relative h-[40rem] w-full lg:w-[50%] lg:h-[72rem]">
               <Image
                 src={
                   "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/imagetext_desktop/public/fields/mediaimagefieldmediaimage/2023-09/image-design-jaw-dropping-art.jpg.webp?itok=iQpriafm"
@@ -89,8 +89,8 @@ export const AboutSteps = () => {
               />
             </div>
 
-            <div className="w-[50%] p-[4rem]">
-              <span className="font-second mb-[2rem] inline-block text-h3 text-blueGrey">
+            <div className="w-full lg:w-[50%] p-[4rem]">
+              <span className="font-second mb-[2rem] inline-block text-h3 text-blueGrey leading-[1]">
                 3
               </span>
               <h5 className="text-bodyBold mb-[0.5rem]">
@@ -108,8 +108,8 @@ export const AboutSteps = () => {
             </div>
           </div>
 
-          <div className="s-block flex flex-row-reverse items-center bg-secondary">
-            <div className="relative w-[50%] h-[72rem]">
+          <div className="flex flex-col lg:flex lg:flex-row-reverse items-center bg-secondary">
+            <div className="relative h-[40rem] w-full lg:w-[50%] lg:h-[72rem]">
               <Image
                 src={
                   "https://storage.mixplaces.com/mixplace-files/s3fs-public/styles/imagetext_desktop/public/fields/mediaimagefieldmediaimage/2023-09/image-one-kind-products.jpg.webp?itok=ostekCoE"
@@ -120,8 +120,8 @@ export const AboutSteps = () => {
               />
             </div>
 
-            <div className="w-[50%] p-[4rem]">
-              <span className="font-second mb-[2rem] inline-block text-h3 text-blueGrey">
+            <div className="w-full lg:w-[50%] p-[4rem]">
+              <span className="font-second mb-[2rem] inline-block text-h3 text-blueGrey leading-[1]">
                 4
               </span>
               <h5 className="text-bodyBold mb-[0.5rem]">

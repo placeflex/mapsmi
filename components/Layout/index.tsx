@@ -11,6 +11,7 @@ type Props = {
   fixed?: boolean;
   scroll?: boolean;
   headerProps?: any;
+  col?: boolean;
 };
 
 export const Layout = ({
@@ -19,14 +20,20 @@ export const Layout = ({
   className,
   scroll,
   headerProps,
+  col,
 }: Props) => {
+  const classes = col
+    ? "scroll overflow-y-auto overflow-x-hidden h-[100vh] flex flex-col"
+    : "scroll overflow-y-auto overflow-x-hidden h-[100vh]";
+
   return (
     <>
       {scroll ? (
-        <div className="scroll overflow-y-auto overflow-x-hidden h-[100vh]">
+        <div className={classes}>
           <Header isFixed={fixed} {...headerProps} />
           <main className={className}>{children}</main>
-          <Footer />
+
+          <Footer className={clsx(col ? "mt-auto" : null)} />
         </div>
       ) : (
         <>

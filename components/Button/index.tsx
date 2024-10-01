@@ -9,7 +9,7 @@ interface Props {
   type?: "button" | "reset" | "submit";
   variant?: "outlined" | "contained";
   color?: "primary" | "secondary";
-  rounede?: string;
+  rounded?: boolean;
 }
 
 // import styles from "./Button.module.scss";
@@ -22,18 +22,18 @@ export const Button = ({
   type = "button",
   variant = "contained",
   color = "secondary",
-  rounede,
+  rounded,
   ...props
 }: Props) => {
   const colorLocal =
     color === "secondary"
-      ? "bg-secondButton text-text"
+      ? "bg-secondButton text-text hover:bg-[rgba(255,255,255,0.8)]"
       : "bg-[rgba(118,125,106,1)] hover:bg-[rgba(118,125,106,0.8)] text-primary";
 
   const variantLocal =
     variant === "outlined" && "bg-transparent border-[0.2rem]";
 
-  const borderRadius = rounede && "rounded-md";
+  const borderRadius = rounded && "rounded-md";
 
   let classes = clsx(
     `inline-block py-[1rem] px-[4rem] font-normal font-semibold`,

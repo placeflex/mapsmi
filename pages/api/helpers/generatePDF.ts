@@ -70,6 +70,11 @@ export const generatePDF = async (project: any) => {
 
     console.log("PDF START", 9);
 
+    // SKYMAP
+    if (project.productId == 1) {
+      await page.waitForTimeout(10000);
+    }
+
     if (project.productId == 2) {
       console.log("START WAIT TILES");
 
