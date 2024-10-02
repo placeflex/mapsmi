@@ -65,7 +65,11 @@ export const NatalChart = () => {
   const draw = () => {
     import("@astrodraw/astrochart").then(({ Chart }) => {
       if (typeof window != "undefined") {
-        document.getElementById("paper").innerHTML = "";
+        const b = document.getElementById("paper");
+
+        if (b) {
+          b.innerHTML = "";
+        }
       }
       var chart = new Chart("paper", 800, 800, {
         COLOR_ARIES: styles.ilstr,
