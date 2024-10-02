@@ -67,6 +67,11 @@
     resize-observer-polyfill "^1.5.1"
     throttle-debounce "^5.0.0"
 
+"@astrodraw/astrochart@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@astrodraw/astrochart/-/astrochart-3.0.2.tgz#965db9df1c1d4bd7ad82b72600fed3310ad4b0a9"
+  integrity sha512-LopHZSXjL4FZm5xLeti6kp9z+x08vte8yA+imstZu5c1XpGyU0YR7cdML56FY594AWvNfafN8fkt2YNtwo2pzQ==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.23.5", "@babel/code-frame@^7.24.1", "@babel/code-frame@^7.24.2":
   version "7.24.2"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.24.2.tgz#718b4b19841809a58b29b68cde80bc5e1aa6d9ae"

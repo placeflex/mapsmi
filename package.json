@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@astrodraw/astrochart": "^3.0.2",
     "@headlessui/react": "^1.7.17",
     "@react-hook/media-query": "^1.1.1",
     "@reduxjs/toolkit": "^1.9.5",

@@ -14,6 +14,7 @@ import { WallartContent } from "@/layouts/WallartContent";
 import { SkyMap } from "@/layouts/SkyMap";
 import { MapContainer } from "@/layouts/Map/";
 import { Zodiac } from "@/layouts/Zodiac";
+import { NatalChart } from "@/layouts/NatalChart";
 
 // lineart settings ( panel )
 import { lineArtIcons } from "@/layouts/wallartSettings/lineArtIcons";
@@ -547,6 +548,35 @@ export default function Editor() {
         )}
       />
     ),
+    4: (
+      <WallartContent
+        layoutStyle={
+          skyMapLayoutStyles[Number(layout.poster?.styles?.layoutStyle)]
+            ?.applyName
+        }
+        figure={<NatalChart />}
+        styles={styles}
+        texts={{
+          heading: layout.poster?.labels?.heading,
+          subline: layout.poster?.labels?.subline,
+          tagline: layout.poster?.labels?.tagline,
+          divider: layout.poster?.labels?.divider,
+        }}
+        className={clsx(
+          {
+            [`zodiac natal-chart poster-${layout?.selectedAttributes?.size?.name.replaceAll(
+              "cm",
+              ""
+            )}`]: layout?.selectedAttributes?.size?.name,
+          },
+          { ["maskApply"]: layout.poster?.styles?.isMask },
+          {
+            ["overlayApply"]: layout.poster?.styles?.isOverlay,
+          },
+          layout?.selectedAttributes?.orientation?.name.toLowerCase()
+        )}
+      />
+    ),
   };
 
   const panelUI = {
@@ -585,6 +615,18 @@ export default function Editor() {
       />
     ),
     3: (
+      <ZodiacPanelContent
+        handleSelectFigure={handleSelectZodiacFigure}
+        handleChangeLayoutColor={handleChangeLayoutColor}
+        handleChangeLayoutStyle={handleChangeLayoutSkyMapStyle}
+        handleSelectSize={handleSelectSize}
+        handleSelectMaterial={handleSelectMaterial}
+        handleSelectOrientations={handleSelectOrientations}
+        handleChangeFont={handleChangeFont}
+        handleSelectFrame={handleSelectFrame}
+      />
+    ),
+    4: (
       <ZodiacPanelContent
         handleSelectFigure={handleSelectZodiacFigure}
         handleChangeLayoutColor={handleChangeLayoutColor}

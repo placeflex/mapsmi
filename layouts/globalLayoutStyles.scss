@@ -144,12 +144,33 @@
     gap: 2em;
     // position: relative;
 
-    path {
-      fill: $illustrationColor;
-    }
+    // path {
+    //   fill: $illustrationColor;
+    // }
 
     svg {
       height: 100%;
+    }
+  }
+
+  &:not(.natal-chart) {
+    .artworkFigure {
+      // display: flex;
+      // align-items: center;
+      // justify-content: center;
+      // flex-direction: column;
+      // flex-grow: 1;
+      // padding: 2em;
+      // gap: 2em;
+      // position: relative;
+
+      path {
+        fill: $illustrationColor;
+      }
+
+      // svg {
+      //   height: 100%;
+      // }
     }
   }
 
@@ -352,6 +373,11 @@
     @include ZodiacSpectrumLayout();
     @include ZodiacMinimalLayout();
     @include ZodiacLopsterLayout();
+  }
+
+  &.natal-chart {
+    .artworkFigure path {
+    }
   }
 }
 
