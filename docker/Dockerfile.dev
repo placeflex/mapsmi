@@ -1,19 +1,6 @@
-FROM node:20.9.0
-  
-WORKDIR /app
-
-COPY .env.development .env
-
-COPY package*.json ./
-
-RUN yarn install
-
-COPY . .
-
-RUN yarn build
-
-COPY .next ./next
-
-EXPOSE 3000
-
-CMD ["yarn", "start"]
+FROM node:alpine 
+COPY ./ ./
+# Install project dependencies
+RUN npm install
+# Running default command
+CMD ["npm", "run", "dev"]
