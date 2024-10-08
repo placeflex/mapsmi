@@ -70,7 +70,7 @@ jobs:
     
     - name: Run services
       run: |
-          docker stop ${{ env.PROJECT_NAME }} || true && docker rm ${{ env.PROJECT_NAME }} || true && docker run -p 3000:3000 --add-host host.docker.internal:host-gateway \
+          docker stop ${{ env.PROJECT_NAME }} || true && docker rm ${{ env.PROJECT_NAME }} || true && docker run -p 3000:3000 \
           -e NODE_ENV="${{ env.NODE_ENV }}" \
           -e ENVIRONMENT="${{ env.ENVIRONMENT }}" \
           # -e MAPBOX_TOKEN="${{ secrets.MAPBOX_TOKEN }}" \
@@ -78,7 +78,7 @@ jobs:
           # -e MAPBOX_GEO_TOKEN="${{ secrets.MAPBOX_GEO_TOKEN }}" \
           # -e NEXT_PUBLIC_BASE_URL_FRONTEND="${{ vars.NEXT_PUBLIC_BASE_URL_FRONTEND }}" \
           # -e NEXT_PUBLIC_BASE_URL_API="${{ vars.NEXT_PUBLIC_BASE_URL_API }}" \
-          -td --restart unless-stopped --name ${{ env.PROJECT_NAME }} ${{ vars.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
+          -td --add-host host.docker.internal:host-gateway --restart unless-stopped --name ${{ env.PROJECT_NAME }} ${{ vars.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
 
   clean_docker:
     needs: [deploy]
