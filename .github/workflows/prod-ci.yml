@@ -30,8 +30,8 @@ jobs:
       #     fail_on_empty: false
       - name: Start
         run: |
-          ls -la
-          git status
-          cp env.prod .env
-          npm i
-          npm run dev
+          # ls -la
+          # git status
+          # cp env.prod .env
+          # npm i
+          # npm run dev
