@@ -1,5 +1,6 @@
 FROM node:alpine 
 COPY ./ ./
+COPY .env.development .env
 # Install project dependencies
 RUN npm install
 # Running default command
