@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, api]
+    runs-on: [self-hosted]
     environment: prod
     steps:
       - uses: actions/checkout@v4
