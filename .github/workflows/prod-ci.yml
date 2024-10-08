@@ -33,4 +33,5 @@ jobs:
           ls -la
           git status
           cp env.prod .env
+          npm i
           npm run dev
