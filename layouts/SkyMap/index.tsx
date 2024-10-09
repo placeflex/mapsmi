@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { basicColors } from "@/layouts/wallartSettings/colorsList";
 
 // stores
-import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/stores/store";
 
 // styles
 import "./skymap.scss";

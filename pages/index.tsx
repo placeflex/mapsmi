@@ -19,7 +19,7 @@ import { Discount } from "@/modules/Home/Discount";
 
 // stores
 import { useDispatch } from "react-redux";
-// import { handleShowResetPasswordModal } from "@/redux/modals";
+// import { handleShowResetPasswordModal } from "@/stores/modals";
 
 // apis
 import { api } from "@/axios";

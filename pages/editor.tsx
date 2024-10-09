@@ -44,19 +44,19 @@ import { ZodiacPanelContent } from "@/modules/LayoutPanels/ZodiacPanelContent";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector, AppDispatch } from "@/redux/store";
-import { handleShowProjectSettingsModal } from "@/redux/modals";
-import { handleGetCart } from "@/redux/cart";
+import { useTypedSelector, AppDispatch } from "@/stores/store";
+import { handleShowProjectSettingsModal } from "@/stores/modals";
+import { handleGetCart } from "@/stores/cart";
 
 import {
   initLayout,
   handleChangeStyles,
   handleChangeAttributes,
   handleChangeFrame,
-} from "@/redux/layout";
+} from "@/stores/layout";
 
 // types
-import { UserFieldsProps, handleSaveProject } from "@/redux/user";
+import { UserFieldsProps, handleSaveProject } from "@/stores/user";
 
 // constants
 import {

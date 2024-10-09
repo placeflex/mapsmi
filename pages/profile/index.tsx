@@ -18,8 +18,8 @@
 
 // // stores
 // import { useDispatch } from "react-redux";
-// import { useTypedSelector } from "@/redux/store";
-// import { handleSaveUser } from "@/redux/user";
+// import { useTypedSelector } from "@/stores/store";
+// import { handleSaveUser } from "@/stores/user";
 
 // // helpers
 // import { toast } from "react-toastify";

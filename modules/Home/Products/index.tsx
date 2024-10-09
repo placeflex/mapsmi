@@ -6,8 +6,8 @@ import { Button } from "@/components/Button";
 
 // stores
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { handleCloseModals } from "@/redux/modals";
+import { AppDispatch } from "@/stores/store";
+import { handleCloseModals } from "@/stores/modals";
 
 export const Products = () => {
   const dispatch: AppDispatch = useDispatch();

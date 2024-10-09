@@ -13,8 +13,8 @@ import { Loader } from "@/components/Loader";
 
 // stores
 import { useDispatch } from "react-redux";
-import { handleGetPopularProjects } from "@/redux/popular-wallarts";
-import { useTypedSelector, AppDispatch } from "@/redux/store";
+import { handleGetPopularProjects } from "@/stores/popular-wallarts";
+import { useTypedSelector, AppDispatch } from "@/stores/store";
 import { storagePoster } from "@/helpers/storageData";
 
 import {
@@ -22,7 +22,7 @@ import {
   handleChangeStyles,
   handleChangeAttributes,
   handleChangeFrame,
-} from "@/redux/layout";
+} from "@/stores/layout";
 
 // components
 import { Layout } from "@/components/Layout/";

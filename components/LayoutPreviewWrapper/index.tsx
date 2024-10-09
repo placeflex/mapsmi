@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useMediaQuery } from "@react-hook/media-query";
 
 // stores
-import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/stores/store";
 
 // styles
 import styles from "./layoutPreviewWrapper.module.scss";

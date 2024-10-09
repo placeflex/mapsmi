@@ -20,7 +20,7 @@ interface LineArtProps {
 // styles
 import "./globalLayoutStyles.scss";
 
-import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/stores/store";
 import { useEffect } from "react";
 
 export const WallartContent = ({

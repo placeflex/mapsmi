@@ -2,9 +2,9 @@ import Image from "next/image";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector, AppDispatch } from "@/redux/store";
-import { handleDeleteItem } from "@/redux/cart";
-import { handleCloseModals } from "@/redux/modals";
+import { useTypedSelector, AppDispatch } from "@/stores/store";
+import { handleDeleteItem } from "@/stores/cart";
+import { handleCloseModals } from "@/stores/modals";
 
 // components
 import { Button } from "@/components/Button";

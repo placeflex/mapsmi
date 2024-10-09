@@ -8,7 +8,7 @@ import { Button } from "@/components/Button";
 
 // stores
 import { useDispatch } from "react-redux";
-import { handleShowProductModal } from "@/redux/modals";
+import { handleShowProductModal } from "@/stores/modals";
 
 import pos from "@/public/home/newbrand.jpg";
 
@@ -48,8 +48,9 @@ export const Banner = () => {
             </h1>
             <p className="text-primary text-bodySmall lg:text-body mb-[2rem] font-semibold">
               Transform your space with unique prints that reflect your
-              personality. Exceptional art tells your story, and we believe you
-              have remarkable tales to share.
+              personality.
+              <br /> Exceptional art tells your story, and we believe you have
+              remarkable tales to share.
             </p>
             <Button
               onClick={() => dispatch(handleShowProductModal())}

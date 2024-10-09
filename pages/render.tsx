@@ -25,8 +25,8 @@ import { mapColors } from "@/layouts/wallartSettings/mapColors";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector, AppDispatch } from "@/redux/store";
-import { initLayoutForRenderPage } from "@/redux/layout";
+import { useTypedSelector, AppDispatch } from "@/stores/store";
+import { initLayoutForRenderPage } from "@/stores/layout";
 
 // constants
 import { RENDER_SCALE_RENDER_PAGE } from "@/layouts/wallartSettings/defaultWallartSettings";

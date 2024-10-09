@@ -18,12 +18,12 @@ import { api } from "@/axios";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/stores/store";
 // import {
 //   handleDeleteProject,
 //   handleLogout,
 //   handleSaveUser,
-// } from "@/redux/user";
+// } from "@/stores/user";
 
 // icons
 import Empty from "@/public/icons/empty.svg";

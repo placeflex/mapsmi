@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/stores/store";
 
 const AuthChecker = ({ children }) => {
   const router = useRouter();

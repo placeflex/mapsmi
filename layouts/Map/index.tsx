@@ -33,8 +33,8 @@ import {
   renderMarkersController,
   renderLabelsController,
   handleChangeLables,
-} from "@/redux/layout";
-import { useTypedSelector, AppDispatch } from "@/redux/store";
+} from "@/stores/layout";
+import { useTypedSelector, AppDispatch } from "@/stores/store";
 
 // helpers
 import { toast } from "react-toastify";

@@ -19,8 +19,8 @@
     rgba(240, 107, 45, 1) 100%
   );
   // --mainGradient: linear-gradient(90deg, #7b92a3 0%, #e5e5e5 50%, #7b92a3 100%);
-  --font-main: var(--font-main);
-  --font-dancing: var(--font-dancing);
+  --font-main: "Montserrat Alternates", sans-serif;
+  --font-dancing: "Dancing Script", sans-serif;
 }
 
 $phone: 450px;

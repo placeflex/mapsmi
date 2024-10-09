@@ -5,9 +5,9 @@ import clsx from "clsx";
 
 // stores
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch } from "@/stores/store";
 
-import { handleCloseModals } from "@/redux/modals";
+import { handleCloseModals } from "@/stores/modals";
 
 import Close from "@/public/icons/close.svg";
 

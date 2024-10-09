@@ -24,11 +24,11 @@ import Close from "@/public/icons/close.svg";
 // import LineArt from "@/public/lineart-example.png";
 
 // stores
-import { handleShowLoginModal, handleOpenCartPanel } from "@/redux/modals";
-import { handleLogout } from "@/redux/user";
-import { handleGetCart } from "@/redux/cart";
+import { handleShowLoginModal, handleOpenCartPanel } from "@/stores/modals";
+import { handleLogout } from "@/stores/user";
+import { handleGetCart } from "@/stores/cart";
 import { useDispatch } from "react-redux";
-import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/stores/store";
 
 import { PRODUCTS, DESIGNS } from "@/constants/wallart-categories";
 

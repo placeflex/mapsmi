@@ -12,13 +12,13 @@ import { Input } from "@/components/Input";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/stores/store";
 import {
   handleShowRegisterModal,
   handleCloseModals,
   handleShowForgorPasswordModal,
-} from "@/redux/modals";
-import { handleSaveUser } from "@/redux/user";
+} from "@/stores/modals";
+import { handleSaveUser } from "@/stores/user";
 
 // helpers
 import { toast } from "react-toastify";

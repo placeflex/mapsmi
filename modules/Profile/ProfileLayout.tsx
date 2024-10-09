@@ -8,7 +8,7 @@ import { profileRoutes as routes } from "@/constants/routers";
 
 // stores
 import { useDispatch } from "react-redux";
-import { handleLogout, handleSaveUser } from "@/redux/user";
+import { handleLogout, handleSaveUser } from "@/stores/user";
 
 // components
 import { SearchSelect } from "@/components/SearchSelect";

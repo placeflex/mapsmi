@@ -10,16 +10,16 @@ import { productsVariations } from "@/constants/constants";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/stores/store";
 import {
   handleAddToPopularProjects,
   handleDeletePopularProject,
   handleUpdatePopularProject,
-} from "@/redux/popular-wallarts";
+} from "@/stores/popular-wallarts";
 
-import { preRenderScreenShot } from "@/redux/layout";
+import { preRenderScreenShot } from "@/stores/layout";
 
-import { setWallartAdminSettings } from "@/redux/layout";
+import { setWallartAdminSettings } from "@/stores/layout";
 
 import { MATERIAL_PRICES, frames } from "@/layouts/wallartAttributes";
 // helpers

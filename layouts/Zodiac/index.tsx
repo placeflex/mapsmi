@@ -6,9 +6,9 @@ import SkyForZodiacPoster from "@/public/zodiacs/sky.svg";
 
 import { zodiacIcons } from "@/layouts/wallartSettings/zodiacIcons";
 
-import { useTypedSelector, AppDispatch } from "@/redux/store";
+import { useTypedSelector, AppDispatch } from "@/stores/store";
 import { useDispatch } from "react-redux";
-import { handleChangeLables } from "@/redux/layout";
+import { handleChangeLables } from "@/stores/layout";
 
 import "./zodiac.scss";
 

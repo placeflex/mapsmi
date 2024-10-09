@@ -11,9 +11,9 @@ import { SliderThumbs } from "@/components/SliderThumbs";
 import { SwiperSlide } from "swiper/react";
 // stores
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { useTypedSelector } from "@/redux/store";
-import { handleCloseModals } from "@/redux/modals";
+import { AppDispatch } from "@/stores/store";
+import { useTypedSelector } from "@/stores/store";
+import { handleCloseModals } from "@/stores/modals";
 
 import Arrow from "@/public/icons/arrow.svg";
 import Personalize from "@/public/icons/personalize.svg";

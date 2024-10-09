@@ -47,12 +47,12 @@ import { DatePickerComponent } from "@/components/Datepicker";
 
 // stores
 import { useDispatch } from "react-redux";
-import { AppDispatch, useTypedSelector } from "@/redux/store";
+import { AppDispatch, useTypedSelector } from "@/stores/store";
 
 import {
   handleShowProjectSettingsModal,
   handleSetCurrentIDForMarkersPanel,
-} from "@/redux/modals";
+} from "@/stores/modals";
 
 // helpers
 import { debouncedApply, isHexColor } from "@/helpers/helpers";
@@ -81,7 +81,7 @@ import {
   setCurrentLocationForSkyMap,
   handleChangeRouteTypeForStreetMap,
   handleChangeLabelsStyle,
-} from "@/redux/layout";
+} from "@/stores/layout";
 
 // icons
 import Delete from "@/public/icons/close.svg";

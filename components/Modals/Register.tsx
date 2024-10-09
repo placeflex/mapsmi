@@ -11,8 +11,8 @@ import { Input } from "@/components/Input";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector } from "@/redux/store";
-import { handleShowLoginModal, handleCloseModals } from "@/redux/modals";
+import { useTypedSelector } from "@/stores/store";
+import { handleShowLoginModal, handleCloseModals } from "@/stores/modals";
 
 // apis
 import { api } from "@/axios";

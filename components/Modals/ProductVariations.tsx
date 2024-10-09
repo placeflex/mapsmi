@@ -24,9 +24,9 @@ import { ModalContent } from "./ModalContent";
 
 // stores
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { useTypedSelector } from "@/redux/store";
-import { handleCloseModals } from "@/redux/modals";
+import { AppDispatch } from "@/stores/store";
+import { useTypedSelector } from "@/stores/store";
+import { handleCloseModals } from "@/stores/modals";
 
 export const ProductVariations = () => {
   const dispatch: AppDispatch = useDispatch();

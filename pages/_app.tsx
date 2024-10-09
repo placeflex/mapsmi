@@ -9,14 +9,11 @@ import { api } from "@/axios";
 
 // stores
 import { Provider } from "react-redux";
-import store from "@/redux/store";
+import store from "@/stores/store";
 import { useDispatch } from "react-redux";
-import { handleSaveUser, handleLogout } from "@/redux/user";
-import { handleShowLoginModal } from "@/redux/modals";
-import { useTypedSelector } from "@/redux/store";
-
-// fonts
-import { main_font, dancing, alexbrush, edu } from "@/constants/fonts";
+import { handleSaveUser, handleLogout } from "@/stores/user";
+import { handleShowLoginModal } from "@/stores/modals";
+import { useTypedSelector } from "@/stores/store";
 
 // helpers
 import { ToastContainer, toast } from "react-toastify";
@@ -85,11 +82,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <style jsx global>{`
-        html {
-          font-family: ${main_font.style.fontFamily};
-        }
-      `}</style>
       <Head>
         <title>🥇 MapsMi: Design Your Own Custom Maps and Posters</title>
         <meta
@@ -109,9 +101,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
           href="https://www.mapiful.com/content/themes/mapiful_v2/assets/dist/img/favicon.ico"
         />
       </Head>
-      <div
-        className={`root ${dancing.variable} ${main_font.variable} font-sans`}
-      >
+      <div className={`root font-sans`}>
         <Component {...pageProps} />
         <ProductVariations />
         <Register />

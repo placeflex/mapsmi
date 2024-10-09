@@ -4,6 +4,8 @@ import defaultTheme from "tailwindcss/defaultTheme";
 // const defaultTheme = require("tailwindcss/defaultTheme");
 import type { Config } from "tailwindcss";
 
+// import { main_font } from "./constants/fonts";
+
 const basicFontSettings = {
   // lineHeight: "1.5",
 };
@@ -53,8 +55,8 @@ const config: Config = {
       },
 
       fontFamily: {
-        sans: ["var(--font-main)", ...defaultTheme.fontFamily.sans],
-        second: ["var(--font-dancing)", ...defaultTheme.fontFamily.sans],
+        sans: ["Montserrat Alternates", ...defaultTheme.fontFamily.sans],
+        second: ["Dancing Script", ...defaultTheme.fontFamily.sans],
       },
 
       // screens: {

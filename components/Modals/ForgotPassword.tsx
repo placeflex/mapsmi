@@ -11,8 +11,8 @@ import { Input } from "@/components/Input";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector } from "@/redux/store";
-import { handleCloseModals } from "@/redux/modals";
+import { useTypedSelector } from "@/stores/store";
+import { handleCloseModals } from "@/stores/modals";
 
 // helpers
 import { toast } from "react-toastify";

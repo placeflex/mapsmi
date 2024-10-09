@@ -9,11 +9,11 @@ import { Input } from "@/components/Input";
 
 // stores
 import { useDispatch } from "react-redux";
-import { useTypedSelector } from "@/redux/store";
+import { useTypedSelector } from "@/stores/store";
 import {
   handleApplyMarkerForLocation,
   handleChangeLabelPosition,
-} from "@/redux/layout";
+} from "@/stores/layout";
 
 // helpers
 import { toast } from "react-toastify";

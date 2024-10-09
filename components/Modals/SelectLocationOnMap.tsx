@@ -11,8 +11,8 @@ import { toLonLat, transformExtent } from "ol/proj";
 import { debouncedApply } from "@/helpers/helpers";
 
 import { useDispatch } from "react-redux";
-import { AppDispatch, useTypedSelector } from "@/redux/store";
-import { setLocations } from "@/redux/layout";
+import { AppDispatch, useTypedSelector } from "@/stores/store";
+import { setLocations } from "@/stores/layout";
 
 import { AutoComplete } from "@/components/AutoComplete";
 
