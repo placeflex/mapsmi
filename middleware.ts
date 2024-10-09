@@ -28,3 +28,5 @@
 // export const config = {
 //   matcher: "/:path*", // Соответствует всем страницам и подстраницам
 // };
+
+export function middleware(req) {}
