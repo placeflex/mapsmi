@@ -50,16 +50,7 @@ export const NatalChart = () => {
       Mercury: [312],
       Venus: [330],
     },
-    cusps: [296, 350, 30, 56, 75, 94, 116, 170, 210, 236, 255, 274],
-    birth: {
-      year: 2024,
-      month: 2,
-      day: 8,
-      hour: 20,
-      minute: 0,
-      city: "New York",
-      country: "US",
-    },
+    cusps: [10, 15, 4, 200, 75, 94, 116, 170, 210, 236, 255, 274],
   };
 
   const draw = () => {
@@ -84,31 +75,27 @@ export const NatalChart = () => {
         COLOR_CAPRICORN: styles.bg,
         COLOR_AQUARIUS: styles.ilstr,
         COLOR_PISCES: styles.bg,
-
-        // CUSTOM_SYMBOL_FN: ("SYMBOL_MOON", -4,-1,Arrow) => Arrow,
-
-        // SYMBOL_MOON: "Moon",
-        // SYMBOL_MERCURY: "Mercury",
-        // SYMBOL_VENUS: "Venus",
-        // SYMBOL_MARS: "Mars",
-        // SYMBOL_JUPITER: "Jupiter",
-        // SYMBOL_SATURN: "Saturn",
-        // SYMBOL_URANUS: "Uranus",
-        // SYMBOL_NEPTUNE: "Neptune",
-        // SYMBOL_PLUTO: "Pluto",
-        // SYMBOL_CHIRON: "Chiron",
-        // SYMBOL_LILITH: "Lilith",
-        // SYMBOL_NNODE: "NNode",
-        // SYMBOL_SNODE: "SNode",
-        // SYMBOL_FORTUNE: "Fortune",
-        // STROKE_ONLY: true,
+        STROKE_ONLY: false,
+        SHOW_DIGNITIES_TEXT: false,
+        CUSPS_STROKE: 2,
+        CUSPS_FONT_COLOR: "#fff",
+        SYMBOL_AXIS_STROKE: 0,
+        SHIFT_IN_DEGREES: 0,
+        CIRCLE_STRONG: 3,
+        PADDING: 15,
+        SIGNS_STROKE: 1,
+        MARGIN: 4,
+        // POINTS_COLOR: "#fff",
+        SYMBOL_SCALE: 1,
+        LINE_COLOR: styles.ilstr,
+        SYMBOL_AXIS_FONT_COLOR: "#fff",
       });
 
       var radix = chart.radix(data).aspects();
 
       // radix.aspects();
       //   setRadix(radix);
-      return radix;
+      // return radix;
     });
   };
 
@@ -125,6 +112,11 @@ export const NatalChart = () => {
     // draw({ Chart: radix });
     draw();
   }, [styles]);
+
+  // useEffect(() => {
+  //   var date = { year: 2012, month: 1, day: 1, hour: 0 };
+  //   var flag = swisseph.SEFLG_SPEED;
+  // }, []);
 
   //   useEffect(() => {
   //     if (cls && posterDate && currentPosterLocation[0]?.center[1]) {

@@ -85,7 +85,7 @@ export const AboutUs = () => {
               </ul>
 
               <p className="p-[2rem] bg-white max-w-[40rem] text-captionSmallBold rounded-[10px] relative">
-                “We started MapsMingle with the same purpose that still drives
+                “We started MapsMi with the same purpose that still drives
                 us today. To create products that bring that warm fuzzy feeling
                 inside when you see them, and let you love the places where you
                 spend your time in just a little bit more”

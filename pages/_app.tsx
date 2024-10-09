@@ -91,7 +91,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <Head>
-        <title>🥇 MapsMingle: Design Your Own Custom Maps and Posters</title>
+        <title>🥇 MapsMi: Design Your Own Custom Maps and Posters</title>
         <meta
           name="description"
           content="Design a personal Custom Map Poster, Star Map Poster and more, with our easy to use design tools ✔︎ Printed to order ✔︎ Free worldwide shipping"

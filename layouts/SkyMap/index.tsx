@@ -57,10 +57,10 @@ export const SkyMap = () => {
     // projection: "wiechel", //orthographic dafault
     transform: "equatorial",
     follow: "zenith",
-    width: 1500,
-    height: 1500,
-    orientationfixed: false,
-    projectionRatio: null,
+    width: isImageLayout ? 1500 : 1000, //TODO: FOR MOBILE ITS 4500 ( DONT RENDER )
+    height: isImageLayout ? 1500 : 1000, //TODO: FOR MOBILE ITS 4500 ( DONT RENDER )
+    orientationfixed: true,
+    projectionRatio: 1,
     background: {
       fill: isImageLayout ? "transparent" : styles.ilstr,
       // fill: "transparent",
@@ -110,7 +110,7 @@ export const SkyMap = () => {
         align: "center",
         baseline: "middle",
         font: isImageLayout
-          ? "9px Helvetica, Arial, sans-serif"
+          ? "10px Helvetica, Arial, sans-serif"
           : "11px Helvetica, Arial, sans-serif",
       },
       lines: posterStyles?.lines,

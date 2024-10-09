@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { useTypedSelector, AppDispatch } from "@/redux/store";
 import { handleDeleteItem } from "@/redux/cart";
+import { handleCloseModals } from "@/redux/modals";
 
 // components
 import { Button } from "@/components/Button";
@@ -14,8 +15,10 @@ import { MATERIAL_PRICES, frames } from "@/layouts/wallartAttributes";
 
 // icons
 import Delete from "@/public/icons/close.svg";
+import { useRouter } from "next/router";
 
 export const Cart = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const cartItems = useTypedSelector(({ cart }) => cart?.cart);
 
@@ -38,7 +41,9 @@ export const Cart = () => {
   }, 0);
   return (
     <div className="w-full h-full flex flex-col">
-      <h3 className="text-body pb-[2rem] mb-[2rem] border-b border-secondaryBg leading-[1]">Basket</h3>
+      <h3 className="text-body pb-[2rem] mb-[2rem] border-b border-secondaryBg leading-[1]">
+        Basket
+      </h3>
 
       <div className="flex flex-col">
         {!cartItems.length ? (
@@ -81,7 +86,7 @@ export const Cart = () => {
                   />
                   <div className="ml-[2rem] w-[50%]">
                     <h3 className="text-body mb-[.5rem] truncate">
-                      {productNames[item.productId]} poster
+                      {productNames[item.productId]}
                     </h3>
                     <h4 className="text-bodySmall mb-[.4rem]">
                       {selectedAttributes.orientation.name} -{" "}
@@ -89,7 +94,7 @@ export const Cart = () => {
                     </h4>
 
                     <p className="text-captionSmall font-bold">
-                      Price: {RESULT_PRICE} $
+                      Price: {RESULT_PRICE} €
                     </p>
                   </div>
                 </div>
@@ -107,8 +112,17 @@ export const Cart = () => {
 
       {cartItems.length ? (
         <>
-          <div className="mt-auto text-bodySmall">Total: {RESULT_PRICE}</div>
-          <Button href="/cart" className="mt-[2rem] text-bodySmall text-center">
+          {/* <div className="mt-auto text-bodySmall">Total: {RESULT_PRICE}</div> */}
+          <Button
+            // href="/cart"
+            variant="contained"
+            color="primary"
+            className="mt-auto text-bodySmall text-center"
+            onClick={() => {
+              router.push("/cart");
+              dispatch(handleCloseModals());
+            }}
+          >
             Checkout
           </Button>
         </>

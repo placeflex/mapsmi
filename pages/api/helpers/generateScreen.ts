@@ -3,13 +3,24 @@ import Jimp from "jimp";
 import { handleGetPosterGap } from "@/components/LayoutPreviewWrapper";
 
 import { RENDER_SCALE_RENDER_PAGE } from "@/layouts/wallartSettings/defaultWallartSettings";
+import { FC } from "react";
 
 function vminToPixels(vminValue, screenWidth, screenHeight) {
   const vminInPixels = Math.min(screenWidth, screenHeight) * (vminValue / 100);
   return vminInPixels;
 }
 
-export const generateScreen = async (project: any) => {
+interface generateI {
+  project: any;
+  resizeTo?: number;
+  originBuffer?: boolean;
+}
+
+export const generateScreen = async ({
+  project,
+  resizeTo = 520,
+  originBuffer = false,
+}: generateI) => {
   console.log("SCREEN START", 1);
 
   const gap = handleGetPosterGap(project.selectedAttributes.size.id);
@@ -120,13 +131,19 @@ export const generateScreen = async (project: any) => {
         encoding: "binary",
       });
 
+      if (originBuffer) {
+        await browser.close();
+
+        return screenshotBuffer;
+      }
+
       console.log("SCREEN END", screenshotBuffer);
       await browser.close();
 
       const readBuffer = Jimp.read(screenshotBuffer)
         .then(image => {
           return image
-            .resize(520, Jimp.AUTO)
+            .resize(resizeTo, Jimp.AUTO)
             .quality(100)
             .getBufferAsync(Jimp.MIME_PNG);
         })

@@ -1,13 +1,16 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-import clsx from 'clsx';
+import clsx from "clsx";
 
 // stores
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 
 import { handleCloseModals } from "@/redux/modals";
+
+import Close from "@/public/icons/close.svg";
+
 interface ModalProps {
   isOpen: boolean;
   bgClose: boolean;
@@ -64,12 +67,12 @@ export const SidePanelLayout = ({
             >
               <button
                 type="button"
-                className="absolute right-[2rem] lg:left-[-5rem] lg:right-[auto] lg:top-[2rem] leading-none lg:text-primary text-h4"
+                className="absolute leading-none top-[15px] right-[2rem]"
                 onClick={() => {
                   dispatch(handleCloseModals());
                 }}
               >
-                X
+                <Close width={30} height={30} fill="#111" />
               </button>
               <div className="h-full overflow-y-auto">{children}</div>
             </div>

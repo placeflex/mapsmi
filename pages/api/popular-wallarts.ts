@@ -95,7 +95,7 @@ export default async function handler(
           const projectPayload = req.body;
           // const id = uuidv4();
 
-          const screen = await generateScreen(projectPayload);
+          const screen = await generateScreen({ project: projectPayload });
           // await generatePDF(projectPayload);
 
           await b2.authorize();

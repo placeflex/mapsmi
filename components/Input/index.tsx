@@ -1,5 +1,5 @@
 import { Input as InputComponent } from "antd";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 interface InputProps {
   label?: string;
@@ -14,6 +14,26 @@ interface InputProps {
   type?: string;
 }
 
+export const LabelWrapper = ({ label, labelClasses, required, children }) => {
+  return (
+    <label
+      htmlFor={label}
+      className={clsx("flex flex-col mb-2 text-caption", labelClasses)}
+    >
+      <span className="mb-[1rem]">
+        {label}{" "}
+        {required && (
+          <abbr className="required text-error no-underline" title="required">
+            *
+          </abbr>
+        )}
+      </span>
+
+      {children}
+    </label>
+  );
+};
+
 export const Input = ({
   label = "",
   labelClasses = "",
@@ -25,25 +45,11 @@ export const Input = ({
   return (
     <>
       {label ? (
-        <label
-          htmlFor={label}
-          className={clsx(
-            "flex flex-col mb-2 text-caption",
-            labelClasses
-          )}
+        <LabelWrapper
+          label={label}
+          labelClasses={labelClasses}
+          required={required}
         >
-          <span className="mb-[1rem]">
-            {label}{" "}
-            {required && (
-              <abbr
-                className="required text-error no-underline"
-                title="required"
-              >
-                *
-              </abbr>
-            )}
-          </span>
-
           <InputComponent
             required={required}
             placeholder={placeholder}
@@ -54,16 +60,30 @@ export const Input = ({
             )}
             {...props}
           />
-        </label>
+        </LabelWrapper>
       ) : (
+        // <label
+        //   htmlFor={label}
+        //   className={clsx("flex flex-col mb-2 text-caption", labelClasses)}
+        // >
+        //   <span className="mb-[1rem]">
+        //     {label}{" "}
+        //     {required && (
+        //       <abbr
+        //         className="required text-error no-underline"
+        //         title="required"
+        //       >
+        //         *
+        //       </abbr>
+        //     )}
+        //   </span>
+
+        // </label>
         <InputComponent
           required={required}
           placeholder={placeholder}
           id={label}
-          className={clsx(
-            "w-full rounded-none font-sans h-[40px]",
-            className
-          )}
+          className={clsx("w-full rounded-none font-sans h-[40px]", className)}
           {...props}
         />
       )}

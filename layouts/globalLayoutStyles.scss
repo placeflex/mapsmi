@@ -374,11 +374,6 @@
     @include ZodiacMinimalLayout();
     @include ZodiacLopsterLayout();
   }
-
-  &.natal-chart {
-    .artworkFigure path {
-    }
-  }
 }
 
 #poster-mount {

@@ -3,13 +3,20 @@ import { useState } from "react";
 import { Layout } from "@/components/Layout";
 
 import { Container } from "@/components/Container";
-import { Input } from "@/components/Input";
+import { Input, LabelWrapper } from "@/components/Input";
+import { Input as InputAntd } from "antd";
 import { Button } from "@/components/Button";
 import { AutoComplete } from "@/components/AutoComplete";
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
 import { SearchSelect } from "@/components/SearchSelect";
 import { v4 as uuidv4 } from "uuid";
+const { TextArea } = InputAntd;
+
+// helpers
+import { toast } from "react-toastify";
+
+import { api } from "@/axios";
 
 const About = () => {
   const initialValues = {
@@ -29,26 +36,31 @@ const About = () => {
       .string()
       .email("Введите правильный адрес электронной почты")
       .required("Email обязателен"),
-    firstName: yup.string().required("Имя обязательно"),
-    lastName: yup.string().required("Фамилия обязательна"),
-    address: yup.string().required("Пароль обязателен"),
-    apartment: yup.string().required("Фамилия обязательна"),
-    city: yup.string().required("Фамилия обязательна"),
-    phone: yup.string().required("Фамилия обязательна"),
+    subject: yup.string().required("subject обязательно"),
+    orderID: yup.string().required("orderID обязательна"),
+    question: yup.string().required("question обязателен"),
+    desc: yup.string().required("desc обязательна"),
   });
 
-  const handleSubmit = async (values: typeof initialValues) => {
+  const handleSubmit = async (values: typeof initialValues, resetForm) => {
     try {
       setFormErrors(initialValues);
       await validationSchema.validate(values, { abortEarly: false });
-      console.log("COLL");
 
-      // Если валидация прошла успешно, данные можно отправить
-      // handlePaymentEmbed(values);
+      const rq = api
+        .post("contact-us", values)
+        .then((data: any) => {
+          toast.success(data?.message);
+          resetForm();
+        })
+        .catch(error => {
+          toast.error(error?.response?.data?.message ?? error?.message);
+        });
+
+      toast.promise(rq, {
+        pending: "Sending",
+      });
     } catch (errors: any) {
-      // Если есть ошибки валидации, обновите состояния ошибок
-      console.log("ERRORs", errors);
-
       const errorMessages: any = {};
       errors.inner.forEach((error: any) => {
         errorMessages[error.path] = error.message;
@@ -79,10 +91,15 @@ const About = () => {
 
         <div className="py-[12rem]">
           <Container>
-            <div>
+            <div className="max-w-[80rem] mx-auto">
               <h3 className="text-center mb-[2rem] text-h3">Contact Us</h3>
 
-              <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+              <Formik
+                initialValues={initialValues}
+                onSubmit={(values, { resetForm }) => {
+                  handleSubmit(values, resetForm);
+                }}
+              >
                 <Form className="w-full flex flex-wrap gap-[10px]">
                   <div className="w-full">
                     <Field
@@ -119,9 +136,10 @@ const About = () => {
                     <Field
                       type="text"
                       name="orderID"
-                      label="order ID"
+                      label="Order Id"
                       required
                       labelClasses="w-full"
+                      placeholder="EXAMPLE: b1bc3ba6-6578-4665-92c3-e0bfe8fe393e"
                       as={Input}
                     />
 
@@ -134,68 +152,73 @@ const About = () => {
                     <Field
                       type="text"
                       name="question"
-                      label="Question is about"
-                      labelClasses="w-full"
                       className="w-full"
-                      // options={initialValues.question}
                       required
-                      as={() => (
-                        <SearchSelect
-                          options={[
-                            { value: "damage", label: "Damaged order", id: 0 },
-                            {
-                              value: "delivery_tracking",
-                              label: "Delivery/Tracking",
-                              id: 1,
-                            },
-                            {
-                              value: "edit_order",
-                              label: "Edit my order",
-                              id: 2,
-                            },
-                            {
-                              value: "cancel_order",
-                              label: "Cancel order",
-                              id: 3,
-                            },
-                            { value: "lost", label: "Lost", id: 4 },
-                            { value: "lost", label: "Lost", id: 5 },
-                            {
-                              value: "wrong_order",
-                              label: "Wrong order",
-                              id: 6,
-                            },
-                            {
-                              value: "shipping_address",
-                              label: "Shipping Address",
-                              id: 7,
-                            },
-                            {
-                              value: "custom_feature",
-                              label: "Custom/Feature",
-                              id: 8,
-                            },
-                            {
-                              value: "invoice_request",
-                              label: "Invoice request",
-                              id: 9,
-                            },
-                            {
-                              value: "confirmation_email",
-                              label: "Confirmation email",
-                              id: 10,
-                            },
-                          ]}
-                          // mode="multiple"
-                          // allowClear
-                          className="w-full"
+                      render={({ field, form }) => (
+                        <LabelWrapper
                           label="Question is about"
-                          placeholder="Orientation"
-                          // defaultValue={layout.orientation}
-                          // onChange={value =>
-                          //   handleSetWallartAdminSettings("orientation", value)
-                          // }
-                        />
+                          required={true}
+                          labelClasses="w-full"
+                        >
+                          <SearchSelect
+                            {...field}
+                            options={[
+                              {
+                                value: "damage",
+                                label: "Damaged order",
+                                id: 0,
+                              },
+                              {
+                                value: "delivery_tracking",
+                                label: "Delivery/Tracking",
+                                id: 1,
+                              },
+                              {
+                                value: "edit_order",
+                                label: "Edit my order",
+                                id: 2,
+                              },
+                              {
+                                value: "cancel_order",
+                                label: "Cancel order",
+                                id: 3,
+                              },
+                              {
+                                value: "wrong_order",
+                                label: "Wrong order",
+                                id: 4,
+                              },
+                              {
+                                value: "shipping_address",
+                                label: "Shipping Address",
+                                id: 5,
+                              },
+                              {
+                                value: "custom_feature",
+                                label: "Custom/Feature",
+                                id: 6,
+                              },
+                              {
+                                value: "invoice_request",
+                                label: "Invoice request",
+                                id: 7,
+                              },
+                              {
+                                value: "confirmation_email",
+                                label: "Confirmation email",
+                                id: 8,
+                              },
+                            ]}
+                            // mode="multiple"
+                            // allowClear
+                            className="w-full"
+                            placeholder="Orientation"
+                            // defaultValue={layout.orientation}
+                            onChange={value =>
+                              form.setFieldValue(field.name, value)
+                            }
+                          />
+                        </LabelWrapper>
                       )}
                     />
                   </div>
@@ -205,9 +228,31 @@ const About = () => {
                       type="text"
                       name="desc"
                       label="Description"
-                      placeholder=""
-                      labelClasses="w-full  mb-0"
-                      as={Input}
+                      labelClasses="w-full mb-0"
+                      render={({ field, form }) => {
+                        return (
+                          <>
+                            <LabelWrapper
+                              required={true}
+                              label={"Description"}
+                              labelClasses={""}
+                            >
+                              <TextArea
+                                {...field}
+                                placeholder="Add text description"
+                                autoSize={{ minRows: 6, maxRows: 6 }}
+                                className="border-1 rounded-none"
+                                onChange={e => {
+                                  form.setFieldValue(
+                                    field.name,
+                                    e.target.value
+                                  );
+                                }}
+                              />
+                            </LabelWrapper>
+                          </>
+                        );
+                      }}
                     />
 
                     {formErrors.desc && (
@@ -215,7 +260,7 @@ const About = () => {
                     )}
                   </div>
 
-                  <div className="w-full">
+                  {/* <div className="w-full">
                     <Field
                       type="text"
                       name="language"
@@ -227,7 +272,7 @@ const About = () => {
                     {formErrors.language && (
                       <div className="text-error">{formErrors.language}</div>
                     )}
-                  </div>
+                  </div> */}
 
                   {/* <div className="w-full">
                     <Field

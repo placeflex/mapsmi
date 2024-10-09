@@ -264,7 +264,7 @@ export const Header = ({ isFixed, classNames }: any) => {
                   </div>
 
                   <div className="ml-auto text-[0px]">
-                    <ControllButton state={true}>
+                    <ControllButton state={false}>
                       <Close width={20} height={20} />
                     </ControllButton>
                   </div>

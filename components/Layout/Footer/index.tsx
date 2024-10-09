@@ -197,7 +197,7 @@ export const Footer: FC<IFooter> = ({ className }) => {
         <div className="flex items-center py-[2rem] border-t border-t-[rgba(255,255,255,0.1)]">
           <div className="text-white w-full flex flex-col text-center gap-[0.5rem] sm:flex-row sm:text-left">
             <span className="text-[1.5rem] sm:text-[1.2rem]">
-              © {new Date().getFullYear()} MapsMingle. All rights reserved.
+              © {new Date().getFullYear()} MapsMi. All rights reserved.
             </span>
             <div className="flex gap-[1rem] justify-center sm:ml-auto">
               <Link

@@ -43,7 +43,7 @@ export const ProductVariations = () => {
 
   return (
     <ModalContent isModalOpen={productModal} bgClose bgColor="bg-white">
-      <div className="flex py-[4rem] px-[2rem] gap-4 overflow-x-auto scroll-snap-x  md:hide-scrollbar md:mask-right lg:mask-none hide-scrollbar rounded-md hide-scroll">
+      <div className="flex py-[4rem] px-[2rem] pb-[1.5rem] gap-4 overflow-x-auto scroll-snap-x  md:hide-scrollbar md:mask-right lg:mask-none hide-scrollbar rounded-md hide-scroll">
         <div className="flex flex-col items-center">
           <div className="relative w-[300px] h-[300px] block">
             {/* <Image
@@ -100,7 +100,7 @@ export const ProductVariations = () => {
 
           <Button
             type="button"
-            className={clsx("mt-auto flex font-semibold text-[1.2rem] justify-center")}
+            className={clsx("mt-auto flex font-semibold text-[1.2rem] w-full justify-center")}
             onClick={() => handleGoToEditor(0)}
             color="primary"
             rounded
@@ -131,7 +131,7 @@ export const ProductVariations = () => {
           </p>
           <Button
             type="button"
-            className="mt-auto flex font-semibold text-[1.2rem] justify-center"
+            className="mt-auto flex font-semibold text-[1.2rem] w-full justify-center"
             onClick={() => handleGoToEditor(1)}
             color="primary"
             rounded
@@ -168,7 +168,7 @@ export const ProductVariations = () => {
           </p>
           <Button
             type="button"
-            className="mt-auto flex font-semibold text-[1.2rem] justify-center"
+            className="mt-auto flex font-semibold text-[1.2rem] w-full justify-center"
             onClick={() => handleGoToEditor(3)}
             color="primary"
             rounded

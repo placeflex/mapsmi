@@ -128,25 +128,25 @@ export const PRODUCTS = [
   {
     name: "Street Map",
     description: "Get a better understanding of your traffic",
-    href: "#",
+    href: productRoutes.STREETMAP,
     image: streetmap,
   },
   {
     name: "Star Map",
     description: "Speak directly to your customers",
-    href: "#",
+    href: productRoutes.STARMAP,
     image: starmap,
   },
   {
     name: "LineArt",
     description: "Your customers’ data will be safe and secure",
-    href: "#",
+    href: productRoutes.LINEART,
     image: lineart,
   },
   {
     name: "Zodiac",
     description: "Connect with third-party tools",
-    href: "#",
+    href: productRoutes.ZODIAC,
     image: zodiac,
   },
   // {

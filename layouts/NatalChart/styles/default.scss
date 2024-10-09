@@ -1,5 +1,13 @@
+@import "../../../styles/layoutConstants.scss";
+
 .natal-chart {
   #paper {
     height: 100%;
+  }
+
+  #paper-astrology-aspects {
+    * {
+      stroke: $textColor;
+    }
   }
 }

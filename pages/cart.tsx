@@ -23,6 +23,7 @@ import { LiqPayModal } from "@/components/Modals/LiqPayModal";
 
 const countries = [
   { value: "Ukraine", label: "Ukraine" },
+  { value: "Poland", label: "Poland" },
   //   { value: "select2-billing_country-result-lkt2-AX", label: "Åland Islands" },
   //   { value: "select2-billing_country-result-u6ts-AL", label: "Albania" },
   //   { value: "select2-billing_country-result-ib2j-DZ", label: "Algeria" },
@@ -301,7 +302,7 @@ const Cart = () => {
       const formObj = liqpay.cnb_object({
         action: "pay",
         amount: RESULT_PRICE,
-        currency: "USD",
+        currency: "EUR",
         description: names.length
           ? `${names.join(", ")} Posters, ID: ${orderId}`
           : `${names.join(", ")} Poster, ID: ${orderId}`,
@@ -378,14 +379,15 @@ const Cart = () => {
   const validationSchema = yup.object().shape({
     email: yup
       .string()
-      .email("Введите правильный адрес электронной почты")
-      .required("Email обязателен"),
-    firstName: yup.string().required("Имя обязательно"),
-    lastName: yup.string().required("Фамилия обязательна"),
-    address: yup.string().required("Пароль обязателен"),
-    apartment: yup.string().required("Фамилия обязательна"),
-    city: yup.string().required("Фамилия обязательна"),
-    phone: yup.string().required("Фамилия обязательна"),
+      .email("Please enter a valid email address")
+      .required("Email is required"),
+    firstName: yup.string().required("First name is required"),
+    lastName: yup.string().required("Last name is required"),
+    country: yup.string().required("Country is required"),
+    address: yup.string().required("Address is required"),
+    apartment: yup.string().required("Apartment is required"),
+    city: yup.string().required("City is required"),
+    phone: yup.string().required("Phone number is required"),
   });
 
   const handleSubmit = async (values: typeof initialValues) => {
@@ -444,7 +446,7 @@ const Cart = () => {
                         type="text"
                         name="firstName"
                         label="FIRST NAME"
-                        // required
+                        required
                         labelClasses="w-full"
                         as={Input}
                       />
@@ -472,12 +474,27 @@ const Cart = () => {
                       <Field
                         type="text"
                         name="country"
-                        label="COUNTRY/REGION"
-                        labelClasses="w-full"
                         className="w-full"
-                        options={countries}
-                        as={AutoComplete}
+                        required
+                        render={({ field, form }) => {
+                          return (
+                            <AutoComplete
+                              {...field}
+                              options={countries}
+                              label="COUNTRY/REGION"
+                              required
+                              onSelect={v => {
+                                console.log("V", v);
+                                form.setFieldValue(field.name, v);
+                              }}
+                            />
+                          );
+                        }}
                       />
+
+                      {formErrors.country && (
+                        <div className="text-error">{formErrors.country}</div>
+                      )}
                     </div>
 
                     <div className="w-full">
@@ -487,6 +504,7 @@ const Cart = () => {
                         label="STREET ADDRESS"
                         placeholder="House number and street name"
                         labelClasses="w-full  mb-0"
+                        required
                         as={Input}
                       />
 
@@ -499,7 +517,8 @@ const Cart = () => {
                       <Field
                         type="text"
                         name="apartment"
-                        label="Apartment, suite, unit, etc. (optional)"
+                        label="Apartment, suite, unit, etc."
+                        required
                         labelClasses="w-full  mb-0"
                         as={Input}
                       />
@@ -515,6 +534,7 @@ const Cart = () => {
                         name="city"
                         label="Town / City"
                         labelClasses="w-full  mb-0"
+                        required
                         as={Input}
                       />
                       {formErrors.city && (
@@ -528,6 +548,7 @@ const Cart = () => {
                         name="phone"
                         label="PHONE (FOR SHIPPING PURPOSES)"
                         labelClasses="w-full  mb-0"
+                        required
                         as={Input}
                       />
 
@@ -539,12 +560,13 @@ const Cart = () => {
                     <Button
                       type="submit"
                       variant="contained"
+                      color="primary"
                       className="text-buttonSmall font-bold w-full mt-[2rem]"
                     >
                       Pay
                     </Button>
 
-                    <div onClick={handlePaymentEmbed}>CLOCK</div>
+                    {/* <div onClick={handlePaymentEmbed}>CLOCK</div> */}
                   </Form>
                 </Formik>
 
@@ -578,100 +600,130 @@ const Cart = () => {
                 <div className="w-full h-full flex flex-col">
                   <h3 className="text-body mb-[2rem]">Your order</h3>
 
-                  <div className="flex flex-col ">
-                    {cartItems.map((item: any, index: number) => {
-                      const { selectedAttributes } = item;
+                  <div className="flex flex-col overflow-y-auto pr-[2rem]">
+                    {[...cartItems, ...cartItems, ...cartItems].map(
+                      (item: any, index: number) => {
+                        const { selectedAttributes } = item;
 
-                      const RESULT_PRICE = item?.selectedAttributes?.frame?.type
-                        ? MATERIAL_PRICES[
-                            item?.selectedAttributes?.material?.id
-                          ]?.prices[item.selectedAttributes.size.id].price +
-                          frames[item?.selectedAttributes?.size?.id]?.[
-                            item?.selectedAttributes?.frame?.id
-                          ]?.price
-                        : MATERIAL_PRICES[
-                            item?.selectedAttributes?.material?.id
-                          ]?.prices[item.selectedAttributes.size.id].price;
+                        const RESULT_PRICE = item?.selectedAttributes?.frame
+                          ?.type
+                          ? MATERIAL_PRICES[
+                              item?.selectedAttributes?.material?.id
+                            ]?.prices[item.selectedAttributes.size.id].price +
+                            frames[item?.selectedAttributes?.size?.id]?.[
+                              item?.selectedAttributes?.frame?.id
+                            ]?.price
+                          : MATERIAL_PRICES[
+                              item?.selectedAttributes?.material?.id
+                            ]?.prices[item.selectedAttributes.size.id].price;
 
-                      return (
-                        <div key={index} className="mb-[2rem]">
-                          <div className="flex flex-col">
-                            <div className="relative">
-                              <div className="flex items-center">
-                                <Image
-                                  src={item.path}
-                                  alt={"cart item"}
-                                  width={150}
-                                  height={100}
-                                  quality={100}
-                                  className="object-cover"
-                                />
+                        return (
+                          <div key={index} className="mb-[2rem]">
+                            <div className="flex flex-col">
+                              <div className="relative">
+                                <div className="flex items-center">
+                                  <Image
+                                    src={item.path}
+                                    alt={"cart item"}
+                                    width={150}
+                                    height={100}
+                                    quality={100}
+                                    className="object-cover"
+                                  />
 
-                                <div className="ml-[2rem]">
-                                  <h3 className="text-captionSmall mb-[.5rem]">
-                                    {productNames[item.productId]} poster -{" "}
-                                    {selectedAttributes.orientation.name} -{" "}
-                                    {selectedAttributes.size.name}
-                                  </h3>
+                                  <div className="ml-[2rem]">
+                                    <h3 className="text-captionSmall mb-[.5rem]">
+                                      {productNames[item.productId]} -{" "}
+                                      {selectedAttributes.orientation.name} -{" "}
+                                      {selectedAttributes.size.name}
+                                    </h3>
 
-                                  <h5 className="text-captionSmall font-semibold">
-                                    1 x{" "}
-                                    {
-                                      MATERIAL_PRICES[
-                                        item?.selectedAttributes?.material?.id
-                                      ]?.prices[item.selectedAttributes.size.id]
-                                        .price
-                                    }{" "}
-                                    €
-                                  </h5>
+                                    <h5 className="text-captionSmall font-semibold">
+                                      1 x{" "}
+                                      {
+                                        MATERIAL_PRICES[
+                                          item?.selectedAttributes?.material?.id
+                                        ]?.prices[
+                                          item.selectedAttributes.size.id
+                                        ].price
+                                      }{" "}
+                                      €
+                                    </h5>
+
+                                    <h3 className="text-captionSmall mb-[.5rem]">
+                                      Frame:{" "}
+                                      {
+                                        frames[
+                                          item?.selectedAttributes?.size?.id
+                                        ]?.[item?.selectedAttributes?.frame?.id]
+                                          ?.material
+                                      }
+                                    </h3>
+                                    <h5 className="text-captionSmall font-semibold">
+                                      1 x{" "}
+                                      {
+                                        frames[
+                                          item?.selectedAttributes?.size?.id
+                                        ]?.[item?.selectedAttributes?.frame?.id]
+                                          ?.price
+                                      }{" "}
+                                      €
+                                    </h5>
+                                  </div>
                                 </div>
-                              </div>
-                              <button
-                                onClick={() => dispatch(handleDeleteItem(item))}
-                                className="absolute top-0 right-0"
-                              >
-                                <Delete width={24} stroke="#000" fill="#000" />
-                              </button>
-                            </div>
-
-                            {item?.selectedAttributes?.frame?.id ? (
-                              <div className="flex items-center mt-[1rem]">
-                                <div className="relative w-[150px] aspect-square">
-                                  {
-                                    frames[
-                                      item?.selectedAttributes?.size?.id
-                                    ]?.[item?.selectedAttributes?.frame?.id]
-                                      .icon
+                                <button
+                                  onClick={() =>
+                                    dispatch(handleDeleteItem(item))
                                   }
-                                </div>
-
-                                <div className="ml-[2rem]">
-                                  <h3 className="text-captionSmall capitalize mb-[.5rem]">
-                                    Frame:{" "}
-                                    {
-                                      frames[
-                                        item?.selectedAttributes?.size?.id
-                                      ]?.[item?.selectedAttributes?.frame?.id]
-                                        ?.material
-                                    }
-                                  </h3>
-                                  <h3 className="text-captionSmall font-semibold">
-                                    1 x{" "}
-                                    {
-                                      frames[
-                                        item?.selectedAttributes?.size?.id
-                                      ]?.[item?.selectedAttributes?.frame?.id]
-                                        ?.price
-                                    }{" "}
-                                    €
-                                  </h3>
-                                </div>
+                                  className="absolute top-0 right-0"
+                                >
+                                  <Delete
+                                    width={24}
+                                    stroke="#000"
+                                    fill="#000"
+                                  />
+                                </button>
                               </div>
-                            ) : null}
+
+                              {item?.selectedAttributes?.frame?.id ? (
+                                <div className="flex items-center mt-[1rem]">
+                                  <div className="relative w-[150px] aspect-square">
+                                    {
+                                      frames[
+                                        item?.selectedAttributes?.size?.id
+                                      ]?.[item?.selectedAttributes?.frame?.id]
+                                        .icon
+                                    }
+                                  </div>
+
+                                  <div className="ml-[2rem]">
+                                    <h3 className="text-captionSmall capitalize mb-[.5rem]">
+                                      Frame:{" "}
+                                      {
+                                        frames[
+                                          item?.selectedAttributes?.size?.id
+                                        ]?.[item?.selectedAttributes?.frame?.id]
+                                          ?.material
+                                      }
+                                    </h3>
+                                    <h3 className="text-captionSmall font-semibold">
+                                      1 x{" "}
+                                      {
+                                        frames[
+                                          item?.selectedAttributes?.size?.id
+                                        ]?.[item?.selectedAttributes?.frame?.id]
+                                          ?.price
+                                      }{" "}
+                                      €
+                                    </h3>
+                                  </div>
+                                </div>
+                              ) : null}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      }
+                    )}
                   </div>
 
                   <div className="mt-auto text-bodySmall">

@@ -14,8 +14,12 @@ import {
 // helpers
 import { toast } from "react-toastify";
 
-const initialState: { layout: any } = {
+// api
+import { api } from "@/axios";
+
+const initialState: { layout: any; prerenderImg: any } = {
   layout: {},
+  prerenderImg: "",
 };
 
 const layout = createSlice({
@@ -481,6 +485,35 @@ const layout = createSlice({
         productId: state.layout.productId,
       });
     },
+
+    preRenderScreenShot(state, action) {
+      const project = localStorage.getItem(
+        productsVariations[Number(action.payload.id)]
+      );
+
+      if (project) {
+        const createProject = {
+          ...JSON.parse(project),
+        };
+
+        const request = api
+          .post("/pre-render", createProject)
+          .then(({ message, data }: any) => {
+            toast.success(message);
+            state.prerenderImg = data;
+
+            return data;
+          })
+          .catch(({ response }) => {
+            toast.error(response.data.error);
+          });
+
+        toast.promise(request, {
+          pending:
+            "Project is adding to popular projects! Please wait few seconds.",
+        });
+      }
+    },
   },
 });
 
@@ -511,6 +544,7 @@ export const {
   handleChangeRouteTypeForStreetMap,
   handleApplyMarkerForLocation,
   handleChangeLabelPosition,
+  preRenderScreenShot,
 } = layout.actions;
 
 export default layout.reducer;

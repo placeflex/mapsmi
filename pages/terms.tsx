@@ -4,40 +4,40 @@ const Terms = () => {
   return (
     <Layout scroll fixed headerProps={{ classNames: "bg-secondary" }}>
       <Container>
-        <div className="py-[8rem]">
+        <div className="py-[2rem] pb-[4rem]">
           <h1 className="text-h3 mb-[2rem]">Terms and Conditions</h1>
           <p className="text-bodySmall">
             The following terms and conditions (the “Agreement”) govern all use
             of the mapsmingle.com website (the “Site”) and the services
             available on or at the Site (taken together with the Site, the
-            “Service”). The Service is owned and operated by MapsMingle Inc., a
+            “Service”). The Service is owned and operated by MapsMi Inc., a
             company incorporated under the laws of [Your Country],
-            (“MapsMingle”). MapsMingle prints customized maps (“Products”)
+            (“MapsMi”). MapsMi prints customized maps (“Products”)
             directly for customers (“Customers”). The Service is offered subject
             to your (the “User”) acceptance without modification of all of the
             terms and conditions contained herein and all other operating rules,
             policies, and procedures that may be published from time to time on
-            the Site by MapsMingle. If you do not agree to this Agreement, do
+            the Site by MapsMi. If you do not agree to this Agreement, do
             not use the Site.
           </p>
 
           <h2 className="text-h5">#YesMapsMingle</h2>
           <p className="text-bodySmall">
-            At MapsMingle, we love to see our products featured on social media
+            At MapsMi, we love to see our products featured on social media
             and we may request to share pictures posted by you, on Instagram or
             other platforms, directly in our channels. These channels may be our
-            MapsMingle website (hosted at mapsmingle.com) but could also include
-            MapsMingle’s other communication channels, for example, our
-            MapsMingle newsletter and social media channels (both paid and
+            MapsMi website (hosted at mapsmingle.com) but could also include
+            MapsMi’s other communication channels, for example, our
+            MapsMi newsletter and social media channels (both paid and
             organic).
           </p>
           <p className="text-bodySmall">
             By commenting and responding #YesMapsMingle on a picture after
-            MapsMingle’s request on Instagram, hereafter referred to as
+            MapsMi’s request on Instagram, hereafter referred to as
             “picture(s),” you agree to the following:
           </p>
           <p className="text-bodySmall">
-            You provide MapsMingle Inc., a company under registration number
+            You provide MapsMi Inc., a company under registration number
             [Your Registration Number] (hereinafter “MAPSMINGLE”), a
             non-exclusive, royalty-free, worldwide license to use, in any manner
             to be determined in MAPSMINGLE’s sole discretion and without any
@@ -85,7 +85,7 @@ const Terms = () => {
 
           <h2 className="text-h5">1. Customers</h2>
           <p className="text-bodySmall">
-            1.1 The Customer certifies to MapsMingle that if Customer is an
+            1.1 The Customer certifies to MapsMi that if Customer is an
             individual (i.e., not a corporation) the Customer is at least 18
             years of age. The Customer also certifies that they are legally
             permitted to use the Service and takes full responsibility for the
@@ -96,7 +96,7 @@ const Terms = () => {
 
           <h2 className="text-h5">2. Modifications</h2>
           <p className="text-bodySmall">
-            2.1 MapsMingle reserves the right, at its discretion, to modify this
+            2.1 MapsMi reserves the right, at its discretion, to modify this
             Agreement, fees, charges, terms at any time. The User shall be
             responsible for reviewing and becoming familiar with any such
             modifications. Use of the Service by the User following such
@@ -124,10 +124,10 @@ const Terms = () => {
 
           <h2 className="text-h5">4. Payments and fees</h2>
           <p className="text-bodySmall">
-            4.1 MapsMingle may save Member&apos;s credit or debit card
+            4.1 MapsMi may save Member&apos;s credit or debit card
             information and use it for all future shipments and charges, which
             will automatically be charged to the saved card unless the Member
-            notifies MapsMingle through the Site. When you order a Product you
+            notifies MapsMi through the Site. When you order a Product you
             will be charged the current fees, which we may change from time to
             time (such as when we have holiday sales or offer you a discount on
             base product prices). We may choose to temporarily change the fees
@@ -164,7 +164,7 @@ const Terms = () => {
           <p className="text-bodySmall">
             5.1 If the Customer is located outside of [Your Country or Region],
             the Customer is responsible for paying sales tax (as applicable
-            within each jurisdiction). MapsMingle will not be held responsible
+            within each jurisdiction). MapsMi will not be held responsible
             for any such sales tax. If the customer is located within [Your
             Country or Region], sales tax is included in the price of the
             Product.
@@ -172,7 +172,7 @@ const Terms = () => {
           <p className="text-bodySmall">
             5.2 Customers outside of [Your Country or Region] may be subjected
             to pay customs duties (as applicable within each jurisdiction).
-            MapsMingle will not be held responsible for any such duties.
+            MapsMi will not be held responsible for any such duties.
           </p>
 
           <h2 className="text-h5">
@@ -185,18 +185,18 @@ const Terms = () => {
             possible. We are not bound to make such modifications to your order,
             but we will do our best on a case-by-case basis. Replacement of
             Products and credits to the Member’s account for Products claimed as
-            damaged or not received are subject to MapsMingle&apos;s
+            damaged or not received are subject to MapsMi&apos;s
             investigation and discretion.
           </p>
           <p className="text-bodySmall">
-            6.2 MapsMingle will review the replacement of Products or refund
+            6.2 MapsMi will review the replacement of Products or refund
             requests within 14 days of the placed order. If a Product is
-            missing, damaged, or subject to print error, MapsMingle will replace
+            missing, damaged, or subject to print error, MapsMi will replace
             the erroneous Product with a new Product. To issue a refund process
             based on the aforementioned reasons, contact{" "}
             <a href="mailto:support@mapsmingle.com">support@mapsmingle.com</a>.
             Refund requests will be processed within five (5) working days. For
-            the sake of clarity, MapsMingle is not responsible for situations
+            the sake of clarity, MapsMi is not responsible for situations
             when the Customer has provided incorrect information, such as the
             wrong Customer name or address. In such cases, an extra payment will
             be applied.
@@ -239,7 +239,7 @@ const Terms = () => {
             purposes without our express written consent.
           </p>
           <p className="text-bodySmall">
-            7.5 Please note that MapsMingle tries to provide you with the best
+            7.5 Please note that MapsMi tries to provide you with the best
             images and descriptions, but unfortunately cannot guarantee that
             colors and details in website images are 100% accurate
             representations of the product, and sizes might in some cases be
@@ -249,7 +249,7 @@ const Terms = () => {
           <h2 className="text-h5">8. Delivery</h2>
           <p className="text-bodySmall">
             8.1 Delivery of the Product will be made to the address specified in
-            the order. MapsMingle will dispatch the Product to the Customer
+            the order. MapsMi will dispatch the Product to the Customer
             within 1-3 working days after the order is placed.
           </p>
           <p className="text-bodySmall">
@@ -257,7 +257,7 @@ const Terms = () => {
             Customer&apos;s delivery address and chosen delivery service.
             Estimated delivery times will be displayed on the Site at checkout.
             While we strive to ensure timely delivery, unforeseen circumstances
-            may cause delays. In such cases, MapsMingle will notify you by
+            may cause delays. In such cases, MapsMi will notify you by
             email. If you need to arrange for a change in the delivery address,
             delivery date, or delivery time, we recommend you contact us.
           </p>
@@ -284,7 +284,7 @@ const Terms = () => {
 
           <h2 className="text-h5">9. Release</h2>
           <p className="text-bodySmall">
-            9.1 You release MapsMingle (and MapsMingle’s officers, directors,
+            9.1 You release MapsMi (and MapsMi’s officers, directors,
             agents, subsidiaries, joint ventures, and employees) from any
             claims, demands, and damages (actual and consequential) of every
             kind and nature, known and unknown, arising out of or in any way
@@ -294,15 +294,15 @@ const Terms = () => {
 
           <h2 className="text-h5">10. Warranty disclaimer and liability</h2>
           <p className="text-bodySmall">
-            10.1 To the fullest extent permitted by law, MapsMingle shall not be
+            10.1 To the fullest extent permitted by law, MapsMi shall not be
             liable for damages of any kind, including but not limited to direct,
             indirect, incidental, punitive, and consequential damages, arising
             out of or in connection with the Agreement, the Site, or Services.
-            MapsMingle’s liability under this Agreement will be limited to the
-            amount paid by you to MapsMingle for the Product.
+            MapsMi’s liability under this Agreement will be limited to the
+            amount paid by you to MapsMi for the Product.
           </p>
           <p className="text-bodySmall">
-            10.2 MapsMingle makes no warranty, express or implied, regarding the
+            10.2 MapsMi makes no warranty, express or implied, regarding the
             Service, including any implied warranties of merchantability,
             fitness for a particular purpose, non-infringement, and/or course of
             dealing.
@@ -312,7 +312,7 @@ const Terms = () => {
           <p className="text-bodySmall">
             11.1 The Site, its design, text, graphics, logos, icons, and images,
             as well as the selection and arrangement thereof, and all software,
-            Products, and materials on the Site are the property of MapsMingle
+            Products, and materials on the Site are the property of MapsMi
             or its licensors and are protected by copyright, trademark, and
             other intellectual property laws.
           </p>
@@ -323,7 +323,7 @@ const Terms = () => {
 
           <h2 className="text-h5">12. Indemnification</h2>
           <p className="text-bodySmall">
-            12.1 You agree to indemnify, defend, and hold harmless MapsMingle,
+            12.1 You agree to indemnify, defend, and hold harmless MapsMi,
             its affiliates, officers, directors, employees, consultants, and
             agents from any and all claims, liability, damages, and costs
             (including, but not limited to, legal fees) arising from your use of
@@ -334,7 +334,7 @@ const Terms = () => {
           <h2 className="text-h5">13. Miscellaneous</h2>
           <p className="text-bodySmall">
             13.1 Entire Agreement: This Agreement constitutes the entire
-            agreement between you and MapsMingle regarding the subject matter
+            agreement between you and MapsMi regarding the subject matter
             herein.
           </p>
           <p className="text-bodySmall">
@@ -345,7 +345,7 @@ const Terms = () => {
           <p className="text-bodySmall">
             13.3 Waiver: No waiver of any term of this Agreement shall be deemed
             a further or continuing waiver of such term or any other term, and
-            MapsMingle’s failure to assert any right or provision under this
+            MapsMi’s failure to assert any right or provision under this
             Agreement shall not constitute a waiver of such right or provision.
           </p>
           <p className="text-bodySmall">

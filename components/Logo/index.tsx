@@ -18,12 +18,13 @@ export const Logo = ({
 }: Props) => {
   return (
     <Link href="/" className={`flex items-center ${className}`} {...props}>
-      <LogoIcon width={width} fill={fill} />
-
       <span
-        className={`ml-3 text-bodySmall font-bold tracking-[0.4rem] uppercase ${textColor}`}
+        className={`flex items-center gap-[1rem] text-bodySmall font-bold  ${textColor}`}
       >
-        MapsMingle
+        Maps <LogoIcon width={width} fill={fill} />{" "}
+        <span>
+          Mi<span className="opacity-[.5]">ngle</span>
+        </span>
       </span>
     </Link>
   );

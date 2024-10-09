@@ -6,6 +6,8 @@ import { SearchSelect } from "@/components/SearchSelect";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 
+import { productsVariations } from "@/constants/constants";
+
 // stores
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "@/redux/store";
@@ -14,9 +16,15 @@ import {
   handleDeletePopularProject,
   handleUpdatePopularProject,
 } from "@/redux/popular-wallarts";
+
+import { preRenderScreenShot } from "@/redux/layout";
+
 import { setWallartAdminSettings } from "@/redux/layout";
 
 import { MATERIAL_PRICES, frames } from "@/layouts/wallartAttributes";
+// helpers
+import { toast } from "react-toastify";
+import { api } from "@/axios";
 
 import {
   design_category,
@@ -27,12 +35,16 @@ import {
   orientation,
   featured,
 } from "@/constants/wallart-categories";
+import { useEffect } from "react";
 
 export const ProjectAdminSettings = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { product_id, id, from } = router.query;
   const layout = useTypedSelector(({ layout }) => layout?.layout);
+  const prerenderSrc = useTypedSelector(({ layout }) => layout);
+
+  console.log("prerenderSrc", prerenderSrc);
 
   const price = layout?.selectedAttributes?.frame?.type
     ? MATERIAL_PRICES[layout?.selectedAttributes?.material?.id]?.prices[
@@ -47,6 +59,42 @@ export const ProjectAdminSettings = () => {
 
   const handleAddPupularProject = () => {
     dispatch(handleAddToPopularProjects({ id: product_id, price }));
+  };
+
+  const handlePrerenderScreenshot = () => {
+    const project = localStorage.getItem(
+      productsVariations[Number(product_id)]
+    );
+
+    if (project) {
+      const createProject = {
+        ...JSON.parse(project),
+      };
+
+      const request = api
+        .post("/pre-render", createProject)
+        .then(({ message, data }: any) => {
+          toast.success(message);
+
+          const link = document.createElement("a");
+          link.href = data;
+          link.download = "downloaded_image.jpg";
+          document.body.appendChild(link);
+
+          link.click();
+
+          document.body.removeChild(link);
+
+          return data;
+        })
+        .catch(({ response }) => {
+          toast.error(response.data.error);
+        });
+
+      toast.promise(request, {
+        pending: "Screenshot is generating...",
+      });
+    }
   };
 
   const handleUpdateProject = () => {
@@ -195,6 +243,15 @@ export const ProjectAdminSettings = () => {
           color="primary"
         >
           Create new
+        </Button>
+        <Button
+          className="w-full text-link font-semibold"
+          type="button"
+          onClick={handlePrerenderScreenshot}
+          variant="contained"
+          color="secondary"
+        >
+          PRE RENDER SCREENSHOT
         </Button>
 
         {from == "pupular-wallarts" && (

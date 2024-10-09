@@ -32,7 +32,7 @@ export default async function handler(
     const id = uuidv4();
 
     // const picturePath = await handleScreen(projectPayload);
-    const screen = await generateScreen(projectPayload);
+    const screen = await generateScreen({ project: projectPayload });
     const pdf = await generatePDF(projectPayload);
 
     if (screen) {
@@ -80,7 +80,7 @@ export default async function handler(
     const decoded = verifyToken(String(token));
     const id = uuidv4();
 
-    const screen = await generateScreen(projectPayload);
+    const screen = await generateScreen({ project: projectPayload });
     const pdf = await generatePDF(projectPayload);
 
     if (token && decoded && typeof decoded === "object") {
@@ -135,5 +135,3 @@ export default async function handler(
     }
   }
 }
-
-
