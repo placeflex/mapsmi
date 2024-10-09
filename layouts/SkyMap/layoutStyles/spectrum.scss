@@ -1,0 +1,15 @@
+@mixin SkymapSpectrumLayout() {
+  &.spectrum {
+    .custom-line {
+      display: none;
+    }
+    .border-holder {
+      margin: 0;
+    }
+    .labels {
+      h2 {
+        @include subline-decoration-center($textColor);
+      }
+    }
+  }
+}

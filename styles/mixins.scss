@@ -1,0 +1,29 @@
+@import "./variables.scss";
+
+@mixin subline-decoration-center($color) {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -2em;
+    width: 1.5em;
+    height: 0.05em;
+    background-color: $color;
+    opacity: 1;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -2em;
+    width: 1.5em;
+    height: 0.05em;
+    background-color: $color;
+    opacity: 1;
+  }
+}

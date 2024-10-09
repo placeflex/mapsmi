@@ -1,0 +1,32 @@
+@import "../../../styles/mixins.scss";
+
+@mixin ZodiacSpectrumLayout() {
+  &.spectrum {
+    .custom-line {
+      display: none;
+    }
+    .border-holder {
+      margin: 0;
+    }
+    .labels {
+      gap: 0.4em;
+
+      h1 {
+        font-size: 2.7em;
+      }
+
+      h2 {
+        margin: 0.4em 0;
+        @include subline-decoration-center($textColor);
+        font-size: 1.6em;
+      }
+
+      h3,
+      span {
+        margin: 0;
+        font-size: 1em;
+        opacity: 0.7;
+      }
+    }
+  }
+}

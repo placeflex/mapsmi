@@ -1,0 +1,57 @@
+@mixin SkymapBoldLayout() {
+  &.bold-full,
+  &.bold {
+    .artworkFigure {
+      gap: 2em;
+    }
+
+    .labels {
+      background: $illustrationColor;
+      padding: 1em 1.5em;
+      text-transform: uppercase;
+      white-space: pre-wrap;
+      width: auto;
+      gap: 0.5em;
+      min-width: 50%;
+      letter-spacing: 0.2em;
+      left: auto;
+      bottom: 0;
+      // margin-bottom: 2em;
+
+      * {
+        color: $bg;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      h2,
+      h3 {
+        font-size: 1.1em;
+      }
+
+      span {
+        font-size: 1em;
+        opacity: 0.5;
+      }
+    }
+
+    // @include police-color-bold-layout;
+  }
+
+  &.bold-full {
+    .custom-line {
+      display: none;
+    }
+    .border-holder {
+      margin: 0;
+    }
+
+    &.landscape {
+      .labels {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

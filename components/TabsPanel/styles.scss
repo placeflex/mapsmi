@@ -1,0 +1,30 @@
+.tab-panel {
+  .ant-tabs-tab {
+    color: var(--secondaryBg);
+
+    &:hover {
+      color: var(--secondButton);
+    }
+
+    &.ant-tabs-tab-active {
+      .ant-tabs-tab-btn {
+        color: var(--text);
+      }
+    }
+  }
+}
+
+.ant-tabs-ink-bar {
+  background: var(--text) !important;
+}
+
+.ant-tabs-tabpane {
+  & > div {
+    display: flex;
+    gap: 1rem;
+
+    // * {
+    //   font-size: 0.6rem;
+    // }
+  }
+}

@@ -1,0 +1,8 @@
+.switcher {
+  background: var(--bg) !important;
+  box-shadow: 1px;
+
+  &.ant-switch-checked {
+    background: var(--main) !important;
+  }
+}

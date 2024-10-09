@@ -1,0 +1,25 @@
+@mixin LineArtFullLayout() {
+  &.full {
+    .custom-line {
+      display: none;
+    }
+
+    .border-holder {
+    }
+
+    .labels {
+      h1 {
+        font-size: 3.6em;
+      }
+
+      h2 {
+      }
+
+      span {
+        margin-top: .4em;
+        font-size: 1.8em;
+        opacity: .5;
+      }
+    }
+  }
+}

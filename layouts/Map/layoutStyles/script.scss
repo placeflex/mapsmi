@@ -1,0 +1,49 @@
+@mixin ScriptLayout() {
+  &.script {
+    .labels {
+      position: static;
+      text-align: left;
+      align-items: flex-start;
+      background: transparent;
+      border-top: 0.3em solid $gradientColor;
+      gap: 0.8em;
+      padding: 1.6em;
+      width: 100%;
+      overflow: visible;
+
+      h1 {
+        font-size: 2.1em;
+      }
+
+      h2 {
+        font-size: 1.4em;
+      }
+
+      h3 {
+        font-size: 1em;
+      }
+
+      span {
+        font-size: 1em;
+        opacity: 0.5;
+        margin-top: 0.5em;
+      }
+    }
+
+    .border-holder {
+      margin: 0;
+    }
+
+    .custom-line {
+      display: none;
+    }
+  }
+}
+
+@mixin ScriptLayoutWithMask() {
+  &.script {
+    .labels {
+      background: #fff;
+    }
+  }
+}

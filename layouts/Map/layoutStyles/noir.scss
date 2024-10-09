@@ -1,0 +1,37 @@
+@mixin NoirLayout() {
+  &.noir {
+    .custom-line {
+      display: none;
+    }
+    .border-holder {
+      margin: 0;
+    }
+
+    .labels {
+      background: transparent;
+      text-align: right;
+      justify-content: flex-end;
+      align-items: flex-end;
+      padding: 2em;
+      gap: 0.5em;
+      position: absolute;
+      bottom: 0;
+
+      h1 {
+        font-size: 2.2em;
+      }
+
+      h2 {
+        font-size: 1.4em;
+      }
+
+      h3 {
+        font-size: 1em;
+      }
+
+      span {
+        font-size: 1em;
+      }
+    }
+  }
+}

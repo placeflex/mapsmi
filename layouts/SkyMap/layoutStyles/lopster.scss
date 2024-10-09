@@ -1,0 +1,85 @@
+@mixin SkymapLopsterLayout() {
+  &.lopster {
+    .custom-line {
+      display: none;
+    }
+
+    .border-holder {
+      margin: 0;
+      padding: 2em;
+      position: relative;
+      background: $bg;
+    }
+
+    .artworkFigure {
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    &.landscape {
+      .labels {
+        gap: 0.4em;
+      }
+    }
+
+    .skymap-wrapper {
+      padding: 1.5em;
+    }
+
+    #map-holder {
+      flex-grow: 1;
+      margin: auto auto;
+
+      #map {
+        margin: auto;
+      }
+    }
+
+    .labels {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      background: transparent;
+      padding: 1em;
+      border: 0.2em solid $textColor;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 1em;
+      pointer-events: none;
+      top: auto;
+      bottom: auto;
+      left: auto;
+      right: auto;
+
+      * {
+        color: $textColor;
+      }
+
+      h1 {
+        font-size: 3em;
+        padding: 0 0.2em;
+        text-transform: uppercase;
+      }
+
+      h2,
+      h3,
+      span {
+        display: block;
+        font-size: 1.4em;
+      }
+
+      h3 {
+        @include subline-decoration-center($textColor);
+        font-size: 1.1em;
+      }
+
+      span {
+        font-size: 1em;
+        margin: 0;
+      }
+    }
+  }
+}

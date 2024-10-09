@@ -1,0 +1,85 @@
+.skymap {
+  #map-holder {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    flex-grow: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #map {
+    display: block;
+    height: 100% !important;
+    position: absolute !important;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+    border-radius: 99999px;
+    pointer-events: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none !important;
+      z-index: 2;
+    }
+  }
+
+  .map-wrapper {
+    width: 100%;
+  }
+
+  &.overlayApply {
+    .map-wrapper {
+      padding: 6%;
+    }
+
+    &.landscape {
+      .map-wrapper {
+        padding: 3%;
+      }
+    }
+  }
+
+  &.maskApply {
+    #map-holder {
+      border-radius: 0 !important;
+      // mask: var(--mask);
+      // mask-image: var(--mask);
+      // mask-repeat: no-repeat;
+      // mask-position: center;
+      // mask-size: contain;
+
+      mask: var(--mask);
+      mask-image: var(--mask);
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      transform: scale(1) translateZ(0);
+      -webkit-mask-size: contain;
+      -webkit-transform: scale(1) translateZ(0) !important;
+
+      // canvas {
+      //   width: 150%;
+      // }
+    }
+
+    #map {
+      width: 150%;
+      height: 150% !important;
+    }
+  }
+
+  // canvas {
+  //   transform: scale(1.065);
+  // }
+}

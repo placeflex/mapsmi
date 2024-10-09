@@ -1,0 +1,58 @@
+// $poster: url("../../../public/home/poster.jpg");
+$poster: url("https://www.mapiful.com/cdn-cgi/image/format=auto/content/themes/mapiful_v2/classes/campaigns/assets/2024-february/hero2.webp");
+// $poster: url("../../../public/home/poster-sec.png");
+// $poster: url("../../../public/home/poster-sec.png");
+
+.poster {
+  background: $poster;
+  background-size: cover;
+  background-position: center;
+
+  position: relative;
+  // position: sticky;
+  // top: 62px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    // z-index: -1;
+  }
+}
+
+.posterInner {
+  height: 70vh;
+  min-height: 600px;
+  // max-height: 600px;
+  // min-height: 800px;
+
+  @media screen and (max-width: 992px) {
+    height: 50vh;
+  }
+
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+
+  // @media screen and (min-width: 1440px) {
+  //   height: 100vh;
+  //   min-height: 100vh;
+  // }
+
+  // h1 {
+  //   em {
+  //     font-style: normal;
+  //     background: #423024;
+  //     background-size: 400% 400%;
+  //     background-clip: text;
+  //     -webkit-background-clip: text;
+  //     -webkit-text-fill-color: transparent;
+  //   }
+  // }
+}

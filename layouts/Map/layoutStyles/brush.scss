@@ -1,0 +1,51 @@
+@mixin BrushLayout() {
+  &.brush {
+    .custom-line {
+      display: none;
+    }
+
+    .border-holder {
+      margin: 0;
+    }
+
+    .labels {
+      position: static;
+      padding: 3em 1em 3.2em 1em;
+      gap: 0.7em;
+      overflow: hidden;
+      background: transparent;
+      border-top: 0.3em solid $gradientColor;
+
+      h1 {
+        font-size: 2.1em;
+      }
+
+      h2 {
+        @include subline-decoration-center($textColor);
+        font-size: 1.2em;
+      }
+      h3 {
+        font-size: 1em;
+      }
+
+      span {
+        font-size: 1em;
+        margin-top: 1em;
+      }
+
+      span {
+        opacity: 0.6;
+      }
+    }
+
+    // @include police-color-brush-layout;
+  }
+}
+
+@mixin BrushLayoutWithMask() {
+  &.brush {
+    .labels {
+      background: #fff;
+    }
+  }
+}

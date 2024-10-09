@@ -1,0 +1,108 @@
+@import "../../styles/layoutConstants.scss";
+
+.zodiac {
+  .artworkFigure {
+    // justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .zodiac-wrp {
+    width: 100%;
+    margin: auto;
+    flex-grow: 1;
+    position: absolute;
+  }
+
+  .zodiac-bg {
+    border-radius: 9999px;
+    background: $illustrationColor;
+
+    & > svg {
+      opacity: 0.4;
+      fill: $bg;
+      z-index: 3;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .zodiac-figure {
+    position: absolute;
+    width: 55%;
+    aspect-ratio: 1/1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    circle,
+    path {
+      fill: $bg !important;
+    }
+  }
+
+  .sky-bg {
+    padding: 10px;
+
+    svg {
+      width: inherit;
+      height: inherit;
+    }
+  }
+
+  .zodiac-icon {
+    width: 3em;
+    height: 3em;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &.portrait {
+    .zodiac-bg {
+      height: auto !important;
+      width: 100% !important;
+      aspect-ratio: 1/1;
+      margin: 1em;
+    }
+    .zodiac-bg-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &.landscape {
+    // .zodiac-bg {
+    //   margin: 1.5em;
+    // }
+
+    .zodiac-bg-wrapper {
+      width: auto !important;
+      height: 100% !important;
+      aspect-ratio: 1/1;
+    }
+
+    .zodiac-figure {
+      width: 55%;
+      height: 55%;
+    }
+  }
+
+  &.overlayApply {
+    .zodiac-bg {
+      margin: 7%;
+    }
+
+    &.landscape {
+      .zodiac-bg {
+        margin: 7%;
+      }
+    }
+
+    .zodiac-bg-wrapper {
+      position: relative;
+    }
+  }
+}

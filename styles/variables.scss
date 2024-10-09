@@ -1,0 +1,33 @@
+:root {
+  --primary: #fff;
+  --secondary: rgb(242, 245, 249);
+  --main: rgb(118, 125, 106);
+  --text: rgba(5, 16, 67, 1);
+  --bg: #eaedf2;
+  --secondaryBg: rgb(248 245 242);
+  --black: #14191f;
+  --silver: #e5e5e5;
+  --blueGrey: #7b92a3;
+  --error: #f8382a;
+  --cream: #bd998d;
+  --button: var(--main);
+  --secondButton: #c2ced6;
+  --hover: linear-gradient(
+    171deg,
+    rgba(240, 18, 45, 1) 0%,
+    rgba(240, 78, 45, 0.4598433123249299) 50%,
+    rgba(240, 107, 45, 1) 100%
+  );
+  // --mainGradient: linear-gradient(90deg, #7b92a3 0%, #e5e5e5 50%, #7b92a3 100%);
+  --font-main: var(--font-main);
+  --font-dancing: var(--font-dancing);
+}
+
+$phone: 450px;
+$md: 768px;
+$tb: 990px;
+$ml: 1024px;
+$lg: 1300px;
+$xl: 1440px;
+$xll: 1690px;
+$xxl: 1900px;
