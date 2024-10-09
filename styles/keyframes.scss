@@ -6,3 +6,12 @@
     transform: scale(1.035);
   }
 }
+
+@keyframes shine {
+  0% {
+    left: -75px;
+  }
+  100% {
+    left: 120%;
+  }
+}

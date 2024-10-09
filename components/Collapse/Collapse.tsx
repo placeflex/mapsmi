@@ -42,7 +42,7 @@ export const Accordion: FC<AccordionProps> = ({
           header={
             <span className="text-bodySmall flex items-center gap-[0.5rem] lg:gap-[1rem] collapse-custom-header">
               {icon && (
-                <span className="w-[4rem] h-[4rem] flex items-center justify-center bg-secondary/[.5] rounded-[1rem]">
+                <span className="w-[4rem] h-[4rem] flex items-center justify-center bg-secondary/[.9] rounded-[1rem]">
                   {icon}
                 </span>
               )}

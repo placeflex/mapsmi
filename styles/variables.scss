@@ -11,13 +11,14 @@
   --error: #f8382a;
   --cream: #bd998d;
   --button: var(--main);
-  --secondButton: #c2ced6;
+  --secondButton: #000;
   --hover: linear-gradient(
     171deg,
     rgba(240, 18, 45, 1) 0%,
     rgba(240, 78, 45, 0.4598433123249299) 50%,
     rgba(240, 107, 45, 1) 100%
   );
+  --blueWhite: #c2ced6;
   // --mainGradient: linear-gradient(90deg, #7b92a3 0%, #e5e5e5 50%, #7b92a3 100%);
   --font-main: "Montserrat Alternates", sans-serif;
   --font-dancing: "Dancing Script", sans-serif;

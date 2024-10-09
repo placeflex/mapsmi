@@ -84,6 +84,9 @@ import "@/modules/LayoutPanels/editor.scss";
 // test
 import { api } from "@/axios";
 
+// icons
+import Settings from "@/public/icons/settings.svg";
+
 export default function Editor() {
   const router = useRouter();
   const {
@@ -658,11 +661,21 @@ export default function Editor() {
           <div className="flex flex-row-reverse editor-wrapper">
             <LayoutPreviewWrapper
               className={clsx(
-                fontsList[Number(layout.poster?.styles?.font)]?.font.variable
+                fontsList[Number(layout.poster?.styles?.font)]?.font.variable,
+                "relative"
               )}
             >
               {layout.productId == Number(product_id) &&
                 editorUI[layout.productId as keyof typeof editorUI]}
+
+              {isAdmin && (
+                <button
+                  className="flex items-center justify-center bg-error absolute top-[0] right-[0] w-[10rem] h-[10rem] p-0 z-30"
+                  onClick={() => dispatch(handleShowProjectSettingsModal())}
+                >
+                  <Settings fill="#fff" width={30} height={30} />
+                </button>
+              )}
             </LayoutPreviewWrapper>
 
             <div className="flex flex-col border-r-[.2rem] fixed lg:relative right-0 bottom-0 left-0 z-20 lg:min-w-[480px] lg:max-w-[480px]">
@@ -675,9 +688,9 @@ export default function Editor() {
 
               <div className="mt-auto editor-wrapper__buttons">
                 <Button
-                  className="w-full text-link relative h-[6rem] lg:h-[8rem] flex items-center justify-between uppercase pulse"
+                  className="w-full text-link relative h-[6rem] lg:h-[8rem] flex items-center justify-between uppercase  btn-4"
                   type="button"
-                  color="primary"
+                  color="secondary"
                   onClick={handleAddWallartToCart}
                 >
                   <span className="h-full flex items-center justify-center text-caption gap-[1rem]">
@@ -690,16 +703,6 @@ export default function Editor() {
                   </span>
                   <span className="font-bold text-bodySmall">Add To Cart</span>
                 </Button>
-
-                {isAdmin && (
-                  <Button
-                    className="w-full"
-                    type="button"
-                    onClick={() => dispatch(handleShowProjectSettingsModal())}
-                  >
-                    SETTINGS
-                  </Button>
-                )}
               </div>
             </div>
           </div>

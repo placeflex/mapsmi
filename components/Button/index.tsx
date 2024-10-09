@@ -12,7 +12,7 @@ interface Props {
   rounded?: boolean;
 }
 
-// import styles from "./Button.module.scss";
+import "./button.scss";
 
 export const Button = ({
   href,
@@ -27,8 +27,8 @@ export const Button = ({
 }: Props) => {
   const colorLocal =
     color === "secondary"
-      ? "bg-secondButton text-text hover:bg-[rgba(255,255,255,0.8)]"
-      : "bg-[rgba(118,125,106,1)] hover:bg-[rgba(118,125,106,0.8)] text-primary";
+      ? "bg-secondButton text-white hover:bg-[rgba(0,0,0,0.8)]"
+      : "bg-button hover:bg-[rgba(118,125,106,0.8)] text-primary";
 
   const variantLocal =
     variant === "outlined" && "bg-transparent border-[0.2rem]";

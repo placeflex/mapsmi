@@ -51,7 +51,7 @@ const config: Config = {
         // button: "rgba(12, 41, 171, 1)",
         button: "rgb(118, 125, 106)",
         link: "rgb(118, 125, 106)",
-        secondButton: "#fff",
+        secondButton: "#111",
       },
 
       fontFamily: {

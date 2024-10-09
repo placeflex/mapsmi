@@ -31,7 +31,7 @@ $frameWidth: var(--frame-scale);
       }
     }
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 1023px) {
       padding: 0;
       .ant-collapse {
         display: flex;
@@ -49,7 +49,7 @@ $frameWidth: var(--frame-scale);
         overflow-x: auto;
         border-radius: 0;
 
-        border-top: 2px solid var(--secondary);
+        border-top: 2px solid var(--secondButton);
 
         .ant-collapse-header {
           padding: 0;
@@ -67,6 +67,10 @@ $frameWidth: var(--frame-scale);
 
           &-active {
             background: var(--secondButton);
+
+            .collapse-custom-header__title-mobile {
+              color: var(--primary) !important;
+            }
           }
 
           .ant-collapse-expand-icon {
@@ -99,7 +103,7 @@ $frameWidth: var(--frame-scale);
     }
 
     .collapse-custom-header {
-      @media screen and (max-width: 1024px) {
+      @media screen and (max-width: 1023px) {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -108,7 +112,7 @@ $frameWidth: var(--frame-scale);
       &__title {
         display: none;
 
-        @media screen and (max-width: 1024px) {
+        @media screen and (max-width: 1023px) {
           font-size: 1rem;
           width: 50%;
         }

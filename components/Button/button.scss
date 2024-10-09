@@ -1,0 +1,21 @@
+.btn-4 {
+  position: relative;
+  overflow: hidden;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: -50px;
+    left: -75px;
+    width: 80px;
+    height: 200px;
+    background: #fff;
+    opacity: 0.1;
+    transform: rotate(35deg);
+    z-index: 15;
+  }
+
+  &:after {
+    animation: shine 4s cubic-bezier(0.19, 1, 0.22, 1) infinite;
+  }
+}

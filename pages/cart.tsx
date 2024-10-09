@@ -441,7 +441,7 @@ const Cart = () => {
                       )}
                     </div>
 
-                    <div className="w-[calc(50%-0.5rem)] mb-0">
+                    <div className="w-full lg:w-[calc(50%-0.5rem)] mb-0">
                       <Field
                         type="text"
                         name="firstName"
@@ -456,7 +456,7 @@ const Cart = () => {
                       )}
                     </div>
 
-                    <div className="w-[calc(50%-0.5rem)] mb-0">
+                    <div className="w-full lg:w-[calc(50%-0.5rem)] mb-0">
                       <Field
                         type="text"
                         name="lastName"
@@ -561,7 +561,7 @@ const Cart = () => {
                       type="submit"
                       variant="contained"
                       color="primary"
-                      className="text-buttonSmall font-bold w-full mt-[2rem]"
+                      className="text-buttonSmall font-bold w-full"
                     >
                       Pay
                     </Button>
