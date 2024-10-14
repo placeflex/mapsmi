@@ -36,30 +36,26 @@ export const maskOverlays = [
 export const masks = [
   {
     id: 0,
-    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/heart.svg",
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/masks_heart.png",
   },
   {
     id: 1,
-    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/heart-mask-sec.svg",
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/masks_heart-mask-sec.png",
   },
   {
     id: 2,
-    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/crash-heart-from-png-900.svg",
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/masks_crash-heart-from-png-900.png",
   },
   {
     id: 3,
-    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/splash.svg",
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/masks_splash.png",
   },
   {
     id: 4,
-    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/circle.svg",
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/masks_sq.png",
   },
   {
     id: 5,
-    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/sq.svg",
-  },
-  {
-    id: 6,
-    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/star.svg",
+    src: "https://splashplacestest.s3.us-west-004.backblazeb2.com/masks/masks_star.png",
   },
 ];

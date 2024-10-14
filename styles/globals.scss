@@ -252,9 +252,15 @@ body {
 .banner-preview {
   position: relative;
   height: -webkit-fill-available;
+  min-height: 700px !important;
+  min-width: 1500px;
+  // max-height: 800px;
+  overflow: hidden;
+  position: relative;
 
   @media screen and (max-width: 768px) {
-    height: 40vh !important;
+    // height: 40vh !important;
+    // min-height: auto;
   }
 
   &::before {
@@ -270,11 +276,19 @@ body {
   }
 }
 
+.rfm-marquee-container {
+  position: absolute !important;
+  top: 50%;
+  transform: translateY(-50%) !important;
+  left: 0;
+  right: 0;
+}
+
 .rfm-marquee-container,
 .rfm-marquee,
 .rfm-initial-child-container {
   width: 100% !important;
-  max-height: 85vh !important;
+  // max-height: 85vh !important;
   overflow: hidden;
   // @media screen and (max-width: 768px) {
   //   height: 80vh !important;
@@ -283,5 +297,5 @@ body {
 
 .rfm-initial-child-container,
 .rfm-child {
-  // height: 100% !important;
+  height: 100% !important;
 }

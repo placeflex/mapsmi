@@ -671,8 +671,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       tileSize: tileSize,
     });
 
-    const laptop = "http://localhost:8080";
-    const mobile = "http://192.168.0.100:8080";
+    const laptop = process.env.NEXT_PUBLC_BASE_TILESERVER;
 
     const source = render
       ? {

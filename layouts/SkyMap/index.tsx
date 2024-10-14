@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { basicColors } from "@/layouts/wallartSettings/colorsList";
 
@@ -8,7 +9,7 @@ import { useTypedSelector } from "@/stores/store";
 import "./skymap.scss";
 
 // masks
-import { maskOverlays } from "@/layouts/wallartSettings/skyMapMasks";
+import { maskOverlays, masks } from "@/layouts/wallartSettings/skyMapMasks";
 
 // import starts from "@/public/data";
 

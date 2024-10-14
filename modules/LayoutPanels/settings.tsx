@@ -1014,7 +1014,13 @@ export const LayoutsSkyMapAccordion = ({
                       )
                     }
                   >
-                    <Image src={src} priority={true} alt="name" layout="fill" />
+                    <Image
+                      src={src}
+                      priority={true}
+                      alt="name"
+                      layout="fill"
+                      objectFit="contain"
+                    />
                   </div>
                 );
               })}
