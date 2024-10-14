@@ -671,7 +671,7 @@ export const MapContainer = ({ render = false }: MapContainerProps) => {
       tileSize: tileSize,
     });
 
-    const laptop = process.env.NEXT_PUBLC_BASE_TILESERVER;
+    const laptop = "https://maps.mapsmi.com";
 
     const source = render
       ? {
