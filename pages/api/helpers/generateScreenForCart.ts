@@ -25,6 +25,15 @@ export const generateScreenForCart = async (project: any) => {
 
   const page = await browser.newPage();
 
+  const username = process.env.NEXT_BASIC_AUTH_LOGIN;
+  const password = process.env.NEXT_BASIC_AUTH_PASS;
+  const auth = Buffer.from(`${username}:${password}`).toString("base64");
+
+  // Устанавливаем заголовок Authorization для всех запросов
+  await page.setExtraHTTPHeaders({
+    Authorization: `Basic ${auth}`,
+  });
+
   try {
     console.log("SCREEN START", 2);
 
