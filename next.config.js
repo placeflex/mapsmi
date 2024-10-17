@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const { i18n } = require("./next-i18next.config.js");
 
 const nextConfig = {
   webpack(config) {
@@ -18,6 +19,7 @@ const nextConfig = {
       "s3.us-west-004.backblazeb2.com",
     ],
   },
+  i18n,
 };
 
 module.exports = nextConfig;

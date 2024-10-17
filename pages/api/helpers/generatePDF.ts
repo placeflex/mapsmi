@@ -40,12 +40,34 @@ export const generatePDF = async (project: any) => {
 
   const username = process.env.NEXT_BASIC_AUTH_LOGIN;
   const password = process.env.NEXT_BASIC_AUTH_PASS;
-  const auth = Buffer.from(`${username}:${password}`).toString("base64");
+
+  if (username || password) {
+    const auth = Buffer.from(`${username}:${password}`).toString("base64");
+
+    await page.setRequestInterception(true);
+    page.on("request", request => {
+      const url = request.url();
+
+      // Определяем, требуется ли Basic Auth (например, исключаем запросы к изображениям, шрифтам и другим статическим ресурсам)
+      if (url.match(/\.(png|jpg|jpeg|gif|svg|woff|woff2|css|js)$/)) {
+        // Не добавляем Authorization для статических файлов
+        request.continue();
+      } else {
+        // Добавляем Authorization для остальных запросов
+        request.continue({
+          headers: {
+            ...request.headers(),
+            Authorization: `Basic ${auth}`,
+          },
+        });
+      }
+    });
+  }
 
   // Устанавливаем заголовок Authorization для всех запросов
-  await page.setExtraHTTPHeaders({
-    Authorization: `Basic ${auth}`,
-  });
+  // await page.setExtraHTTPHeaders({
+  //   Authorization: `Basic ${auth}`,
+  // });
 
   try {
     console.log("PDF START", 2);

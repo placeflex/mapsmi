@@ -89,10 +89,12 @@ const About = () => {
           </Container>
         </div>
 
-        <div className="py-[12rem]">
+        <div className="py-[4rem] lg:py-[12rem]">
           <Container>
             <div className="max-w-[80rem] mx-auto">
-              <h3 className="text-center mb-[2rem] text-h3">Contact Us</h3>
+              <h3 className="text-center mb-[2rem] text-h3 font-bold">
+                Contact Us
+              </h3>
 
               <Formik
                 initialValues={initialValues}
@@ -117,7 +119,7 @@ const About = () => {
                     )}
                   </div>
 
-                  <div className="w-[calc(50%-0.5rem)] mb-0">
+                  <div className="w-full lg:w-[calc(50%-0.5rem)] mb-0">
                     <Field
                       type="text"
                       name="subject"
@@ -132,7 +134,7 @@ const About = () => {
                     )}
                   </div>
 
-                  <div className="w-[calc(50%-0.5rem)] mb-0">
+                  <div className="w-full lg:w-[calc(50%-0.5rem)] mb-0">
                     <Field
                       type="text"
                       name="orderID"

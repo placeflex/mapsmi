@@ -78,9 +78,9 @@ export default function PopularWallarts() {
       col={true}
     >
       <Container>
-        <div className="py-[10rem]">
+        <div className="py-[1.5rem] lg:py-[10rem]">
           <h1 className="text-h3 font-bold mb-[1rem]">{pageTitle}</h1>
-          <h2 className="text-caption mb-[3rem]">
+          <h2 className="text-caption mb-[2rem] lg:mb-[3rem]">
             Custom prints and stunning {pageTitle} for your home or office.
           </h2>
 
@@ -107,7 +107,7 @@ export default function PopularWallarts() {
                 ...props
               }: any) => {
                 return (
-                  <div key={props.id} className="w-[20%]">
+                  <div key={props.id} className="w-[50%] md:w-[33.333%] lg:w-[20%]">
                     <div
                       key={props.id}
                       className="flex flex-col m-[1rem] cursor-pointer"

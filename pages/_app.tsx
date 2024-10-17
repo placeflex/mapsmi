@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import type { Metadata } from "next";
 import Head from "next/head";
+import { appWithTranslation } from "next-i18next";
 import { Logo } from "@/components/Logo";
 // apis
 import { api } from "@/axios";
@@ -156,4 +157,4 @@ function MyApp({ Component, pageProps, router }: AppProps) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

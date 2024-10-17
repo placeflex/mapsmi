@@ -26,8 +26,11 @@ import zodiacAlt from "@/public/wallart-preview/zodiac-preview-second.jpg";
 
 import Marquee from "react-fast-marquee";
 
+import { useTranslation } from "next-i18next";
+
 export const Banner = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation("home");
 
   return (
     <div className="row  banner-preview">
@@ -42,16 +45,16 @@ export const Banner = () => {
               `flex flex-col items-start justify-center w-full py-[4rem]`
             )}
           >
-            <h1 className="text-h4 lg:text-h2 text-primary mb-[1.5rem] font-semibold leading-[1.3]">
-              Personalized Posters <br />
-              for Special Memories
+            <h1
+              className="text-h4 lg:text-h2 text-primary mb-[1.5rem] font-semibold leading-[1.3]"
+              dangerouslySetInnerHTML={{ __html: t("banner_h1") }}
+            >
+              {/* {t("h1")} */}
             </h1>
-            <p className="text-primary text-bodySmall lg:text-body mb-[2rem] font-semibold">
-              Transform your space with unique prints that reflect your
-              personality.
-              <br /> Exceptional art tells your story, and we believe you have
-              remarkable tales to share.
-            </p>
+            <h2
+              className="text-primary text-bodySmall lg:text-body mb-[2rem] font-semibold"
+              dangerouslySetInnerHTML={{ __html: t("banner_h2") }}
+            ></h2>
             <Button
               onClick={() => dispatch(handleShowProductModal())}
               type="button"
@@ -59,7 +62,7 @@ export const Banner = () => {
               className="text-bodySmall"
               rounded={true}
             >
-              Get Started
+              {t("banner_button")}
             </Button>
           </div>
         </Container>

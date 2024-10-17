@@ -6,7 +6,11 @@ import { OurPosters } from "@/modules/Home/OurPosters";
 
 const Holiday = () => {
   return (
-    <Layout headerProps={{ classNames: "bg-secondary" }} scroll={true}>
+    <Layout
+      headerProps={{ classNames: "bg-secondary" }}
+      scroll={true}
+      col={true}
+    >
       <div>
         <div className="bg-button">
           <Container>

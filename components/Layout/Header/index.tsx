@@ -1,7 +1,7 @@
 import { useState, Fragment, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import clsx from "clsx";
 import { Popover, Transition, Disclosure, Dialog } from "@headlessui/react";
 
@@ -37,12 +37,16 @@ import { publicRoutes } from "@/constants/routers";
 // routes
 // import { popularWallartsRoot } from "@/constants/routers";
 
+import { useTranslation } from "next-i18next";
+
 export const Header = ({ isFixed, classNames }: any) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isUserLogged = useTypedSelector(({ user }) => user.isAdmin);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const cartItems = useTypedSelector(({ cart }) => cart.cart);
+  const router = useRouter();
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     dispatch(handleGetCart());
@@ -65,6 +69,8 @@ export const Header = ({ isFixed, classNames }: any) => {
       </button>
     );
   };
+
+  const changeTo = router.locale === "en" ? "ua" : "en";
 
   return (
     <header
@@ -377,33 +383,14 @@ export const Header = ({ isFixed, classNames }: any) => {
             <Logo />
           </div>
 
-          <div className="flex flex-1 justify-end">
-            {/* {isUserLogged ? (
-              <Link href="/profile" type="button" className="flex  mr-2">
-                <button type="button" className="flex items-center text-text">
-                  <Login width={22} stroke="#000" fill="transparent" />
-                </button>
-              </Link>
-            ) : (
-              <button
-                type="button"
-                className="flex items-center text-text mr-2"
-                onClick={() => dispatch(handleShowLoginModal())}
-              >
-                <Login width={22} stroke="#000" fill="transparent" />
-              </button>
-            )} */}
-
-            {/* {query.admin === process.env.NEXT_PUBLIC_ADMIN_SECRET &&
-              !isUserLogged && (
-                <button
-                  type="button"
-                  className="flex items-center text-text mr-2"
-                  onClick={() => dispatch(handleShowLoginModal())}
-                >
-                  <Login width={22} stroke="#000" fill="transparent" />
-                </button>
-              )} */}
+          <div className="flex flex-1 justify-end items-center">
+            <Link
+              href="/"
+              locale={changeTo}
+              className="mr-[2rem] text-[1.6rem]"
+            >
+              <button>{changeTo}</button>
+            </Link>
 
             {isUserLogged && (
               <button

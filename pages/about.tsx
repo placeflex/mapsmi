@@ -5,7 +5,11 @@ import { AboutSteps } from "@/modules/About/Steps";
 
 const About = () => {
   return (
-    <Layout headerProps={{ classNames: "bg-secondary" }} scroll={true}>
+    <Layout
+      headerProps={{ classNames: "bg-secondary" }}
+      scroll={true}
+      col={true}
+    >
       <AboutUs />
 
       <div className="mt-[6rem] lg:mt-[12rem]">

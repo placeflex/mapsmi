@@ -27,9 +27,10 @@ import { api } from "@/axios";
 // helpers
 import { toast } from "react-toastify";
 
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
-
-export default function Home() {
+export default function Home(...props) {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -69,4 +70,12 @@ export default function Home() {
       {/* <NewProduct /> */}
     </Layout>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  return {
+    props: {
+      ...(await serverSideTranslations(ctx.locale, ["common", "home"])),
+    },
+  };
 }

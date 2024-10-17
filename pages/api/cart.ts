@@ -34,7 +34,12 @@ export default async function handler(
 
     const screen = await generateScreenForCart(projectPayload);
 
-    // generateScreen(projectPayload);
+    // console.log("projectPayload", projectPayload);
+
+    // const screen = await generateScreen({
+    //   project: projectPayload,
+    // });
+
     // return;
     // return await generatePDF(projectPayload);
 
