@@ -16,7 +16,7 @@ export const generateScreenForCart = async (project: any) => {
   };
 
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: "new",
     defaultViewport: {
       ...sizes,
     },
